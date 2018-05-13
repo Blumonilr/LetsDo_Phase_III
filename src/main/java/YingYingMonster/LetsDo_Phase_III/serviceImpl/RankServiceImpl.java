@@ -1,0 +1,78 @@
+package YingYingMonster.LetsDo_Phase_III.serviceImpl;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import YingYingMonster.LetsDo_Phase_III.dao.UserDAO;
+import YingYingMonster.LetsDo_Phase_III.daoImpl.SerializeHandler;
+import YingYingMonster.LetsDo_Phase_III.model.User;
+import YingYingMonster.LetsDo_Phase_III.model.Worker;
+import YingYingMonster.LetsDo_Phase_III.service.RankService;
+
+@Component
+public class RankServiceImpl implements RankService {
+	
+	@Autowired
+	private UserDAO usrDao;
+	
+	@Override
+	public List<User> rankByExp() throws FileNotFoundException, ClassNotFoundException, IOException {
+		// TODO Auto-generated method stub
+		return usrDao.findUsers(null).stream().filter(x->x instanceof Worker)
+				.map(x->(Worker)x).sorted(new Comparator<Worker>(){
+
+			@Override
+			public int compare(Worker o1, Worker o2) {
+				// TODO Auto-generated method stub
+				if(o1.getLevel()<o2.getLevel()
+						||(o1.getLevel()==o2.getLevel()&&o1.getExp()<o2.getExp()))
+					return 1;
+				
+				if(o1.getLevel()==o2.getLevel()&&o1.getExp()==o2.getExp())
+					return 0;
+				
+				return -1;
+			}
+			
+		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<User> rankByAccuracy() throws FileNotFoundException, ClassNotFoundException, IOException {
+		// TODO Auto-generated method stub
+		return usrDao.findUsers(null).stream().filter(x->x instanceof Worker)
+				.map(x->(Worker)x).sorted(new Comparator<Worker>(){
+
+			@Override
+			public int compare(Worker o1, Worker o2) {
+				// TODO Auto-generated method stub
+				double ac1,ac2;
+				if(o1.getTagNum()==0)
+					ac1=0.0;
+				else
+					ac1=(o1.getPassedTagNum()+0.0)/o1.getTagNum();
+
+				if(o2.getTagNum()==0)
+					ac2=0.0;
+				else
+					ac2=(o2.getPassedTagNum()+0.0)/o2.getTagNum();
+				
+				if(ac1<ac2)
+					return 1;
+				
+				if(ac1==ac2)
+					return 0;
+				
+				return -1;
+			}
+			
+		}).collect(Collectors.toList());
+	}
+
+}

@@ -1,0 +1,26 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode:   HTML
+    encoding: utf-8
+    cache: false
+    servlet:
+      content-type: text/html; charset=utf-8
+
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+          
+  servlet:
+    multipart:
+      max-file-size: 10240MB
+      max-request-size: 10240MB     
+          
+server:
+  port: 8081
+  max-http-header-size: 1048576
+

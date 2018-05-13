@@ -1,0 +1,131 @@
+package YingYingMonster.LetsDo_Phase_III.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import YingYingMonster.LetsDo_Phase_III.model.Project;
+import YingYingMonster.LetsDo_Phase_III.service.AdminService;
+import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
+
+import java.io.IOException;
+import java.util.List;
+
+@Controller
+@RequestMapping("/project")
+public class ProjectController {
+    @Autowired
+    PublisherService publisherService;
+    @Autowired
+    AdminService adminService;
+
+    @GetMapping("/publisherProjects")
+    public String projects(){
+        return "projects/publisherProjects";
+    }
+    /**
+    * 查找当前发布的项目列表
+    * @param id 上传者用户id
+    * @param keyword 关键字，可以为空
+    */
+    @PostMapping("/publisherProjects")
+    @ResponseBody
+    public String queryProjects(@RequestParam("userId") String id, @RequestParam("keyword") String keyword){
+        List<Project> temp=publisherService.searchProjects(id, keyword);
+        String result="";
+        for(int i=0;i<temp.size();i++){
+            if(i==temp.size()-1)
+                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement();
+            else
+                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+"/";
+        }
+        return result;
+    }
+
+    /**
+     * 正在进行的项目列表，用于管理员系统
+     */
+    @PostMapping("/onGoingProjects")
+    @ResponseBody
+    public String onGoingProjects(){
+        List<Project> temp= null;
+        try {
+            temp = adminService.viewProjectOnDuty();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String result="";
+        for(int i=0;i<temp.size();i++){
+            if(i==temp.size()-1)
+                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement();
+            else
+                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+"/";
+        }
+        return result;
+    }
+
+    /**
+     * 未开始的项目列表，用于管理员系统
+     */
+    @PostMapping("/doneProjects")
+    @ResponseBody
+    public String doneProjects(){
+        List<Project> temp= null;
+        try {
+            temp = adminService.viewProjectDone();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String result="";
+        for(int i=0;i<temp.size();i++){
+            if(i==temp.size()-1)
+                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement();
+            else
+                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+"/";
+        }
+        return result;
+    }
+
+    //请求项目详情页面
+    @GetMapping("/publisher/projectDetail")
+    public String projectDetailPage(){
+        return "projects/publisherProjectDetail";
+    }
+
+    //管理员请求项目详情页面
+    @GetMapping("/publisher/adminDetail")
+    public String adminDetailPage(){
+        return "projects/adminProjectDetail";
+    }
+
+    //异步获取项目详情
+    @PostMapping("/publisher/{projectName}")
+    @ResponseBody
+    public String projectDetail(@PathVariable("projectName") String projectName,
+                                 @RequestParam("publisherId")String publisherId){
+        System.out.println("进入了方法");
+        String result="{";
+        double progress=publisherService.viewProjectProgress(publisherId,projectName);
+        Project project=publisherService.getAProject(publisherId,projectName);
+        result+="\"publisherId\":\""+project.getPublisherId()+"\",";
+        result+="\"markMode\":\""+project.getTagRequirement().getMarkMode().toString()+"\",";
+        result+="\"maxWorkerNum\":\""+project.getMaxWorkerNum()+"\",";
+        result+="\"currWorkerNum\":\""+project.getCurrWorkerNum()+"\",";
+        result+="\"packageNum\":\""+project.getPackageNum()+"\",";
+        result+="\"picNum\":\""+project.getPicNum()+"\",";
+        result+="\"startDate\":\""+project.getStartDate()+"\",";
+        result+="\"endDate\":\""+project.getEndDate()+"\",";
+        result+="\"levelLimit\":\""+project.getWorkerRequirement().getLevelLimit()+"\",";
+        result+="\"gradesLimit\":\""+project.getWorkerRequirement().getLevelLimit()+"\",";
+        result+="\"money\":\""+project.getMoney()+"\",";
+        result+="\"progress\":\""+String.format("%.2f",progress)+"\"";
+        result+="}*";
+        result+=project.getTagRequirement().getRequirement();
+        return result;
+    }
+
+}

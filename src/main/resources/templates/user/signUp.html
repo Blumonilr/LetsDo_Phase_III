@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bootstrap 4, from LayoutIt!</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="/css/login/bootstrap.min.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid" style="margin-top: 50px">
+	<div class="row">
+		<div class="col-md-6">
+			<button type="button" onclick="worker()" class="btn btn-warning">
+				worker
+			</button>
+		</div>
+		<div class="col-md-6">
+			<button type="button" onclick="publisher()" class="btn btn-primary">
+				publisher
+			</button>
+		</div>
+	</div>
+</div>
+
+    <script src="/js/login/jquery.min.js"></script>
+    <script src="/js/login/bootstrap.min.js"></script>
+    <script>
+        function worker() {
+            window.location.href="/user/workerSignUp";
+        }
+        function publisher() {
+            window.location.href="/user/publisherSignUp";
+        }
+    </script>
+  </body>
+</html>

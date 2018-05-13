@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+.canvas_image{
+	width: 220px;
+	height: 150px;
+	background-color:rgba(0,0,0,0.00);
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+}
+
+.item{
+	width: 260px;
+	height: 180px;
+	 float: left; 
+}
+
+#item_container{
+	width: 1000px;
+	height: 500px; 
+}
+
+.image_hover{
+    position:relative;
+	left: 0px;
+	top: -155px;
+	
+	-moz-transition:  0.3s;	/* Firefox 4 */
+    -webkit-transition:  0.3s;	/* Safari 和 Chrome */
+    -o-transition:  0.3s;	/* Opera */
+	
+	width: 220px;
+	height: 20px;
+	background-color:rgba(54,61,50,0.2)
+}
+
+.image_hover:hover{
+	width: 220px;
+	height: 150px;
+}
+
+.btn_edit{
+	position: relative;
+	left: 60px;
+	top: 50px;
+	width: 90px;
+	height: 30px;
+	
+	background-color:#DA925D;
+	border-radius: 20px;
+	
+	-moz-transition:  0.4s;	/* Firefox 4 */
+    -webkit-transition:  0.4s;	/* Safari 和 Chrome */
+    -o-transition:  0.4s;	/* Opera */
+}
+

@@ -1,0 +1,521 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Publish your Project</title>
+	<!-- Bootstrap Styles-->
+    <link href="/publisher/css/bootstrap3.3.4.css" rel="stylesheet" />
+     <!-- FontAwesome Styles-->
+    <link href="/publisher/css/font-awesome.css" rel="stylesheet" />
+        <!-- Custom Styles-->
+    <link href="/publisher/css/custom-styles.css" rel="stylesheet" />
+     <!-- Google Fonts-->
+   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+    <link rel="stylesheet" href="/publisher/css/fileUploadStyle.css">
+
+    <!--x-editable引用-->
+    <script src="/publisher/table/jquery/jquery-1.9.1.min.js"></script>
+    <!--<script src="publisher/js/jquery-1.10.2.js"></script>-->
+
+    <script src="/publisher/table/mockjax/jquery.mockjax.js"></script>
+
+    <!-- momentjs -->
+    <script src="/publisher/table/momentjs/moment.min.js"></script>
+
+    <!-- select2 -->
+    <link href="/publisher/table/select2/select2.css" rel="stylesheet">
+    <script src="/publisher/table/select2/select2.js"></script>
+
+    <link href="/css/JQUI/jquery-ui.css" rel="stylesheet" />
+    <link href="/css/JQUI/jquery-ui.theme.css" rel="stylesheet" />
+    <link href="/css/JQUI/jquery-ui.structure.css" rel="stylesheet" />
+
+    <script src="/js/JQUI/jquery-ui.js"></script>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+
+    <!-- bootstrap 3 -->
+    <link href="/publisher/table/bootstrap300/css/bootstrap.css" rel="stylesheet">
+    <script src="/publisher/table/bootstrap300/js/bootstrap.js"></script>
+    <!--<script src="publisher/js/bootstrap.min.js"></script>-->
+
+    <!-- bootstrap-datetimepicker -->
+    <link href="/publisher/table/bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet">
+    <script src="/publisher/table/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+
+    <!-- x-editable (bootstrap 3) -->
+    <link href="/publisher/table/x-editable/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
+    <script src="/publisher/table/x-editable/bootstrap3-editable/js/bootstrap-editable.js"></script>
+
+    <!-- select2 bootstrap -->
+    <link href="/publisher/table/select2/select2-bootstrap.css" rel="stylesheet">
+
+    <!-- wysihtml5 -->
+    <link href="/publisher/table/x-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css" rel="stylesheet">
+    <script src="/publisher/table/x-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js"></script>
+    <script src="/publisher/table/x-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.min.js"></script>
+    <script src="/publisher/table/x-editable/inputs-ext/wysihtml5/wysihtml5.js"></script>
+
+    <script src="/js/util/cookie.js"></script>
+
+
+    <link href="/publisher/table/demo-bs3.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href=""><strong>YYM CrowedSource</strong></a>
+
+                <div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Doe</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Today</em>
+                                    </span>
+                                </div>
+                                <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem Ipsum has been the industry's standard dummy text ever since the...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-messages -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-tasks">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 1</strong>
+                                        <span class="pull-right text-muted">60% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                            <span class="sr-only">60% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 2</strong>
+                                        <span class="pull-right text-muted">28% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%">
+                                            <span class="sr-only">28% Complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 3</strong>
+                                        <span class="pull-right text-muted">60% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                            <span class="sr-only">60% Complete (warning)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 4</strong>
+                                        <span class="pull-right text-muted">85% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+                                            <span class="sr-only">85% Complete (danger)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Tasks</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-tasks -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i><span id="userId" style="color: #ffe4b5">username&nbsp;</span><i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#" id="profile"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+
+                    <li>
+                        <a href="/"><i class="fa fa-dashboard"></i> Home</a>
+                    </li>
+                    <li>
+                        <a class="active-menu" href="#"><i class="fa fa-desktop"></i> Publish</a>
+                    </li>
+					<li>
+                        <a href="/project/publisherProjects"><i class="fa fa-bar-chart-o"></i> Projects</a>
+                    </li>
+                    <li>
+                        <a href="/project/publisher/projectDetail"><i class="fa fa-qrcode"></i> Progress</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-table"></i> Tags</a>
+                    </li>
+                    <!--<li>-->
+                        <!--<a href="#"><i class="fa fa-sitemap"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>-->
+                        <!--<ul class="nav nav-second-level">-->
+                            <!--<li>-->
+                                <!--<a href="#">Second Level Link</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="#">Second Level Link</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="#">Second Level Link<span class="fa arrow"></span></a>-->
+                                <!--<ul class="nav nav-third-level">-->
+                                    <!--<li>-->
+                                        <!--<a href="#">Third Level Link</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="#">Third Level Link</a>-->
+                                    <!--</li>-->
+                                    <!--<li>-->
+                                        <!--<a href="#">Third Level Link</a>-->
+                                    <!--</li>-->
+
+                                <!--</ul>-->
+
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                  Publish <small>Publish your project.</small>
+                </h1>
+            </div>
+            <div style="text-align:center;background: #8d8888">
+                <hr style="height: 2px" />
+            </div>
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="agile-its">
+                                    <h1>Upload DataSet</h1>
+                                    <div class="w3layouts">
+                                        <h5>Upload your dataset here before you submit. You can choose your file. Or you can drag & drop files from your desktop or directory on this webpage.</h5>
+                                        <br/>
+                                        <div class="photos-upload-view">
+                                            <form id="upload" action="" method="POST" enctype="multipart/form-data">
+                                                <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
+                                                <br/>
+                                                <div class="agileinfo">
+                                                    <input id="submitbutton" type="submit" class="choose" value="Choose file..">
+                                                    <br/>
+                                                    <br/>
+                                                    <h3>OR</h3>
+                                                    <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+                                                    <div id="filedrag">drag and drop files here</div>
+                                                </div>
+                                            </form>
+                                            <div id="messages">
+                                                <p>Status Messages</p>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div style="width: 90%; margin: auto;background: #FFFFFF;">
+                                    <h1>Project Requirement</h1>
+                                    <h2>&nbsp;Attention</h2>
+                                    <p>&nbsp;这里填一下以下各项的解释和要求</p>
+                                    <br/>
+                                    <div style="float: right; margin-bottom: 10px">
+                                        <label style="display: inline-block; margin-right: 50px"><input type="checkbox" id="autoopen" style="vertical-align: baseline">&nbsp;auto-open next field</label>
+                                        <!--<button id="enable" class="btn btn-default">enable / disable</button>-->
+                                    </div>
+                                    <table id="user" class="table table-bordered table-striped" style="clear: both">
+                                        <tbody>
+                                        <tr>
+                                            <td>Project Name</td>
+                                            <td><a href="#" id="projectName" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="Give your project an attractive name"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Picture Amount</td>
+                                            <td><a href="#" id="pictureAmount" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="The amount of the pictures in your project"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mark Mode</td>
+                                            <td><a href="#" id="markMode" data-type="select" data-pk="1" data-value="" data-title="Select the Mark Mode you want"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Package Amount</td>
+                                            <td><a href="#" id="packageNum" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="The amount of the packages in the project"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Max Worker Amount</td>
+                                            <td><a href="#" id="workerNum" data-type="select" data-pk="1" data-value="" data-title="Select max worker amount for each package"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Worker Lower Level Limit</td>
+                                            <td><a href="#" id="levelLimit" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="The lowest level of workers you can accept or you require"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Result Lower Grades Limit</td>
+                                            <td><a href="#" id="gradesLimit" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="The lowest grade of the results you can accept or you require 0~100"></a></td>
+                                        </tr>
+                                        <!--这里直接用JQ的datepicker-->
+                                        <tr>
+                                            <td>The Start Time</td>
+                                            <td><input type="text" id="startDate" size="30"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>The Deadline</td>
+                                            <td><input type="text" id="endDate" size="30"></td>
+                                        </tr>
+                                        <script>
+                                            $(function() {
+                                                $( "#startDate" ).datepicker({
+                                                    changeMonth: true,
+                                                    changeYear: true
+                                                });
+                                                $( "#startDate" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+                                                $( "#startDate" ).datepicker( "option", "showAnim","slideDown");
+                                                $( "#endDate" ).datepicker({
+                                                    changeMonth: true,
+                                                    changeYear: true
+                                                });
+                                                $( "#endDate" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+                                                $( "#endDate" ).datepicker( "option", "showAnim","slideDown");
+                                            });
+                                        </script>
+                                        <tr>
+                                            <td>Payment</td>
+                                            <td><a href="#" id="payment" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="The remuneration you pay may affect the speed that your project completion"></a></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Tags</td>
+                                            <td><a href="#" id="tags" data-type="select2" data-pk="1" data-title="Enter tags">tag1,tag2</a></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Tag Requirement<a href="#" id="pencil"><i class="icon-pencil" style="padding-right: 5px"></i>[edit]</a></td>
+                                            <td>
+                                                <div id="note" data-pk="1" data-type="wysihtml5" data-toggle="manual" data-title="Enter notes" data-placement="top">
+                                                    <h3>Tag Requirement</h3>
+                                                    Tag Requirement means <i>Details</i> you want workers to pay attention to.<br>
+                                                    Including but not limited to:
+                                                    <ul>
+                                                        <li>1.</li>
+                                                        <li>2.</li>
+                                                        <li>3.</li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                    </div>
+                    <div class="col-md-2" style="padding: 20px 0 0 0">
+                        <button id="confirm" type="button" onclick="uploadDataSet()" class="btn btn-outline-success btn-lg">
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </div>
+             <!-- /. PAGE INNER  -->
+            </div>
+         <!-- /. PAGE WRAPPER  -->
+        </div>
+     <!-- /. WRAPPER  -->
+
+    <!-- Metis Menu Js -->
+    <script src="/publisher/js/jquery.metisMenu.js"></script>
+    <!-- Morris Chart Js -->
+    <script src="/publisher/js/morris/raphael-2.1.0.min.js"></script>
+    <script src="/publisher/js/morris/morris.js"></script>
+
+
+    <script src="/publisher/js/easypiechart.js"></script>
+    <script src="/publisher/js/easypiechart-data.js"></script>
+
+    <script src="/publisher/js/Lightweight-Chart/jquery.chart.js"></script>
+
+    <!-- Custom Js -->
+    <script src="/publisher/js/custom-scripts.js"></script>
+
+    <script src="/publisher/table/demo-mock.js"></script>
+    <script src="/publisher/table/demo.js"></script>
+
+    <script src="/publisher/js/publish.js"></script>
+</body>
+</html>

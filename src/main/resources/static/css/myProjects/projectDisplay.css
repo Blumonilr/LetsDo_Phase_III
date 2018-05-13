@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+.pjicons{
+	
+	width:20px;
+	height: 20px;
+}
+
+.pushicon{
+	width: 25px;
+	height: 25px;
+}
+
+.pushicon:hover{
+	background-color:rgba(211,124,38,0.57);
+}
