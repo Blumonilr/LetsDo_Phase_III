@@ -90,11 +90,6 @@
 		<script>
             window.onload=function () {
                 var oUser=document.getElementById("username");
-                var oForm=document.getElementById("loginForm");
-                //设置cookie
-                oForm.onsubmit=function () {
-                    setCookie("userId",oUser.value,14);
-                }
                 var cookie=getCookie("userId");
                 //如果当前有cookie直接填入用户名栏
                 if(cookie!=undefined) {

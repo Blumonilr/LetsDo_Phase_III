@@ -10,6 +10,14 @@ import YingYingMonster.LetsDo_Phase_III.model.Publisher;
 import YingYingMonster.LetsDo_Phase_III.model.User;
 import YingYingMonster.LetsDo_Phase_III.model.Worker;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -67,7 +75,17 @@ public class UserController {
     @GetMapping("/login")
 //    @ApiOperation(value = "访问用户登录界面")
     public String visitLoginPage(){
-        return "user/Login";
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId=(String)session.getAttribute("userId");
+        User user=null;
+        if(userId!=null){
+            user=userService.getUser(userId);
+            return classify(user);
+        } else {
+            //如果未登录返回登录页面
+            return "user/Login";
+        }
     }
 
     @PostMapping("/login")
@@ -76,19 +94,49 @@ public class UserController {
      * 表单里的input模块的name属性决定了参数名
      */
     public String login(@RequestParam("userId")String userId
-            ,@RequestParam("password")String password){
-        User user=null;
+            ,@RequestParam("password")String password) {
+        User user = null;
         try {
             user = userService.login(userId, password);
-        }catch (LoginFailException e){
+        } catch (LoginFailException e) {
             return "redirect:/user/login";
         }
+
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        HttpSession session = request.getSession();
+
+        session.setAttribute("userId", userId);
+        session.setMaxInactiveInterval(7200);
+
+        Cookie cookie = new Cookie("userId", userId);
+        cookie.setMaxAge(1209600);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return classify(user);
+    }
+
+    private String classify(User user) {
         if(user instanceof Publisher) {
             return "redirect:/publisherPage/publish";
         }else if(user instanceof Worker){
             return "redirect:/myProjects/projects";
         }else {
             return "redirect:/admin/";
+        }
+    }
+
+    @PostMapping("/logout")
+    @ResponseBody
+    public String logout(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        if(!session.isNew()) {
+            session.invalidate();
+            return "success";
+        }else{
+            return "false";
         }
     }
 
@@ -117,12 +165,21 @@ public class UserController {
     }
 
     @GetMapping("/userDetail/{userId}")
-    public String userPage(@PathVariable("userId") String userId){
-        User user=userService.getUser(userId);
-        if (user instanceof Publisher) {
-            return "user/publisherDetail";
-        }else{
-            return "user/workerDetail";
+    public String userPage(@PathVariable("userId") String username/*这个参数后面可以删掉了*/) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+        if (userId != null) {
+            //已登录
+            User user = userService.getUser(userId);
+            if (user instanceof Publisher) {
+                return "user/publisherDetail";
+            } else {
+                return "user/workerDetail";
+            }
+        } else {
+            //如果未登录返回登录页面
+            return "redirect:/user/login";
         }
     }
 

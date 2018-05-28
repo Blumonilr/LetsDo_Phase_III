@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller
@@ -20,7 +24,16 @@ public class adminController {
     //管理员界面
     @GetMapping("/")
     public String publishPage(){
-        return "admin/monitor";
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId=(String)session.getAttribute("userId");
+        if(userId!=null){
+            //已登录
+            return "admin/monitor";
+        } else {
+            //如果未登录返回登录页面
+            return "redirect:/user/login";
+        }
     }
 
     //系统信息

@@ -3,6 +3,8 @@ package YingYingMonster.LetsDo_Phase_III.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
@@ -10,6 +12,9 @@ import YingYingMonster.LetsDo_Phase_III.model.Project;
 import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
 import YingYingMonster.LetsDo_Phase_III.model.WorkerRequirement;
 import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/publisherPage")
@@ -21,7 +26,16 @@ public class PublisherController {
     //发布者界面
     @GetMapping("/publish")
     public String publishPage(){
-        return "publisher/publish";
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId=(String)session.getAttribute("userId");
+        if(userId!=null){
+            //已登录
+            return "publisher/publish";
+        } else {
+            //如果未登录返回登录页面
+            return "redirect:/user/login";
+        }
     }
 
     //请求发布项目

@@ -7,7 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import YingYingMonster.LetsDo_Phase_III.model.Project;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
 import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,8 +24,17 @@ public class ProjectController {
     AdminService adminService;
 
     @GetMapping("/publisherProjects")
-    public String projects(){
-        return "projects/publisherProjects";
+    public String projects() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+        if (userId != null) {
+            //已登录
+            return "projects/publisherProjects";
+        } else {
+            //如果未登录返回登录页面
+            return "redirect:/user/login";
+        }
     }
     /**
     * 查找当前发布的项目列表
@@ -93,13 +106,31 @@ public class ProjectController {
     //请求项目详情页面
     @GetMapping("/publisher/projectDetail")
     public String projectDetailPage(){
-        return "projects/publisherProjectDetail";
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId=(String)session.getAttribute("userId");
+        if(userId!=null){
+            //已登录
+            return "projects/publisherProjectDetail";
+        } else {
+            //如果未登录返回登录页面
+            return "redirect:/user/login";
+        }
     }
 
     //管理员请求项目详情页面
     @GetMapping("/publisher/adminDetail")
     public String adminDetailPage(){
-        return "projects/adminProjectDetail";
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId=(String)session.getAttribute("userId");
+        if(userId!=null){
+            //已登录
+            return "projects/adminProjectDetail";
+        } else {
+            //如果未登录返回登录页面
+            return "redirect:/user/login";
+        }
     }
 
     //异步获取项目详情

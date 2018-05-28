@@ -21,3 +21,29 @@ function removeCookie(name)
 {
     setCookie(name, 1, -1); //-1就是告诉系统已经过期，系统就会立刻去删除cookie
 };
+
+function logout(){
+    removeCookie("JSESSIONID");
+    removeCookie("userId");
+    removeCookie("projectId");
+    removeCookie("pictureId");
+    removeCookie("projectType");
+    removeSession();
+    window.location.href="/user/login";
+}
+
+function removeSession() {
+    $.ajax({
+        url:"/user/logout",
+        type:"POST",
+        dataType:"text",
+        processData: false,
+        contentType: false,
+        success:function(res){
+            console.log(res);
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("登出失败");
+        }
+    })
+}
