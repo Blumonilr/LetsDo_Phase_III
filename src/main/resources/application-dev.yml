@@ -21,7 +21,7 @@ spring:
       max-request-size: 10240MB    
   
   datasource:
-    url: jdbc:mysql://localhost:3306/letsdo?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://localhost:3306/letsdo?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 31415926
     driver-class-name: com.mysql.jdbc.Driver 

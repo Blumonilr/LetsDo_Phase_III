@@ -2,6 +2,8 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -195,6 +197,18 @@ public class WorkerServiceImpl implements WorkerService {
 			e.printStackTrace();
 		}
 		return flag;
+	}
+
+	@Override
+	public List<String> viewMyFinishedProjects(String wkid) {
+		// TODO Auto-generated method stub
+		return viewMyProjects(wkid).stream().filter(x->isPjFinished(wkid,x)).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<String> viewMyUnfinishedProjects(String wkid) {
+		// TODO Auto-generated method stub
+		return viewMyProjects(wkid).stream().filter(x->!isPjFinished(wkid,x)).collect(Collectors.toList());
 	}
 
 }
