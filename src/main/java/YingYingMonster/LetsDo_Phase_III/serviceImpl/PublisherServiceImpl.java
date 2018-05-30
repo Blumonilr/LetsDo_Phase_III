@@ -35,14 +35,6 @@ public class PublisherServiceImpl implements PublisherService {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		try {
-			if(!dtDao.addDate(project.getStartDate(), project.getEndDate(), project.getPublisherId(), project.getProjectId())){
-				return false;
-			}
-		} catch (ParseException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
 		int num=0;
 		try {
 			num=dtDao.uploadDataSet(project.getPublisherId(), project.getProjectId(),
@@ -63,6 +55,14 @@ public class PublisherServiceImpl implements PublisherService {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
+		try {
+			if(!dtDao.addDate(project.getStartDate(), project.getEndDate(), project.getPublisherId(), project.getProjectId())){
+				return false;
+			}
+		} catch (ParseException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
 		}
 		return true;
 	}
