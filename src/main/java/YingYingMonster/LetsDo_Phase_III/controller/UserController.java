@@ -93,13 +93,14 @@ public class UserController {
     /**
      * 表单里的input模块的name属性决定了参数名
      */
+    @ResponseBody
     public String login(@RequestParam("userId")String userId
             ,@RequestParam("password")String password) {
         User user = null;
         try {
             user = userService.login(userId, password);
         } catch (LoginFailException e) {
-            return "redirect:/user/login";
+            return "login failed";
         }
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -114,7 +115,7 @@ public class UserController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        return classify(user);
+        return "login succeed";
     }
 
     private String classify(User user) {

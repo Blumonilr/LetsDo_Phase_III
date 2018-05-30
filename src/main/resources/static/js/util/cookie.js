@@ -24,7 +24,6 @@ function removeCookie(name)
 
 function logout(){
     removeCookie("JSESSIONID");
-    removeCookie("userId");
     removeCookie("projectId");
     removeCookie("pictureId");
     removeCookie("projectType");
