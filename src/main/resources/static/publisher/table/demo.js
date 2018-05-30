@@ -15,18 +15,6 @@ $(function(){
         }
     });
 
-    $('#pictureAmount').editable({
-        validate: function(value) {
-            if($.trim(value) == '') return 'This field is required';
-        }
-    });
-
-    $('#packageNum').editable({
-        validate: function(value) {
-            if($.trim(value) == '') return 'This field is required';
-        }
-    });
-
     $('#payment').editable({
         validate: function(value) {
             if($.trim(value) == '') return 'This field is required';
@@ -70,13 +58,11 @@ $(function(){
     $('#markMode').editable({
         prepend: "not selected",
         source: [
-            {value: 1, text: 'entirety'},
-            {value: 2, text: 'tags'},
-            {value: 3, text: 'rectangle'},
-            {value: 4, text: 'area'}
+            {value: 1, text: '框选标注'},
+            {value: 2, text: '区域标注'}
         ],
         display: function(value, sourceData) {
-            var colors = {"": "gray", 1: "green", 2: "blue",3: "navy", 4: "orange",5: "pink"},
+            var colors = {"": "gray", 1: "green", 2: "blue"},
                 elem = $.grep(sourceData, function(o){return o.value == value;});
 
             if(elem.length) {
@@ -94,13 +80,6 @@ $(function(){
         $('#note').editable('toggle');
     });
 
-    $('#tags').editable({
-        inputclass: 'input-large',
-        select2: {
-            tags: ['html', 'javascript', 'css', 'ajax'],
-            tokenSeparators: [",", " "]
-        }
-    });
          
    $('#user .editable').on('hidden', function(e, reason){
         if(reason === 'save' || reason === 'nochange') {

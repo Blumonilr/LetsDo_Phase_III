@@ -45,11 +45,8 @@ public class PublisherController {
                                 @RequestParam ("userId") String publisherId,
                                 @RequestParam("projectId")String projectId,
                                 @RequestParam("maxWorkerNum")String maxWorkerNum,
-                                @RequestParam("packageNum")String packageNum,
-                                @RequestParam("picNum")String picNum,
                                 @RequestParam("startDate")String startDate,
                                 @RequestParam("endDate")String endDate,
-                                @RequestParam("tags")String tags,
                                 @RequestParam("markMode")String markMode,
                                 @RequestParam("tagRequirement")String tagRequirement,
                                 @RequestParam("levelLimit")String levelLimit,
@@ -57,19 +54,15 @@ public class PublisherController {
                                 @RequestParam("money")String money){
         System.out.println("进入了方法");
         TagRequirement tagRequire=null;
-        if(markMode.equals("tags")) {
-            tagRequire=new TagRequirement(MarkMode.TAGS,tags,Integer.parseInt(gradeLimit));
-        }else if(markMode.equals("entirety")){
-            tagRequire=new TagRequirement(MarkMode.ENTIRETY,tagRequirement,Integer.parseInt(gradeLimit));
-        }else if(markMode.equals("rectangle")){
-            tagRequire=new TagRequirement(MarkMode.RECTANGLE,tagRequirement,Integer.parseInt(gradeLimit));
-        }else if(markMode.equals("area")){
+        if(markMode.equals("框选标注")) {
+            tagRequire=new TagRequirement(MarkMode.SQUARE,tagRequirement,Integer.parseInt(gradeLimit));
+        }else if(markMode.equals("区域标注")){
             tagRequire=new TagRequirement(MarkMode.AREA,tagRequirement,Integer.parseInt(gradeLimit));
         }
         WorkerRequirement workerRequire=new WorkerRequirement(Integer.parseInt(levelLimit));
         int workerNum=Integer.parseInt(maxWorkerNum);
-        int numPackage=Integer.parseInt(packageNum);
-        int numPic=Integer.parseInt(picNum);
+        int numPackage=0;
+        int numPic=0;
         int payment=Integer.parseInt(money);
         Project project=new Project(publisherId,projectId,workerNum,numPackage,numPic,startDate,endDate,tagRequire,workerRequire,payment);
 

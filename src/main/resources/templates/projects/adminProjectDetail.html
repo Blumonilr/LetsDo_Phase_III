@@ -297,13 +297,8 @@
                     var detail=data.split("*");
                     var project=JSON.parse(detail[0]);
                     var markMode=project.markMode;
-                    if(markMode==="TAGS") {
-                        $("#requireToggle").text("标签:");
-                        $("#markMode").text("标签描述项目");
-                    }else if(markMode==="ENTIRETY"){
-                        $("#markMode").text("整体描述项目");
-                    }else if(markMode==="RECTANGLE"){
-                        $("#markMode").text("部分圈选项目");
+                    if(markMode==="SQUARE") {
+                        $("#markMode").text("框选标注项目");
                     }else if(markMode==="AREA"){
                         $("#markMode").text("区域覆盖标注项目");
                     }

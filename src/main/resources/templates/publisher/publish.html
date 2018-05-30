@@ -360,25 +360,25 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="agile-its">
-                                    <h1>Upload DataSet</h1>
+                                    <h1>上传数据集</h1>
                                     <div class="w3layouts">
-                                        <h5>Upload your dataset here before you submit. You can choose your file. Or you can drag & drop files from your desktop or directory on this webpage.</h5>
+                                        <h5>在提交之前清闲上传数据集. 你可以点击选择文件,或者拖动文件到文件框内.</h5>
                                         <br/>
                                         <div class="photos-upload-view">
                                             <form id="upload" action="" method="POST" enctype="multipart/form-data">
                                                 <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
                                                 <br/>
                                                 <div class="agileinfo">
-                                                    <input id="submitbutton" type="submit" class="choose" value="Choose file..">
+                                                    <input id="submitbutton" type="submit" class="choose" value="选择文件..">
                                                     <br/>
                                                     <br/>
                                                     <h3>OR</h3>
                                                     <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
-                                                    <div id="filedrag">drag and drop files here</div>
+                                                    <div id="filedrag">拖动文件到这里</div>
                                                 </div>
                                             </form>
                                             <div id="messages">
-                                                <p>Status Messages</p>
+                                                <p>状态信息</p>
                                             </div>
                                         </div>
                                         <div class="clearfix"></div>
@@ -387,51 +387,44 @@
                             </div>
                             <div class="col-md-8">
                                 <div style="width: 90%; margin: auto;background: #FFFFFF;">
-                                    <h1>Project Requirement</h1>
-                                    <h2>&nbsp;Attention</h2>
+                                    <h1>项目要求</h1>
+                                    <h2>&nbsp;注意</h2>
                                     <p>&nbsp;这里填一下以下各项的解释和要求</p>
                                     <br/>
                                     <div style="float: right; margin-bottom: 10px">
-                                        <label style="display: inline-block; margin-right: 50px"><input type="checkbox" id="autoopen" style="vertical-align: baseline">&nbsp;auto-open next field</label>
+                                        <label style="display: inline-block; margin-right: 50px"><input type="checkbox" id="autoopen" style="vertical-align: baseline">&nbsp;自动开启下一行文本域</label>
                                         <!--<button id="enable" class="btn btn-default">enable / disable</button>-->
                                     </div>
                                     <table id="user" class="table table-bordered table-striped" style="clear: both">
                                         <tbody>
                                         <tr>
-                                            <td>Project Name</td>
-                                            <td><a href="#" id="projectName" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="Give your project an attractive name"></a></td>
+                                            <td>项目名称</td>
+                                            <td><a href="#" id="projectName" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="给你的项目起个有吸引力的名字吧"></a></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>标注类型</td>
+                                            <td><a href="#" id="markMode" data-type="select" data-pk="1" data-value="" data-title="选择你想要的标注类型"></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Picture Amount</td>
-                                            <td><a href="#" id="pictureAmount" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="The amount of the pictures in your project"></a></td>
+                                            <td>最大工作者数</td>
+                                            <td><a href="#" id="workerNum" data-type="select" data-pk="1" data-value="" data-title="选择每个包的最大工作者数"></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Mark Mode</td>
-                                            <td><a href="#" id="markMode" data-type="select" data-pk="1" data-value="" data-title="Select the Mark Mode you want"></a></td>
+                                            <td>最低等级</td>
+                                            <td><a href="#" id="levelLimit" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="选择对于参与你的项目的工作者的等级限制"></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Package Amount</td>
-                                            <td><a href="#" id="packageNum" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="The amount of the packages in the project"></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Max Worker Amount</td>
-                                            <td><a href="#" id="workerNum" data-type="select" data-pk="1" data-value="" data-title="Select max worker amount for each package"></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Worker Lower Level Limit</td>
-                                            <td><a href="#" id="levelLimit" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="The lowest level of workers you can accept or you require"></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Result Lower Grades Limit</td>
-                                            <td><a href="#" id="gradesLimit" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="The lowest grade of the results you can accept or you require 0~100"></a></td>
+                                            <td>结果最低分数</td>
+                                            <td><a href="#" id="gradesLimit" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="分数越高准确度越高,但数据量越少 分数范围0~100"></a></td>
                                         </tr>
                                         <!--这里直接用JQ的datepicker-->
                                         <tr>
-                                            <td>The Start Time</td>
+                                            <td>开始时间</td>
                                             <td><input type="text" id="startDate" size="30"></td>
                                         </tr>
                                         <tr>
-                                            <td>The Deadline</td>
+                                            <td>结束时间</td>
                                             <td><input type="text" id="endDate" size="30"></td>
                                         </tr>
                                         <script>
@@ -451,27 +444,28 @@
                                             });
                                         </script>
                                         <tr>
-                                            <td>Payment</td>
-                                            <td><a href="#" id="payment" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="The remuneration you pay may affect the speed that your project completion"></a></td>
+                                            <td>报酬</td>
+                                            <td><a href="#" id="payment" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="你提供的报酬将平分给完成工作的工作者"></a></td>
                                         </tr>
 
-                                        <tr>
-                                            <td>Tags</td>
-                                            <td><a href="#" id="tags" data-type="select2" data-pk="1" data-title="Enter tags">tag1,tag2</a></td>
-                                        </tr>
+                                        <!--<tr>这里可能添加成目录-->
+                                            <!--<td>Tags</td>-->
+                                            <!--<td><a href="#" id="tags" data-type="select2" data-pk="1" data-title="Enter tags">tag1,tag2</a></td>-->
+                                        <!--</tr>-->
 
                                         <tr>
-                                            <td>Tag Requirement<a href="#" id="pencil"><i class="icon-pencil" style="padding-right: 5px"></i>[edit]</a></td>
+                                            <td>标注要求<a href="#" id="pencil"><i class="icon-pencil" style="padding-right: 5px"></i>[edit]</a></td>
                                             <td>
                                                 <div id="note" data-pk="1" data-type="wysihtml5" data-toggle="manual" data-title="Enter notes" data-placement="top">
-                                                    <h3>Tag Requirement</h3>
-                                                    Tag Requirement means <i>Details</i> you want workers to pay attention to.<br>
-                                                    Including but not limited to:
+                                                    <h3>标注要求</h3>
+                                                    请在这里填写你想要工作者注意到的 <i>补充要求</i> ,可以尽量限制工作者自由发挥的空间.<br>
+                                                    包括但不限于:
                                                     <ul>
                                                         <li>1.</li>
                                                         <li>2.</li>
                                                         <li>3.</li>
                                                     </ul>
+                                                    (建议将默认文本删除)
                                                 </div>
                                             </td>
                                         </tr>
@@ -487,7 +481,7 @@
                     </div>
                     <div class="col-md-2" style="padding: 20px 0 0 0">
                         <button id="confirm" type="button" onclick="uploadDataSet()" class="btn btn-outline-success btn-lg">
-                            Confirm
+                            提交
                         </button>
                     </div>
                 </div>
