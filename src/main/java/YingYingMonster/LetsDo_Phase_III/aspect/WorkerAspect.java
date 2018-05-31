@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import YingYingMonster.LetsDo_Phase_III.dao.MockDB;
 import YingYingMonster.LetsDo_Phase_III.model.Tag;
-import YingYingMonster.LetsDo_Phase_III.model.User;
 import YingYingMonster.LetsDo_Phase_III.model.Worker;
 
 @Aspect
