@@ -91,10 +91,6 @@ public class MyProjectsController {
         	type="area";
         	description = "区域覆盖标注"+'\n';
         	break;
-        case RECTANGLE:
-        	type="square";
-        	description = "矩形圈选标注"+'\n';
-        	break;
         }
         
         String req = requirement.getRequirement(); /*markMode是tags的时候，requirement为tag列表，tag之间以逗号隔开，其他模式都为具体要求*/
