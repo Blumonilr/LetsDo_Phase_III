@@ -1,14 +1,11 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,18 +35,14 @@ public class WorkSpaceController {
 	 */
 	@GetMapping("/{workType}")
 	public String getWorkSpace(@PathVariable("workType")String type) {
-		if(type.equals("tips")) {
+		if(type.equals("area")) {
 			//填写标签，包括整体标注
-			return "workspace/tips";
+			return "workspace/newarea";
 		}
-		else if(type.equals("area")) {
+		else if(type.equals("square")) {
 			//按要求覆盖指定区域
-			return "workspace/area";
-		}
-		else if(type.equals("mark")) {
-			//按要圈出指定物体
-			return "workspace/mark";
-		}
+			return "workspace/newsquare";
+		}	
 		else {
 			//default
 			return "workspace/total";
@@ -63,22 +56,7 @@ public class WorkSpaceController {
 	 */
 	@GetMapping("/editPreviousTag/{workType}")
 	public String getEditWorkSpace(@PathVariable("workType")String type) {
-		if(type.equals("tips")) {
-			//填写标签，包括整体标注
-			return "workspace/edit/tips";
-		}
-		else if(type.equals("area")) {
-			//按要求覆盖指定区域
-			return "workspace/edit/area";
-		}
-		else if(type.equals("mark")) {
-			//按要圈出指定物体
-			return "workspace/edit/mark";
-		}
-		else {
-			//default
-			return "workspace/edit/total";
-		}
+		return "";
 	}
 	
 	/**
@@ -273,7 +251,7 @@ public class WorkSpaceController {
      
      
      /**
-      * 提交标记
+      * 提交标记  此处需要修改！！！！
       * @param request
       * @param response
       * @param type
@@ -290,7 +268,7 @@ public class WorkSpaceController {
      		@PathVariable("projectId")String projectId,
      		@PathVariable("pictureId")String pictureId,
      		@PathVariable("publisherId")String publisherId) {
-    	 
+    	System.out.println("!!!!!!!!!!!!!!!!!!!!");
     	String imageDataURL = request.getParameter("base64");//tag图片的64位编码
      	String remark = request.getParameter("remark");  
      	String w = request.getParameter("width");
@@ -298,43 +276,12 @@ public class WorkSpaceController {
      	int width = Integer.parseInt(w);
      	int height = Integer.parseInt(h);//标记的长宽
      	
+     	System.out.println("REMARK: "+ remark);
+     	
      	Tag tag = new Tag();
      	tag.setWidth(width);
      	tag.setHeight(height);
      	tag.setType(type);
-    
-     	
-     	switch(type) {
-     	case  "area":
-     		Base64.Decoder adecoder = Base64.getDecoder();
-        	byte[] ab = adecoder.decode(imageDataURL);//这个用来生成图片
-        	tag.setData(ab);
-        	
-     		break;
-     	case  "tips":
-     		tag.setData(null);
-     		Map<String,String> pmap = new HashMap<String,String>();
-     		String[] plist = remark.split(",");
-     		for(String ps : plist) {
-     			String[] pss = ps.split(":");
-     			pmap.put(pss[0], pss[1]);
-     		}
-     		tag.setAttributes(pmap);
-     		break;
-     		
-     	case  "mark":
-     		Base64.Decoder mdecoder = Base64.getDecoder();
-        	byte[] mb = mdecoder.decode(imageDataURL);//这个用来生成图片
-        	tag.setData(mb);
-  
-     		break;
-     	case "total":
-     		tag.setData(null);
-     		Map<String,String> tmap = new HashMap<String,String>();
-            tmap.put("total", remark);
-     		tag.setAttributes(tmap);
-     		break;
-     	}
      	
      	service.uploadTag(userId, publisherId, projectId, pictureId, tag);
      }

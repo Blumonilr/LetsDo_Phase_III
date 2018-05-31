@@ -85,7 +85,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 		List<Persistent> list=database.readTable("projects");
 		for(Persistent p:list){
 			if(((Project)p).getPublisherId().equals(publisherId)&&((Project)p).getProjectId().equals(projectId))
-				return database.delete("projects", (Project)p);
+				return database.delete("projects", p);
 		}
 		return false;
 	}

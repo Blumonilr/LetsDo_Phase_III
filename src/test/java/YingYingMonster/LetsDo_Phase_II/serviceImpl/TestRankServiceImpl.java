@@ -1,7 +1,5 @@
 package YingYingMonster.LetsDo_Phase_II.serviceImpl;
 
-import static org.junit.Assert.*;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -15,8 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import YingYingMonster.LetsDo_Phase_III.dao.MockDB;
-import YingYingMonster.LetsDo_Phase_III.dao.UserDAO;
-import YingYingMonster.LetsDo_Phase_III.daoImpl.UserDAOImpl;
 import YingYingMonster.LetsDo_Phase_III.model.Persistent;
 import YingYingMonster.LetsDo_Phase_III.model.User;
 import YingYingMonster.LetsDo_Phase_III.model.Worker;

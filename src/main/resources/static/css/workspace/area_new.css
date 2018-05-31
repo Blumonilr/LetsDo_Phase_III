@@ -1,0 +1,120 @@
+@charset "UTF-8";
+#penal{
+	position: absolute;
+    left: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-style:outset;
+    border-color: rgba(113,114,122,0.80);
+    border-width: medium;
+    background-position: center;
+}
+
+#tipInput{
+    position: absolute;
+    left: 860px;
+    top: 185px;
+    overflow: auto;
+    width:350px;
+    height: 400px;
+    border-style:outset;
+    border-color: rgba(113,114,122,0.80);
+    border-width: medium;
+}
+
+.obj_tips{
+    border-style:outset;
+    border-color: rgba(113,114,122,0.80);
+    border-width: thin;
+}
+
+#submitArea{
+    position: absolute;
+    left: 750px;
+    top: 400px;
+}
+
+#requirementArea{
+	width: 300px;
+    height: 200px;
+	position:relative;
+    left: 750px;
+    top: 300px;
+    border-style:outset;
+    border-color: rgba(113,114,122,0.80);
+    border-width: medium;
+
+    background-color: rgba(255,245,238,0.8);
+}
+
+#hide_show_requirement{
+    position: relative;
+	left: 780px;
+    top: 0px;
+}
+
+#tools{
+    position: absolute;
+    left: 750px;
+    top: 185px;
+}
+
+
+.demo{
+    padding: 2em 0;
+    background: linear-gradient(to right,#101010, #4a688a, #2c3b4e);
+}
+.progress{
+    position: relative;
+    top: -1000px;
+    left: 320px;
+    width: 750px;
+    height: 10px;
+    background: #313131;
+    padding: 3px;
+    overflow: visible;
+    border-radius: 10px;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #7992a8;
+    margin-top: 2px;
+    -moz-transition:  0.5s;	/* Firefox 4 */
+    -webkit-transition:  0.5s;	/* Safari 和 Chrome */
+    -o-transition:  0.5s;	/* Opera */
+
+}
+.progress .progress-bar{
+    border-radius: 20px;
+    position: relative;
+    animation: animate-positive 2s;
+}
+.progress .progress-value{
+    display: block;
+    padding: 3px 7px;
+    font-size: 6px;
+    color: #fff;
+    border-radius: 4px;
+    background: #191919;
+    border: 1px solid #000;
+    position: absolute;
+    top: -40px;
+    right: -10px;
+}
+.progress .progress-value:after{
+    content: "";
+    border-top: 10px solid #191919;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: absolute;
+    bottom: -6px;
+    left: 26%;
+}
+.progress-bar.active{
+    animation: reverse progress-bar-stripes 0.40s linear infinite, animate-positive 2s;
+}
+@-webkit-keyframes animate-positive{
+    0% { width: 0; }
+}
+@keyframes animate-positive{
+    0% { width: 0; }
+}
+

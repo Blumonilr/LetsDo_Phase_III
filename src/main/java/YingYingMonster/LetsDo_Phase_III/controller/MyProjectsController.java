@@ -102,8 +102,8 @@ public class MyProjectsController {
         	description = "区域覆盖标注"+'\n';
         	break;
         case RECTANGLE:
-        	type="mark";
-        	description = "部分圈选"+'\n';
+        	type="square";
+        	description = "矩形圈选标注"+'\n';
         	break;
         }
         

@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -19,8 +18,6 @@ import javax.imageio.stream.FileImageInputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.thymeleaf.util.ListUtils;
-
 import YingYingMonster.LetsDo_Phase_III.dao.MockDB;
 import YingYingMonster.LetsDo_Phase_III.dao.WorkerDAO;
 import YingYingMonster.LetsDo_Phase_III.model.Data;
