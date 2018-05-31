@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import YingYingMonster.LetsDo_Phase_III.dao.DataDAO;
+import YingYingMonster.LetsDo_Phase_III.dao.MockDB;
 import YingYingMonster.LetsDo_Phase_III.dao.ProjectDAO;
 
 @Component
@@ -40,6 +41,8 @@ public class DataDAOImpl implements DataDAO{
 	ProjectDAO projectDAOImpl;
 	@Autowired
 	CSVHandler handler;
+	@Autowired
+	MockDB db;
 	
 	/*
 	 * 复制文件
@@ -58,10 +61,10 @@ public class DataDAOImpl implements DataDAO{
 //    }
 
 	@Override
-	public int uploadDataSet(String publisherId, String dataSetId, int packNum,byte[] dataSet) throws IOException {
+	public int[] uploadDataSet(String publisherId, String dataSetId, int packNum,byte[] dataSet) throws IOException {
 		// TODO 自动生成的方法存根
-        if(packNum<=0)
-        	return -1;
+        if(packNum<0)
+        	return new int[]{-1,0};
         
 		BufferedOutputStream bos=null;
 		FileOutputStream fos=null;
@@ -70,7 +73,7 @@ public class DataDAOImpl implements DataDAO{
 		if(!dir.exists()&&!dir.isDirectory())
 			dir.mkdirs();
 		else{
-			return -1;
+			return new int[]{-1,0};
 		}
 		dataSetDes=new File(dir.getPath()+"/"+dataSetId+".zip");
 		try {
@@ -137,7 +140,7 @@ public class DataDAOImpl implements DataDAO{
         picNum=newfiles.size();
         
         if(picNum==0)
-        	return 0;
+        	return new int[]{0,0};
         int packSize=3;
         if(picNum%packSize!=0)
         	packNum=picNum/packSize+1;
@@ -183,7 +186,7 @@ public class DataDAOImpl implements DataDAO{
         	publisherFork.createNewFile();
         	handler.appendCSV(new String[]{"workerId"}, publisherFork.getPath());
         }
-		return picNum;
+		return new int[]{picNum,packNum};
 	}
 
 	private void deleteAll(File file) {

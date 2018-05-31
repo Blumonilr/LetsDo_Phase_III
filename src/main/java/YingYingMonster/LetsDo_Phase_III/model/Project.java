@@ -35,10 +35,10 @@ public class Project implements Persistent{
 		this.workerRequirement = workerRequirement;
 		this.money = money;
 		
-		setPkgs();
+//		setPkgs();
 	}
 	
-	private void setPkgs(){
+	public void setPkgs(){
 		pkgs=new int[packageNum];
 		int wkPpkg=maxWorkerNum/packageNum;
 		for(int i=0;i<pkgs.length-1;i++){
