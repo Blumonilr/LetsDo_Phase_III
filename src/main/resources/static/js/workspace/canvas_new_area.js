@@ -287,6 +287,12 @@ function clear_all(){
  * 生成格式化的标注string
  */
 function get_xml_string(){
+
+    var res = auto_submit_tips();
+    if(!res){
+        return "";
+    }
+
     var s1 = "<projectId>"+getCookie("projectId")+"</projectId>\n";
     var s2 = "<publisherId>"+getCookie("publisherId")+"</publisherId>\n";
     var s3 = "<userId>"+getCookie("userId")+"</userId>\n";
@@ -343,6 +349,30 @@ function get_xml_string(){
 
 function auto_submit_tips(){
 
+    var str = "名称_牛_羊_猪,年龄_幼_壮_老";
+    var strs = str.split(",");
+
+    var total_num = tip_list.length();
+    for(let index=0;index<total_num;index++){
+        if(!is_deleted_list[index]){
+            var result_list = [];
+            for(let i=0;i<strs.length;i++){
+                var title = strs[i].split("_")[0];
+                var select_id = "select_"+index+"_"+title;
+                var tip = $("#"+select_id).val();
+                if(tip === place_holder){
+                    //未填写
+                    return false;
+                }
+                else{
+                    var result = title+"_"+tip;
+                    result_list.push(result);
+                }
+            }
+            tip_list[index] = result_list;
+            is_submitted_list[index] = true;
+        }
+    }
 }
 
 /**
