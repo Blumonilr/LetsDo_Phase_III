@@ -49,19 +49,13 @@ public class ProjectMarketController {
 			String type = "";
 			TagRequirement requirement = pj.getTagRequirement();
 			switch(requirement.getMarkMode()) {
-	        case ENTIRETY:	
-	        	type = "整体描述项目";
-	        	break;
-	        case TAGS:
-   	        	type = "标签描述项目";
-	        	break;
-	        case AREA:
-   	        	type = "区域覆盖标注项目";
-	        	break;
-	        case RECTANGLE:
-  	        	type = "部分圈选项目";
-	        	break;
-	        }
+				case SQUARE:
+					type = "框选项目";
+					break;
+				case AREA:
+					type = "区域覆盖标注项目";
+					break;
+			}
 			
 			String workerLevel = pj.getWorkerRequirement().getLevelLimit()+"";
 			

@@ -137,11 +137,11 @@ public class DataDAOImpl implements DataDAO{
         
         if(picNum==0)
         	return 0;
-        int packSize=0;
-        if(picNum%packNum!=0)
-        	packSize=picNum/packNum+1;
+        int packSize=3;
+        if(picNum%packSize!=0)
+        	packNum=picNum/packSize+1;
         else
-        	packSize=picNum/packNum;
+        	packNum=picNum/packSize;
         
         for(int i=1;i<=packNum;i++){
         	if(index==picNum)
