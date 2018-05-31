@@ -77,14 +77,13 @@ function chooseProject(that){
 			
 			var datas = data.split(":");//type:requirement
 			setCookie("projectType",datas[0]);
-			if(datas[0]==="tips"){
-				setCookie("tipList", datas[1]);
-			}
-			else{
-				setCookie("tipList", "");
-				setCookie("projectRequirement",data[1]);
-			}
 			
+			setCookie("tipList", datas[1]);
+		
+			setCookie("tipList", "");
+			
+			setCookie("projectRequirement",data[1]);
+	
 			window.location.href="/workspace/"+datas[0];
 		}
 	});

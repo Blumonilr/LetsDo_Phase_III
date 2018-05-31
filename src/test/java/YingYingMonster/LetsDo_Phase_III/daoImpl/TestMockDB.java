@@ -1,8 +1,5 @@
 package YingYingMonster.LetsDo_Phase_III.daoImpl;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -15,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import YingYingMonster.LetsDo_Phase_III.daoImpl.MockDBImpl;
 import YingYingMonster.LetsDo_Phase_III.daoImpl.MockTable;
-import YingYingMonster.LetsDo_Phase_III.model.User;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

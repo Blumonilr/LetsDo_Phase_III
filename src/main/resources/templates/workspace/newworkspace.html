@@ -37,31 +37,29 @@
     <script th:src="@{/assets/js/custom-scripts.js}"></script>
 
 	<!-- 自己的css文件 -->
-    <link rel="stylesheet" th:href="@{/css/workspace/area.css}">
-	<link rel="stylesheet" th:href="@{/css/workspace/tools.css}">
+    <link rel="stylesheet" th:href="@{/css/workspace/area_new.css}">
+    <link rel="stylesheet" th:href="@{/css/workspace/input.css}">
+    <link rel="stylesheet" th:href="@{/css/workspace/tools.css}">
  <!-- 自己的css文件结束 -->
  
  <!-- 自己的js文件 -->
- <script type="text/javascript" th:src="@{/js/workspace/canvas.js}"></script>
-    <script type="text/javascript" th:src="@{/js/workspace/tips.js}"></script>
+ <script type="text/javascript" th:src="@{/js/workspace/canvas_new_area.js}"></script>
 <script type="text/javascript" th:src="@{/js/workspace/area_new.js}"></script>
- <script type="text/javascript" th:src="@{/js/workspace/getPicture.js}"></script>
-<script type="text/javascript" th:src="@{/js/workspace/toolsEffect.js}"></script>
-	<script type="text/javascript" th:src="@{/js/workspace/progress.js}"></script>
 	<script type="text/javascript" th:src="@{/js/util/cookie.js}"></script>
+    <script type="text/javascript" th:src="@{/js/workspace/toolsEffect.js}"></script>
  <!-- 自己的js文件结束 -->
  
  
 	
 	<!-- 网页初始化 -->
  <script>
- window.onload = function(){
-		var mark = new Mark();
-		mark.init();//初始化画笔
-		
-		setRequirement();//area.js
-		getNewPicture();//getPicture.js
-		};
+     window.onload = function(){
+         var mark = new Mark();
+         mark.init();//初始化画笔
+
+    
+         getNewPicture();//getPicture.js
+     };
  </script>
  <!-- 网页初始化结束 -->
 	
@@ -297,7 +295,7 @@
 		<div id="page-wrapper"  style="margin-left: 0px;">
 		  <div class="header"> 
                         <h1 class="page-header">
-                            区域覆盖标注项目 <small>yingyingMonster为您加油</small>
+                            标注项目 <small>yingyingMonster为您加油</small>
                         </h1>
 						<ol class="breadcrumb">
 					  <li><a href="#">Home</a></li>
@@ -310,59 +308,43 @@
 
              
 				<!--我们的操作区开始  -->
- <div id = "tools" > 
-<!-- 工具栏开始 -->
-			  <img alt="铅笔" id="pencil" src="/pic/tools/pencil_len.png" class="tools" onMouseMove="hoverIn('pencil')" onMouseOut="hoverOut('pencil')">
-              <img alt="铅笔" class="toolsHover" src="/pic/tools/pencil_hover.png" hidden="hidden" id="pencilHover"/><br>
-              <img alt="直线" id="line" src="/pic/tools/line_len.png" class="tools" onMouseMove="hoverIn('line')" onMouseOut="hoverOut('line')">
-              <img alt="直线" class="toolsHover" src="/pic/tools/line_hover.png" hidden="hidden" id="lineHover"/><br>
-              <img alt="矩形" id="square" src="/pic/tools/square_len.png" class="tools" onMouseMove="hoverIn('square')" onMouseOut="hoverOut('square')">
-	          <img alt="矩形" class="toolsHover" src="/pic/tools/square_hover.png" hidden="hidden" id="squareHover"/><br>
-              <img alt="圆形" id="circle" src="/pic/tools/circle_len.png" class="tools" onMouseMove="hoverIn('circle')" onMouseOut="hoverOut('circle')">
-              <img alt="圆形" class="toolsHover" src="/pic/tools/circle_hover.png" hidden="hidden" id="circleHover"/><br>
-              <img alt="橡皮擦" id="rubber" src="/pic/tools/rubber_len.png" class="tools" onMouseMove="hoverIn('rubber')" onMouseOut="hoverOut('rubber')">
-	          <img alt="橡皮擦" class="toolsHover" src="/pic/tools/rubber_hover.png" hidden="hidden" id="rubberHover"/><br>
-	          <img alt="清空" id = "clearAll" src="/pic/tools/clear_len.png" onClick="clearAllMark()" class="tools" onMouseMove="hoverIn('clear')" onMouseOut="hoverOut('clear')">
-	          <img alt="清空" class="toolsHover" src="/pic/tools/clear_hover.png" hidden="hidden" id="clearHover"/><br>
-              <br>
-              笔记颜色：<br>
-              <input type="color" id="pencilColor" onChange="changePencilColor()" />
-              <br>
-               <br>
-              笔迹大小：<br>
-              <input type="range" id="pencilSize" min="0.5" max="10" onclick="changePencilSize()" />
-              <br>
-              橡皮擦大小：<br>
-              <input type="range" id="rubberSize" min="0.5" max="100" onclick="changeRubberSize()"/>
-              <br>
- </div>
-<!-- 工具栏结束 -->
-<!-- canvas开始 -->
-	<div id="drawingPenal">
-<canvas id="penal" height = "530" width="800" ></canvas>
-		</div>
-	<!-- canvas结束 -->
-	<div id="requirementArea">
-	<!--标注要求开始-->
-     	
-	</div>
-	<!--标注要求结束-->
-	
-<!--上传标志开始-->
-<div  id="submitArea">
-	<img alt="上传" id = "submit" src="/pic/tools/submit-o.png" onClick="submitTag()" onMouseMove="hoverIn('submit') " onMouseOut="hoverOut('submit')">
-   <img alt="上传"  src="/pic/tools/submit_hover.png" hidden="hidden" id="submitHover"/><br>
-				
-</div>
-<!--上传标志结束-->
-<!--展示项目进度开始-->
-<div class="progress">
-					<div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 20%;">
-						<div class="progress-value">20%</div>
-					</div>
-				</div>
-<!--展示项目进度结束-->
-				
+
+
+
+				<canvas id="penal"></canvas>
+                <div id = "tools" >
+                    <!-- 工具栏开始 -->
+                    <img alt="画点" id="point" src="/pic/tools/pencil.png" class="tools" onMouseMove="hoverIn('point')" onMouseOut="hoverOut('point')">
+                    <img alt="画点" class="toolsHover" src="/pic/tools/pencil_hover.png" hidden="hidden" id="pointHover"/><br>
+                    <img alt="画线" id="line" src="/pic/tools/line.png" class="tools" onMouseMove="hoverIn('line')" onMouseOut="hoverOut('line')">
+                    <img alt="画线" class="toolsHover" src="/pic/tools/line_hover.png" hidden="hidden" id="lineHover"/><br>
+                    <img alt="清空" id = "draw_back" src="/pic/tools/clear.png" onClick="draw_back()" class="tools" onMouseMove="hoverIn('draw_back')" onMouseOut="hoverOut('draw_back')">
+                    <img alt="清空" class="toolsHover" src="/pic/tools/clear_hover.png" hidden="hidden" id="draw_backHover"/><br>
+                    <br>
+                </div>
+                <!-- 工具栏结束 -->
+                <div id = "tipInput" >
+                    <!-- tipInput开始 -->
+                   
+
+                </div>
+                <!-- tipInput结束 -->
+
+                <!--上传标志开始-->
+                <div  id="submitArea">
+                    <input type="button" value="提交" onclick="submit_tag()" />
+
+                </div>
+                <!--上传标志结束-->
+
+                <!--展示项目进度开始-->
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 20%;">
+                        <div class="progress-value">0%</div>
+                    </div>
+                </div>
+                <!--展示项目进度结束-->
+
 				
 <!--我们的操作区结束 -->
 		

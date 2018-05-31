@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 public interface DataDAO {
 
 	/**

@@ -1,5 +1,5 @@
 /**
- * 为区域标注提供加载requirement和提交标记的服务
+ * 为方框标注提供加载requirement和提交标记的服务
  */
 
 var requirement_hide = false;
@@ -19,13 +19,14 @@ function set_requirement(){
 
 function submit_tag(){
 	//提交标签
-	//这种标记只有图片没有标签
-	var type = "area";
+    var remark = get_xml_string();
+
+
+	var type = "square";
 	var userId = getCookie("userId");
 	var projectId = getCookie("projectId");
 	var publisherId = getCookie("publisherId");
 	var pictureId = getCookie("pictureId");
-	var remark = get_xml_string();
 	var width = getCookie("pictureWidth");
 	var height = getCookie("pictureHeight");
 	var canvas = document.getElementById("penal");
@@ -39,6 +40,7 @@ function submit_tag(){
 		alert("填写不完整！")
 	}
 	else{
+        console.log(remark);
         $.ajax({
             url: url,
             type: "post",
@@ -55,13 +57,11 @@ function submit_tag(){
             }
         });
 	}
-
-
 }
 
 function submit_tag_edit(){
 	//提交修改的标记
-	var type = "area";
+	var type = "square";
 	var userId = getCookie("userId");
 	var projectId = getCookie("projectId");
 	var publisherId = getCookie("publisherId");
