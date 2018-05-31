@@ -5,6 +5,7 @@ import java.util.List;
 import YingYingMonster.LetsDo_Phase_III.model.Data;
 import YingYingMonster.LetsDo_Phase_III.model.Project;
 import YingYingMonster.LetsDo_Phase_III.model.Tag;
+import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
 
 public interface WorkerService {
 
@@ -23,10 +24,6 @@ public interface WorkerService {
 	public int forkProject(String workerId,String publisherId,String projectId);//fork项目，返回值待定
 
 	public List<String>viewMyProjects(String workerId);//查看某个用户参加的项目名称
-	
-	public List<String>viewMyFinishedProjects(String wkid);
-	
-	public List<String>viewMyUnfinishedProjects(String wkid);
 
 	public int viewProgress(String workerId,String publisherId,String projectId);//查看某个用户某个项目的进度
 
@@ -58,5 +55,7 @@ public interface WorkerService {
 	 * @return
 	 */
 	public boolean isPjFinished(String wkId,String pjKey);
+	
+	public TagRequirement getPjTagRequirement(String pubid,String pjid);
 	
 }

@@ -15,6 +15,7 @@ import YingYingMonster.LetsDo_Phase_III.dao.WorkerDAO;
 import YingYingMonster.LetsDo_Phase_III.model.Data;
 import YingYingMonster.LetsDo_Phase_III.model.Project;
 import YingYingMonster.LetsDo_Phase_III.model.Tag;
+import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
 import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 
 @Component
@@ -200,15 +201,9 @@ public class WorkerServiceImpl implements WorkerService {
 	}
 
 	@Override
-	public List<String> viewMyFinishedProjects(String wkid) {
+	public TagRequirement getPjTagRequirement(String pubid, String pjid) {
 		// TODO Auto-generated method stub
-		return viewMyProjects(wkid).stream().filter(x->isPjFinished(wkid,x)).collect(Collectors.toList());
-	}
-
-	@Override
-	public List<String> viewMyUnfinishedProjects(String wkid) {
-		// TODO Auto-generated method stub
-		return viewMyProjects(wkid).stream().filter(x->!isPjFinished(wkid,x)).collect(Collectors.toList());
+		return getAProject(pubid, pjid).getTagRequirement();
 	}
 
 }

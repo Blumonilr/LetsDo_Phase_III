@@ -57,8 +57,8 @@ public class TestWorkerServiceImpl {
 	@Test
 	public void viewMyPj(){
 		List<String>list1=wkService.viewMyProjects("161250103");
-		List<String>list2=wkService.viewMyFinishedProjects("161250103");
-		List<String>list3=wkService.viewMyUnfinishedProjects("161250103");
+		List<String>list2=wkService.viewFinishedPj("161250103");
+		List<String>list3=wkService.viewUnfinishedPj("161250103");
 		
 		assertEquals(1,list1.size());
 		assertEquals(0,list2.size());
