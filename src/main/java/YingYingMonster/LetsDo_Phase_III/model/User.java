@@ -2,6 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.model;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 
 public abstract class User implements Persistent{
 
@@ -23,6 +24,7 @@ public abstract class User implements Persistent{
 	public void setName(String name) {
 		this.name = name;
 	}
+	private Calendar updateTime;
 	
 	/**
 	 * 只能检验密码是否正确，不能查看密码
@@ -72,6 +74,12 @@ public abstract class User implements Persistent{
 	public void setMoney(long money) {
 		this.money = money;
 	}
-	
+	public void setUpdateTime(Calendar updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Calendar getUpdateTime() {
+		return updateTime;
+	}
 	
 }

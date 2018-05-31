@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,7 @@ public class UserServiceImpl implements UserService {
 		}
 		if(user==null)
 			throw new LoginFailException();
+		user.setUpdateTime(Calendar.getInstance());
 		return user;
 	}
 
@@ -105,6 +107,11 @@ public class UserServiceImpl implements UserService {
 		if(user==null)
 			throw new TargetNotFoundException();
 		return user;
+	}
+
+	@Override
+	public int getActiveUserNum() {
+		return userDao.getActiveUserNum();
 	}
 
 	@Override
