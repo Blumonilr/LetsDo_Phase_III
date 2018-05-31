@@ -32,4 +32,6 @@ public interface UserService {
 	 * @return
 	 */
 	public User financeTransaction(String userId,long money);
+
+	public int getActiveUserNum();
 }
