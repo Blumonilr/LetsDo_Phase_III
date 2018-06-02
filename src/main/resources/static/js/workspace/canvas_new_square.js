@@ -20,6 +20,13 @@ var global_obj_num_selected = -1;//被选中的矩形在相应颜色里的下标
 var line_width = 3;
 
 
+var supervise_delete_time = 0;
+var supervise_click_time = 0;
+var supervise_start_time;
+var supervise_end_time;
+var supervise_total_points = 0; //添加的点的数量
+
+
 //1.选择颜色后画一个矩形，对应到一个输入，如果已经有，提示一下，颜色只有四种
 //如果没有，显示输入框
 
@@ -90,6 +97,9 @@ function produce_an_obj(x1,y1,x2,y2){
         }
         green_obj_list.push(points);
     }
+
+
+    supervise_total_points++;
 
     print_all_exist_obj();//显示所有矩形
 
@@ -198,6 +208,8 @@ function delete_one_color(that){
         $("#tipInput").children("#obj_3").remove();//删除输入框
     }
 
+    supervise_delete_time++;
+
     print_all_exist_obj();//重新显示
 }
 
@@ -219,6 +231,9 @@ Mark.prototype.init = function(){//初始化
     'use strict';
     var self = this;
     global_mark_ptr = this;
+
+    var date = new Date();
+    supervise_start_time  = date.getTime();
 
     self.ctx.lineWidth = line_width;
     
@@ -268,6 +283,8 @@ Mark.prototype.init = function(){//初始化
 
             global_obj_num_selected = -1;
             global_color_selected = -1;//没有被选中
+
+            supervise_click_time++;
         }
 
     },false);
@@ -312,6 +329,8 @@ Mark.prototype.init = function(){//初始化
 
         var x = event.offsetX;
         var y = event.offsetY;//点击事件相对于事件所属的this的位置
+
+        supervise_click_time++;
 
         select_a_square(x,y);
 
@@ -501,6 +520,7 @@ function delete_selected_square(){
 
     //检查 如果一个颜色不存在了，就删除对应对输入框
 
+    supervise_delete_time++;
     print_all_exist_obj();
 }
 
@@ -579,10 +599,125 @@ function get_xml_string(){
         }
     }//red end
 
+    if(yellow_tip !== []){//yellow begin
+        //yellow
+        var tags = "            <tags>\n";
+        for(let j=0;j<yellow_tip.length;j++){
+            var tag = "                <tag>\n"+
+                "                    <title>"+yellow_tip[j].split("_")[0]+"</title>\n"+
+                "                    <value>"+yellow_tip[j].split("_")[1]+"</value>\n"+
+                "                </tag>\n";
+            tags = tags +tag;
+        }
+        tags = tags + "            </tags>\n";
+
+        for(let i=0;i<yellow_obj_list.length;i++){
+            var temp_points = red_obj_list[i];
+            var x1 = temp_points[0][0];
+            var y1 = temp_points[0][1];
+            var x2 = temp_points[1][0];
+            var y2 = temp_points[1][1];
+
+            var points = "            <points>\n"+
+                "                <x1>"+x1+"</x1>\n"+
+                "                <y1>"+y1+"</y1>\n"+
+                "                <x2>"+x2+"</x2>\n"+
+                "                <y2>"+y2+"</y2>\n"+
+                "            </points>\n";
+
+            var obj = "        <object>\n"+points+tags+
+                "        </object>\n";
+
+            s_objs = s_objs + obj;
+        }
+    }//yellow end
+
+    if(blue_tip !== []){//blue begin
+        //blue
+        var tags = "            <tags>\n";
+        for(let j=0;j<blue_tip.length;j++){
+            var tag = "                <tag>\n"+
+                "                    <title>"+blue_tip[j].split("_")[0]+"</title>\n"+
+                "                    <value>"+blue_tip[j].split("_")[1]+"</value>\n"+
+                "                </tag>\n";
+            tags = tags +tag;
+        }
+        tags = tags + "            </tags>\n";
+
+        for(let i=0;i<blue_obj_list.length;i++){
+            var temp_points = red_obj_list[i];
+            var x1 = temp_points[0][0];
+            var y1 = temp_points[0][1];
+            var x2 = temp_points[1][0];
+            var y2 = temp_points[1][1];
+
+            var points = "            <points>\n"+
+                "                <x1>"+x1+"</x1>\n"+
+                "                <y1>"+y1+"</y1>\n"+
+                "                <x2>"+x2+"</x2>\n"+
+                "                <y2>"+y2+"</y2>\n"+
+                "            </points>\n";
+
+            var obj = "        <object>\n"+points+tags+
+                "        </object>\n";
+
+            s_objs = s_objs + obj;
+        }
+    }//blue end
+
+    if(green_tip !== []){//green begin
+        //green
+        var tags = "            <tags>\n";
+        for(let j=0;j<green_tip.length;j++){
+            var tag = "                <tag>\n"+
+                "                    <title>"+green_tip[j].split("_")[0]+"</title>\n"+
+                "                    <value>"+green_tip[j].split("_")[1]+"</value>\n"+
+                "                </tag>\n";
+            tags = tags +tag;
+        }
+        tags = tags + "            </tags>\n";
+
+        for(let i=0;i<green_obj_list.length;i++){
+            var temp_points = red_obj_list[i];
+            var x1 = temp_points[0][0];
+            var y1 = temp_points[0][1];
+            var x2 = temp_points[1][0];
+            var y2 = temp_points[1][1];
+
+            var points = "            <points>\n"+
+                "                <x1>"+x1+"</x1>\n"+
+                "                <y1>"+y1+"</y1>\n"+
+                "                <x2>"+x2+"</x2>\n"+
+                "                <y2>"+y2+"</y2>\n"+
+                "            </points>\n";
+
+            var obj = "        <object>\n"+points+tags+
+                "        </object>\n";
+
+            s_objs = s_objs + obj;
+        }
+    }//green end
+
+
     //object
     s_objs = s_objs + "</objects>";
 
-    var final_s = s1 + s2 + s3 + s4 + s5 + s_objs;
+
+    //supervise  begin
+    var date = new Date();
+    supervise_end_time = date.getTime();
+    var work_time = (supervise_end_time - supervise_start_time) / 1000;//秒数
+    var supervise_str = "<supervise>\n"+
+        "    <time>"+work_time+"</time>\n"+
+        "    <click>"+supervise_click_time+"</click>\n"+
+        "    <delete>"+supervise_delete_time+"</delete>\n"+
+        "    <points>"+supervise_total_points+"</points>\n"+
+        "</supervise>\n";
+
+
+    //supervise   end
+
+    var final_s = s1 + s2 + s3 + s4 + s5 + supervise_str + s_objs;
     return final_s;
 
 }
@@ -595,7 +730,7 @@ function auto_submit_tips(){
     var strs = str.split(",");
 
 
-    if(red_tip !== ""){
+    if(red_tip !== []){
         //red
         var result_list = [];
         for(let i=0;i<strs.length;i++){
@@ -611,11 +746,14 @@ function auto_submit_tips(){
             }
         }
 
-        red_tip = result_list;
+        red_tip = [];
+        for(let j=0;j<result_list.length;j++){
+            red_tip.push(result_list[j]);
+        }
         //red end
     }
 
-    if(yellow_tip !== ""){
+    if(yellow_tip !== []){
         //yellow
         var result_list = [];
         for(let i=0;i<strs.length;i++){
@@ -629,13 +767,18 @@ function auto_submit_tips(){
                 var result = title+"_"+tip;
                 result_list.push(result);
             }
+            
+            
         }
 
-        yellow_tip = result_list;
+        yellow_tip = [];
+        for(let j=0;j<result_list.length;j++){
+            yellow_tip.push(result_list[j]);
+        }
         //yellow end
     }
 
-    if(blue_tip !== ""){
+    if(blue_tip !== []){
         //blue
         var result_list = [];
         for(let i=0;i<strs.length;i++){
@@ -651,12 +794,15 @@ function auto_submit_tips(){
             }
         }
 
-        blue_tip = result_list;
+        blue_tip = [];
+        for(let j=0;j<result_list.length;j++){
+            blue_tip.push(result_list[j]);
+        }
         //blue end
     }
 
 
-    if(green_tip !== ""){
+    if(green_tip !== []){
         //green
         var result_list = [];
         for(let i=0;i<strs.length;i++){
@@ -672,7 +818,10 @@ function auto_submit_tips(){
             }
         }
 
-        green_tip = result_list;
+        green_tip = [];
+        for(let j=0;j<result_list.length;j++){
+            green_tip.push(result_list[j]);
+        }
         //green end
     }
 
@@ -693,6 +842,14 @@ function prepare_for_next_picture(){
     green_tip = [];
     global_color_selected = -1;//被选中的矩形的颜色
     global_obj_num_selected = -1;//被选中的矩形在相应颜色里的下标
+
+    supervise_delete_time = 0;
+    supervise_click_time = 0;
+    supervise_start_time = 0;
+    var date = new Date();
+    supervise_start_time = date.getTime();
+    supervise_total_points = 0; //添加的点的数量
+
     $("#tipInput").empty();
     clear_all();
 }
