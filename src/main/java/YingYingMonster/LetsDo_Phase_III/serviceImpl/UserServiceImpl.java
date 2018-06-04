@@ -17,6 +17,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Deprecated
     public boolean userExist(String id) {
         return false;
     }
@@ -51,5 +52,13 @@ public class UserServiceImpl implements UserService {
     public User financeTransaction(long userId, long money) {
         userRepository.changeMoney(userId, money);
         return userRepository.findById(userId).get();
+    }
+
+    @Override
+    public List<User> findByStringAttr(String attr) {
+        List<User> list = userRepository.findByNameLike(attr);
+        list.addAll(userRepository.findByEmailLike(attr));
+        list.addAll(userRepository.findByIntroLike(attr));
+        return list ;
     }
 }

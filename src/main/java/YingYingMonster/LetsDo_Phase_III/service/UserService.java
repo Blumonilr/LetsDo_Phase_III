@@ -33,4 +33,11 @@ public interface UserService {
 	 * @return
 	 */
 	public User financeTransaction(long userId,long money);
+
+	/**
+	 * 根据user对象的string类型属性进行模糊查找:name email intro
+	 * @param attr
+	 * @return
+	 */
+	public List<User> findByStringAttr(String attr);
 }
