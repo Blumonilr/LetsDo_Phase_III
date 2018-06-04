@@ -49,7 +49,7 @@ public class adminController {
         try {
             userNum = adminService.viewUserNum();
             projectNum = adminService.viewProjectNum();
-            onlineUser=userService.getActiveUserNum();
+            onlineUser=0;//方法没了,先写死掉
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
