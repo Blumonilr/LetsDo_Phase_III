@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 public interface DataDAO {
 
 	/**
@@ -17,7 +15,7 @@ public interface DataDAO {
 	 * @return 解压后的图片数量
 	 * @throws IOException 
 	 */
-	public int uploadDataSet(String publisherId,String dataSetId,int packSize,byte[]dataSet) throws IOException;
+	public int[] uploadDataSet(String publisherId,String dataSetId,int packSize,byte[]dataSet) throws IOException;
 	
 	/**
 	 * 上传者下载工人的作业

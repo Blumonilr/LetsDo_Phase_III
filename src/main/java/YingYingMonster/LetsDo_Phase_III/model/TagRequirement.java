@@ -8,7 +8,6 @@ public class TagRequirement implements Serializable {
 	 */
 	private static final long serialVersionUID = -1742883425516176928L;
 	private MarkMode markMode;
-    /*markMode是tags的时候，requirement为tag列表，tag之间以逗号隔开，其他模式都为具体要求*/
     private String requirement;
     private int gradesLimit;
 

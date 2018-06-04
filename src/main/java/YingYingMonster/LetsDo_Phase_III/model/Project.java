@@ -9,14 +9,14 @@ public class Project implements Persistent{
 
 	private String publisherId,projectId;//发布者id，项目id
 	
-	private int maxWorkerNum,currWorkerNum,packageNum,picNum;//允许最大参加人数，当前人数，分包数，图片数
+	private int maxWorkerNum,currWorkerNum,packageNum,picNum;//允许最大参加人数，当前人数，分包数--，图片数
 	
-	private int[]pkgs;//记录每个包参加人数，用于fork
+	private int[]pkgs;//记录每个包参加人数，用于fork--
 	
 	private String startDate,endDate;//yyyy-MM-dd
 	
-	private TagRequirement tagRequirement;
-	private WorkerRequirement workerRequirement;
+	private TagRequirement tagRequirement;//改成String
+	private WorkerRequirement workerRequirement;//改成String
 	
 	private int money;//任务赏金
 
@@ -35,10 +35,10 @@ public class Project implements Persistent{
 		this.workerRequirement = workerRequirement;
 		this.money = money;
 		
-		setPkgs();
+//		setPkgs();
 	}
 	
-	private void setPkgs(){
+	public void setPkgs(){
 		pkgs=new int[packageNum];
 		int wkPpkg=maxWorkerNum/packageNum;
 		for(int i=0;i<pkgs.length-1;i++){

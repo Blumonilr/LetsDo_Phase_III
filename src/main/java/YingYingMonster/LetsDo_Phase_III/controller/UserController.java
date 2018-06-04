@@ -6,10 +6,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import YingYingMonster.LetsDo_Phase_III.exception.LoginFailException;
-import YingYingMonster.LetsDo_Phase_III.model.Publisher;
-import YingYingMonster.LetsDo_Phase_III.model.User;
-import YingYingMonster.LetsDo_Phase_III.model.Worker;
+import YingYingMonster.LetsDo_Phase_III.entity.*;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -35,39 +40,41 @@ public class UserController {
     }
 
     @PostMapping("/publisherSignUp")
-//    @ApiOperation(value = "注册新用户，注册成功后跳转至登录界面；失败则返回注册界面，显示错误信息")
-    public String publisherRegister(@RequestParam("userId")String userId
-            ,@RequestParam("password")String password
+    public String publisherRegister(@RequestParam("password")String password
             ,@RequestParam("nickName")String nickName){
         Publisher publisher=new Publisher();
-        publisher.setId(userId);
         publisher.setName(nickName);
         publisher.setPw(password);
-        if(userService.register(publisher))
-            return "redirect:/user/login";
-        else
-            return "user/publisherSignUp";
+        publisher=(Publisher) userService.register(publisher);
+        //这里应当进行帐号展示
+        return "redirect:/user/login";
     }
 
     @PostMapping("/workerSignUp")
-//    @ApiOperation(value = "注册新用户，注册成功后跳转至登录界面；失败则返回注册界面，显示错误信息")
-    public String workerRegister(@RequestParam("userId")String userId
-            ,@RequestParam("password")String password
+    public String workerRegister(@RequestParam("password")String password
             ,@RequestParam("nickName")String nickName){
         Worker worker=new Worker();
-        worker.setId(userId);
         worker.setName(nickName);
         worker.setPw(password);
-        if(userService.register(worker))
-            return "redirect:/user/login";
-        else
-            return "user/workerSignUp";
+        worker=(Worker)userService.register(worker);
+        //这里应当进行帐号展示
+        return "redirect:/user/login";
     }
 
     @GetMapping("/login")
 //    @ApiOperation(value = "访问用户登录界面")
     public String visitLoginPage(){
-        return "user/Login";
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId=(String)session.getAttribute("userId");
+        User user=null;
+        if(userId!=null){
+            user=userService.getUser(Long.parseLong(userId));
+            return classify(user);
+        } else {
+            //如果未登录返回登录页面
+            return "user/Login";
+        }
     }
 
     @PostMapping("/login")
@@ -75,14 +82,32 @@ public class UserController {
     /**
      * 表单里的input模块的name属性决定了参数名
      */
+    @ResponseBody
     public String login(@RequestParam("userId")String userId
-            ,@RequestParam("password")String password){
-        User user=null;
+            ,@RequestParam("password")String password) {
+        User user = null;
         try {
-            user = userService.login(userId, password);
-        }catch (LoginFailException e){
-            return "redirect:/user/login";
+            user = userService.login(Long.parseLong(userId), password);
+        } catch (LoginFailException e) {
+            return "login failed";
         }
+
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        HttpSession session = request.getSession();
+
+        session.setAttribute("userId", userId);
+        session.setMaxInactiveInterval(7200);
+
+        Cookie cookie = new Cookie("userId", userId);
+        cookie.setMaxAge(1209600);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return "login succeed";
+    }
+
+    private String classify(User user) {
         if(user instanceof Publisher) {
             return "redirect:/publisherPage/publish";
         }else if(user instanceof Worker){
@@ -92,13 +117,26 @@ public class UserController {
         }
     }
 
+    @PostMapping("/logout")
+    @ResponseBody
+    public String logout(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        if(!session.isNew()) {
+            session.invalidate();
+            return "success";
+        }else{
+            return "false";
+        }
+    }
+
     @GetMapping("/modify")
 //    @ApiOperation(value="访问修改信息页面",notes="一定要根据账号密码做身份验证，否则可能会修改到别的用户的数据！")
     public String visitModifyPage(Model model,
                                   @RequestParam(value="id",required=true)String id,
                                   @RequestParam(value="pw",required=true)String pw){
 
-        User user=userService.getUser(id);
+        User user=userService.getUser(Long.parseLong(id));
         model.addAttribute("user", user);
 //        if(user.getPw().equals(pw))
 //            return "workSpace";
@@ -117,19 +155,28 @@ public class UserController {
     }
 
     @GetMapping("/userDetail/{userId}")
-    public String userPage(@PathVariable("userId") String userId){
-        User user=userService.getUser(userId);
-        if (user instanceof Publisher) {
-            return "user/publisherDetail";
-        }else{
-            return "user/workerDetail";
+    public String userPage(@PathVariable("userId") String username/*这个参数后面可以删掉了*/) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+        if (userId != null) {
+            //已登录
+            User user = userService.getUser(Long.parseLong(userId));
+            if (user instanceof Publisher) {
+                return "user/publisherDetail";
+            } else {
+                return "user/workerDetail";
+            }
+        } else {
+            //如果未登录返回登录页面
+            return "redirect:/user/login";
         }
     }
 
     @PostMapping("/userDetail/{userId}")
     @ResponseBody
     public String userDetail(@PathVariable("userId") String userId){
-        User user=userService.getUser(userId);
+        User user=userService.getUser(Long.parseLong(userId));
         String result="{";
         if (user instanceof Publisher){
             result+="\"userType\":\"publisher\",";

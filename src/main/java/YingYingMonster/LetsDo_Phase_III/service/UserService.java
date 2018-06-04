@@ -2,19 +2,20 @@ package YingYingMonster.LetsDo_Phase_III.service;
 
 import java.util.List;
 
-import YingYingMonster.LetsDo_Phase_III.model.User;
+import YingYingMonster.LetsDo_Phase_III.entity.User;
 
 public interface UserService {
-	
+
+	@Deprecated
 	public boolean userExist(String id);
 
-	public boolean register(User user);
+	public User register(User user);
 	
-	public User login(String id,String pw);
+	public User login(long id,String pw);
 	
 	public User modify(User user);
 	
-	public User getUser(String id);
+	public User getUser(long id);
 	
 	/**
 	 * 根据用户昵称搜索用户，支持模糊查询
@@ -22,7 +23,7 @@ public interface UserService {
 	 * @param name
 	 * @return
 	 */
-	public List<User>findUsers(String name);
+	public List<User>findUsersByName(String name);
 	
 	/**
 	 * 专门处理金融事务，如充值，付款，提款
@@ -31,7 +32,12 @@ public interface UserService {
 	 * @param money(signed long)
 	 * @return
 	 */
-	public User financeTransaction(String userId,long money);
+	public User financeTransaction(long userId,long money);
 
-	public int getActiveUserNum();
+	/**
+	 * 根据user对象的string类型属性进行模糊查找:name email intro
+	 * @param attr
+	 * @return
+	 */
+	public List<User> findByStringAttr(String attr);
 }

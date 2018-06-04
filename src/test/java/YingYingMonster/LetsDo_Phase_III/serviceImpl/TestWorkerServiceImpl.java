@@ -1,4 +1,4 @@
-package YingYingMonster.LetsDo_Phase_II.serviceImpl;
+package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import static org.junit.Assert.*;
 
@@ -46,12 +46,23 @@ public class TestWorkerServiceImpl {
 		});
 	}
 	
-	@Test
+//	@Test
 	public void viewAllProjects() throws FileNotFoundException, ClassNotFoundException, IOException {
 		setUp();
 		List<String>list=wkService.viewAllProjects();
 		assertEquals("pig",list.get(0));
 		tearDown();
+	}
+	
+	@Test
+	public void viewMyPj(){
+		List<String>list1=wkService.viewMyProjects("161250103");
+		List<String>list2=wkService.viewFinishedPj("161250103");
+		List<String>list3=wkService.viewUnfinishedPj("161250103");
+		
+		assertEquals(1,list1.size());
+		assertEquals(0,list2.size());
+		assertEquals(1,list3.size());
 	}
 
 }

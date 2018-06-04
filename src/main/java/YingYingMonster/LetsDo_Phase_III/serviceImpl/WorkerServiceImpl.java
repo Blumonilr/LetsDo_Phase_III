@@ -2,6 +2,8 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +15,7 @@ import YingYingMonster.LetsDo_Phase_III.dao.WorkerDAO;
 import YingYingMonster.LetsDo_Phase_III.model.Data;
 import YingYingMonster.LetsDo_Phase_III.model.Project;
 import YingYingMonster.LetsDo_Phase_III.model.Tag;
+import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
 import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 
 @Component
@@ -195,6 +198,12 @@ public class WorkerServiceImpl implements WorkerService {
 			e.printStackTrace();
 		}
 		return flag;
+	}
+
+	@Override
+	public TagRequirement getPjTagRequirement(String pubid, String pjid) {
+		// TODO Auto-generated method stub
+		return getAProject(pubid, pjid).getTagRequirement();
 	}
 
 }

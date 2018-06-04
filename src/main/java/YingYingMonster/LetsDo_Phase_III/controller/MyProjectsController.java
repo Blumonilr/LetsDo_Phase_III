@@ -54,17 +54,11 @@ public class MyProjectsController {
         	    TagRequirement requirement = project.getTagRequirement();
         	    String description = "";
         	    switch(requirement.getMarkMode()) {
-        	        case ENTIRETY:	
-        	        	description = "整体描述项目"+'\n';
-        	        	break;
-        	        case TAGS:
-           	        	description = "标签描述项目"+'\n';
+					case SQUARE:
+        	        	description = "框选项目"+'\n';
         	        	break;
         	        case AREA:
            	        	description = "区域覆盖标注项目"+'\n';
-        	        	break;
-        	        case RECTANGLE:
-          	        	description = "部分圈选项目"+'\n';
         	        	break;
         	        }
         		res = res+"_"+ description+"_"+progress;
@@ -89,21 +83,13 @@ public class MyProjectsController {
         TagRequirement requirement = project.getTagRequirement();
         String type = "";
         switch(requirement.getMarkMode()) {
-        case ENTIRETY:
-        	type="total";
-        	description = "整体描述"+'\n';
-        	break;
-        case TAGS:
-        	type="tips";
-        	description = "标签描述"+'\n';
+			case SQUARE:
+        	type="square";
+        	description = "框选"+'\n';
         	break;
         case AREA:
         	type="area";
         	description = "区域覆盖标注"+'\n';
-        	break;
-        case RECTANGLE:
-        	type="mark";
-        	description = "部分圈选"+'\n';
         	break;
         }
         

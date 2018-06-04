@@ -1,6 +1,4 @@
-package YingYingMonster.LetsDo_Phase_II.serviceImpl;
-
-import static org.junit.Assert.*;
+package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,8 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import YingYingMonster.LetsDo_Phase_III.dao.MockDB;
-import YingYingMonster.LetsDo_Phase_III.dao.UserDAO;
-import YingYingMonster.LetsDo_Phase_III.daoImpl.UserDAOImpl;
 import YingYingMonster.LetsDo_Phase_III.model.Persistent;
 import YingYingMonster.LetsDo_Phase_III.model.User;
 import YingYingMonster.LetsDo_Phase_III.model.Worker;
@@ -43,9 +39,9 @@ public class TestRankServiceImpl {
 		Worker w2=new Worker("id2", "name2", "pw2", null, null, 0, 1, 123, 0, 0);
 		Worker w3=new Worker("id3", "name3", "pw3", null, null, 0, 0, 100, 0, 0);
 		
-		usrsv.register(w1);
-		usrsv.register(w2);
-		usrsv.register(w3);
+//		usrsv.register(w1);
+//		usrsv.register(w2);
+//		usrsv.register(w3);
 		System.out.println("set up");
 	}
 	

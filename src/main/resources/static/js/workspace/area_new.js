@@ -2,7 +2,9 @@
  * 为区域标注提供加载requirement和提交标记的服务
  */
 
-function setRequirement(){
+var requirement_hide = false;
+
+function set_requirement(){
 	//加载要求
 	var projectId = getCookie("projectId");
 	var publisherId = getCookie("publisherId");
@@ -15,7 +17,7 @@ function setRequirement(){
 	});
 }
 
-function submitTag(){
+function submit_tag(){
 	//提交标签
 	//这种标记只有图片没有标签
 	var type = "area";
@@ -23,38 +25,48 @@ function submitTag(){
 	var projectId = getCookie("projectId");
 	var publisherId = getCookie("publisherId");
 	var pictureId = getCookie("pictureId");
-	var remark = "";
+	var remark = get_xml_string();
 	var width = getCookie("pictureWidth");
 	var height = getCookie("pictureHeight");
 	var canvas = document.getElementById("penal");
 	var tag = canvas.toDataURL("image/png");
 	var base64 = tag.substring(22);
 
-	$.ajax({
-		url: "/workspace/submit/"+type+"/"+userId+"/"+projectId+"/"+publisherId+"/"+pictureId,
-		type: "post",
-		data: {
-			'base64' : base64,
-			'remark' : remark,
-			'width' : width,
-			'height' : height,
-		},
-		success: function(){
-			alert("上传成功");
-			clearCanvas();
-			getNewPicture();//这个方法在getPicture.js里面
-		}
-	});
+	var url = "/workspace/submit/"+type+"/"+userId+"/"+projectId+"/"+publisherId+"/"+pictureId;
+
+	if(remark === ""){
+		//未填写完成
+		alert("填写不完整！")
+	}
+	else{
+        $.ajax({
+            url: url,
+            type: "post",
+            data: {
+                'base64' : base64,
+                'remark' : remark,
+                'width' : width,
+                'height' : height,
+            },
+            success: function(){
+                alert("上传成功");
+                getNewPicture();//这个方法在getPicture.js里面
+                prepare_for_next_picture();//这个方法在canvas_new_area.js里
+            }
+        });
+	}
+
+
 }
 
-function submitTag_edit(){
+function submit_tag_edit(){
 	//提交修改的标记
 	var type = "area";
 	var userId = getCookie("userId");
 	var projectId = getCookie("projectId");
 	var publisherId = getCookie("publisherId");
 	var pictureId = getCookie("pictureId");
-	var remark = "";
+	var remark = get_xml_string();
 	var width = getCookie("pictureWidth");
 	var height = getCookie("pictureHeight");
 	var canvas = document.getElementById("penal");
@@ -77,7 +89,7 @@ function submitTag_edit(){
 	});
 }
 
-function setPreviousTag(){
+function set_previous_tag(){
 	//设置以前的图片
 	var userId = getCookie("userId");
 	var projectId =getCookie("projectId");
@@ -114,7 +126,17 @@ function preImage(url , callback){
 	}
 }
 
-function clearCanvas(){
-	//清空画板
-	clearAllMark();//这个方法在canvas.js里
+/**
+ * 显示要求
+ */
+function hide_show_requirement(){
+
+	if(requirement_hide){
+        $("#requirementArea").show();
+        requirement_hide = false;
+	}
+	else{
+        $("#requirementArea").hide();
+        requirement_hide = true;
+	}
 }

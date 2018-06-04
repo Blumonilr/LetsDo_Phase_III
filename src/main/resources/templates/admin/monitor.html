@@ -157,7 +157,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -225,6 +225,9 @@
                                 <br/>
                                 <tr>
                                     <td><span style="font-size: 20px">项目总数:</span><span id="projectNum">25</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span style="font-size: 20px">在线活跃人数:</span><span id="onlineUser">25</span></td>
                                 </tr>
                             </table>
                         </div>
@@ -310,6 +313,7 @@
                     var project=JSON.parse(data);
                     $("#userNum").text(project.userNum);
                     $("#projectNum").text(project.projectNum);
+                    $("#onlineUser").text(project.onlineUser);
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown) {
                     alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);

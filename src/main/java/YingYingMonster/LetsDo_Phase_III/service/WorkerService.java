@@ -5,6 +5,7 @@ import java.util.List;
 import YingYingMonster.LetsDo_Phase_III.model.Data;
 import YingYingMonster.LetsDo_Phase_III.model.Project;
 import YingYingMonster.LetsDo_Phase_III.model.Tag;
+import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
 
 public interface WorkerService {
 
@@ -54,5 +55,7 @@ public interface WorkerService {
 	 * @return
 	 */
 	public boolean isPjFinished(String wkId,String pjKey);
+	
+	public TagRequirement getPjTagRequirement(String pubid,String pjid);
 	
 }

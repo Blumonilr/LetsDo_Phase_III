@@ -18,14 +18,20 @@ spring:
   servlet:
     multipart:
       max-file-size: 10240MB
-      max-request-size: 10240MB    
-  
+      max-request-size: 10240MB
+
   datasource:
-    url: jdbc:mysql://localhost:3306/letsdo?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://localhost:3306/letsdo?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
+<<<<<<< HEAD
     password: 123456789
     driver-class-name: com.mysql.jdbc.Driver 
   
+=======
+    password: 31415926
+    driver-class-name: com.mysql.jdbc.Driver
+
+>>>>>>> caa2b40c6d69bfa410a53119e8f0372c0e3905a3
   jpa:
     database: MYSQL
     show-sql: true
@@ -33,12 +39,17 @@ spring:
       ddl-auto: update
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-    
+
     properties:
-      hibernate: 
+      hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
           
 server:
   port: 8081
   max-http-header-size: 1048576
+
+
+
+
+
 

@@ -37,11 +37,8 @@ function uploadDataSet() {
     formData.append("userId",userId);
     formData.append("projectId",projectId);
     formData.append("maxWorkerNum",maxWorkerNum);
-    formData.append("packageNum",packageNum);
-    formData.append("picNum",picNum);
     formData.append("startDate",startDate);
     formData.append("endDate",endDate);
-    formData.append("tags",tags);
     formData.append("markMode",markMode);
     formData.append("tagRequirement",tagRequirement);
     formData.append("levelLimit",levelLimit);
