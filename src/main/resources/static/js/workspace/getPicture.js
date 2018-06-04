@@ -78,16 +78,20 @@ function getNewPictureId(){
 		async:false, //同步
 		success: function(data){
 			id = data;
-			
 		}
 	});
 	return id;
 }
 
 function setCssBackground(url){
-	//图片放入url以后,用css加载为背景
-//	alert("url "+url);
+	//图片放入url以后,用css加载为背
+	// alert("begin");
 	$("#penal").css("background-image", "url('"+url+"')");
+	//修改canvas大小
+	var canvas = document.getElementById("penal");
+    canvas.height = getCookie("pictureHeight");
+    canvas.width = getCookie("pictureWidth");
+   // alert("Done");
 }
 
 function refreshProgress(){

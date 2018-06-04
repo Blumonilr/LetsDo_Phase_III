@@ -1,6 +1,5 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Iterator;
@@ -35,6 +34,33 @@ public class PublisherServiceImpl implements PublisherService {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		int[]res = null;
+		try {
+			res=dtDao.uploadDataSet(project.getPublisherId(), project.getProjectId(),
+					project.getPackageNum(), bytes);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		System.out.println("picNum = "+res[0]+" packNum = "+res[1]);
+		
+		if(res[0]<=0){
+			dtDao.deleteDir(project.getPublisherId(), project.getProjectId());
+			return false;
+		}
+		project.setPicNum(res[0]);
+		if(res[0]<project.getPackageNum())
+			project.setPackageNum(res[0]);
+		else
+			project.setPackageNum(res[1]);
+		project.setPkgs();
+		
+		try {
+			pjDao.addProject(project);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			if(!dtDao.addDate(project.getStartDate(), project.getEndDate(), project.getPublisherId(), project.getProjectId())){
 				return false;
@@ -42,27 +68,6 @@ public class PublisherServiceImpl implements PublisherService {
 		} catch (ParseException e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
-		}
-		int num=0;
-		try {
-			num=dtDao.uploadDataSet(project.getPublisherId(), project.getProjectId(),
-					project.getPackageNum(), bytes);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(num<=0){
-			dtDao.deleteDir(project.getPublisherId(), project.getProjectId());
-			return false;
-		}
-		project.setPicNum(num);
-		if(num<project.getPackageNum())
-			project.setPackageNum(num);
-		try {
-			pjDao.addProject(project);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
 		return true;
 	}
