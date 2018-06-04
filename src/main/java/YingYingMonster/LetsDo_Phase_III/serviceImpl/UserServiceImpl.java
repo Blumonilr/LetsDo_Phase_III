@@ -3,6 +3,7 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 import java.io.IOException;
 import java.util.List;
 
+import YingYingMonster.LetsDo_Phase_III.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserDAO userDao;
+	@Autowired
+	UserRepository userRepository;
 	
 	@Override
 	public boolean register(User user) {
