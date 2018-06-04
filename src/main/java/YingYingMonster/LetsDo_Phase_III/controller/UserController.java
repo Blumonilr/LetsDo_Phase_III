@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import YingYingMonster.LetsDo_Phase_III.exception.LoginFailException;
 import YingYingMonster.LetsDo_Phase_III.model.Publisher;
-import YingYingMonster.LetsDo_Phase_III.model.User;
+import YingYingMonster.LetsDo_Phase_III.entity.User;
 import YingYingMonster.LetsDo_Phase_III.model.Worker;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
