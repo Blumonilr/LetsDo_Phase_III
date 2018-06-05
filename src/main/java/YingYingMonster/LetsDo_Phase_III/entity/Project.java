@@ -1,5 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
+import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,6 +13,8 @@ public class Project {
     @Id
     @GeneratedValue
     private long id;
+
+    private MarkMode type;
 
     private long publisherId;
     private String projectId;//发布者id，项目id
@@ -26,7 +30,7 @@ public class Project {
 
     private int money;//任务赏金
 
-    public Project(long publisherId, String projectId, int currWorkerNum, int picNum, int maxNumPerPic, int minNumPerPic, String startDate, String endDate, String tagRequirement, String workerRequirement, int money) {
+    public Project(long publisherId, String projectId, int currWorkerNum, int picNum, int maxNumPerPic, int minNumPerPic, String startDate, String endDate, String tagRequirement, String workerRequirement, int money,MarkMode type) {
         this.publisherId = publisherId;
         this.projectId = projectId;
         this.currWorkerNum = currWorkerNum;
@@ -38,6 +42,7 @@ public class Project {
         this.tagRequirement = tagRequirement;
         this.workerRequirement = workerRequirement;
         this.money = money;
+        this.type=type;
     }
 
     public Project() {
@@ -133,5 +138,17 @@ public class Project {
 
     public long getId() {
         return id;
+    }
+
+    public MarkMode getType() {
+        return type;
+    }
+
+    public void setType(MarkMode type) {
+        this.type = type;
+    }
+
+    public String toString(){
+        return String.format("Project[id=%d , projectId=%s , publisherId=%d]", id,projectId,publisherId);
     }
 }
