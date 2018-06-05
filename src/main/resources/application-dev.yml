@@ -23,15 +23,9 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/letsdo?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-<<<<<<< HEAD
     password: 123456789
-    driver-class-name: com.mysql.jdbc.Driver 
-  
-=======
-    password: 31415926
     driver-class-name: com.mysql.jdbc.Driver
 
->>>>>>> caa2b40c6d69bfa410a53119e8f0372c0e3905a3
   jpa:
     database: MYSQL
     show-sql: true

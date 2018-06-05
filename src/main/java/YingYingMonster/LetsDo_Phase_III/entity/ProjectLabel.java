@@ -1,8 +1,27 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
-public class ProjectLabel {
-    long Id;//继承
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("PROL")
+public class ProjectLabel extends Label{
 
     long projectId;
-    String name;
+
+    public ProjectLabel(String name, long projectId) {
+        super(name);
+        this.projectId = projectId;
+    }
+
+    public ProjectLabel() {
+    }
+
+    public long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
+    }
 }
