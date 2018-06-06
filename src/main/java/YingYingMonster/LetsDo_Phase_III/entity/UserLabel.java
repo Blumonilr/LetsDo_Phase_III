@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 public class UserLabel extends Label{
 
     long userId;
+
     double accuracy;
     double efficiency;
     int labelHistory;
