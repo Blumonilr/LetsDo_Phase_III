@@ -10,6 +10,14 @@ var color_list = ["coral","palegreen","yellow","pink","skyblue","gold","ivory","
 var global_mark_ptr;
 var place_holder = "--------";
 
+
+var supervise_delete_time = 0;
+var supervise_click_time = 0;
+var supervise_start_time;
+var supervise_end_time;
+var supervise_total_points = 0; //添加的点的数量
+
+
 //一个标记对应pointlistlist，colorlist,tiplist里相同下表的一组点
 
 /**
@@ -39,6 +47,8 @@ function add_point(x,y){
         var p1 = point_list[point_list.length-2];
         draw_a_line(p1[0],p1[1],p[0],p[1]);
     }
+
+    supervise_total_points++;
 }
 
 
@@ -148,6 +158,8 @@ function delete_a_tip(that){
     is_deleted_list[num] = true;
     is_submitted_list[num] = true;
     print_all_exist_obj();
+
+    supervise_delete_time++;
 }
 
 /**
@@ -211,12 +223,16 @@ function draw_back(){
     print_all_exist_obj();
 
     global_mark_ptr.draw_begin = false;
+
+   // supervise_delete_time++;
 }
 
 Mark.prototype.init = function(){//初始化
     'use strict';
     var self = this;
     global_mark_ptr = this;
+    var date = new Date();
+    supervise_start_time  = date.getTime();
 
     this.tools.addEventListener('click', function(event){//工具栏点击事件
         $(".tools").css("border-style","hidden");
@@ -262,6 +278,8 @@ Mark.prototype.init = function(){//初始化
 
         }
 
+        supervise_click_time++;
+
     },false);
 
     this.penal.addEventListener("mousemove",function(event){//鼠标移动
@@ -287,6 +305,12 @@ function clear_all(){
  * 生成格式化的标注string
  */
 function get_xml_string(){
+
+    var res = auto_submit_tips();
+    if(!res){
+        return "";
+    }
+
     var s1 = "<projectId>"+getCookie("projectId")+"</projectId>\n";
     var s2 = "<publisherId>"+getCookie("publisherId")+"</publisherId>\n";
     var s3 = "<userId>"+getCookie("userId")+"</userId>\n";
@@ -299,7 +323,7 @@ function get_xml_string(){
 
     var num = tip_list.length;
     for(let i=0;i<num;i++){
-        if(!is_submitted_list[i]){
+        if(!is_submitted_list[i] && !is_deleted_list[i]){
             //未提交文字
             alert("第"+(i+1)+"个标记未提交描述");
             return "";//未完成
@@ -330,19 +354,60 @@ function get_xml_string(){
                     +color
                     +tags
                     +"        </object>\n";
+
+                s_objs = s_objs + s_obj;
             }
-            s_objs = s_objs + s_obj;
+
         }
     }
 
     s_objs = s_objs + "</objects>";
 
-    var final_s = s1 + s2 + s3 + s4 + s5 + s_objs;
+    //supervise  begin
+    var date = new Date();
+    supervise_end_time = date.getTime();
+    var work_time = (supervise_end_time - supervise_start_time) / 1000;//秒数
+    var supervise_str = "<supervise>\n"+
+                        "    <time>"+work_time+"</time>\n"+
+                        "    <click>"+supervise_click_time+"</click>\n"+
+                        "    <delete>"+supervise_delete_time+"</delete>\n"+
+                        "    <points>"+supervise_total_points+"</points>\n"+
+                        "</supervise>\n";
+
+
+    //supervise   end
+
+    var final_s = s1 + s2 + s3 + s4 + s5 +supervise_str+ s_objs;
     return final_s;
 }
 
 function auto_submit_tips(){
 
+    var str = "名称_牛_羊_猪,年龄_幼_壮_老";
+    var strs = str.split(",");
+
+    var total_num = tip_list.length;
+    for(let index=0;index<total_num;index++){
+        if(!is_deleted_list[index]){
+            var result_list = [];
+            for(let i=0;i<strs.length;i++){
+                var title = strs[i].split("_")[0];
+                var select_id = "select_"+index+"_"+title;
+                var tip = $("#"+select_id).val();
+                if(tip === place_holder){
+                    //未填写
+                    return false;
+                }
+                else{
+                    var result = title+"_"+tip;
+                    result_list.push(result);
+                }
+            }
+            tip_list[index] = result_list;
+            is_submitted_list[index] = true;
+        }
+    }
+    return true;
 }
 
 /**
@@ -354,6 +419,15 @@ function prepare_for_next_picture(){
     is_submitted_list = [];//用来记录用户是否提交了文字
     point_list = [];//记录用户描的点
     tip_list = [];//记录用户的输入
+
+    supervise_delete_time = 0;
+    supervise_click_time = 0;
+    supervise_start_time = 0;
+    var date = new Date();
+    supervise_start_time = date.getTime();
+    supervise_total_points = 0; //添加的点的数量
+
+
     $("#tipInput").empty();
     clear_all();
 }

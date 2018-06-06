@@ -14,14 +14,14 @@ spring:
         content:
           enabled: true
           paths: /**
-          
+
   servlet:
     multipart:
       max-file-size: 10240MB
       max-request-size: 10240MB
 
   datasource:
-    url: jdbc:mysql://localhost:3306/letsdo?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/letsDo?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 31415926
     driver-class-name: com.mysql.jdbc.Driver
@@ -37,13 +37,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
-          
+
 server:
   port: 8081
   max-http-header-size: 1048576
-
-
-
-
-
-
