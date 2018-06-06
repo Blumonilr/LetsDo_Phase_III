@@ -1,0 +1,39 @@
+stages:
+  - build
+  - test
+  - deploy
+
+job1:
+  stage: build
+  script:
+    - chmod +x mvnw
+    - ./mvnw clean compile
+  only:
+    - branches
+
+job2:
+  stage: test
+  script:
+    - chmod +x mvnw
+    - ./mvnw test
+  allow_failure: true
+  only:
+    - branches
+
+jon3:
+  stage: deploy
+  script:
+    - chmod +x mvnw
+    - ./mvnw package
+    - mkdir /home/YingYingMonster/deploy
+    - cp ./stop.sh /home/YingYingMonster/deploy/stop.sh
+    - cp ./startup.sh /home/YingYingMonster/deploy/startup.sh
+    - cp target/LetsDo_Phase_III-0.0.1-SNAPSHOT.jar /home/YingYingMonster/deploy/LetsDo_Phase_III.jar
+    - chmod +x /home/YingYingMonster/deploy/stop.sh
+    - chmod +x /home/YingYingMonster/deploy/startup.sh
+    - chmod +x /home/YingYingMonster/deploy/LetsDo_Phase_III.jar
+    - /home/YingYingMonster/deploy/stop.sh
+    - BUILD_ID=dontkillme
+    - nohup /home/YingYingMonster/deploy/startup.sh &
+  only:
+    - master
