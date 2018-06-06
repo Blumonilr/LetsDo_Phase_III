@@ -92,4 +92,6 @@ public class Image {
     public void setTest(boolean test) {
         isTest = test;
     }
+
+    public String toString(){ return String.format("Image[id=%d , projectId=%s , isFinished=%s, isTest=%s]", id,projectId,isFinished,isTest); }
 }

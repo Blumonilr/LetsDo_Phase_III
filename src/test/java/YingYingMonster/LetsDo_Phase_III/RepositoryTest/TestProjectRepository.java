@@ -50,4 +50,9 @@ public class TestProjectRepository {
         System.out.println(pr.findById(18));
         System.out.println(pr.findById(19));
     }
+
+    @Test
+    public void testover(){
+        pr.deleteAll();
+    }
 }
