@@ -15,6 +15,9 @@ public class Tag {
 
     private long imageId;
 
+    private byte[] data;//图片
+    private String xmlFile;//xml文档
+
     public long getId() {
         return id;
     }
@@ -56,7 +59,5 @@ public class Tag {
     }
 
     //    MarkMode type;
-    private byte[] data;//图片
-    private String xmlFile;//xml文档
 
 }
