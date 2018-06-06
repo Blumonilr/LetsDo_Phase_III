@@ -22,26 +22,6 @@ function getProjectList(){
 	});
 }
 
-function viewMore(that){
-	//查看项目详情，待完善
-	var id = that.id;
-	alert(id);
-}
-
-function fork(that){
-	var id = that.id;
-	var publisherId = id.split("_")[0];
-	var projectId = id.split("_")[1];
-	var userId = getCookie("userId");
-	
-	$.ajax({
-		url: "/market/fork/"+userId+"/"+publisherId+"/"+projectId,
-		type: "get",
-		success: function(data){
-			alert(data);
-		}
-	});
-}
 
 function addProject(publisherId, projectId,startDate,endDate,type,workerLevel){
 	var number = 1;//随机确定一张图片
@@ -57,7 +37,7 @@ function addProject(publisherId, projectId,startDate,endDate,type,workerLevel){
 							"<p>"+"开始时间: "+startDate+"</p>"+
 							"<p>"+"结束时间: "+endDate+"</p>"+
 		                    "<div class='social-touch'>"+
-		                    	"<img class='moreicon' src='/pic/market/more.png' id='"+publisherId+"_"+projectId+"' alt='了解更多' onClick='fork(this)'>"+
+		                    	"<img class='moreicon' src='/pic/market/more.png' id='"+publisherId+"_"+projectId+"' alt='了解更多' onClick='view_detail(this)'>"+
 		                    "</div>"+
 		                "</div>"+
 		           "</div>";
@@ -67,6 +47,17 @@ function addProject(publisherId, projectId,startDate,endDate,type,workerLevel){
 	
 }
 
+function view_detail(that){
+	var id = that.id;
+	var pubid = id.split("_")[0];
+	var pjid = id.split("_")[1];
+
+	setCookie("publisherId", pubid);
+	setCookie("projectId", pjid);
+
+	window.location.href = "market/detail";
+   
+}
 
 
 
