@@ -39,9 +39,9 @@ public class TestRankServiceImpl {
 		Worker w2=new Worker("id2", "name2", "pw2", null, null, 0, 1, 123, 0, 0);
 		Worker w3=new Worker("id3", "name3", "pw3", null, null, 0, 0, 100, 0, 0);
 		
-		usrsv.register(w1);
-		usrsv.register(w2);
-		usrsv.register(w3);
+//		usrsv.register(w1);
+//		usrsv.register(w2);
+//		usrsv.register(w3);
 		System.out.println("set up");
 	}
 	

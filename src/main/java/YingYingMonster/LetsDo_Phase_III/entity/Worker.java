@@ -14,7 +14,8 @@ public class Worker extends User {
 	public Worker() {
 	}
 
-	public Worker(String name, String pw, String email, String intro, long money, int level, int exp, int tagNum, int passedTagNum) {
+	public Worker(String name, String pw, String email, String intro, long money,
+				  int level, int exp, int tagNum, int passedTagNum) {
 
 		super(name, pw, email, intro, money);
 		this.level = level;

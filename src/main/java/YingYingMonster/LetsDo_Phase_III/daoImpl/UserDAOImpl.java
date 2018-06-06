@@ -88,4 +88,9 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 	}
 
+	@Override
+	public int getActiveUserNum() {
+		return 10;
+	}
+
 }

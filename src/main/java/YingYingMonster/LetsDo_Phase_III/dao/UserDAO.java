@@ -38,5 +38,6 @@ public boolean register(User user) throws FileNotFoundException, IOException;
 	 */
 	public User financeTransaction(String userId,long money) throws FileNotFoundException, 
 		ClassNotFoundException, IOException;
-	
+
+	public int getActiveUserNum();
 }

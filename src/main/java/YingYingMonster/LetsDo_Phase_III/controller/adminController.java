@@ -1,5 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,8 @@ import java.io.IOException;
 public class adminController {
     @Autowired
     AdminService adminService;
+    @Autowired
+    UserService userService;
 
     //管理员界面
     @GetMapping("/")
@@ -42,14 +45,16 @@ public class adminController {
     public String systemInfo(){
         int userNum= 0;
         int projectNum= 0;
+        int onlineUser=0;
         try {
             userNum = adminService.viewUserNum();
             projectNum = adminService.viewProjectNum();
+            onlineUser=0;//方法没了,先写死掉
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "{\"userNum\":\""+Integer.toString(userNum)+"\","+"\"projectNum\":\""+Integer.toString(projectNum)+"\"}";
+        return "{\"userNum\":\""+Integer.toString(userNum)+"\","+"\"projectNum\":\""+Integer.toString(projectNum)+"\","+"\"onlineUser\":\""+Integer.toString(onlineUser)+"\"}";
     }
 }

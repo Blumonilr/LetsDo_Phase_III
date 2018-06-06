@@ -6,13 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import YingYingMonster.LetsDo_Phase_III.exception.LoginFailException;
-import YingYingMonster.LetsDo_Phase_III.model.Publisher;
-import YingYingMonster.LetsDo_Phase_III.model.User;
-import YingYingMonster.LetsDo_Phase_III.model.Worker;
+import YingYingMonster.LetsDo_Phase_III.entity.*;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -43,33 +40,25 @@ public class UserController {
     }
 
     @PostMapping("/publisherSignUp")
-//    @ApiOperation(value = "注册新用户，注册成功后跳转至登录界面；失败则返回注册界面，显示错误信息")
-    public String publisherRegister(@RequestParam("userId")String userId
-            ,@RequestParam("password")String password
+    public String publisherRegister(@RequestParam("password")String password
             ,@RequestParam("nickName")String nickName){
         Publisher publisher=new Publisher();
-        publisher.setId(userId);
         publisher.setName(nickName);
         publisher.setPw(password);
-        if(userService.register(publisher))
-            return "redirect:/user/login";
-        else
-            return "user/publisherSignUp";
+        publisher=(Publisher) userService.register(publisher);
+        //这里应当进行帐号展示
+        return "redirect:/user/login";
     }
 
     @PostMapping("/workerSignUp")
-//    @ApiOperation(value = "注册新用户，注册成功后跳转至登录界面；失败则返回注册界面，显示错误信息")
-    public String workerRegister(@RequestParam("userId")String userId
-            ,@RequestParam("password")String password
+    public String workerRegister(@RequestParam("password")String password
             ,@RequestParam("nickName")String nickName){
         Worker worker=new Worker();
-        worker.setId(userId);
         worker.setName(nickName);
         worker.setPw(password);
-        if(userService.register(worker))
-            return "redirect:/user/login";
-        else
-            return "user/workerSignUp";
+        worker=(Worker)userService.register(worker);
+        //这里应当进行帐号展示
+        return "redirect:/user/login";
     }
 
     @GetMapping("/login")
@@ -80,7 +69,7 @@ public class UserController {
         String userId=(String)session.getAttribute("userId");
         User user=null;
         if(userId!=null){
-            user=userService.getUser(userId);
+            user=userService.getUser(Long.parseLong(userId));
             return classify(user);
         } else {
             //如果未登录返回登录页面
@@ -98,7 +87,7 @@ public class UserController {
             ,@RequestParam("password")String password) {
         User user = null;
         try {
-            user = userService.login(userId, password);
+            user = userService.login(Long.parseLong(userId), password);
         } catch (LoginFailException e) {
             return "login failed";
         }
@@ -147,7 +136,7 @@ public class UserController {
                                   @RequestParam(value="id",required=true)String id,
                                   @RequestParam(value="pw",required=true)String pw){
 
-        User user=userService.getUser(id);
+        User user=userService.getUser(Long.parseLong(id));
         model.addAttribute("user", user);
 //        if(user.getPw().equals(pw))
 //            return "workSpace";
@@ -172,7 +161,7 @@ public class UserController {
         String userId = (String) session.getAttribute("userId");
         if (userId != null) {
             //已登录
-            User user = userService.getUser(userId);
+            User user = userService.getUser(Long.parseLong(userId));
             if (user instanceof Publisher) {
                 return "user/publisherDetail";
             } else {
@@ -187,7 +176,7 @@ public class UserController {
     @PostMapping("/userDetail/{userId}")
     @ResponseBody
     public String userDetail(@PathVariable("userId") String userId){
-        User user=userService.getUser(userId);
+        User user=userService.getUser(Long.parseLong(userId));
         String result="{";
         if (user instanceof Publisher){
             result+="\"userType\":\"publisher\",";
