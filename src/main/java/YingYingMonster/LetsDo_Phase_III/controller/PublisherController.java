@@ -1,5 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -7,10 +8,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
-import YingYingMonster.LetsDo_Phase_III.model.Project;
-import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
-import YingYingMonster.LetsDo_Phase_III.model.WorkerRequirement;
+import YingYingMonster.LetsDo_Phase_III.entity.*;
 import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,27 +42,26 @@ public class PublisherController {
     public String createProject(@RequestParam(value = "file")MultipartFile dataSet,
                                 @RequestParam ("userId") String publisherId,
                                 @RequestParam("projectId")String projectId,
-                                @RequestParam("maxWorkerNum")String maxWorkerNum,
+                                @RequestParam("maxNumPerPic")String maxNumPerPic,
+                                @RequestParam("minNumPerPic")String minNumPerPic,
                                 @RequestParam("startDate")String startDate,
                                 @RequestParam("endDate")String endDate,
                                 @RequestParam("markMode")String markMode,
                                 @RequestParam("tagRequirement")String tagRequirement,
                                 @RequestParam("levelLimit")String levelLimit,
-                                @RequestParam("gradesLimit")String gradeLimit,
+                                @RequestParam("testAccuracy")String testAccuracy,
                                 @RequestParam("money")String money){
         System.out.println("进入了方法");
-        TagRequirement tagRequire=null;
+        MarkMode type=null;
         if(markMode.equals("框选标注")) {
-            tagRequire=new TagRequirement(MarkMode.SQUARE,tagRequirement,Integer.parseInt(gradeLimit));
+            type=MarkMode.SQUARE;
         }else if(markMode.equals("区域标注")){
-            tagRequire=new TagRequirement(MarkMode.AREA,tagRequirement,Integer.parseInt(gradeLimit));
+            type=MarkMode.AREA;
         }
-        WorkerRequirement workerRequire=new WorkerRequirement(Integer.parseInt(levelLimit));
-        int workerNum=Integer.parseInt(maxWorkerNum);
-        int numPackage=0;
-        int numPic=0;
         int payment=Integer.parseInt(money);
-        Project project=new Project(publisherId,projectId,workerNum,numPackage,numPic,startDate,endDate,tagRequire,workerRequire,payment);
+        Project project=new Project(type,Long.parseLong(publisherId),projectId,0,0,
+                Integer.parseInt(maxNumPerPic),Integer.parseInt(minNumPerPic),startDate,endDate,tagRequirement,Integer.parseInt(levelLimit),
+                Double.parseDouble(testAccuracy),payment);
 
         boolean isValid=publisherService.validateProject(publisherId,projectId);
         if(isValid){
