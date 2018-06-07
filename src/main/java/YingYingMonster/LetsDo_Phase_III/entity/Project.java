@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
 import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
+import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 
 import javax.persistence.*;
 
@@ -12,6 +13,9 @@ public class Project {
     private long id;
 
     private MarkMode type;
+
+    @Enumerated(EnumType.STRING)
+    private ProjectState projectState;
 
     private long publisherId;
 
@@ -31,23 +35,31 @@ public class Project {
 
     private int money;//任务赏金
 
-    public Project(MarkMode type, long publisherId, String projectName, int currWorkerNum,
-                   int picNum, int maxNumPerPic, int minNumPerPic, String startDate,
-                   String endDate, String tagRequirement, int workerMinLevel, double testAccuracy,
-                   int money) {
+    @OneToOne
+    @JoinColumn(name = "testProject_id")
+    private TestProject testProject;
+
+    public Project(MarkMode type, long publisherId, String projectName,
+                   int maxNumPerPic, int minNumPerPic, String endDate, String tagRequirement,
+                   int workerMinLevel, double testAccuracy, int money) {
         this.type = type;
         this.publisherId = publisherId;
         this.projectName = projectName;
-        this.currWorkerNum = currWorkerNum;
-        this.picNum = picNum;
         this.maxNumPerPic = maxNumPerPic;
         this.minNumPerPic = minNumPerPic;
-        this.startDate = startDate;
         this.endDate = endDate;
         this.tagRequirement = tagRequirement;
         this.workerMinLevel = workerMinLevel;
         this.testAccuracy = testAccuracy;
         this.money = money;
+    }
+
+    public ProjectState getProjectState() {
+        return projectState;
+    }
+
+    public void setProjectState(ProjectState projectState) {
+        this.projectState = projectState;
     }
 
     public int getWorkerMinLevel() {
@@ -65,10 +77,6 @@ public class Project {
     public void setTestAccuracy(double testAccuracy) {
         this.testAccuracy = testAccuracy;
     }
-
-    @OneToOne
-    @JoinColumn(name = "testProject_id")
-    private TestProject testProject;
 
 
 

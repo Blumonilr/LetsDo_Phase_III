@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
+import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +18,49 @@ public class PublisherServiceImpl implements PublisherService {
 
 
 	@Override
+	public Project createProject(Project project, MultipartFile dataSet) {
+
+		return null;
+	}
+
+	@Override
+	public Project initializeProject(long id) {
+		return null;
+	}
+
+	@Override
+	public TestProject addTestProject(TestProject testProject, MultipartFile multipartFile) {
+		return null;
+	}
+
+	@Override
+	public Project openProject(long id) {
+		return null;
+	}
+
+	@Override
+	public Project closeProject(long id) {
+		return null;
+	}
+
+	@Override
 	public Project getAProject(long projectId) {
 		return null;
 	}
 
 	@Override
-	public boolean createProject(Project project, MultipartFile dataSet) {
-		return false;
-	}
-
-	@Override
-	public boolean validateProject(String publisherId, String projectId) {
-		return false;
+	public List<Project> findProjectByPublisherId(long publisherId) {
+		return null;
 	}
 
 	@Override
 	public List<Project> searchProjects(String keyword) {
 		return null;
+	}
+
+	@Override
+	public boolean validateProject(String publisherId, String projectId) {
+		return false;
 	}
 
 	@Override
