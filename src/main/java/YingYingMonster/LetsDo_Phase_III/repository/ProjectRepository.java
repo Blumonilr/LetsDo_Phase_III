@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.repository;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
+import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
 import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -43,5 +44,10 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     @Transactional(rollbackOn = Exception.class)
     @Query("update Project p set p.picNum = ?2 where p.id =?1")
     public void updatePicNum(long id, int picNum);
+
+    @Modifying
+    @Transactional(rollbackOn = Exception.class)
+    @Query("update Project p set p.testProject =?2 where p.id=?1")
+    public void updateTestProject(long id, TestProject testProject);
 
 }

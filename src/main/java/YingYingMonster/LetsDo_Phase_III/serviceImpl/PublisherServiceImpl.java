@@ -17,6 +17,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -38,10 +42,11 @@ public class PublisherServiceImpl implements PublisherService {
 	public Project createProject(Project project, MultipartFile dataSet) {
         project.setProjectState(ProjectState.setup);
         project.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        project = pjrepository.saveAndFlush(project);
 
-        int picNum=0;
-
+        int picNum = unzipFile(dataSet, project.getId());
         project.setPicNum(picNum);
+
         return pjrepository.saveAndFlush(project);
 	}
 
@@ -64,13 +69,17 @@ public class PublisherServiceImpl implements PublisherService {
         return pjrepository.saveAndFlush(project);
 	}
 
-	@Override
-	public TestProject addTestProject(TestProject testProject, MultipartFile multipartFile) {
-		int picNum=unzipFile(multipartFile,testProject.getProject().getId());
-		testProject.setPicNum(picNum);
-		return tsrepository.saveAndFlush(testProject);
+    @Override
+    public TestProject addTestProject(long publisherId, TestProject testProject, MultipartFile multipartFile) {
 
-	}
+        int picNum = unzipFile(multipartFile, publisherId);
+        testProject.setPicNum(picNum);
+        TestProject testProject1 = tsrepository.saveAndFlush(testProject);
+        pjrepository.updateTestProject(publisherId, testProject1);
+
+        return testProject1;
+
+    }
 
 	@Override
 	public Project openProject(long id) {
