@@ -32,7 +32,6 @@ public class Image {
     public Image() {
     }
 
-
     public long getId() {
         return id;
     }
