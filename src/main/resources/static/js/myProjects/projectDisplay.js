@@ -39,13 +39,9 @@ function loadProjects(){
 		                    "<p> 发布人："+pubid+"</p>"+
 		                    "<div class='social-touch' onClick='chooseProject(this)' id='"+pubid+"_"+pjid+"' >"+
 					             "<img class='pjicons' src='/pic/projects/work.png'></img>"+
-					             "开始工作"+
+					             "查看详情"+
 		                    "</div>"+
-					 		"<div class='viewDone' onClick='viewDone(this)' id='"+pubid+"_"+pjid+"' >"+
-					          "<img class='pjicons' src='/pic/projects/history.png'></img>"+
-					             "修改"+
-							"</div>"+
-					        "<h5>"+progress+" /100  ";
+					        "<h5>"+progress+" %  ";
 					
 		          
 				
@@ -67,29 +63,13 @@ function chooseProject(that){
 	//选择项目开始工作
 	var id = that.id;
 	var ids = id.split("_");//pubid_pjid
-	$.ajax({
-		url: "/myProjects/getProject/"+ids[0]+"/"+ids[1],
-		type: "get",
-		success: function(data){
-			//alert(data);
-			setCookie("projectId", ids[1]);
-			setCookie("publisherId", ids[0]);
-			
-			var datas = data.split(":");//type:requirement
-			setCookie("projectType",datas[0]);
-			
-			setCookie("tipList", datas[1]);
-		
-			setCookie("tipList", "");
-			
-			setCookie("projectRequirement",data[1]);
-	
-			window.location.href="/workspace/"+datas[0];
-		}
-	});
-	
+    setCookie("projectId", ids[1]);
+    setCookie("publisherId", ids[0]);
+
+    window.location.href= "/myProjects/projects/detail";
 }
 
+//抛弃
 function viewDone(that){
 	//进入已经完成的图片界面
 	var id = that.id;

@@ -2,10 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.entity;
 
 import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="projects")
@@ -17,7 +14,8 @@ public class Project {
     private MarkMode type;
 
     private long publisherId;
-    private String projectId;//发布者id，项目id
+
+    private String projectName;//发布者id，项目id
 
     private int currWorkerNum,picNum;//当前人数，图片数
 
@@ -26,13 +24,20 @@ public class Project {
     private String startDate,endDate;//yyyy-MM-dd
 
     private String tagRequirement;//改成String
-    private String workerRequirement;//改成String
+
+    private int workerMinLevel;//worker最低等级
+
+    private double testAccuracy;//测试通过的准确率
 
     private int money;//任务赏金
 
-    public Project(long publisherId, String projectId, int currWorkerNum, int picNum, int maxNumPerPic, int minNumPerPic, String startDate, String endDate, String tagRequirement, String workerRequirement, int money,MarkMode type) {
+    public Project(MarkMode type, long publisherId, String projectName, int currWorkerNum,
+                   int picNum, int maxNumPerPic, int minNumPerPic, String startDate,
+                   String endDate, String tagRequirement, int workerMinLevel, double testAccuracy,
+                   int money) {
+        this.type = type;
         this.publisherId = publisherId;
-        this.projectId = projectId;
+        this.projectName = projectName;
         this.currWorkerNum = currWorkerNum;
         this.picNum = picNum;
         this.maxNumPerPic = maxNumPerPic;
@@ -40,12 +45,42 @@ public class Project {
         this.startDate = startDate;
         this.endDate = endDate;
         this.tagRequirement = tagRequirement;
-        this.workerRequirement = workerRequirement;
+        this.workerMinLevel = workerMinLevel;
+        this.testAccuracy = testAccuracy;
         this.money = money;
-        this.type=type;
     }
 
+    public int getWorkerMinLevel() {
+        return workerMinLevel;
+    }
+
+    public void setWorkerMinLevel(int workerMinLevel) {
+        this.workerMinLevel = workerMinLevel;
+    }
+
+    public double getTestAccuracy() {
+        return testAccuracy;
+    }
+
+    public void setTestAccuracy(double testAccuracy) {
+        this.testAccuracy = testAccuracy;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "testProject_id")
+    private TestProject testProject;
+
+
+
     public Project() {
+    }
+
+    public TestProject getTestProject() {
+        return testProject;
+    }
+
+    public void setTestProject(TestProject testProject) {
+        this.testProject = testProject;
     }
 
     public long getPublisherId() {
@@ -56,12 +91,12 @@ public class Project {
         this.publisherId = publisherId;
     }
 
-    public String getProjectId() {
-        return projectId;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     public int getCurrWorkerNum() {
@@ -120,14 +155,6 @@ public class Project {
         this.tagRequirement = tagRequirement;
     }
 
-    public String getWorkerRequirement() {
-        return workerRequirement;
-    }
-
-    public void setWorkerRequirement(String workerRequirement) {
-        this.workerRequirement = workerRequirement;
-    }
-
     public int getMoney() {
         return money;
     }
@@ -149,6 +176,6 @@ public class Project {
     }
 
     public String toString(){
-        return String.format("Project[id=%d , projectId=%s , publisherId=%d]", id,projectId,publisherId);
+        return String.format("Project[id=%d , projectId=%s , publisherId=%d]", id,projectName,publisherId);
     }
 }

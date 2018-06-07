@@ -14,9 +14,9 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
 
     public List<Project> findByPublisherId(long publisherId);
 
-    public List<Project> findByProjectId(String projectId);
+    public List<Project> findByProjectName(String projectName);
 
-    public Project findByPublisherIdAndProjectId(long publisherId,String projectId);
+    public Project findByPublisherIdAndProjectName(long publisherId,String projectName);
 
     public List<Project> findByType(MarkMode type);
 

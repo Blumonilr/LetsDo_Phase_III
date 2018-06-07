@@ -2,12 +2,16 @@ package YingYingMonster.LetsDo_Phase_III.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import YingYingMonster.LetsDo_Phase_III.model.Project;
 import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
@@ -27,6 +31,16 @@ public class MyProjectsController {
     @GetMapping("/projects")
     public String getPage() {
     	return "myProjects/projectDisplay";
+    }
+    
+    
+    @GetMapping("/projects/detail")
+    public String getProjectDetailPage() {
+    	
+    	
+    	
+    	return "myProjects/projectdetail";
+    	
     }
     
     /**
@@ -73,7 +87,7 @@ public class MyProjectsController {
     }
     
     @GetMapping("/getProject/{publisherId}/{projectId}")
-    @ResponseBody
+    @ResponseBody//这个方法是projectdisplay界面在用，返回的是比较简单的信息
     public String getProject(@PathVariable("publisherId")String publisherId,
     		@PathVariable("projectId")String projectId) {
     	
@@ -97,6 +111,30 @@ public class MyProjectsController {
         System.out.println("requirement: "+req);
     	return type+":"+req ;
     }
+    
+    
+    /**
+     * 这个方法是projectdetail界面使返回详细信息
+     * @param publisherId
+     * @param projectId
+     * @return
+     */
+    @GetMapping("/getProjectDetail/{publisherId}/{projectId}")
+    @ResponseBody
+    public String getProjectDetail(@PathVariable("publisherId")String publisherId,
+    		@PathVariable("projectId")String projectId) {
+    	String condition = "b";//调用方法
+    	String type = "area";
+    	String progress = "60";
+    	String requirement = "这里是项目要求";
+    	/**
+    	 * condition_type_progress_requirement
+    	 */
+    	String res = condition+"_"+type+"_"+progress+"_"+requirement;
+    	
+    	return res;
+    }
+    
     
     @ResponseBody
     @RequestMapping("/pushProject/{userId}/{publisherId}/{projectId}")

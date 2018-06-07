@@ -28,6 +28,12 @@ public class ProjectMarketController {
 		return "market/market";
 	}
 	
+	@GetMapping("/detail")
+	public String getMarketDetail() {                                                                                                                                                                                                                                                                                                                                                                                                                                            
+	
+		return "market/marketprojectdetail";
+	}
+	
 	/**
 	 * @param userId
 	 * @return 获得所有项目列表 pubid_pjid,pubid_pjid
@@ -70,6 +76,24 @@ public class ProjectMarketController {
 		return res;
 	}
 	
+	@GetMapping("/getdetail/{publisherId}/{projectId}")
+	@ResponseBody
+	public String getProjectDetail() {
+		String res = "";
+		
+		String type = "区域标注（temp）";
+		String start_time = "1998";
+		String end_time = "1999";
+		String lowest_level = "1";
+		String payment = "1";
+		String requirement = "1";
+		String people_in = "1";//当前参与人数
+		
+		res = type+"_"+start_time+"_"+end_time+"_"+lowest_level+"_"+payment+"_"+people_in+"_"+requirement;
+		
+		return res;
+	}
+	
 	/**
 	 * fork一个项目
 	 * @param userId
@@ -107,4 +131,8 @@ public class ProjectMarketController {
 		}
 		return info;
 	}
+	
 }
+
+
+

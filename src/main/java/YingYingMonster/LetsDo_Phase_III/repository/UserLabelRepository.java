@@ -13,6 +13,8 @@ public interface UserLabelRepository extends JpaRepository<UserLabel,Long> {
 
     public List<UserLabel> findByUserId(long userId);
 
+    public UserLabel findByUserIdAndName(long userId,String name);
+
     @Modifying
     @Transactional(rollbackOn = Exception.class)
     @Query("update UserLabel ul set ul.accuracy = ?2 where id =?1")
@@ -22,4 +24,9 @@ public interface UserLabelRepository extends JpaRepository<UserLabel,Long> {
     @Transactional(rollbackOn = Exception.class)
     @Query("update UserLabel ul set ul.efficiency = ?2 where id =?1")
     public void updateEfficiency(long id,double efficiency);
+
+    @Modifying
+    @Transactional(rollbackOn = Exception.class)
+    @Query("update UserLabel ul set ul.labelHistory = ul.labelHistory +1 where id =?1")
+    public void updateLabelHistory(long id);
 }

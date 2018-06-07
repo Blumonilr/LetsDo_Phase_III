@@ -164,9 +164,9 @@ public class WorkSpaceController {
     public String getNewPictureId(@PathVariable("projectId")String projectId ,
    			@PathVariable("userId")String userId,
    			@PathVariable("publisherId")String publisherId) {
-    	System.out.println(userId+" "+ publisherId+" "+ projectId);
+    	System.out.println("getnew:  "+userId+" "+ publisherId+" "+ projectId);
     	List<String> list = service.viewUndoData(userId, publisherId, projectId);
-    	
+    	System.out.println("list size: "+list.size());
     	if(list==null||list.size()==0) {
     		return "";//没有内容
     	}
