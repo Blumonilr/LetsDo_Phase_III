@@ -27,7 +27,9 @@ function getNewPicture_(pictureId){
 	var publisherId = getCookie("publisherId");
 	if(pictureId === ""){
 			//没有图片或发生异常
-			alert("已完成所有图片！");
+			//alert("已完成所有图片！");
+			toastr.success("已经完成所有图片");
+        	setTimeout("history.back()",2500);//等待2.5秒后返回上一界面
 	}
 	else{
 		//2.拿到图片

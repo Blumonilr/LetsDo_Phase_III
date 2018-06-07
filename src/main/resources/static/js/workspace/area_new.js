@@ -36,7 +36,8 @@ function submit_tag(){
 
 	if(remark === ""){
 		//未填写完成
-		alert("填写不完整！")
+		toastr.error("标注填写不完整！");
+
 	}
 	else{
         $.ajax({
@@ -49,8 +50,9 @@ function submit_tag(){
                 'height' : height,
             },
             success: function(){
-                alert("上传成功");
-                getNewPicture();//这个方法在getPicture.js里面
+                toastr.success("提交成功!");
+                //这个方法在getPicture.js里面
+				setTimeout("getNewPicture()",1000);
                 prepare_for_next_picture();//这个方法在canvas_new_area.js里
             }
         });
@@ -59,6 +61,8 @@ function submit_tag(){
 
 }
 
+
+//abandon
 function submit_tag_edit(){
 	//提交修改的标记
 	var type = "area";

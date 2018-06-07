@@ -13,8 +13,9 @@ function loadProjects(){
 			var len = list.length;
 			if(len===0||list[0]===""){
 				//没有project
-				var emptytxt = "<p>您还没有正在进行的项目，快去项目市场挑选心仪的项目吧~</p>";
+				var emptytxt = "<p>这里空空哒！</p>";
 				$("#projects").append(emptytxt);
+				toastr.info("您还没有正在进行的项目，快去项目市场挑选心仪的项目吧~");
 				return;
 			}
 			for(let i=0 ; i<len ; i++){
@@ -112,8 +113,8 @@ function pushProject(that){
 		url: "/myProjects/pushProject/" +userId+ "/"+publisherId+"/"+projectId,
 		type: "get",
 		success: function(){
-			alert("提交成功！");
-			
+            toastr.success("提交成功！");
+            setTimeout("window.location.reload()",2500);//等待2.5秒后刷新界面
 		}
 	});
 }
