@@ -43,4 +43,5 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
     @Transactional(rollbackOn = Exception.class)
     @Query("update Project p set p.picNum = ?2 where p.id =?1")
     public void updatePicNum(long id, int picNum);
+
 }
