@@ -401,7 +401,7 @@
             var arr = projectList.split("/");
             var len = arr.length;
             for(var i = 0;i < len;){
-                var sep=arr[i].split('_');//sep[0]是项目名，sep[1]是发布者Id，sep[2]是项目描述
+                var sep=arr[i].split('_');//sep[0]是项目名，sep[1]是发布者Id，sep[2]是项目描述,sep[3]是项目id
                 if(strlen(sep[2])>110)
                     sep[2]=sep[2].substring(0,55)+"...";
                 $("#content").append("<div class=\"single-member effect-4\">\n" +
@@ -415,7 +415,7 @@
                     "                        <div class=\"more-info\">\n" +
                     "                            <p>"+sep[2]+"</p>\n" +
                     "                            <div>\n" +
-                    "                                <a onclick=\"window.location.href='/project/publisher/projectDetail',setCookie('projectId','"+sep[0]+"','1'),setCookie('publisherId','"+sep[1]+"','1');\" class=\"button\" style=\"cursor: pointer;\">项目详情</a>\n" +
+                    "                                <a onclick=\"window.location.href='/project/publisher/projectDetail',setCookie('projectId','"+sep[3]+"','1'),setCookie('publisherId','"+sep[1]+"','1');\" class=\"button\" style=\"cursor: pointer;\">项目详情</a>\n" +
                     "                            </div>\n" +
                     "                        </div>\n" +
                     "                    </div>");

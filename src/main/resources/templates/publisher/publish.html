@@ -401,40 +401,32 @@
                                             <td>项目名称</td>
                                             <td><a href="#" id="projectName" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="给你的项目起个有吸引力的名字吧"></a></td>
                                         </tr>
-
                                         <tr>
                                             <td>标注类型</td>
                                             <td><a href="#" id="markMode" data-type="select" data-pk="1" data-value="" data-title="选择你想要的标注类型"></a></td>
                                         </tr>
                                         <tr>
                                             <td>最大工作者数</td>
-                                            <td><a href="#" id="workerNum" data-type="select" data-pk="1" data-value="" data-title="选择每个包的最大工作者数"></a></td>
+                                            <td><a href="#" id="maxNumPerPic" data-type="select" data-pk="1" data-value="" data-title="选择每张图片的最大工作者数"></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>最大工作者数</td>
+                                            <td><a href="#" id="minNumPerPic" data-type="select" data-pk="1" data-value="" data-title="选择每张图片的最低工作者数"></a></td>
                                         </tr>
                                         <tr>
                                             <td>最低等级</td>
                                             <td><a href="#" id="levelLimit" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="选择对于参与你的项目的工作者的等级限制"></a></td>
                                         </tr>
                                         <tr>
-                                            <td>结果最低分数</td>
-                                            <td><a href="#" id="gradesLimit" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="分数越高准确度越高,但数据量越少 分数范围0~100"></a></td>
+                                            <td>测试准确率限制</td>
+                                            <td><a href="#" id="testAccuracy" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="准确率限制越高准确度越高,但数据量越少 分数范围0~100%"></a></td>
                                         </tr>
                                         <!--这里直接用JQ的datepicker-->
-                                        <tr>
-                                            <td>开始时间</td>
-                                            <td><input type="text" id="startDate" size="30"></td>
-                                        </tr>
-                                        <tr>
                                             <td>结束时间</td>
                                             <td><input type="text" id="endDate" size="30"></td>
                                         </tr>
                                         <script>
                                             $(function() {
-                                                $( "#startDate" ).datepicker({
-                                                    changeMonth: true,
-                                                    changeYear: true
-                                                });
-                                                $( "#startDate" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-                                                $( "#startDate" ).datepicker( "option", "showAnim","slideDown");
                                                 $( "#endDate" ).datepicker({
                                                     changeMonth: true,
                                                     changeYear: true
