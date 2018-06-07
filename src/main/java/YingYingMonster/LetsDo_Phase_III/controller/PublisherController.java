@@ -36,11 +36,12 @@ public class PublisherController {
         }
     }
 
+
     //请求发布项目
     @PostMapping("/publish")
     @ResponseBody
     public String createProject(@RequestParam(value = "file")MultipartFile dataSet,
-                                @RequestParam("projectId")String projectId,
+                                @RequestParam("projectName")String projectName,
                                 @RequestParam("markMode")String markMode,
                                 @RequestParam("maxNumPerPic")String maxNumPerPic,
                                 @RequestParam("minNumPerPic")String minNumPerPic,
@@ -49,32 +50,71 @@ public class PublisherController {
                                 @RequestParam("tagRequirement")String tagRequirement,
                                 @RequestParam("levelLimit")String levelLimit,
                                 @RequestParam("testAccuracy")String testAccuracy,
-                                @RequestParam("money")String money){
+                                @RequestParam("money")String money) {
         System.out.println("进入了方法发布项目的方法");
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String publisherId = (String) session.getAttribute("userId");
+        MarkMode type = null;
+        if (markMode.equals("框选标注")) {
+            type = MarkMode.SQUARE;
+        } else if (markMode.equals("区域标注")) {
+            type = MarkMode.AREA;
+        }
+        int payment = Integer.parseInt(money);
+        Project project = new Project(type, Long.parseLong(publisherId), projectName,
+                Integer.parseInt(maxNumPerPic), Integer.parseInt(minNumPerPic), endDate, tagRequirement, Integer.parseInt(levelLimit),
+                Double.parseDouble(testAccuracy), payment);
+
+        project = publisherService.createProject(project, dataSet);
+        if (project.getId() != 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
+
+    }
+
+    @PostMapping("/publishTestPage")
+    @ResponseBody
+    public String askPublishTest(@RequestParam("projectId") String projectId){
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
-        String publisherId=(String)session.getAttribute("userId");
-        MarkMode type=null;
-        if(markMode.equals("框选标注")) {
-            type=MarkMode.SQUARE;
-        }else if(markMode.equals("区域标注")){
-            type=MarkMode.AREA;
+        if(publisherService.getAProject(Long.parseLong(projectId)).getTestProject()==null){
+            session.setAttribute("testSet",1);
+            return "noTest";
+        } else {
+            return "alreadyHaveTest";
         }
-        int payment=Integer.parseInt(money);
-        Project project=new Project(type,Long.parseLong(publisherId),projectId,0,0,
-                Integer.parseInt(maxNumPerPic),Integer.parseInt(minNumPerPic),startDate,endDate,tagRequirement,Integer.parseInt(levelLimit),
-                Double.parseDouble(testAccuracy),payment);
+    }
 
-        boolean isValid=publisherService.validateProject(publisherId,projectId);
-        if(isValid){
-            boolean success=publisherService.createProject(project,dataSet);
-            if(success){
-                return "success";
-            }else{
-                return "fail";
-            }
+    @GetMapping("/publishTestPage")
+    public String publishTestPage(){
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        if(session.getAttribute("testSet")==null){
+            return "publisher/publishTest";
+        } else {
+            return "redirect:/project/publisher/projectDetail";
+        }
+    }
+
+    @PostMapping("/publishTest")
+    @ResponseBody
+    public String publishTest(@RequestParam(value = "file")MultipartFile dataSet,
+                              @RequestParam("projectId") String projectId){
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId=(String)session.getAttribute("userId");
+        Project temp=publisherService.getAProject(Long.parseLong(projectId));
+        TestProject testProject=new TestProject(temp.getType(),0);
+        testProject.setProject(temp);
+        testProject=publisherService.addTestProject(Long.parseLong(userId),testProject,dataSet);
+        if(testProject.getId()!=0) {
+            session.removeAttribute("testSet");
+            return "success";
         }else{
-            return "repetitive";
+            return "fail";
         }
     }
 
