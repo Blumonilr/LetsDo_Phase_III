@@ -3,6 +3,7 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import YingYingMonster.LetsDo_Phase_III.model.ObjectTag;
 import YingYingMonster.LetsDo_Phase_III.service.TagService;
 
 public class TagServiceImpl implements TagService {
@@ -16,6 +17,16 @@ public class TagServiceImpl implements TagService {
 		list.add("肤色_黑_白_灰_黄_棕_灰_黑白_黑灰_灰白");
 		list.add("性别_公_母");
 		return list;
+	}
+
+	@Override
+	public boolean modifyTag(ObjectTag tag) {
+		return false;
+	}
+
+	@Override
+	public boolean addTag(ObjectTag tag) {
+		return false;
 	}
 
 }

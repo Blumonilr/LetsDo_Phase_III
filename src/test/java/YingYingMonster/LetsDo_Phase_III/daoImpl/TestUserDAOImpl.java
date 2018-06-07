@@ -51,14 +51,20 @@ public class TestUserDAOImpl {
 		pub.setName("name1");
 		pub.setMoney(1000);
 		assertEquals(false,userDao.register(pub));
-		
+
 		Worker wor=new Worker();
 		wor.setId("worker1");
 		wor.setPw("pw2");
 		wor.setName("name2");
 		wor.setMoney(28);
 		assertEquals(true,userDao.register(wor));
-		
+
+//		Administrator ad=new Administrator();
+//		ad.setId("admin");
+//		ad.setPw("742623624");
+//		ad.setName("管理员");
+//		assertEquals(true,mockDB.insert("users",ad));
+
 		tearDown();
 	}
 	

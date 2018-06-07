@@ -1,153 +1,190 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.Iterator;
-import java.util.List;
-
+import YingYingMonster.LetsDo_Phase_III.entity.Image;
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
+import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
+import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
+import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.TestProjectRepository;
+import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
+import de.innosystec.unrar.Archive;
+import de.innosystec.unrar.exception.RarException;
+import de.innosystec.unrar.rarfile.FileHeader;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import YingYingMonster.LetsDo_Phase_III.dao.DataDAO;
-import YingYingMonster.LetsDo_Phase_III.dao.ProjectDAO;
-import YingYingMonster.LetsDo_Phase_III.exception.TargetNotFoundException;
-import YingYingMonster.LetsDo_Phase_III.model.Project;
-import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 @Component
 public class PublisherServiceImpl implements PublisherService {
 
 	@Autowired
-	ProjectDAO pjDao;
-	
+	ProjectRepository pjrepository;
 	@Autowired
-	DataDAO dtDao;
-	
+	ImageRepository imrepository;
+	@Autowired
+	TestProjectRepository tsrepository;
+
+
 	@Override
-	public boolean createProject(Project project, MultipartFile dataSet) {
-		// TODO Autproject.go-generated method stub
-		byte[] bytes = null;
-		try {
-			bytes = dataSet.getBytes();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		int[]res = null;
-		try {
-			res=dtDao.uploadDataSet(project.getPublisherId(), project.getProjectId(),
-					project.getPackageNum(), bytes);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//		System.out.println("picNum = "+res[0]+" packNum = "+res[1]);
-		
-		if(res[0]<=0){
-			dtDao.deleteDir(project.getPublisherId(), project.getProjectId());
-			return false;
-		}
-		project.setPicNum(res[0]);
-		if(res[0]<project.getPackageNum())
-			project.setPackageNum(res[0]);
-		else
-			project.setPackageNum(res[1]);
-		project.setPkgs();
-		
-		try {
-			pjDao.addProject(project);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			if(!dtDao.addDate(project.getStartDate(), project.getEndDate(), project.getPublisherId(), project.getProjectId())){
-				return false;
-			}
-		} catch (ParseException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
-		return true;
+	public Project createProject(Project project, MultipartFile dataSet) {
+        project.setProjectState(ProjectState.setup);
+        project.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        project = pjrepository.saveAndFlush(project);
+
+        int picNum = unzipFile(dataSet, project.getId());
+        project.setPicNum(picNum);
+
+        return pjrepository.saveAndFlush(project);
+	}
+
+    @Override
+    public boolean validateProjectName(long publisherId, String projectName) {
+        List<Project> list = pjrepository.findByPublisherId(publisherId);
+        for (Project project : list) {
+            if (project.getProjectName().equals(projectName)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+	public Project initializeProject(long id) {
+        Project project = pjrepository.findById(id);
+        project.setProjectState(ProjectState.initialize);
+        return pjrepository.saveAndFlush(project);
+	}
+
+    @Override
+    public TestProject addTestProject(long publisherId, TestProject testProject, MultipartFile multipartFile) {
+
+        int picNum = unzipFile(multipartFile, publisherId);
+        testProject.setPicNum(picNum);
+        TestProject testProject1 = tsrepository.saveAndFlush(testProject);
+        pjrepository.updateTestProject(publisherId, testProject1);
+
+        return testProject1;
+
+    }
+
+	@Override
+	public Project openProject(long id) {
+		Project prtemp=pjrepository.findById(id);
+		prtemp.setProjectState(ProjectState.open);
+		return  pjrepository.saveAndFlush(prtemp);
 	}
 
 	@Override
-	public boolean validateProject(String publisherId, String projectId) {
-		// TODO Auto-generated method stub
-		boolean flag=false;
-		try {
-			flag=pjDao.validateProject(publisherId, projectId);
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return flag;
+	public Project closeProject(long id) {
+		return null;
 	}
 
 	@Override
-	public List<Project> searchProjects(String publisherId, String keyword) {
-		// TODO Auto-generated method stub
-		List<Project>list=null;
-		try {
-			list=pjDao.publisherViewProjects(publisherId);
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Iterator<Project>it=list.iterator();
-		while(it.hasNext()){
-			Project p=it.next();
-			if(!p.getProjectId().contains(keyword))
-				it.remove();
-		}
-		return list;
+	public Project getAProject(long projectId) {
+		return null;
+	}
+
+	@Override
+	public List<Project> findProjectByPublisherId(long publisherId) {
+		return null;
+	}
+
+	@Override
+	public List<Project> searchProjects(String keyword) {
+		return null;
 	}
 
 	@Override
 	public List<String[]> viewPushEvents(String publisherId, String projectId) {
-		// TODO Auto-generated method stub
-		List<String[]>list=dtDao.viewPushEvents(publisherId, projectId);
-		return list;
+		return null;
 	}
 
 	@Override
 	public byte[] downloadTags(String publisherId, String projectId) {
-		// TODO Auto-generated method stub
-		return dtDao.downloadTags(publisherId, projectId);
-	}
-
-	@Override
-	public Project getAProject(String publisherId,String projectId) {
-		// TODO Auto-generated method stub
-		Project pj=null;
-		try {
-			pj=pjDao.getAProject(publisherId,projectId);
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(pj==null)
-			throw new TargetNotFoundException();
-		return pj;
+		return new byte[0];
 	}
 
 	@Override
 	public double viewProjectProgress(String publisherId, String projectId) {
-		// TODO 自动生成的方法存根
-		try {
-			return dtDao.viewProjectProgress(publisherId, projectId);
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
-		return -1;
+		return 0;
 	}
 
 	@Override
 	public List<String> viewWorkers(String publisherId, String projectId) {
-		// TODO 自动生成的方法存根 
-		return dtDao.viewWorkers(publisherId, projectId);
+		return null;
 	}
 
+	private int unzipFile(MultipartFile multipartFile,long projectId){
+		String packageName = multipartFile.getOriginalFilename();                    //上传的包名
+		int picNum=0;
+
+		if(packageName.matches(".*\\.zip")){                //是zip压缩文件
+			try{
+				ZipInputStream zs = new ZipInputStream(multipartFile.getInputStream());
+				BufferedInputStream bs = new BufferedInputStream(zs);
+				ZipEntry ze;
+				byte[] picture = null;
+				while((ze = zs.getNextEntry()) != null){                    //获取zip包中的每一个zip file entry
+					String fileName = ze.getName();                            //pictureName
+					if(!(fileName.endsWith(".jpg")||fileName.endsWith(".png")||fileName.endsWith(".JPG")||fileName.endsWith(".PNG")))
+						continue;
+					picture = new byte[(int) ze.getSize()];                    //读一个文件大小
+					bs.read(picture, 0, (int) ze.getSize());
+					Image image = new Image(projectId,picture,1,1,0,false,true); //保存image
+					imrepository.saveAndFlush(image);
+					picNum++;
+				}
+				bs.close();
+				zs.close();
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+		}else if(packageName.matches(".*\\.rar")){                    //是rar压缩文件
+			try {
+				//MultipartFile file 转化为File 有临时文件产生：
+				CommonsMultipartFile cf= (CommonsMultipartFile) multipartFile;
+				DiskFileItem fi = (DiskFileItem)cf.getFileItem();
+				File fs = fi.getStoreLocation();
+				Archive archive = new Archive(fs);
+				ByteArrayOutputStream bos = null;
+				byte[] picture = null;
+				FileHeader fh = archive.nextFileHeader();
+				while(fh!=null){
+					String fileName = fh.getFileNameString();
+					if(!(fileName.endsWith(".jpg")||fileName.endsWith(".png")||fileName.endsWith(".JPG")||fileName.endsWith(".PNG")))
+						continue;
+					bos = new ByteArrayOutputStream();
+					archive.extractFile(fh, bos);
+					picture = bos.toByteArray();
+					Image image = new Image(projectId, picture, 1, 1,0,false,true); //保存image，非缩略图
+					imrepository.saveAndFlush(image);
+					picNum++;
+					fh = archive.nextFileHeader();
+				}
+
+				bos.close();
+				archive.close();
+			} catch (RarException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return picNum;
+	}
 }
