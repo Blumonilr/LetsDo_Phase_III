@@ -30,7 +30,7 @@ function signUp(type){
         formData.append("nickName",nickName);
         formData.append("password",password);
         $.ajax({
-            url: "/"+type+"SignUp",
+            url: "/user/"+type+"SignUp",
             type: "POST",
             data: formData,
             dataType: "text",
