@@ -40,25 +40,25 @@ public class UserController {
     }
 
     @PostMapping("/publisherSignUp")
+    @ResponseBody
     public String publisherRegister(@RequestParam("password")String password
             ,@RequestParam("nickName")String nickName){
         Publisher publisher=new Publisher();
         publisher.setName(nickName);
         publisher.setPw(password);
         publisher=(Publisher) userService.register(publisher);
-        //这里应当进行帐号展示
-        return "redirect:/user/login";
+        return Long.toString(publisher.getId());
     }
 
     @PostMapping("/workerSignUp")
+    @ResponseBody
     public String workerRegister(@RequestParam("password")String password
             ,@RequestParam("nickName")String nickName){
         Worker worker=new Worker();
         worker.setName(nickName);
         worker.setPw(password);
         worker=(Worker)userService.register(worker);
-        //这里应当进行帐号展示
-        return "redirect:/user/login";
+        return Long.toString(worker.getId());
     }
 
     @GetMapping("/login")

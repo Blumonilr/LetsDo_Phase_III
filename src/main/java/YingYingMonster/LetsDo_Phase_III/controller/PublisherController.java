@@ -40,18 +40,20 @@ public class PublisherController {
     @PostMapping("/publish")
     @ResponseBody
     public String createProject(@RequestParam(value = "file")MultipartFile dataSet,
-                                @RequestParam ("userId") String publisherId,
                                 @RequestParam("projectId")String projectId,
+                                @RequestParam("markMode")String markMode,
                                 @RequestParam("maxNumPerPic")String maxNumPerPic,
                                 @RequestParam("minNumPerPic")String minNumPerPic,
                                 @RequestParam("startDate")String startDate,
                                 @RequestParam("endDate")String endDate,
-                                @RequestParam("markMode")String markMode,
                                 @RequestParam("tagRequirement")String tagRequirement,
                                 @RequestParam("levelLimit")String levelLimit,
                                 @RequestParam("testAccuracy")String testAccuracy,
                                 @RequestParam("money")String money){
-        System.out.println("进入了方法");
+        System.out.println("进入了方法发布项目的方法");
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String publisherId=(String)session.getAttribute("userId");
         MarkMode type=null;
         if(markMode.equals("框选标注")) {
             type=MarkMode.SQUARE;
