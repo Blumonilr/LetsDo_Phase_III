@@ -2,12 +2,15 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
+import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -19,13 +22,32 @@ public class PublisherServiceImpl implements PublisherService {
 
 	@Override
 	public Project createProject(Project project, MultipartFile dataSet) {
+        project.setProjectState(ProjectState.setup);
+        project.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 
-		return null;
+        int picNum=0;
+
+        project.setPicNum(picNum);
+        return pjrepository.saveAndFlush(project);
 	}
 
-	@Override
+    @Override
+    public boolean validateProjectName(long publisherId, String projectName) {
+        List<Project> list = pjrepository.findByPublisherId(publisherId);
+        for (Project project : list) {
+            if (project.getProjectName().equals(projectName)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
 	public Project initializeProject(long id) {
-		return null;
+        Project project = pjrepository.findById(id);
+        project.setProjectState(ProjectState.initialize);
+        return pjrepository.saveAndFlush(project);
 	}
 
 	@Override
@@ -56,11 +78,6 @@ public class PublisherServiceImpl implements PublisherService {
 	@Override
 	public List<Project> searchProjects(String keyword) {
 		return null;
-	}
-
-	@Override
-	public boolean validateProject(String publisherId, String projectId) {
-		return false;
 	}
 
 	@Override

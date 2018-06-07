@@ -17,6 +17,8 @@ public interface PublisherService {
      */
 	public Project createProject(Project project, MultipartFile dataSet);
 
+    public boolean validateProjectName(long publisherId, String projectName);//新建项目时检查项目名是否合法
+
     /**
      * 把相应project设置为initialize状态
      * @param id
@@ -24,8 +26,8 @@ public interface PublisherService {
      */
     public Project initializeProject(long id);
 
-	//上传测试集
-	public TestProject addTestProject(TestProject testProject, MultipartFile multipartFile);
+    //上传测试集
+    public TestProject addTestProject(TestProject testProject, MultipartFile multipartFile);
 
     /**
      * 把相应project设置为open状态
@@ -46,9 +48,6 @@ public interface PublisherService {
     public List<Project> findProjectByPublisherId(long publisherId);
 
     public List<Project> searchProjects(String keyword);//根据keyword查找已有的项目，支持模糊查询
-
-	@Deprecated
-	public boolean validateProject(String publisherId,String projectId);//新建项目时检查项目名是否合法
 
 	@Deprecated
 	public List<String[]> viewPushEvents(String publisherId,String projectId);//查看某个项目的提交记录

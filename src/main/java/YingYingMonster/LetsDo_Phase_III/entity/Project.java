@@ -52,6 +52,7 @@ public class Project {
         this.workerMinLevel = workerMinLevel;
         this.testAccuracy = testAccuracy;
         this.money = money;
+        this.currWorkerNum=0;
     }
 
     public ProjectState getProjectState() {
