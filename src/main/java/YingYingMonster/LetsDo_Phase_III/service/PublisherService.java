@@ -26,6 +26,7 @@ public interface PublisherService {
 
 	public byte[] downloadTags(String publisherId,String projectId);//下载所有标注
 
+	@Deprecated
 	public double viewProjectProgress(String publisherId,String projectId);
 	
 	public List<String> viewWorkers(String publisherId,String projectId);

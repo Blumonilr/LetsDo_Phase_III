@@ -350,6 +350,7 @@
                             </section>
                         </div>
                         <div class="col-md-3">
+                            <button id="upLoadTest" onclick="upLoadTest()" type="button" class="btn btn-outline-primary btn-lg">上传测试集</button>
                         </div>
                     </div>
                     <!--下面放横版的图片预览-->
@@ -375,15 +376,11 @@
 
     <script>
         function loadDetail(){
-            var id = getCookie("publisherId");
-            var projectName=getCookie("projectId");
+            var projectId=getCookie("projectId");
             $.ajax({
-                url: "/project/publisher/"+projectName,
+                url: "/project/publisher/"+projectId,
                 type: "post",
                 dataType:"text",
-                data:{
-                    "publisherId":id,
-                },
                 success : function(data){
                     var detail=data.split("*");
                     var project=JSON.parse(detail[0]);
@@ -395,17 +392,39 @@
                     }
                     $("#publisherId").text(project.publisherId);
                     $("#tagRequirement").html(detail[1]);
-                    $("#maxWorkerNum").text(project.maxWorkerNum);
-                    $("#currWorkerNum").text(project.currWorkerNum);
-                    $("#packageNum").text(project.packageNum);
-                    $("#picNum").text(project.picNum);
-                    $("#startDate").text(project.startDate);
-                    $("#endDate").text(project.endDate);
-                    $("#levelLimit").text(project.levelLimit);
-                    $("#gradesLimit").text(project.gradesLimit);
-                    $("#money").text(project.money);
-                    $("#progressBar").attr("style","width: "+project.progress+"%;");
-                    $("#progressValue").text(project.progress+"% 完成");
+                    // $("#maxWorkerNum").text(project.maxWorkerNum);
+                    // $("#currWorkerNum").text(project.currWorkerNum);
+                    // $("#packageNum").text(project.packageNum);
+                    // $("#picNum").text(project.picNum);
+                    // $("#startDate").text(project.startDate);
+                    // $("#endDate").text(project.endDate);
+                    // $("#levelLimit").text(project.levelLimit);
+                    // $("#gradesLimit").text(project.gradesLimit);
+                    // $("#money").text(project.money);
+                    // $("#progressBar").attr("style","width: "+project.progress+"%;");
+                    // $("#progressValue").text(project.progress+"% 完成");
+
+                    $("#projectName1").text(project.projectName);
+                    $("#projectName2").text(project.projectName);
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
+                },
+            });
+        }
+
+        function upLoadTest(){
+            $.ajax({
+                url: "/publisherPage/publishTest",
+                type: "post",
+                dataType:"text",
+                data:{"projectId":getCookie(projectId)},
+                success : function(data){
+                    if(data==="alreadyHaveTest"){
+                        alert("已经上传过测试集");
+                    }else{
+                        window.location.href=""
+                    }
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown) {
                     alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
@@ -415,15 +434,13 @@
 
         window.onload=function () {
             var id = getCookie("userId");
-            var projectName=getCookie("projectId");
-            if(projectName===""){
+            var projectId=getCookie("projectId");
+            if(projectId===""){
                 alert("请先选择项目");
                 window.location.href="/project/publisherProjects";
                 return;
             }
             document.getElementById("userId").innerHTML=id+"&nbsp;";
-            $("#projectName1").text(projectName);
-            $("#projectName2").text(projectName);
             loadDetail();
         }
     </script>

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import YingYingMonster.LetsDo_Phase_III.model.Project;
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
 import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -44,13 +44,13 @@ public class ProjectController {
     @PostMapping("/publisherProjects")
     @ResponseBody
     public String queryProjects(@RequestParam("userId") String id, @RequestParam("keyword") String keyword){
-        List<Project> temp=publisherService.searchProjects(id, keyword);
+        List<Project> temp=publisherService.searchProjects(keyword);
         String result="";
         for(int i=0;i<temp.size();i++){
             if(i==temp.size()-1)
-                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement();
+                result+=temp.get(i).getProjectName()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+ temp.get(i).getId();
             else
-                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+"/";
+                result+=temp.get(i).getProjectName()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+temp.get(i).getId()+"/";
         }
         return result;
     }
@@ -61,22 +61,23 @@ public class ProjectController {
     @PostMapping("/onGoingProjects")
     @ResponseBody
     public String onGoingProjects(){
-        List<Project> temp= null;
-        try {
-            temp = adminService.viewProjectOnDuty();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String result="";
-        for(int i=0;i<temp.size();i++){
-            if(i==temp.size()-1)
-                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement();
-            else
-                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+"/";
-        }
-        return result;
+//        List<Project> temp= null;
+//        try {
+//            temp = adminService.viewProjectOnDuty();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        String result="";
+//        for(int i=0;i<temp.size();i++){
+//            if(i==temp.size()-1)
+//                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement();
+//            else
+//                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+"/";
+//        }
+//        return result;
+        return "";
     }
 
     /**
@@ -85,22 +86,23 @@ public class ProjectController {
     @PostMapping("/doneProjects")
     @ResponseBody
     public String doneProjects(){
-        List<Project> temp= null;
-        try {
-            temp = adminService.viewProjectDone();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String result="";
-        for(int i=0;i<temp.size();i++){
-            if(i==temp.size()-1)
-                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement();
-            else
-                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+"/";
-        }
-        return result;
+//        List<Project> temp= null;
+//        try {
+//            temp = adminService.viewProjectDone();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        String result="";
+//        for(int i=0;i<temp.size();i++){
+//            if(i==temp.size()-1)
+//                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement();
+//            else
+//                result+=temp.get(i).getProjectId()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+"/";
+//        }
+//        return result;
+        return "";
     }
 
     //请求项目详情页面
@@ -134,28 +136,24 @@ public class ProjectController {
     }
 
     //异步获取项目详情
-    @PostMapping("/publisher/{projectName}")
+    @PostMapping("/publisher/{projectId}")
     @ResponseBody
-    public String projectDetail(@PathVariable("projectName") String projectName,
-                                 @RequestParam("publisherId")String publisherId){
-        System.out.println("进入了方法");
+    public String projectDetail(@PathVariable("projectId") String projectId){
+        System.out.println("进入了查看项目详情方法");
         String result="{";
-        double progress=publisherService.viewProjectProgress(publisherId,projectName);
-        Project project=publisherService.getAProject(publisherId,projectName);
+        Project project=publisherService.getAProject(Long.parseLong(projectId));
+        result+="\"projectName\":\""+project.getProjectName()+"\",";
         result+="\"publisherId\":\""+project.getPublisherId()+"\",";
-        result+="\"markMode\":\""+project.getTagRequirement().getMarkMode().toString()+"\",";
-        result+="\"maxWorkerNum\":\""+project.getMaxWorkerNum()+"\",";
-        result+="\"currWorkerNum\":\""+project.getCurrWorkerNum()+"\",";
-        result+="\"packageNum\":\""+project.getPackageNum()+"\",";
-        result+="\"picNum\":\""+project.getPicNum()+"\",";
+        result+="\"markMode\":\""+project.getType().toString()+"\",";
+        result+="\"maxNumPerPic\":\""+project.getMaxNumPerPic()+"\",";
+        result+="\"minNumPerPic\":\""+project.getMinNumPerPic()+"\",";
         result+="\"startDate\":\""+project.getStartDate()+"\",";
         result+="\"endDate\":\""+project.getEndDate()+"\",";
-        result+="\"levelLimit\":\""+project.getWorkerRequirement().getLevelLimit()+"\",";
-        result+="\"gradesLimit\":\""+project.getWorkerRequirement().getLevelLimit()+"\",";
+        result+="\"levelLimit\":\""+project.getWorkerMinLevel()+"\",";
+        result+="\"testAccuracy\":\""+project.getTestAccuracy()+"\",";
         result+="\"money\":\""+project.getMoney()+"\",";
-        result+="\"progress\":\""+String.format("%.2f",progress)+"\"";
         result+="}*";
-        result+=project.getTagRequirement().getRequirement();
+        result+=project.getTagRequirement();
         return result;
     }
 
