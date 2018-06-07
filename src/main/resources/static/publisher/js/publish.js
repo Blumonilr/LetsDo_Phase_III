@@ -21,7 +21,6 @@ function uploadDataSet() {
     var projectName=$("#projectName").text();
     var maxNumPerPic=$("#maxNumPerPic").text();
     var minNumPerPic=$("#minNumPerPic").text();
-    var startDate=$("#startDate").val();
     var endDate=$("#endDate").val();
     var markMode=$("#markMode").text();
     var tagRequirement=$("#note").html();
@@ -34,7 +33,6 @@ function uploadDataSet() {
     formData.append("projectName",projectName);
     formData.append("maxNumPerPic",maxNumPerPic);
     formData.append("minNumPerPic",minNumPerPic);
-    formData.append("startDate",startDate);
     formData.append("endDate",endDate);
     formData.append("markMode",markMode);
     formData.append("tagRequirement",tagRequirement);
@@ -71,7 +69,7 @@ function uploadDataSet() {
 function uploadTestSet(){
     var formData = new FormData();
     formData.append("file",fileResult);
-    formData.append("projectId",getCookie())
+    formData.append("projectId",getCookie("projectId"))
     $.ajax({
         url:"/publisherPage/publishTest",
         type:"POST",

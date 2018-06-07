@@ -50,60 +50,71 @@ public class PublisherController {
                                 @RequestParam("tagRequirement")String tagRequirement,
                                 @RequestParam("levelLimit")String levelLimit,
                                 @RequestParam("testAccuracy")String testAccuracy,
-                                @RequestParam("money")String money){
+                                @RequestParam("money")String money) {
         System.out.println("进入了方法发布项目的方法");
-        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
-        String publisherId=(String)session.getAttribute("userId");
-        MarkMode type=null;
-        if(markMode.equals("框选标注")) {
-            type=MarkMode.SQUARE;
-        }else if(markMode.equals("区域标注")){
-            type=MarkMode.AREA;
+        String publisherId = (String) session.getAttribute("userId");
+        MarkMode type = null;
+        if (markMode.equals("框选标注")) {
+            type = MarkMode.SQUARE;
+        } else if (markMode.equals("区域标注")) {
+            type = MarkMode.AREA;
         }
-        int payment=Integer.parseInt(money);
-        Project project=new Project(type,Long.parseLong(publisherId),projectName,0,0,
-                Integer.parseInt(maxNumPerPic),Integer.parseInt(minNumPerPic),startDate,endDate,tagRequirement,Integer.parseInt(levelLimit),
-                Double.parseDouble(testAccuracy),payment);
+        int payment = Integer.parseInt(money);
+        Project project = new Project(type, Long.parseLong(publisherId), projectName,
+                Integer.parseInt(maxNumPerPic), Integer.parseInt(minNumPerPic), endDate, tagRequirement, Integer.parseInt(levelLimit),
+                Double.parseDouble(testAccuracy), payment);
 
-        boolean isValid=publisherService.validateProject(publisherId,projectName);
-        if(isValid){
-            boolean success=publisherService.createProject(project,dataSet);
-            if(success){
-                return "success";
-            }else{
-                return "fail";
-            }
-        }else{
-            return "repetitive";
+        project = publisherService.createProject(project, dataSet);
+        if (project.getId() != 0) {
+            return "success";
+        } else {
+            return "fail";
         }
+
     }
 
-    @GetMapping("/publishTest")
+    @PostMapping("/publishTestPage")
     @ResponseBody
-    public String publishTestPage(@RequestParam("projectId") String projectId){
+    public String askPublishTest(@RequestParam("projectId") String projectId){
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
         if(publisherService.getAProject(Long.parseLong(projectId)).getTestProject()==null){
+            session.setAttribute("testSet",1);
             return "noTest";
         } else {
             return "alreadyHaveTest";
         }
     }
 
-    @GetMapping("/publishTest")
+    @GetMapping("/publishTestPage")
+    public String publishTestPage(){
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        if(session.getAttribute("testSet")==null){
+            return "publisher/publishTest";
+        } else {
+            return "redirect:/project/publisher/projectDetail";
+        }
+    }
+
+    @PostMapping("/publishTest")
+    @ResponseBody
     public String publishTest(@RequestParam(value = "file")MultipartFile dataSet,
                               @RequestParam("projectId") String projectId){
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
         String userId=(String)session.getAttribute("userId");
         Project temp=publisherService.getAProject(Long.parseLong(projectId));
-        TestProject=new TestProject(temp.getType())
-        publisherService.addTestProject()
-        if(userId!=null){
-            //已登录
-            return "publisher/publish";
-        } else {
-            //如果未登录返回登录页面
-            return "redirect:/user/login";
+        TestProject testProject=new TestProject(temp.getType(),0);
+        testProject.setProject(temp);
+        testProject=publisherService.addTestProject(Long.parseLong(userId),testProject,dataSet);
+        if(testProject.getId()!=0) {
+            session.removeAttribute("testSet");
+            return "success";
+        }else{
+            return "fail";
         }
     }
 
