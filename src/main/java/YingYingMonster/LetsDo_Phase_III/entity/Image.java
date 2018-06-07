@@ -10,6 +10,8 @@ public class Image {
     private long id;
 
     private long projectId;
+
+    @Lob @Basic(fetch = FetchType.LAZY)
     @Column(length=20971520)
     private byte[] picture;
     private int minNum,maxNum;
