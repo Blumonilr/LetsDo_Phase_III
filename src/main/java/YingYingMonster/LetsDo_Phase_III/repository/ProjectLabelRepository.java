@@ -9,4 +9,6 @@ public interface ProjectLabelRepository extends JpaRepository<ProjectLabel,Long>
     public List<ProjectLabel> findAll();
 
     public List<ProjectLabel> findByProjectId(long projectId);
+
+    public ProjectLabel findByProjectIdAndName(long projectId,String name);
 }
