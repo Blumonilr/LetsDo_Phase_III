@@ -3,10 +3,10 @@ var is_deleted_list = [];//如果对应的点集被删除，为false
 var is_submitted_list = [];//用来记录用户是否提交了文字
 var point_list = [];//记录用户描的点
 var tip_list = [];//记录用户的输入
-var color_r_list = [255,144,255,255,135,255,205,205];//颜色值
-var color_g_list = [127,238,255,181,206,215,205,92];//颜色值
-var color_b_list = [80,144,255,197,255,0,193,92];//颜色值
-var color_list = ["coral","palegreen","yellow","pink","skyblue","gold","ivory","indianred"];
+var color_r_list = [255,144,255,255,135,255,205,205,255,230];//颜色值
+var color_g_list = [127,238,255,181,206,215,205,92,231,230];//颜色值
+var color_b_list = [80,144,255,197,255,0,193,92,186,250];//颜色值
+var color_list = ["coral","palegreen","yellow","pink","skyblue","gold","ivory","indianred","wheat","lavender"];
 var global_mark_ptr;
 var place_holder = "--------";
 
