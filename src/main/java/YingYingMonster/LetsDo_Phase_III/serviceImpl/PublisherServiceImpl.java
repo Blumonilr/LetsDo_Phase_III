@@ -6,6 +6,7 @@ import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.TestProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
 import de.innosystec.unrar.Archive;
 import de.innosystec.unrar.exception.RarException;
@@ -32,6 +33,8 @@ public class PublisherServiceImpl implements PublisherService {
 	ProjectRepository pjrepository;
 	@Autowired
 	ImageRepository imrepository;
+	@Autowired
+	TestProjectRepository tsrepository;
 
 
 	@Override
@@ -49,7 +52,8 @@ public class PublisherServiceImpl implements PublisherService {
 	public TestProject addTestProject(TestProject testProject, MultipartFile multipartFile) {
 		int picNum=unzipFile(multipartFile,testProject.getProject().getId());
 		testProject.setPicNum(picNum);
-		return testProject;
+		return tsrepository.saveAndFlush(testProject);
+
 	}
 
 	@Override
