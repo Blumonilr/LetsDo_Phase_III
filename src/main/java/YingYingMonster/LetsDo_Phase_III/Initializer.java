@@ -17,12 +17,11 @@ import YingYingMonster.LetsDo_Phase_III.daoImpl.CSVHandler;
 
 public class Initializer {
 
-	@Autowired
-	TextNodeRepository tr;
 	private ApplicationContext context=SpringUtils.getApplicationContext();
 	private String root=context.getBean(String.class);
 	private MockDB db=context.getBean(MockDB.class);
 	private CSVHandler handler=context.getBean(CSVHandler.class);
+	private TextNodeRepository tr=context.getBean(TextNodeRepository.class);
 	
 	public void initialize(){
 		System.out.println(System.getProperty("user.dir"));
@@ -121,19 +120,24 @@ public class Initializer {
 			String line=null;
 			String currentFather=null;
 			while((line=br.readLine())!=null){
-				if(line.startsWith("")){
-					currentFather=line;
-					TextNode father=new TextNode(currentFather,null,false,null);
-					tr.save(father);
+				if(line.startsWith("        ")){
+					continue;
 				}
-				else if(line.startsWith("    ")){
-					List<String> attri=new ArrayList<>();
-					String attribution=null;
-					while((attribution=br.readLine()).startsWith("        ")){
+				else if(line.startsWith("    ")) {
+					List<String> attri = new ArrayList<>();
+					String attribution = null;
+					while ((attribution = br.readLine()).startsWith("        ")) {
 						attri.add(attribution);
 					}
-					TextNode son=new TextNode(line.replace("    ",""),currentFather,true,attri);
+					TextNode son = new TextNode(line.replace("    ", ""), currentFather, true, attri);
 					tr.save(son);
+				}
+				else{
+					currentFather=line;
+					System.out.println(currentFather);
+					TextNode father=new TextNode(currentFather,null,false,null);
+					System.out.println(father.getName());
+					tr.save(father);
 				}
 			}
 		} catch (IOException e) {
