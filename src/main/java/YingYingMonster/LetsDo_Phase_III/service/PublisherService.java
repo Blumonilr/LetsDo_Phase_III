@@ -27,7 +27,7 @@ public interface PublisherService {
     public Project initializeProject(long id);
 
     //上传测试集
-    public TestProject addTestProject(long publisherId, TestProject testProject, MultipartFile multipartFile);
+    public TestProject addTestProject(long publisherId, MultipartFile multipartFile);
 
     /**
      * 把相应project设置为open状态

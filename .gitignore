@@ -24,4 +24,5 @@ dist/
 nbdist/
 .nb-gradle/
 
-*.yml
+### dev
+src/main/resources/application-dev.yml
