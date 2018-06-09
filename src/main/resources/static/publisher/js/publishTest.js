@@ -13,7 +13,8 @@ window.onload=function () {
     $("#profile").attr("href","/user/userDetail/"+getCookie("userId"));
     var projectId=getCookie("projectId")
     $("#projectId").text(projectId);
-    $("#projectId").text(projectInfo(projectId).projectName)
+    projectInfo(projectId);
+
     // call initialization file
     if (window.File && window.FileList && window.FileReader) {
         Init();
@@ -29,7 +30,7 @@ function projectInfo(projectId) {
         success : function(data){
             var detail=data.split("*");
             var project=JSON.parse(detail[0]);
-            return project;
+            $("#projectNameDisp").text(project.projectName);
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
