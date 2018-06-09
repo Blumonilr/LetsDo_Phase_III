@@ -108,17 +108,19 @@ public class PublisherServiceImpl implements PublisherService {
 
 	@Override
 	public Project getAProject(long projectId) {
-		return null;
+
+		return pjrepository.findById(projectId);
 	}
 
 	@Override
 	public List<Project> findProjectByPublisherId(long publisherId) {
-		return null;
+
+		return pjrepository.findByPublisherId(publisherId);
 	}
 
 	@Override
-	public List<Project> searchProjects(String keyword) {
-		return null;
+	public List<Project> searchProjects(long publisherId, String keyword) {
+		return pjrepository.findByPublisherIdAndStringAttributes(publisherId, keyword);
 	}
 
 	@Override
