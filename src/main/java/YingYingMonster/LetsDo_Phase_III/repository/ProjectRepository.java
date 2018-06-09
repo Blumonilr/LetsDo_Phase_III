@@ -21,11 +21,8 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
 
     public List<Project> findByType(MarkMode type);
 
-    @Query("select p from Project p where p.startDate <= ?1 and p.endDate >= ?1")
+    @Query("select p from Project p where p.endDate >= ?1")
     public List<Project> findProjectsProcessing(String dateInstance);
-
-    @Query("select p from Project p where p.startDate > ?1")
-    public List<Project> findProjectsUnstart(String dateInstance);
 
     @Query("select p from Project p where p.endDate < ?1")
     public List<Project> findProjectsEnded(String dateInstance);
