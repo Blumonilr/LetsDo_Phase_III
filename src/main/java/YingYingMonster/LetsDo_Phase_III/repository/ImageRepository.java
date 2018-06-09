@@ -1,6 +1,8 @@
 package YingYingMonster.LetsDo_Phase_III.repository;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +14,14 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
     public Image findById(long id);
 
     public List<Image> findByProjectId(long projectId);
+
+    /**
+     * 用于分页查询
+     * @param projectId
+     * @param pageable
+     * @return
+     */
+    public List<Image> findByProjectId(long projectId, Pageable pageable);
 
     public List<Image> findByprojectIdAndIsTest(long projectId,boolean isTest);
 

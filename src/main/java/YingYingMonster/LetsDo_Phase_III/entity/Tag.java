@@ -15,8 +15,26 @@ public class Tag {
 
     private long imageId;
 
+    private long projectId;
+
     private byte[] data;//图片
     private String xmlFile;//xml文档
+
+    public Tag(long imageId, long projectId, byte[] data, String xmlFile) {
+        this.imageId = imageId;
+        this.projectId = projectId;
+        this.data = data;
+        this.xmlFile = xmlFile;
+    }
+
+    public long getProjectId() {
+
+        return projectId;
+    }
+
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
+    }
 
     public long getId() {
         return id;
@@ -49,13 +67,6 @@ public class Tag {
 
     public Tag() {
 
-    }
-
-    public Tag(long imageId, byte[] data, String xmlFile) {
-
-        this.imageId = imageId;
-        this.data = data;
-        this.xmlFile = xmlFile;
     }
 
     //    MarkMode type;
