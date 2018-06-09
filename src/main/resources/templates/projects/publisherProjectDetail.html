@@ -418,7 +418,7 @@
                 url: "/publisherPage/publishTestPage",
                 type: "post",
                 dataType:"text",
-                data:{"projectId":getCookie(projectId)},
+                data:{"projectId":getCookie("projectId")},
                 success : function(data){
                     if(data==="alreadyHaveTest"){
                         alert("已经上传过测试集");

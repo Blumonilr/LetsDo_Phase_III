@@ -398,7 +398,7 @@
             $("#content").empty();
             if(projectList==="")
                 return;
-            var arr = projectList.split("/");
+            var arr = projectList.split("+");
             var len = arr.length;
             for(var i = 0;i < len;){
                 var sep=arr[i].split('_');//sep[0]是项目名，sep[1]是发布者Id，sep[2]是项目描述,sep[3]是项目id
