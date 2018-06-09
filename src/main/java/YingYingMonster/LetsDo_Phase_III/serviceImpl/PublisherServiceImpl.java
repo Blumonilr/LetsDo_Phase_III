@@ -17,10 +17,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -164,6 +163,11 @@ public class PublisherServiceImpl implements PublisherService {
 					picture = new byte[(int) ze.getSize()];                    //读一个文件大小
 					bs.read(picture, 0, (int) ze.getSize());
 					Image image = new Image(projectId, picture, 1, 1, 0, false, isTest); //保存image
+
+					BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(picture));
+					image.setWidth(bufferedImage.getWidth());
+					image.setHeight(bufferedImage.getHeight());
+
 					imrepository.saveAndFlush(image);
 					picNum++;
 				}
@@ -190,6 +194,11 @@ public class PublisherServiceImpl implements PublisherService {
 					archive.extractFile(fh, bos);
 					picture = bos.toByteArray();
 					Image image = new Image(projectId, picture, 1, 1, 0, false, isTest); //保存image，非缩略图
+
+					BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(picture));
+					image.setWidth(bufferedImage.getWidth());
+					image.setHeight(bufferedImage.getHeight());
+
 					imrepository.saveAndFlush(image);
 					picNum++;
 					fh = archive.nextFileHeader();
