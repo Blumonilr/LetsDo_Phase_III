@@ -31,6 +31,7 @@ public class UserController {
 
     @GetMapping("/publisherSignUp")
     public String publisherRegisterPage(){
+    	System.out.print("into the register");
         return "user/publisherSignUp";
     }
 

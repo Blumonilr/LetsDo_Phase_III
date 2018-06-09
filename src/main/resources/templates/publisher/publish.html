@@ -422,22 +422,11 @@
                                             <td><a href="#" id="testAccuracy" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="准确率限制越高准确度越高,但数据量越少 分数范围0~100%"></a></td>
                                         </tr>
                                         <!--这里直接用JQ的datepicker-->
-                                        <tr>
-                                            <td>开始时间</td>
-                                            <td><input type="text" id="startDate" size="30"></td>
-                                        </tr>
-                                        <tr>
                                             <td>结束时间</td>
                                             <td><input type="text" id="endDate" size="30"></td>
                                         </tr>
                                         <script>
                                             $(function() {
-                                                $( "#startDate" ).datepicker({
-                                                    changeMonth: true,
-                                                    changeYear: true
-                                                });
-                                                $( "#startDate" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-                                                $( "#startDate" ).datepicker( "option", "showAnim","slideDown");
                                                 $( "#endDate" ).datepicker({
                                                     changeMonth: true,
                                                     changeYear: true
