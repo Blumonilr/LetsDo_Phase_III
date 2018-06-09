@@ -1,5 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,8 @@ public class ProjectController {
     PublisherService publisherService;
     @Autowired
     AdminService adminService;
+    @Autowired
+    UserService userService;
 
     @GetMapping("/publisherProjects")
     public String projects() {
@@ -50,9 +53,9 @@ public class ProjectController {
         String result="";
         for(int i=0;i<temp.size();i++){
             if(i==temp.size()-1)
-                result+=temp.get(i).getProjectName()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+ temp.get(i).getId();
+                result+=temp.get(i).getProjectName()+"_"+userService.getUser(temp.get(i).getPublisherId()).getName()+"_"+temp.get(i).getTagRequirement()+"_"+ temp.get(i).getId();
             else
-                result+=temp.get(i).getProjectName()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+temp.get(i).getId()+"/";
+                result+=temp.get(i).getProjectName()+"_"+userService.getUser(temp.get(i).getPublisherId()).getName()+"_"+temp.get(i).getTagRequirement()+"_"+temp.get(i).getId()+"+";
         }
         return result;
     }
