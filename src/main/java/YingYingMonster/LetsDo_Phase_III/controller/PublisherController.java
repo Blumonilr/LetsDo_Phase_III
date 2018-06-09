@@ -104,11 +104,8 @@ public class PublisherController {
                               @RequestParam("projectId") String projectId){
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
-        String userId=(String)session.getAttribute("userId");
-        Project temp=publisherService.getAProject(Long.parseLong(projectId));
-        TestProject testProject=new TestProject(temp.getType(),0);
-        testProject.setProject(temp);
-        testProject=publisherService.addTestProject(Long.parseLong(userId),testProject,dataSet);
+        TestProject testProject;
+        testProject=publisherService.addTestProject(Long.parseLong(projectId),dataSet);
         if(testProject.getId()!=0) {
             session.removeAttribute("testSet");
             return "success";
