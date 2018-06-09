@@ -18,7 +18,7 @@ public class ProjectServiceImpl implements ProjectService  {
 
     @Override
     public String getProjectOverview(long projectId) throws IOException {
-        String path = "static/images/home/pj" + projectId + ".jpg";
+        String path = "/images/home/pj" + projectId + ".jpg";
         File file = new File(path);
         if (!file.exists()){
             Image image = imageRepository.getOneByProjectId(projectId);
