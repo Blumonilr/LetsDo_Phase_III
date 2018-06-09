@@ -39,7 +39,6 @@ public class TestProjectRepository {
     public void test3(){
         System.out.println(pr.findProjectsProcessing("2018-06-05"));
         System.out.println(pr.findProjectsEnded("2018-06-05"));
-        System.out.println(pr.findProjectsUnstart("2018-06-05"));
     }
 
     @Test
