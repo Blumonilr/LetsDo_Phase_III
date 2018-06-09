@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -44,7 +45,7 @@ public class PublisherServiceImpl implements PublisherService {
         project.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         project = pjrepository.saveAndFlush(project);
 
-        int picNum = unzipFile(dataSet, project.getId());
+		int picNum = unzipFile(dataSet, project.getId(), false);
         project.setPicNum(picNum);
 
         return pjrepository.saveAndFlush(project);
@@ -72,14 +73,26 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public TestProject addTestProject(long publisherId, TestProject testProject, MultipartFile multipartFile) {
 
-        int picNum = unzipFile(multipartFile, publisherId);
+        int picNum = unzipFile(multipartFile, publisherId,true);
         testProject.setPicNum(picNum);
+		testProject.setInviteCode(generateUUID());
         TestProject testProject1 = tsrepository.saveAndFlush(testProject);
         pjrepository.updateTestProject(publisherId, testProject1);
 
         return testProject1;
 
     }
+
+    public String generateUUID(){
+		String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 8; i++) {
+			int index = (int) (Math.random() * 4);
+			sb.append(uuid.substring(i, i + 4).charAt(index));
+		}
+
+		return sb.toString();
+	}
 
 	@Override
 	public Project openProject(long id) {
@@ -95,17 +108,19 @@ public class PublisherServiceImpl implements PublisherService {
 
 	@Override
 	public Project getAProject(long projectId) {
-		return null;
+
+		return pjrepository.findById(projectId);
 	}
 
 	@Override
 	public List<Project> findProjectByPublisherId(long publisherId) {
-		return null;
+
+		return pjrepository.findByPublisherId(publisherId);
 	}
 
 	@Override
-	public List<Project> searchProjects(String keyword) {
-		return null;
+	public List<Project> searchProjects(long publisherId, String keyword) {
+		return pjrepository.findByPublisherIdAndStringAttributes(publisherId, keyword);
 	}
 
 	@Override
@@ -128,7 +143,7 @@ public class PublisherServiceImpl implements PublisherService {
 		return null;
 	}
 
-	private int unzipFile(MultipartFile multipartFile,long projectId){
+	private int unzipFile(MultipartFile multipartFile,long projectId,boolean isTest){
 		String packageName = multipartFile.getOriginalFilename();                    //上传的包名
 		int picNum=0;
 
@@ -144,7 +159,7 @@ public class PublisherServiceImpl implements PublisherService {
 						continue;
 					picture = new byte[(int) ze.getSize()];                    //读一个文件大小
 					bs.read(picture, 0, (int) ze.getSize());
-					Image image = new Image(projectId,picture,1,1,0,false,true); //保存image
+					Image image = new Image(projectId, picture, 1, 1, 0, false, isTest); //保存image
 					imrepository.saveAndFlush(image);
 					picNum++;
 				}
@@ -170,7 +185,7 @@ public class PublisherServiceImpl implements PublisherService {
 					bos = new ByteArrayOutputStream();
 					archive.extractFile(fh, bos);
 					picture = bos.toByteArray();
-					Image image = new Image(projectId, picture, 1, 1,0,false,true); //保存image，非缩略图
+					Image image = new Image(projectId, picture, 1, 1, 0, false, isTest); //保存image，非缩略图
 					imrepository.saveAndFlush(image);
 					picNum++;
 					fh = archive.nextFileHeader();

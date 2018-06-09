@@ -45,7 +45,6 @@ public class PublisherController {
                                 @RequestParam("markMode")String markMode,
                                 @RequestParam("maxNumPerPic")String maxNumPerPic,
                                 @RequestParam("minNumPerPic")String minNumPerPic,
-                                @RequestParam("startDate")String startDate,
                                 @RequestParam("endDate")String endDate,
                                 @RequestParam("tagRequirement")String tagRequirement,
                                 @RequestParam("levelLimit")String levelLimit,

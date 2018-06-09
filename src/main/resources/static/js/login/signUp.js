@@ -38,6 +38,7 @@ function signUp(type){
             contentType: false,
             success: function (res) {
                 alert("请牢记:你的用户名是"+res)
+                window.location.href="/user/login";
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest + "///" + textStatus + "///" + errorThrown + "\n" + "发生了预料之外的错误，请稍后再试或联系开发人员");
