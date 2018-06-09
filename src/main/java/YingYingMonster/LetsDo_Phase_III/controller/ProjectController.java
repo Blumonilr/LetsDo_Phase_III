@@ -38,12 +38,11 @@ public class ProjectController {
     }
     /**
     * 查找当前发布的项目列表
-    * @param id 上传者用户id
     * @param keyword 关键字，可以为空
     */
     @PostMapping("/publisherProjects")
     @ResponseBody
-    public String queryProjects(@RequestParam("userId") String id, @RequestParam("keyword") String keyword){
+    public String queryProjects(@RequestParam("keyword") String keyword){
         List<Project> temp=publisherService.searchProjects(keyword);
         String result="";
         for(int i=0;i<temp.size();i++){
