@@ -19,12 +19,13 @@ public class TestImageRepository {
     public void test1(){
         Image i1=new Image(1,null,2,5,0,false,false);
         Image i2=new Image(1,null,2,5,0,false,true);
-        Image i3=new Image(1,null,2,5,0,true,true);
+        Image i3=new Image(1,null,2,5,0,false,true);
         Image i4=new Image(2,null,2,5,0,false,false);
         long id=ir.save(i1).getId();
         ir.save(i2);
         ir.save(i3);
         ir.save(i4);
+        ir.flush();
         System.out.println(ir.findById(id));
         ir.updateIsFinished(id,true);
         ir.updateIsTest(id,true);

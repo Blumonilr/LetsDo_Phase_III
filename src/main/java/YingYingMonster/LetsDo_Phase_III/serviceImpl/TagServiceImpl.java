@@ -5,7 +5,9 @@ import java.util.List;
 
 import YingYingMonster.LetsDo_Phase_III.model.ObjectTag;
 import YingYingMonster.LetsDo_Phase_III.service.TagService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TagServiceImpl implements TagService {
 
 	@Override
