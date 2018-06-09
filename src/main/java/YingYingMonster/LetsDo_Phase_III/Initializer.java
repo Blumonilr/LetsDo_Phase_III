@@ -8,12 +8,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
+import YingYingMonster.LetsDo_Phase_III.repository.TextNodeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import YingYingMonster.LetsDo_Phase_III.dao.MockDB;
 import YingYingMonster.LetsDo_Phase_III.daoImpl.CSVHandler;
 
 public class Initializer {
 
+	@Autowired
+	TextNodeRepository tr;
 	private ApplicationContext context=SpringUtils.getApplicationContext();
 	private String root=context.getBean(String.class);
 	private MockDB db=context.getBean(MockDB.class);
@@ -108,5 +113,32 @@ public class Initializer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void initTextNodeTree(File file){
+		try {
+			BufferedReader br=new BufferedReader(new FileReader(file));
+			String line=null;
+			String currentFather=null;
+			while((line=br.readLine())!=null){
+				if(line.startsWith("")){
+					currentFather=line;
+					TextNode father=new TextNode(currentFather,null,false,null);
+					tr.save(father);
+				}
+				else if(line.startsWith("    ")){
+					List<String> attri=new ArrayList<>();
+					String attribution=null;
+					while((attribution=br.readLine()).startsWith("        ")){
+						attri.add(attribution);
+					}
+					TextNode son=new TextNode(line.replace("    ",""),currentFather,true,attri);
+					tr.save(son);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 }
