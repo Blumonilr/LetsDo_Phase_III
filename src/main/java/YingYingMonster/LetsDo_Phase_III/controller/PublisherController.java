@@ -91,7 +91,7 @@ public class PublisherController {
     public String publishTestPage(){
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
-        if(session.getAttribute("testSet")==null){
+        if(session.getAttribute("testSet")!=null){
             return "publisher/publishTest";
         } else {
             return "redirect:/project/publisher/projectDetail";

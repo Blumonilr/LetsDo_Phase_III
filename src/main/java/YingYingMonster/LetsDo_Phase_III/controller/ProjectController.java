@@ -148,7 +148,7 @@ public class ProjectController {
         String result="{";
         Project project=publisherService.getAProject(Long.parseLong(projectId));
         result+="\"projectName\":\""+project.getProjectName()+"\",";
-        result+="\"publisherId\":\""+project.getPublisherId()+"\",";
+        result+="\"publisherName\":\""+userService.getUser(project.getPublisherId()).getName()+"\",";
         result+="\"markMode\":\""+project.getType().toString()+"\",";
         result+="\"maxNumPerPic\":\""+project.getMaxNumPerPic()+"\",";
         result+="\"minNumPerPic\":\""+project.getMinNumPerPic()+"\",";
@@ -156,7 +156,7 @@ public class ProjectController {
         result+="\"endDate\":\""+project.getEndDate()+"\",";
         result+="\"levelLimit\":\""+project.getWorkerMinLevel()+"\",";
         result+="\"testAccuracy\":\""+project.getTestAccuracy()+"\",";
-        result+="\"money\":\""+project.getMoney()+"\",";
+        result+="\"money\":\""+project.getMoney()+"\"";
         result+="}*";
         result+=project.getTagRequirement();
         return result;
