@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.Assert.assertEquals;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TestTestProjectRepository {
@@ -22,9 +24,24 @@ public class TestTestProjectRepository {
                 6, "2018-06-24", "", 0, 0.6,
                 10);
         long id = projectRepository.saveAndFlush(project).getId();
-        TestProject testProject = new TestProject(MarkMode.AREA);
+        TestProject testProject = new TestProject(MarkMode.AREA,0);
         testProject = testProjectRepository.saveAndFlush(testProject);
         projectRepository.updateTestProject(id, testProject);
 
+    }
+
+    @Test public void test_update(){
+        TestProject testProject = testProjectRepository.findById((long) 2).get();
+        assertEquals(null, testProject.getInviteCode());
+        testProject.setInviteCode("haha");
+        testProjectRepository.updateInviteCode(2,"haha");
+        testProject = testProjectRepository.findById((long) 2).get();
+        assertEquals("haha", testProject.getInviteCode());
+        
+    }
+
+    @Test public void test_find(){
+        TestProject testProject = testProjectRepository.findByInviteCode("haha");
+        assertEquals(2, testProject.getId());
     }
 }

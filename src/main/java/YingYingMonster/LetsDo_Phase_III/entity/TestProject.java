@@ -23,9 +23,10 @@ public class TestProject {
     public TestProject() {
     }
 
-    public TestProject(MarkMode markMode) {
+    public TestProject(MarkMode markMode,int picNum) {
 
         this.markMode = markMode;
+        this.picNum = picNum;
     }
 
     public String getInviteCode() {

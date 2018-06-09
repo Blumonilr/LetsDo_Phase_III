@@ -19,18 +19,18 @@ public class TestProjectRepository {
 
     @Test
     public void test1(){
-        Project p1=new Project(1,"test1",0,10,5,2,"2018-06-04","2018-07-07","null","null",10,SQUARE);
-        pr.save(p1);
-        Project p2=new Project(1,"test2",0,10,5,2,"2018-06-08","2018-07-08","null","null",10,SQUARE);
-        pr.save(p2);
-        Project p3=new Project(3,"test3",0,10,5,2,"2018-06-03","2018-06-04","null","null",10,SQUARE);
-        pr.save(p3);
+//        Project p1=new Project(1,"test1",0,10,5,2,"2018-06-04","2018-07-07","null","null",10,SQUARE);
+//        pr.save(p1);
+//        Project p2=new Project(1,"test2",0,10,5,2,"2018-06-08","2018-07-08","null","null",10,SQUARE);
+//        pr.save(p2);
+//        Project p3=new Project(3,"test3",0,10,5,2,"2018-06-03","2018-06-04","null","null",10,SQUARE);
+//        pr.save(p3);
     }
 
     @Test
     public void test2(){
         System.out.println(pr.findById(18).getId());
-        System.out.println(pr.findByProjectId("test1"));
+//        System.out.println(pr.findByProjectId("test1"));
         System.out.println(pr.findByPublisherId(1));
         System.out.println(pr.findByType(SQUARE));
     }

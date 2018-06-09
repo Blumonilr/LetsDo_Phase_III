@@ -13,6 +13,6 @@ public interface TestProjectRepository extends JpaRepository<TestProject, Long> 
 
     @Modifying
     @Transactional(rollbackOn = Exception.class)
-    @Query("update TestProject t set t=?2 where t.id=?1 ")
-    public void updateTestProject(long id, TestProject testProject);
+    @Query("update TestProject t set t.inviteCode=?2 where t.id=?1 ")
+    public void updateInviteCode(long id, String code);
 }
