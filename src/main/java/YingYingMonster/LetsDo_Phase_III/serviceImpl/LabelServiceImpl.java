@@ -7,9 +7,11 @@ import YingYingMonster.LetsDo_Phase_III.repository.ProjectLabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.UserLabelRepository;
 import YingYingMonster.LetsDo_Phase_III.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class LabelServiceImpl implements LabelService {
     @Autowired
     UserLabelRepository uslr;

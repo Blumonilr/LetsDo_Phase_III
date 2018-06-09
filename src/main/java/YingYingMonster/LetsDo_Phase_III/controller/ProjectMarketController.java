@@ -35,6 +35,15 @@ public class ProjectMarketController {
 	}
 	
 	/**
+	 * 进入内测入口界面
+	 * @return
+	 */
+	@GetMapping("/makeanswer")
+	public String makeAnswer() {
+		return "answers/entrance";
+	}
+	
+	/**
 	 * @param userId
 	 * @return 获得所有项目列表 pubid_pjid,pubid_pjid
 	 */

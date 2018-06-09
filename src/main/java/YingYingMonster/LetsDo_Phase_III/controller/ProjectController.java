@@ -43,7 +43,10 @@ public class ProjectController {
     @PostMapping("/publisherProjects")
     @ResponseBody
     public String queryProjects(@RequestParam("keyword") String keyword){
-        List<Project> temp=publisherService.searchProjects(keyword);
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+        List<Project> temp=publisherService.searchProjects(Long.parseLong(userId),keyword);
         String result="";
         for(int i=0;i<temp.size();i++){
             if(i==temp.size()-1)

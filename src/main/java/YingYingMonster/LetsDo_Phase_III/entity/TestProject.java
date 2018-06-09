@@ -18,13 +18,23 @@ public class TestProject {
     @OneToOne(mappedBy = "testProject")
     private Project project;
 
+    private String inviteCode;  //内测邀请码
+
     public TestProject() {
     }
 
-    public TestProject(MarkMode markMode, int picNum) {
+    public TestProject(MarkMode markMode,int picNum) {
 
         this.markMode = markMode;
         this.picNum = picNum;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
     }
 
     public long getId() {

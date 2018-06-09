@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -17,6 +18,12 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="@{/assets/js/Lightweight-Chart/cssCharts.css}">
 
+    <!-- 自己的css文件 -->
+
+    <link th:href="@{/toastr/toastr.css}" rel="stylesheet" />
+    <!-- 自己的css文件结束 -->
+
+    <!-- JS Scripts-->
     <!-- jQuery Js -->
     <script th:src="@{/assets/js/jquery-1.10.2.js}"></script>
     <!-- Bootstrap Js -->
@@ -36,34 +43,15 @@
     <!-- Custom Js -->
     <script th:src="@{/assets/js/custom-scripts.js}"></script>
 
-    <!-- 自己的css文件 -->
-    <link rel="stylesheet" th:href="@{/css/workspace/square_new.css}">
-    <link rel="stylesheet" th:href="@{/css/workspace/input.css}">
-    <link rel="stylesheet" th:href="@{/css/workspace/tools.css}">
-    <link th:href="@{/toastr/toastr.css}" rel="stylesheet" />
-    <!-- 自己的css文件结束 -->
-
     <!-- 自己的js文件 -->
-    <script type="text/javascript" th:src="@{/js/workspace/canvas_new_square.js}"></script>
-    <script type="text/javascript" th:src="@{/js/workspace/square_new.js}"></script>
-    <script type="text/javascript" th:src="@{/js/workspace/getPicture.js}"></script>
-    <script type="text/javascript" th:src="@{/js/workspace/progress.js}"></script>
+    <script type="text/javascript" th:src="@{/js/answers/entrance.js}"></script>
     <script type="text/javascript" th:src="@{/js/util/cookie.js}"></script>
-    <script type="text/javascript" th:src="@{/js/workspace/toolsEffect.js}"></script>
-     <script type="text/javascript" th:src="@{/toastr/toastr.js}"></script>
+    <script type="text/javascript" th:src="@{/toastr/toastr.js}"></script>
+
     <!-- 自己的js文件结束 -->
-
-
-
     <!-- 网页初始化 -->
     <script>
-        window.onload = function(){
-            var mark = new Mark();
-            mark.init();//初始化画笔
 
-            set_requirement();//area.js
-            getNewPicture();//getPicture.js
-        };
     </script>
     <!-- 网页初始化结束 -->
 
@@ -81,7 +69,7 @@
             </button>
             <a class="navbar-brand" href="index.html"><strong>Marvel</strong></a>
 
-
+            <div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
@@ -294,12 +282,40 @@
         </ul>
     </nav>
     <!--/. NAV TOP  -->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav" id="main-menu">
+
+                <li>
+                    <a id="homehref" href="#"><i class="fa fa-desktop"></i>个人主页</a>
+
+                </li>
+                <li>
+                    <a class="active-menu" href="/myProjects/projects"><i class="fa fa-dashboard"></i>我的项目</a>
+                </li>
+                <li>
+                    <a href="/market"><i class="fa fa-bar-chart-o"></i>项目市场</a>
+                </li>
+                <li>
+                    <a href="/rank"><i class="fa fa-bar-chart-o"></i>嘤嘤上榜</a>
+                </li>
 
 
-    <div id="page-wrapper"  style="margin-left: 0px;">
+
+                <li>
+                    <a href="empty.html"><i class="fa fa-fw fa-file"></i> Empty Page</a>
+                </li>
+            </ul>
+
+        </div>
+
+    </nav>
+    <!-- /. NAV SIDE  -->
+
+    <div id="page-wrapper">
         <div class="header">
             <h1 class="page-header">
-                标注项目 <small>yingyingMonster为您加油</small>
+                发布者内测入口 <small>yingyingMonster众包平台</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#">Home</a></li>
@@ -309,50 +325,13 @@
 
         </div>
         <div id="page-inner">
-
-
             <!--我们的操作区开始  -->
+            <input  type="text" id="number_input" placeholder="请输入内测邀请码" />
+            <input type="button" value="进入内测" onclick="enter()">
 
-            <input  id="hide_show_requirement" type="button" onclick="hide_show_requirement()" value="要求" />
-            <input  id="delete_square" type="button" onclick="delete_selected_square()" value="删除" />
-
-            <canvas id="penal"></canvas>
-            <div id = "colors" >
-                <!-- 工具栏开始 -->
-                <input type="button" id="red" value="红色" /> <br>
-                <input type="button" id="yellow" value="黄色" /> <br>
-                <input type="button" id="blue" value="蓝色" /> <br>
-                <input type="button" id="green" value="绿色" />
-               
-                <br>
-            </div>
-            <!-- 工具栏结束 -->
-            <div id = "tipInput" >
-                <!-- tipInput开始 -->
-
+            <div id="confirm">
 
             </div>
-            <!-- tipInput结束 -->
-
-            <!--上传标志开始-->
-            <div  id="submitArea">
-                <input type="button" value="提交" onclick="submit_tag()" />
-
-            </div>
-            <!--上传标志结束-->
-
-            <!--展示项目进度开始-->
-            <div class="progress">
-                <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 20%;">
-                    <div class="progress-value">0%</div>
-                </div>
-            </div>
-            <!--展示项目进度结束-->
-			<div id="requirementArea">
-	<!--标注要求开始-->
-     	
-	</div>
-	<!--标注要求结束-->
 
             <!--我们的操作区结束 -->
 
@@ -362,12 +341,8 @@
     <!-- /. PAGE WRAPPER  -->
 </div>
 <!-- /. WRAPPER  -->
-<!-- JS Scripts-->
 
 
-<script>
-
-</script>
 
 </body>
 
