@@ -36,10 +36,10 @@ public class TestProjectServiceImpl implements TestProjectService {
     }
 
     @Override
-    public void uploadAnswer(Tag tag) {
+    public Tag uploadAnswer(long workerId,Tag tag) {
         long imageId = tag.getImageId();
         imageRepository.updateIsFinished(imageId, true);
-        tagRepository.saveAndFlush(tag);
+        return tagRepository.saveAndFlush(tag);
     }
 
     @Override

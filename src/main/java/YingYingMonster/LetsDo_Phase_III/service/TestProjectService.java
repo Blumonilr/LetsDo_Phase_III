@@ -18,9 +18,10 @@ public interface TestProjectService {
 
     /**
      * 上传/修改答案
+     * @param workerId
      * @param tag
      */
-    public void uploadAnswer(Tag tag);
+    public Tag uploadAnswer(long workerId,Tag tag);
 
     public TestProject getTestProjectByInviteCode(String inviteCode);
 
