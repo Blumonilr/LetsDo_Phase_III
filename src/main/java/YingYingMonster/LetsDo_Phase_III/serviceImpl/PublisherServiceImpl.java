@@ -71,15 +71,19 @@ public class PublisherServiceImpl implements PublisherService {
 	}
 
     @Override
-    public TestProject addTestProject(long publisherId, TestProject testProject, MultipartFile multipartFile) {
+    public TestProject addTestProject(long projectId,  MultipartFile multipartFile) {
 
-        int picNum = unzipFile(multipartFile, publisherId,true);
+		TestProject testProject = new TestProject();
+		Project project = pjrepository.findById(projectId);
+		testProject.setMarkMode(project.getType());
+
+        int picNum = unzipFile(multipartFile, projectId,true);
         testProject.setPicNum(picNum);
 		testProject.setInviteCode(generateUUID());
-        TestProject testProject1 = tsrepository.saveAndFlush(testProject);
-        pjrepository.updateTestProject(publisherId, testProject1);
+		testProject = tsrepository.saveAndFlush(testProject);
+        pjrepository.updateTestProject(projectId, testProject);
 
-        return testProject1;
+        return testProject;
 
     }
 
