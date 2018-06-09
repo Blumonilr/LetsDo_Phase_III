@@ -10,14 +10,13 @@ public class TextNode {
 
     @Id
     private String name;
-    @OneToOne
-    private TextNode father;
+    private String father;
     private boolean isLeaf;
 
     @ElementCollection(targetClass = String.class,fetch = FetchType.EAGER)
     private List<String> attributions;//format:name:value1_value2_value3...
 
-    public TextNode(String name, TextNode father, boolean isLeaf,List<String> attributions) {
+    public TextNode(String name, String father, boolean isLeaf,List<String> attributions) {
         this.name = name;
         this.father = father;
         this.isLeaf = isLeaf;
@@ -36,11 +35,11 @@ public class TextNode {
         this.name = name;
     }
 
-    public TextNode getFather() {
+    public String getFather() {
         return father;
     }
 
-    public void setFather(TextNode father) {
+    public void setFather(String father) {
         this.father = father;
     }
 
@@ -65,6 +64,6 @@ public class TextNode {
     }
 
     public String toString(){
-        return String.format("TextNode[name=%s , father=%s , attributions=%s]",name,father.getName(),attributions.toString());
+        return String.format("TextNode[name=%s , father=%s , attributions=%s]",name,father,attributions.toString());
     }
 }

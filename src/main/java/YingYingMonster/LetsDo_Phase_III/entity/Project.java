@@ -27,6 +27,7 @@ public class Project {
 
     private String startDate,endDate;//yyyy-MM-dd
 
+    @Column(length=10*1024)
     private String tagRequirement;//改成String
 
     private int workerMinLevel;//worker最低等级
