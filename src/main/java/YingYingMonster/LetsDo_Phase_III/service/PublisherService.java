@@ -47,7 +47,14 @@ public interface PublisherService {
 
     public List<Project> findProjectByPublisherId(long publisherId);
 
-    public List<Project> searchProjects(String keyword);//根据keyword查找已有的项目，支持模糊查询
+    /**
+     * project string类型属性有projectName , tagrequirement
+     *
+     * @param publisherId
+     * @param keyword
+     * @return
+     */
+    public List<Project> searchProjects(long publisherId, String keyword);//根据keyword查找已有的项目，支持模糊查询
 
 	@Deprecated
 	public List<String[]> viewPushEvents(String publisherId,String projectId);//查看某个项目的提交记录
