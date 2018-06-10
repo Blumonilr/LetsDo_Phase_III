@@ -48,7 +48,7 @@ function confirm(){
 
     toastr.success("即将进入项目 "+pjid+" 的答案指定");
     setTimeout(2000);
-    window.location.href = "/answer/"+type;
+    window.location.href = "/answer/make/"+type;
 
 }
 /**
