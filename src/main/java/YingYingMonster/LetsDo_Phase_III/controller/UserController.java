@@ -86,10 +86,8 @@ public class UserController {
     @ResponseBody
     public String login(@RequestParam("userId")String userId
             ,@RequestParam("password")String password) {
-        User user = null;
-        try {
-            user = userService.login(Long.parseLong(userId), password);
-        } catch (LoginFailException e) {
+        User user  = userService.login(Long.parseLong(userId), password);
+        if (user==null) {
             return "login failed";
         }
 
