@@ -6,11 +6,13 @@ import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
+@Component
 public class ProjectServiceImpl implements ProjectService  {
 
     @Autowired
