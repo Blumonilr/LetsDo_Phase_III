@@ -110,3 +110,15 @@ function set_accordion() {
     $("#second_accordion").append(second_txt);
     $("#third_accordion").append(third_txt);
 }
+
+function getProjectOverviewPicture(){
+    var projectId = getCookie("projectId");
+    $.ajax({
+        url: "/myProjects/getProjectOverview/"+projectId,
+        type: "get",
+        success: function(data){
+            alert(data);
+        }
+    });
+
+}

@@ -102,14 +102,14 @@ public class AnswerController {
     	
     	Tag tag = new Tag(picid,pjid,mb,xml);
     	
-    	service.uploadAnswer(tag);
+    	service.uploadAnswer(uid,tag);
     	
 	}
 	
 	/*
 	 * not yet completed
 	 */
-	@GetMapping("//{workType}")
+	@GetMapping("/{workType}")
 	public String getNewImageSize(HttpServletRequest request, HttpServletResponse response) {
 		String res = "";
 		String userId = request.getParameter("userId");

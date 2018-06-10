@@ -1,5 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import YingYingMonster.LetsDo_Phase_III.model.Project;
 import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
+import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 
 @Controller
@@ -23,6 +25,8 @@ public class MyProjectsController {
 
 	@Autowired
 	private WorkerService service;
+	@Autowired
+	private ProjectService pjservice;
 	
 	/**
 	 * 
@@ -162,6 +166,22 @@ public class MyProjectsController {
         String req = requirement.getRequirement(); /*markMode是tags的时候，requirement为tag列表，tag之间以逗号隔开，其他模式都为具体要求*/
      
     	return req ;
+    }
+    
+    
+    @GetMapping("/getProjectOverview/{projectId}")
+    @ResponseBody
+    public String getProjectOverviewPicture(@PathVariable("projectId")String projectId) {
+    	long pjId = Long.parseLong(projectId);
+    	String url;
+		try {
+			url = pjservice.getProjectOverview(pjId);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "";
+		}
+    	return url;
     }
     
 }
