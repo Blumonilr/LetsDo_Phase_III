@@ -18,6 +18,7 @@ public class Tag {
     private long projectId;
 
     private byte[] data;//图片
+
     private String xmlFile;//xml文档
 
     public Tag(long imageId, long projectId, byte[] data, String xmlFile) {
