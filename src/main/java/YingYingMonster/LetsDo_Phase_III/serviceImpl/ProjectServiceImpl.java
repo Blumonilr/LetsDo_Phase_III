@@ -20,13 +20,11 @@ public class ProjectServiceImpl implements ProjectService  {
 
     @Override
     public String getProjectOverview(long projectId) throws IOException {
-        String path = "/images/home/pj" + projectId + ".jpg";
-        File file = new File(path);
+        String base = "src/main/resources/";
+        String path = "images/projectOverview/pj" + projectId + ".jpg";
+        File file = new File(base+path);
         if (!file.exists()){
-            Image image = imageRepository.getOneByProjectId(projectId);
-            Thumbnails.of(new ByteArrayInputStream(image.getPicture())).size(270, 210)
-                    .outputFormat("jpg").toFile(path);
-
+            path=null;
         }
         return path;
     }

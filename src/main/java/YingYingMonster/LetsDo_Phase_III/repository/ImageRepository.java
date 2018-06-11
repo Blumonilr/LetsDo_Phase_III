@@ -14,9 +14,6 @@ import java.util.List;
 public interface ImageRepository extends JpaRepository<Image,Long> {
     public Image findById(long id);
 
-    @Query("select i from Image i where i.projectId=?1")
-    public Image getOneByProjectId(long projectId);
-
     public List<Image> findByProjectId(long projectId);
 
     public Page<Image> findByProjectIdAndIsFinishedFalse(long projectId, Pageable pageable);
