@@ -20,8 +20,8 @@ public class ProjectServiceImpl implements ProjectService  {
 
     @Override
     public String getProjectOverview(long projectId) throws IOException {
-        String base = "src/main/resources/";
-        String path = "images/projectOverview/pj" + projectId + ".jpg";
+        String base = "src/main/resources/static";
+        String path = "/images/projectOverview/pj" + projectId + ".jpg";
         File file = new File(base+path);
         if (!file.exists()){
             path=null;
