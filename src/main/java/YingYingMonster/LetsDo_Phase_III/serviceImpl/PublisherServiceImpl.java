@@ -11,6 +11,7 @@ import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
 import de.innosystec.unrar.Archive;
 import de.innosystec.unrar.exception.RarException;
 import de.innosystec.unrar.rarfile.FileHeader;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -149,6 +151,7 @@ public class PublisherServiceImpl implements PublisherService {
 	private int unzipFile(MultipartFile multipartFile,long projectId,boolean isTest){
 		String packageName = multipartFile.getOriginalFilename();                    //上传的包名
 		int picNum=0;
+		List<Image> list = new ArrayList<>();
 
 		if(packageName.matches(".*\\.zip")){                //是zip压缩文件
 			try{
@@ -167,8 +170,8 @@ public class PublisherServiceImpl implements PublisherService {
 					BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(picture));
 					image.setWidth(bufferedImage.getWidth());
 					image.setHeight(bufferedImage.getHeight());
-
-					imrepository.saveAndFlush(image);
+					list.add(image);
+//					imrepository.saveAndFlush(image);
 					picNum++;
 				}
 				bs.close();
@@ -198,8 +201,8 @@ public class PublisherServiceImpl implements PublisherService {
 					BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(picture));
 					image.setWidth(bufferedImage.getWidth());
 					image.setHeight(bufferedImage.getHeight());
-
-					imrepository.saveAndFlush(image);
+					list.add(image);
+//					imrepository.saveAndFlush(image);
 					picNum++;
 					fh = archive.nextFileHeader();
 				}
@@ -213,6 +216,22 @@ public class PublisherServiceImpl implements PublisherService {
 			}
 
 		}
+
+		imrepository.saveAll(list);
+		saveProjectOverview(projectId, list.get(0));
+
+		imrepository.flush();
 		return picNum;
+	}
+
+	public void saveProjectOverview(long projectId, Image image) {
+		String path = "src/main/resources/static/images/projectOverview/pj" + projectId + ".jpg";
+		try {
+			Thumbnails.of(new ByteArrayInputStream(image.getPicture())).size(270, 210)
+					.outputFormat("jpg").toFile(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 }
