@@ -8,9 +8,8 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.io.*;
 
 @Component
 public class ProjectServiceImpl implements ProjectService  {
@@ -19,13 +18,15 @@ public class ProjectServiceImpl implements ProjectService  {
     ImageRepository imageRepository;
 
     @Override
-    public String getProjectOverview(long projectId) throws IOException {
-        String base = "src/main/resources/static";
-        String path = "/images/projectOverview/pj" + projectId + ".jpg";
-        File file = new File(base+path);
-        if (!file.exists()){
-            path=null;
+    public byte[] getProjectOverview(long projectId) throws IOException {
+        byte[] data = null;
+        String path = System.getProperty("user.dir")+"/projectOverview/pj" + projectId + ".jpg";
+        File file = new File(path);
+        if (file.exists()){
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ImageIO.write(Thumbnails.of(file).asBufferedImage(), "jpg", byteArrayOutputStream);
+            data = byteArrayOutputStream.toByteArray();
         }
-        return path;
+        return data;
     }
 }

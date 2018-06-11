@@ -225,7 +225,7 @@ public class PublisherServiceImpl implements PublisherService {
 	}
 
 	public void saveProjectOverview(long projectId, Image image) {
-		String path = "src/main/resources/static/images/projectOverview/pj" + projectId + ".jpg";
+		String path = System.getProperty("user.dir")+"/projectOverview/pj" + projectId + ".jpg";
 		try {
 			Thumbnails.of(new ByteArrayInputStream(image.getPicture())).size(270, 210)
 					.outputFormat("jpg").toFile(path);

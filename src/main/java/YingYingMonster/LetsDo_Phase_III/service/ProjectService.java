@@ -4,5 +4,5 @@ import java.io.IOException;
 
 public interface ProjectService {
 
-    public String getProjectOverview(long projectId) throws IOException;
+    public byte[] getProjectOverview(long projectId) throws IOException;
 }
