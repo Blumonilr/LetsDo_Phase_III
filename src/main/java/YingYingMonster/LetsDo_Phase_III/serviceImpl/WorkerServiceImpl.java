@@ -1,18 +1,14 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
-import YingYingMonster.LetsDo_Phase_III.entity.JoinEvent;
-import YingYingMonster.LetsDo_Phase_III.entity.Project;
-import YingYingMonster.LetsDo_Phase_III.entity.User;
-import YingYingMonster.LetsDo_Phase_III.entity.Worker;
-import YingYingMonster.LetsDo_Phase_III.model.Data;
-import YingYingMonster.LetsDo_Phase_III.model.Tag;
-import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
-
+import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.JoinEventRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.TagRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -30,6 +26,12 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Autowired
 	JoinEventRepository joinEventRepository;
+
+	@Autowired
+	TagRepository tagRepository;
+
+	@Autowired
+	ImageRepository imageRepository;
 
 
 	@Override
@@ -102,77 +104,31 @@ public class WorkerServiceImpl implements WorkerService {
 	}
 
 	@Override
-	public List<String> viewAllProjects() {
-		return null;
+	public void uploadTag(Tag tag) {
+
+		Tag tag1 = tagRepository.findByWorkerIdAndImageId(tag.getWorkerId(), tag.getImageId());
+
+		if (tag1 != null) {
+			tag1.setData(tag.getData());
+			tag1.setXmlFile(tag.getXmlFile());
+			tagRepository.saveAndFlush(tag1);
+		} else {
+			tagRepository.saveAndFlush(tag);
+		}
 	}
 
 	@Override
-	public Project getAProject(String publisherId, String projectId) {
-		return null;
+	public List<Image> getAPageOfImage(long projectId, int pageId) {
+		return imageRepository
+				.findByProjectIdAndIsFinishedFalseAndIsTestFalse(projectId, PageRequest.of(pageId, 5))
+				.stream().collect(Collectors.toList());
+
 	}
 
 	@Override
-	public int forkProject(String workerId, String publisherId, String projectId) {
-		return 0;
+	public List<Tag> viewTags(long workerId, long projectId) {
+		return tagRepository.findByWorkerIdAndProjectId(workerId, projectId);
 	}
 
-	@Override
-	public List<String> viewMyProjects(String workerId) {
-		return null;
-	}
 
-	@Override
-	public int viewProgress(String workerId, String publisherId, String projectId) {
-		return 0;
-	}
-
-	@Override
-	public List<String> viewUndoData(String workerId, String publisherId, String projectId) {
-		return null;
-	}
-
-	@Override
-	public List<String> viewDoneData(String workerId, String publisherId, String projectId) {
-		return null;
-	}
-
-	@Override
-	public Data getAData(String workerId, String publisherId, String projectId, String dataId) {
-		return null;
-	}
-
-	@Override
-	public Tag getATag(String workerId, String publisherId, String projectId, String tagId) {
-		return null;
-	}
-
-	@Override
-	public boolean uploadTag(String userId, String publisherId, String projectId, String tagId, Tag tag) {
-		return false;
-	}
-
-	@Override
-	public int push(String workerId, String publisherId, String projectId) {
-		return 0;
-	}
-
-	@Override
-	public List<String> viewFinishedPj(String wkId) {
-		return null;
-	}
-
-	@Override
-	public List<String> viewUnfinishedPj(String wkId) {
-		return null;
-	}
-
-	@Override
-	public boolean isPjFinished(String wkId, String pjKey) {
-		return false;
-	}
-
-	@Override
-	public TagRequirement getPjTagRequirement(String pubid, String pjid) {
-		return null;
-	}
 }

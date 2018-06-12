@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,20 +37,12 @@ public abstract class User {
 		this.email = email;
 		this.intro = intro;
 		this.money = money;
-	}
-
-	public User(String name, String pw, String email, String intro, long money, List<Ability> abilities) {
-
-		this.name = name;
-		this.pw = pw;
-		this.email = email;
-		this.intro = intro;
-		this.money = money;
-		this.abilities = abilities;
+		abilities = new ArrayList<>();
 	}
 
 	public User() {
 		super();
+		abilities = new ArrayList<>();
 	}
 	public String getName() {
 		return name;
@@ -84,6 +77,5 @@ public abstract class User {
 	public long getId() {
 		return id;
 	}
-
 
 }

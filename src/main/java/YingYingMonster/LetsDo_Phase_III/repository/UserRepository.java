@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    public User findById(long id);
 
     public User findByIdAndPw(long id,String pw);
 
@@ -20,6 +21,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u from User u where u.intro like %?1%")
     public List<User> findByIntroLike(String intro);
+
+    @Query("select u from User u where (u.intro like %?1% or u.name like %?1% or u.email like %?1%)")
+    public List<User> findByStringAttr(String key);
 
     @Query("update User u set u.money =u.money +?2 where u.id =?1")
     public void changeMoney(long id, long money);

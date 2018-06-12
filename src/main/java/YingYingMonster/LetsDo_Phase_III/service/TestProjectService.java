@@ -14,10 +14,11 @@ public interface TestProjectService {
     /**
      * 分页返回没做过的image
      * 一页5张图
+     *
      * @param testProjectId
      * @return
      */
-    public List<Image> getAPageOfImages(long testProjectId);
+    public List<Image> getAPageOfImages(int pageId, long testProjectId);
 
     /**
      * 上传/修改答案

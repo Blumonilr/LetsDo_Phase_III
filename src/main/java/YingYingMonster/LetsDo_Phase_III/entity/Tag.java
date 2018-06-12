@@ -13,6 +13,8 @@ public class Tag {
     @Id @GeneratedValue
     private long id;
 
+    private long workerId;
+
     private long imageId;
 
     private long projectId;
@@ -21,11 +23,20 @@ public class Tag {
 
     private String xmlFile;//xml文档
 
-    public Tag(long imageId, long projectId, byte[] data, String xmlFile) {
+    public Tag(long workerId, long imageId, long projectId, byte[] data, String xmlFile) {
+        this.workerId = workerId;
         this.imageId = imageId;
         this.projectId = projectId;
         this.data = data;
         this.xmlFile = xmlFile;
+    }
+
+    public long getWorkerId() {
+        return workerId;
+    }
+
+    public void setWorkerId(long workerId) {
+        this.workerId = workerId;
     }
 
     public long getProjectId() {
