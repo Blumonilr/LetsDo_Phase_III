@@ -11,6 +11,6 @@ public class Publisher extends User {
 
     public Publisher(String name, String pw, String email, String intro, long money) {
 
-        super(name, pw, email, intro, money,null);
+        super(name, pw, email, intro, money);
     }
 }
