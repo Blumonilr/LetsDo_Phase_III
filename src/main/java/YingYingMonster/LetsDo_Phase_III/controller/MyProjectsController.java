@@ -57,36 +57,36 @@ public class MyProjectsController {
     public String getList(@PathVariable("userId")String userId) {
     	
     	String res = "";
-    	List<String> list = service.viewMyProjects(userId);
-    	//pubid_projectid,
-    	int len = list.size();
-    	
-    	for(int i=0 ; i<len ; i++) {
-    		String publisherId = list.get(i).split("_")[0];
-    		String projectId = list.get(i).split("_")[1];
-    		if(!service.isPjFinished(userId, publisherId+"_"+projectId)) {
-    			//获取描述
-        		res += list.get(i);
-        		int progress = service.viewProgress(userId, publisherId, projectId);
-        	    Project project = service.getAProject(publisherId, projectId);
-        	    TagRequirement requirement = project.getTagRequirement();
-        	    String description = "";
-        	    switch(requirement.getMarkMode()) {
-					case SQUARE:
-        	        	description = "框选项目"+'\n';
-        	        	break;
-        	        case AREA:
-           	        	description = "区域覆盖标注项目"+'\n';
-        	        	break;
-        	        }
-        		res = res+"_"+ description+"_"+progress;
-        		if(i != len-1) {
-        			res = res + ",";
-        		}
-    		}
-    			
-    	}
-//    	System.out.println("getList "+res);
+//    	List<String> list = service.viewMyProjects(userId);
+//    	//pubid_projectid,
+//    	int len = list.size();
+//    	
+//    	for(int i=0 ; i<len ; i++) {
+//    		String publisherId = list.get(i).split("_")[0];
+//    		String projectId = list.get(i).split("_")[1];
+//    		if(!service.isPjFinished(userId, publisherId+"_"+projectId)) {
+//    			//获取描述
+//        		res += list.get(i);
+//        		int progress = service.viewProgress(userId, publisherId, projectId);
+//        	    Project project = service.getAProject(publisherId, projectId);
+//        	    TagRequirement requirement = project.getTagRequirement();
+//        	    String description = "";
+//        	    switch(requirement.getMarkMode()) {
+//					case SQUARE:
+//        	        	description = "框选项目"+'\n';
+//        	        	break;
+//        	        case AREA:
+//           	        	description = "区域覆盖标注项目"+'\n';
+//        	        	break;
+//        	        }
+//        		res = res+"_"+ description+"_"+progress;
+//        		if(i != len-1) {
+//        			res = res + ",";
+//        		}
+//    		}
+//    			
+//    	}
+////    	System.out.println("getList "+res);
     	return res;
     }
     
@@ -95,25 +95,25 @@ public class MyProjectsController {
     public String getProject(@PathVariable("publisherId")String publisherId,
     		@PathVariable("projectId")String projectId) {
     	
-    	String res = "";
-    	String description = "";
-        Project project = service.getAProject(publisherId, projectId);
-        TagRequirement requirement = project.getTagRequirement();
-        String type = "";
-        switch(requirement.getMarkMode()) {
-			case SQUARE:
-        	type="square";
-        	description = "框选"+'\n';
-        	break;
-        case AREA:
-        	type="area";
-        	description = "区域覆盖标注"+'\n';
-        	break;
-        }
-        
-        String req = requirement.getRequirement(); /*markMode是tags的时候，requirement为tag列表，tag之间以逗号隔开，其他模式都为具体要求*/
-        System.out.println("requirement: "+req);
-    	return type+":"+req ;
+//    	String description = "";
+//        Project project = service.getAProject(publisherId, projectId);
+//        TagRequirement requirement = project.getTagRequirement();
+//        String type = "";
+//        switch(requirement.getMarkMode()) {
+//			case SQUARE:
+//        	type="square";
+//        	description = "框选"+'\n';
+//        	break;
+//        case AREA:
+//        	type="area";
+//        	description = "区域覆盖标注"+'\n';
+//        	break;
+//        }
+//        
+//        String req = requirement.getRequirement(); /*markMode是tags的时候，requirement为tag列表，tag之间以逗号隔开，其他模式都为具体要求*/
+//        System.out.println("requirement: "+req);
+//    	return type+":"+req ;
+    	return "";
     }
     
     
@@ -145,7 +145,7 @@ public class MyProjectsController {
     public void pushProject(@PathVariable("userId")String userId,
     		@PathVariable("publisherId")String publisherId,
     		@PathVariable("projectId")String projectId) {
-    	service.push(userId, publisherId, projectId);
+    	//service.push(userId, publisherId, projectId);
     }
     
     
@@ -160,28 +160,30 @@ public class MyProjectsController {
     public String getProjectRequirement(@PathVariable("publisherId")String publisherId,
     		@PathVariable("projectId")String projectId) {
     	
-        Project project = service.getAProject(publisherId, projectId);
-        TagRequirement requirement = project.getTagRequirement();
-        
-        String req = requirement.getRequirement(); /*markMode是tags的时候，requirement为tag列表，tag之间以逗号隔开，其他模式都为具体要求*/
-     
-    	return req ;
+//        Project project = service.getAProject(publisherId, projectId);
+//        TagRequirement requirement = project.getTagRequirement();
+//        
+//        String req = requirement.getRequirement(); /*markMode是tags的时候，requirement为tag列表，tag之间以逗号隔开，其他模式都为具体要求*/
+//     
+//    	return req ;
+    	return "";
     }
     
     
     @GetMapping("/getProjectOverview/{projectId}")
     @ResponseBody
     public String getProjectOverviewPicture(@PathVariable("projectId")String projectId) {
-    	long pjId = Long.parseLong(projectId);
-    	String url;
-		try {
-			url = pjservice.getProjectOverview(pjId);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "";
-		}
-    	return url;
+//    	long pjId = Long.parseLong(projectId);
+//    	String url;
+//		try {
+//			url = pjservice.getProjectOverview(pjId);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return "";
+//		}
+//    	return url;
+    	return "";
     }
     
 }

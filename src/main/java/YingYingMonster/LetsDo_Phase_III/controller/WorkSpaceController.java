@@ -87,19 +87,19 @@ public class WorkSpaceController {
 			@PathVariable("userId")String userId ,
 			@PathVariable("publisherId")String publisherId) {
 		String str = "";//从service获得
-		ArrayList<String> list = (ArrayList<String>) service.viewDoneData(userId, publisherId, projectId);
-		if(list==null) {
-			return "";//空串
-		}
-		
-		int len = list.size();
-		for(int i=0 ; i<len ; i++) {
-			str += list.get(i);
-			if(i!=len-1) {
-				str+=",";
-			}
-		}
-		System.out.println(str);
+//		ArrayList<String> list = (ArrayList<String>) service.viewDoneData(userId, publisherId, projectId);
+//		if(list==null) {
+//			return "";//空串
+//		}
+//		
+//		int len = list.size();
+//		for(int i=0 ; i<len ; i++) {
+//			str += list.get(i);
+//			if(i!=len-1) {
+//				str+=",";
+//			}
+//		}
+//		System.out.println(str);
 		return str;
 	}
 	
@@ -134,22 +134,22 @@ public class WorkSpaceController {
    			@PathVariable("userId")String userId,
    			@PathVariable("publisherId")String publisherId,
    			@PathVariable("pictureId")String pictureId) throws Exception{  
-       	
-       	String JPG="image/jpeg;charset=UTF-8";      
-           // 获取输出流  
-           OutputStream outputStream = response.getOutputStream();  
-           // 读数据  
-           Data dataPac = service.getAData(userId, publisherId, projectId, pictureId);
-           System.out.println(userId+" "+publisherId+" "+projectId+" "+pictureId);
-           byte[] data = dataPac.getData();
-           int height = dataPac.getHeight();
-           int width = dataPac.getWidth();
-           String size = width+","+height;
-           // 回写  
-           response.setContentType(JPG);  
-           outputStream.write(data);  
-           outputStream.flush();  
-           outputStream.close();  
+//       	
+//       	String JPG="image/jpeg;charset=UTF-8";      
+//           // 获取输出流  
+//           OutputStream outputStream = response.getOutputStream();  
+//           // 读数据  
+//           Data dataPac = service.getAData(userId, publisherId, projectId, pictureId);
+//           System.out.println(userId+" "+publisherId+" "+projectId+" "+pictureId);
+//           byte[] data = dataPac.getData();
+//           int height = dataPac.getHeight();
+//           int width = dataPac.getWidth();
+//           String size = width+","+height;
+//           // 回写  
+//           response.setContentType(JPG);  
+//           outputStream.write(data);  
+//           outputStream.flush();  
+//           outputStream.close();  
            
        }  
     
@@ -164,16 +164,17 @@ public class WorkSpaceController {
     public String getNewPictureId(@PathVariable("projectId")String projectId ,
    			@PathVariable("userId")String userId,
    			@PathVariable("publisherId")String publisherId) {
-    	System.out.println("getnew:  "+userId+" "+ publisherId+" "+ projectId);
-    	List<String> list = service.viewUndoData(userId, publisherId, projectId);
-    	System.out.println("list size: "+list.size());
-    	if(list==null||list.size()==0) {
-    		return "";//没有内容
-    	}
-    	
-    	String id = list.get(0) ; //需要检查是否有内容！！
-    	
-    	return id;
+//    	System.out.println("getnew:  "+userId+" "+ publisherId+" "+ projectId);
+//    	List<String> list = service.viewUndoData(userId, publisherId, projectId);
+//    	System.out.println("list size: "+list.size());
+//    	if(list==null||list.size()==0) {
+//    		return "";//没有内容
+//    	}
+//    	
+//    	String id = list.get(0) ; //需要检查是否有内容！！
+//    	
+//    	return id;
+    	return "";
     }
     
     
@@ -187,21 +188,21 @@ public class WorkSpaceController {
    			@PathVariable("publisherId")String publisherId,
    			@PathVariable("pictureId")String pictureId) throws Exception{  
        	
-       	String JPG="image/jpeg;charset=UTF-8";      
-           // 获取输出流  
-           OutputStream outputStream = response.getOutputStream();  
-           // 读数据  
-           Data dataPac = service.getAData(userId, publisherId, projectId, pictureId);
-           System.out.println(userId+" "+publisherId+" "+projectId+" "+pictureId);
-           byte[] data = dataPac.getData();
-           int height = dataPac.getHeight();
-           int width = dataPac.getWidth();
-           String size = width+","+height;
-           // 回写  
-           response.setContentType(JPG);  
-           outputStream.write(data);  
-           outputStream.flush();  
-           outputStream.close();  
+//       	String JPG="image/jpeg;charset=UTF-8";      
+//           // 获取输出流  
+//           OutputStream outputStream = response.getOutputStream();  
+//           // 读数据  
+//           Data dataPac = service.getAData(userId, publisherId, projectId, pictureId);
+//           System.out.println(userId+" "+publisherId+" "+projectId+" "+pictureId);
+//           byte[] data = dataPac.getData();
+//           int height = dataPac.getHeight();
+//           int width = dataPac.getWidth();
+//           String size = width+","+height;
+//           // 回写  
+//           response.setContentType(JPG);  
+//           outputStream.write(data);  
+//           outputStream.flush();  
+//           outputStream.close();  
            
        }  
      
@@ -216,13 +217,14 @@ public class WorkSpaceController {
     			@PathVariable("publisherId")String publisherId,
     			@PathVariable("pictureId")String pictureId) throws Exception{  
         	
-            Data dataPac = service.getAData(userId, publisherId, projectId, pictureId);
-         
-            int height = dataPac.getHeight();
-            int width = dataPac.getWidth();
-           
-            String size = width+","+height;
-            return size;
+//            Data dataPac = service.getAData(userId, publisherId, projectId, pictureId);
+//         
+//            int height = dataPac.getHeight();
+//            int width = dataPac.getWidth();
+//           
+//            String size = width+","+height;
+//            return size;
+    	  return "";
         } 
       
       
@@ -244,8 +246,8 @@ public class WorkSpaceController {
         	
             String prg = "";
            
-            prg = service.viewProgress(userId, publisherId, projectId)+"";
-            System.out.println("get progress "+prg);
+//            prg = service.viewProgress(userId, publisherId, projectId)+"";
+//            System.out.println("get progress "+prg);
             return prg;
         }  
      
@@ -283,7 +285,7 @@ public class WorkSpaceController {
      	tag.setHeight(height);
      	tag.setType(type);
      	
-     	service.uploadTag(userId, publisherId, projectId, pictureId, tag);
+//     	service.uploadTag(userId, publisherId, projectId, pictureId, tag);
      }
      
      
@@ -304,24 +306,24 @@ public class WorkSpaceController {
       		@PathVariable("pictureId")String pictureId,
       		@PathVariable("publisherId")String publisherId) {
     	 String res = "";
-    	 Tag tag = service.getATag(userId, publisherId, projectId, pictureId);
-    	 Map<String, String> attr = tag.getAttributes();
-    	 
-    	 if(type.equals("tips")) {
-    		 for(Map.Entry<String,String > entry:attr.entrySet()){  
-       	         res = res+entry.getKey()+":"+entry.getValue()+",";
-       	  	 }  
-       	     res = res.substring(0, res.length()-1);//去掉一个逗号
-    	 }
-    	 else {
-    		 //total
-    		 for(Map.Entry<String,String > entry:attr.entrySet()){  
-       	         res = entry.getValue();
-       	         break;//只要第一个的value
-       	  	 }  
-    	 }
-    	 
-    	
+//    	 Tag tag = service.getATag(userId, publisherId, projectId, pictureId);
+//    	 Map<String, String> attr = tag.getAttributes();
+//    	 
+//    	 if(type.equals("tips")) {
+//    		 for(Map.Entry<String,String > entry:attr.entrySet()){  
+//       	         res = res+entry.getKey()+":"+entry.getValue()+",";
+//       	  	 }  
+//       	     res = res.substring(0, res.length()-1);//去掉一个逗号
+//    	 }
+//    	 else {
+//    		 //total
+//    		 for(Map.Entry<String,String > entry:attr.entrySet()){  
+//       	         res = entry.getValue();
+//       	         break;//只要第一个的value
+//       	  	 }  
+//    	 }
+//    	 
+//    	
     	 return res;
      }
      
@@ -342,17 +344,17 @@ public class WorkSpaceController {
        		@PathVariable("projectId")String projectId,
        		@PathVariable("pictureId")String pictureId,
        		@PathVariable("publisherId")String publisherId) throws Exception{
-    	 
-    	 Tag tag = service.getATag(userId, publisherId, projectId, pictureId);
-    	 byte[] data = tag.getData();
-    	 String JPG="image/jpeg;charset=UTF-8";
-    	 System.out.println("DATA: "+data);
-    	 response.setContentType(JPG);  
-         OutputStream outputStream = response.getOutputStream();  
- 	     outputStream.write(data);
- 		 outputStream.flush();  
- 		 outputStream.close();  
- 
+//    	 
+//    	 Tag tag = service.getATag(userId, publisherId, projectId, pictureId);
+//    	 byte[] data = tag.getData();
+//    	 String JPG="image/jpeg;charset=UTF-8";
+//    	 System.out.println("DATA: "+data);
+//    	 response.setContentType(JPG);  
+//         OutputStream outputStream = response.getOutputStream();  
+// 	     outputStream.write(data);
+// 		 outputStream.flush();  
+// 		 outputStream.close();  
+// 
      }
 }
 
