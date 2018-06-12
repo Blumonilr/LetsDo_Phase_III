@@ -20,4 +20,6 @@ public interface LabelService {
     public boolean deleteWorkerLabel(UserLabel userLabel);
 
     public boolean updateWorkerLabel(UserLabel userLabel);
+
+    public void updateWorkerAfterProject(long workerId,long projectId);
 }

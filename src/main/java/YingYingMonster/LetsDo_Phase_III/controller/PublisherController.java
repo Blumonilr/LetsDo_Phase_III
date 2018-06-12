@@ -63,7 +63,7 @@ public class PublisherController {
         int payment = Integer.parseInt(money);
         Project project = new Project(type, Long.parseLong(publisherId), projectName,
                 Integer.parseInt(maxNumPerPic), Integer.parseInt(minNumPerPic), endDate, tagRequirement, Integer.parseInt(levelLimit),
-                Double.parseDouble(testAccuracy), payment);
+                Double.parseDouble(testAccuracy), payment,null);
 
         project = publisherService.createProject(project, dataSet);
         if (project.getId() != 0) {

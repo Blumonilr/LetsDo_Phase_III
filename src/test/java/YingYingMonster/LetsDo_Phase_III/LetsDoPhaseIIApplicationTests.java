@@ -14,7 +14,7 @@ public class LetsDoPhaseIIApplicationTests {
 	@Test
 	public void contextLoads() {
 		Initializer ini=new Initializer();
-		ini.initTextNodeTree(new File("TextNodeTree"));
+		ini.initTextNodeTree(new File(System.getProperty("user.dir").replaceAll("\\\\", "/")+"/TextNodeTree"));
 	}
 
 }

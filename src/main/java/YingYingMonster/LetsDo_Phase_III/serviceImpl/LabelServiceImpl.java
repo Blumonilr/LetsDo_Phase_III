@@ -1,7 +1,10 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
+import YingYingMonster.LetsDo_Phase_III.entity.CommitEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.ProjectLabel;
 import YingYingMonster.LetsDo_Phase_III.entity.UserLabel;
+import YingYingMonster.LetsDo_Phase_III.repository.CommitEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectLabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.UserLabelRepository;
@@ -19,6 +22,8 @@ public class LabelServiceImpl implements LabelService {
     ProjectLabelRepository prlr;
     @Autowired
     LabelRepository lbr;
+    @Autowired
+    CommitEventRepository cer;
 
     @Override
     public List<UserLabel> findWorkerAllLabel(long workerId) {
@@ -70,5 +75,13 @@ public class LabelServiceImpl implements LabelService {
             return false;
         uslr.save(userLabel);
         return true;
+    }
+
+    @Override
+    public void updateWorkerAfterProject(long workerId,long projectId) {
+        List<CommitEvent> commits=cer.findByProjectid(projectId);
+        for(CommitEvent commit:commits){
+
+        }
     }
 }
