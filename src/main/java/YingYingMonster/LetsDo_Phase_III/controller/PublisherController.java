@@ -15,6 +15,7 @@ import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -68,15 +69,11 @@ public class PublisherController {
         }
         int payment = Integer.parseInt(money);
 
-        String[] tagList=tags.split(",");
-        List<ProjectLabel> labelList=new ArrayList<>();
-        for(int i=0;i<labelList.size();i++){
-            labelList.add(new ProjectLabel(tagList[i]));
-        }
+        String[] labelList=tags.split(",");
 
         Project project = new Project(type, Long.parseLong(publisherId), projectName,
                 Integer.parseInt(maxNumPerPic), Integer.parseInt(minNumPerPic), endDate, tagRequirement, Integer.parseInt(levelLimit),
-                Double.parseDouble(testAccuracy), payment,labelList);
+                Double.parseDouble(testAccuracy), payment,Arrays.asList(labelList));
 
         project = publisherService.createProject(project, dataSet);
         if (project.getId() != 0) {
