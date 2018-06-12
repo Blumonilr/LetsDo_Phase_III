@@ -1,9 +1,11 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import YingYingMonster.LetsDo_Phase_III.model.Project;
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
+import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
@@ -47,46 +50,36 @@ public class MyProjectsController {
     	
     }
     
-    /**
-     * 
+    /**  DONE
      * @param userId
-     * @return 返回项目列表
+     * @return 返回已参加项目列表
      */
     @GetMapping("/getList/{userId}")
     @ResponseBody
-    public String getList(@PathVariable("userId")String userId) {
+    public String getList(@PathVariable("userId")String uId,
+    		HttpServletRequest request, HttpServletResponse response) {
+    	long userId = Long.parseLong(uId);
+    	String key = request.getParameter("key");//模糊查找
     	
     	String res = "";
-//    	List<String> list = service.viewMyProjects(userId);
-//    	//pubid_projectid,
-//    	int len = list.size();
-//    	
-//    	for(int i=0 ; i<len ; i++) {
-//    		String publisherId = list.get(i).split("_")[0];
-//    		String projectId = list.get(i).split("_")[1];
-//    		if(!service.isPjFinished(userId, publisherId+"_"+projectId)) {
-//    			//获取描述
-//        		res += list.get(i);
-//        		int progress = service.viewProgress(userId, publisherId, projectId);
-//        	    Project project = service.getAProject(publisherId, projectId);
-//        	    TagRequirement requirement = project.getTagRequirement();
-//        	    String description = "";
-//        	    switch(requirement.getMarkMode()) {
-//					case SQUARE:
-//        	        	description = "框选项目"+'\n';
-//        	        	break;
-//        	        case AREA:
-//           	        	description = "区域覆盖标注项目"+'\n';
-//        	        	break;
-//        	        }
-//        		res = res+"_"+ description+"_"+progress;
-//        		if(i != len-1) {
-//        			res = res + ",";
-//        		}
-//    		}
-//    			
-//    	}
-////    	System.out.println("getList "+res);
+    	List<Project> list = service.viewMyProjects(userId,key);
+//    	//pjid_pjname_pubid_type
+    	int len = list.size();
+    	for(int i=0;i<len;i++) {
+    		Project project = list.get(i);
+    		String tip = project.getId()+"_"+project.getProjectName()+"_"+project.getPublisherId();
+    		String description = "";
+    		if(project.getType() == MarkMode.AREA) {
+    			description = "区域覆盖项目";
+    		}
+    		else if(project.getType() == MarkMode.SQUARE) {
+    			description = "方框框选项目";
+    		}
+    		res += tip;
+    		if(i != len-1) {
+    			res += ",";
+    		}
+    	}
     	return res;
     }
     
@@ -140,12 +133,21 @@ public class MyProjectsController {
     }
     
     
+    /**
+     * 结束一个项目
+     * @param request
+     * @param response
+     */
     @ResponseBody
-    @RequestMapping("/pushProject/{userId}/{publisherId}/{projectId}")
-    public void pushProject(@PathVariable("userId")String userId,
-    		@PathVariable("publisherId")String publisherId,
-    		@PathVariable("projectId")String projectId) {
-    	//service.push(userId, publisherId, projectId);
+    @RequestMapping("/terminateProject")
+    public void terminateProject(HttpServletRequest request, HttpServletResponse response) {
+    	String uid = request.getParameter("userId");
+    	String pjid = request.getParameter("projectId");
+    	
+    	long userId = Long.parseLong(uid);
+    	long projectId = Long.parseLong(pjid);
+    	
+    	service.quitProject(userId, projectId);
     }
     
     

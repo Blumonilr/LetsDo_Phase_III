@@ -21,13 +21,13 @@ function loadProjects(){
 			for(let i=0 ; i<len ; i++){
 				var number = list[i].length%10;
 				var ids = list[i].split("_");
-				//pubid_pjid
-				var pubid = ids[0];
-				var pjid = ids[1];
-				var description = ids[2];
-				var progress =  ids[3];
+				//pjid_pjname_pubid_description
+				var pubid = ids[2];
+				var pjid = ids[0];
+				var description = ids[3];
+				var pjname =  ids[1];
 				
-				var	finish = "<img id='"+pubid+"_"+pjid+"' src='/pic/projects/push.png' class='pushicon'  onClick='pushProject(this)'/>";//是否已完成
+				//var	finish = "<img id='"+pubid+"_"+pjid+"' src='/pic/projects/push.png' class='pushicon'  onClick='terminate_project(this)'/>";//是否已完成
 				
 				
 				var txt = " <div class='single-member effect-3'  id='"+pubid+"_"+pjid+"'>"+
@@ -35,24 +35,22 @@ function loadProjects(){
 		                	"<img src='/pic/projects/0"+number+".png' alt='Member'>"+
 		                "</div>"+
 		                "<div class='member-info'>"+
-		                	"<h3>"+pjid+"</h3>"+
+		                	"<h3>"+pjname+"</h3>"+
 		                    "<h5>"+description+"</h5>"+
 		                    "<p> 发布人："+pubid+"</p>"+
 		                    "<div class='social-touch' onClick='chooseProject(this)' id='"+pubid+"_"+pjid+"' >"+
 					             "<img class='pjicons' src='/pic/projects/work.png'></img>"+
 					             "查看详情"+
 		                    "</div>"+
-					        "<h5>"+progress+" %  ";
-					
-		          
-				
-				if(progress==="100"){
-					
-					txt = txt+finish;
-				}
-				
-				txt = txt+"</h5>"+ "</div>"+
-		                     "</div>";
+					        "<h5> 结束项目   "+
+                    "<img id='"+pubid+"_"+pjid+"' src='/pic/projects/push.png' class='pushicon'  onClick='terminate_project(this)'/>"+
+                    "</h5>"+ "</div>"+
+                    "</div>";
+
+				//	txt = txt+finish;
+
+			//	txt = txt+"</h5>"+ "</div>"+
+		                 //    "</div>";
 				
 				$("#projects").append(txt);
 			}
@@ -102,18 +100,22 @@ function viewDone(that){
 	window.location.href = "/workspace/viewDone/"+userId+"/"+ids[1]+"/"+ids[0];
 }
 
-function pushProject(that){
+//DONE
+function terminate_project(that){
 	//提交项目
 	var id = that.id;
 	var ids = id.split("_");//pubid_pjid
 	var userId = getCookie("userId");
-	var publisherId = ids[0];
 	var projectId = ids[1];
 	$.ajax({
-		url: "/myProjects/pushProject/" +userId+ "/"+publisherId+"/"+projectId,
+		url: "/myProjects/terminateProject",
 		type: "get",
+		data: {
+			"userId" : userId,
+			"projectId" : projectId,
+		}
 		success: function(){
-            toastr.success("提交成功！");
+            toastr.success("已退出该项目！");
             setTimeout("window.location.reload()",2500);//等待2.5秒后刷新界面
 		}
 	});
