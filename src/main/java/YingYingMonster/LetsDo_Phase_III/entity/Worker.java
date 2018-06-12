@@ -2,6 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.entity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.util.ArrayList;
 
 @Entity
 @DiscriminatorValue("WK")
@@ -17,7 +18,7 @@ public class Worker extends User {
 	public Worker(String name, String pw, String email, String intro, long money,
 				  int level, int exp, int tagNum, int passedTagNum) {
 
-		super(name, pw, email, intro, money);
+		super(name, pw, email, intro, money,new ArrayList<UserLabel>());
 		this.level = level;
 		this.exp = exp;
 		this.tagNum = tagNum;

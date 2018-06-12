@@ -12,7 +12,7 @@ public interface TextNodeRepository extends JpaRepository<TextNode,Long> {
 
     public TextNode findByName(String name);
 
-    public List<TextNode> findByFather(TextNode father);
+    public List<TextNode> findByFather(String father);
 
     @Modifying
     @Transactional(rollbackOn = Exception.class)
