@@ -4,6 +4,7 @@ import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="projects")
@@ -36,13 +37,17 @@ public class Project {
 
     private int money;//任务赏金
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="label_id")
+    List<ProjectLabel> labels;
+
     @OneToOne
     @JoinColumn(name = "testProject_id")
     private TestProject testProject;
 
     public Project(MarkMode type, long publisherId, String projectName,
                    int maxNumPerPic, int minNumPerPic, String endDate, String tagRequirement,
-                   int workerMinLevel, double testAccuracy, int money) {
+                   int workerMinLevel, double testAccuracy, int money,List<ProjectLabel> labels) {
         this.type = type;
         this.publisherId = publisherId;
         this.projectName = projectName;
@@ -54,6 +59,7 @@ public class Project {
         this.testAccuracy = testAccuracy;
         this.money = money;
         this.currWorkerNum=0;
+        this.labels=labels;
     }
 
     public ProjectState getProjectState() {
@@ -187,5 +193,13 @@ public class Project {
 
     public String toString(){
         return String.format("Project[id=%d , projectId=%s , publisherId=%d]", id,projectName,publisherId);
+    }
+
+    public List<ProjectLabel> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<ProjectLabel> labels) {
+        this.labels = labels;
     }
 }

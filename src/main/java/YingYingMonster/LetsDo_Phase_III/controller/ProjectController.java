@@ -1,5 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ public class ProjectController {
     AdminService adminService;
     @Autowired
     UserService userService;
+    @Autowired
+    ProjectService projectService;
 
     @GetMapping("/publisherProjects")
     public String projects() {
@@ -45,17 +48,21 @@ public class ProjectController {
     */
     @PostMapping("/publisherProjects")
     @ResponseBody
-    public String queryProjects(@RequestParam("keyword") String keyword){
+    public String queryProjects(@RequestParam("keyword") String keyword) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
         String userId = (String) session.getAttribute("userId");
-        List<Project> temp=publisherService.searchProjects(Long.parseLong(userId),keyword);
-        String result="";
-        for(int i=0;i<temp.size();i++){
-            if(i==temp.size()-1)
-                result+=temp.get(i).getProjectName()+"_"+userService.getUser(temp.get(i).getPublisherId()).getName()+"_"+temp.get(i).getTagRequirement()+"_"+ temp.get(i).getId();
-            else
-                result+=temp.get(i).getProjectName()+"_"+userService.getUser(temp.get(i).getPublisherId()).getName()+"_"+temp.get(i).getTagRequirement()+"_"+temp.get(i).getId()+"+";
+        List<Project> temp = publisherService.searchProjects(Long.parseLong(userId), keyword);
+        String result = "";
+        for (int i = 0; i < temp.size(); i++) {
+            try {
+                if (i == temp.size() - 1) {
+                    result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getTagRequirement() + "_" + temp.get(i).getId() + "_" + projectService.getProjectOverview(temp.get(i).getId());
+                } else
+                    result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getTagRequirement() + "_" + temp.get(i).getId() + "_" + projectService.getProjectOverview(temp.get(i).getId()) + "+";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return result;
     }
