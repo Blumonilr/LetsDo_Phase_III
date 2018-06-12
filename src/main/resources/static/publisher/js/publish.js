@@ -11,6 +11,30 @@ var fileselect = $id("fileselect"),
 window.onload=function () {
     document.getElementById("userId").innerHTML=getCookie("userId")+"&nbsp;";
     $("#profile").attr("href","/user/userDetail/"+getCookie("userId"));
+    var tagOpt={
+        inputclass: 'input-large',
+        select2: {
+            tags: [],
+            tokenSeparators: [","]
+        }
+    };
+    $.ajax({
+        url:"/publisherPage/getLabels",
+        type:"POST",
+        secureuri : false,
+        dataType:"text",
+        processData: false,
+        contentType: false,
+        success:function(res){
+            tagOpt.select2.tags=res.split(",");
+            $('#tags').editable(tagOpt);
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown+"\n"+"发生了预料之外的错误，请稍后再试或联系开发人员");
+        }
+    })
+
+
     // call initialization file
     if (window.File && window.FileList && window.FileReader) {
         Init();
@@ -27,6 +51,7 @@ function uploadDataSet() {
     var levelLimit=$("#levelLimit").text();
     var testAccuracy=$("#testAccuracy").text();
     var money=$("#payment").text();
+    var tags=$('#tags').text();
 
     var formData = new FormData();
     formData.append("file",fileResult);
@@ -39,6 +64,7 @@ function uploadDataSet() {
     formData.append("levelLimit",levelLimit);
     formData.append("testAccuracy",testAccuracy);
     formData.append("money",money);
+    formData.append("tags",tags);
 
     $.ajax({
         url:"/publisherPage/publish",

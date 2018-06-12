@@ -17,6 +17,10 @@ public class ProjectLabel extends Label{
     public ProjectLabel() {
     }
 
+    public ProjectLabel(String name) {
+        super(name);
+    }
+
     public long getProjectId() {
         return projectId;
     }
