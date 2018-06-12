@@ -24,7 +24,7 @@ public class ProjectServiceImpl implements ProjectService  {
         File file = new File(path);
         if (file.exists()){
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(Thumbnails.of(file).asBufferedImage(), "jpg", byteArrayOutputStream);
+            ImageIO.write(Thumbnails.of(file).scale(1.0).asBufferedImage(), "jpg", byteArrayOutputStream);
             data = byteArrayOutputStream.toByteArray();
         }
         return data;
