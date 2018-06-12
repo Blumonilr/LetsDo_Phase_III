@@ -25,6 +25,8 @@ public abstract class User implements Persistent{
 		this.name = name;
 	}
 	private Calendar updateTime;
+
+
 	
 	/**
 	 * 只能检验密码是否正确，不能查看密码

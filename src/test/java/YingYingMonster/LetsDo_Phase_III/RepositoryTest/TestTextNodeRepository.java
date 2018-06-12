@@ -40,11 +40,6 @@ public class TestTextNodeRepository {
     }
 
     @Test
-    public void testIni(){
-        Initializer ini=new Initializer();
-        ini.initTextNodeTree(new File("TextNodeTree"));
-    }
-    @Test
     public void testover(){
         tr.deleteAll();
     }
