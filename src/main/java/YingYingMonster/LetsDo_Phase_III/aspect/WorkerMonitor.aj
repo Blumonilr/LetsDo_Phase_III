@@ -5,6 +5,7 @@ import YingYingMonster.LetsDo_Phase_III.entity.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.repository.CommitEventRepository;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public aspect WorkerMonitor {
      * @param tag
      * @throws Throwable
      */
+    @Around(value = "innerTestPoint(workerId,tag)")
     public void recordTestProjectCommitEvent(ProceedingJoinPoint proceedingJoinPoint,
                                              long workerId, Tag tag) throws Throwable {
         Tag res = (Tag) proceedingJoinPoint.proceed();

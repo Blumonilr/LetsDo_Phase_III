@@ -17,19 +17,37 @@ public abstract class User {
 	
 	private String name,pw,email,intro;
 	private long money;
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="label_id")
-	List<UserLabel> labels;
 
-	public User(String name, String pw, String email, String intro, long money,List<UserLabel> labels) {
-		super();
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Ability> abilities;
+
+	public List<Ability> getAbilities() {
+		return abilities;
+	}
+
+	public void setAbilities(List<Ability> abilities) {
+		this.abilities = abilities;
+	}
+
+	public User(String name, String pw, String email, String intro, long money) {
+
 		this.name = name;
 		this.pw = pw;
 		this.email = email;
 		this.intro = intro;
 		this.money = money;
-		this.labels=labels;
 	}
+
+	public User(String name, String pw, String email, String intro, long money, List<Ability> abilities) {
+
+		this.name = name;
+		this.pw = pw;
+		this.email = email;
+		this.intro = intro;
+		this.money = money;
+		this.abilities = abilities;
+	}
+
 	public User() {
 		super();
 	}
@@ -68,11 +86,4 @@ public abstract class User {
 	}
 
 
-	public List<UserLabel> getLabels() {
-		return labels;
-	}
-
-	public void setLabels(List<UserLabel> labels) {
-		this.labels = labels;
-	}
 }
