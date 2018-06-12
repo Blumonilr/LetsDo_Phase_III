@@ -31,4 +31,8 @@ public interface ProjectService {
     public Project closeProject(long projectId);
 
     public byte[] getProjectOverview(long projectId) throws IOException;
+
+    public void setProjectCustomTextNode(long projectId,String xmlFile);
+
+    public List<String> getProjectTextNode(long projectId);
 }

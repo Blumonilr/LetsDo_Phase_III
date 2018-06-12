@@ -87,6 +87,8 @@ public class Initializer {
 			System.out.println("running batch");
 			executeBatch(batch);
 		}
+
+		initTextNodeTree(new File(System.getProperty("user.dir").replaceAll("\\\\", "/")+"/TextNodeTree"));
 		
 	}
 	

@@ -41,6 +41,8 @@ public class Project {
     @ElementCollection(targetClass = String.class,fetch = FetchType.EAGER)
     List<String> labels;
 
+    private String xmlFile;
+
     @OneToOne
     @JoinColumn(name = "testProject_id")
     private TestProject testProject;
@@ -201,5 +203,17 @@ public class Project {
 
     public void addLabel(Label label) {
         this.labels.add(label.getName());
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
+    }
+
+    public String getXmlFile() {
+        return xmlFile;
+    }
+
+    public void setXmlFile(String xmlFile) {
+        this.xmlFile = xmlFile;
     }
 }
