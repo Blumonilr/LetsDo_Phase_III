@@ -3,10 +3,13 @@ package YingYingMonster.LetsDo_Phase_III.service;
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface TestProjectService {
+
+    public TestProject addTestProject(long projectId, MultipartFile multipartFile);
 
     /**
      * 分页返回没做过的image

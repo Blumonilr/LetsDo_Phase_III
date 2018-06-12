@@ -1,17 +1,22 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TagRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TestProjectRepository;
+import YingYingMonster.LetsDo_Phase_III.service.ImageService;
 import YingYingMonster.LetsDo_Phase_III.service.TestProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,6 +30,38 @@ public class TestProjectServiceImpl implements TestProjectService {
 
     @Autowired
     TagRepository tagRepository;
+
+    @Autowired
+    ImageService imageService;
+
+    @Autowired
+    ProjectRepository projectRepository;
+
+    @Override
+    public TestProject addTestProject(long projectId, MultipartFile multipartFile) {
+        TestProject testProject = new TestProject();
+        Project project = projectRepository.findById(projectId);
+        testProject.setMarkMode(project.getType());
+
+        int picNum = imageService.saveImages(multipartFile, projectId,true);
+        testProject.setPicNum(picNum);
+        testProject.setInviteCode(generateUUID());
+        testProject = testProjectRepository.saveAndFlush(testProject);
+        projectRepository.updateTestProject(projectId, testProject);
+
+        return testProject;
+    }
+
+    private String generateUUID(){
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+            int index = (int) (Math.random() * 4);
+            sb.append(uuid.substring(i, i + 4).charAt(index));
+        }
+
+        return sb.toString();
+    }
 
     @Override
     /**
