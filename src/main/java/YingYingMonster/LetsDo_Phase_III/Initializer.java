@@ -8,7 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import YingYingMonster.LetsDo_Phase_III.entity.Label;
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
+import YingYingMonster.LetsDo_Phase_III.entity.ProjectLabel;
 import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
+import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TextNodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -22,6 +26,7 @@ public class Initializer {
 	private MockDB db=context.getBean(MockDB.class);
 	private CSVHandler handler=context.getBean(CSVHandler.class);
 	private TextNodeRepository tr=context.getBean(TextNodeRepository.class);
+	private LabelRepository lr=context.getBean(LabelRepository.class);
 	
 	public void initialize(){
 		System.out.println(System.getProperty("user.dir"));
@@ -130,13 +135,14 @@ public class Initializer {
 						attri.add(attribution);
 					}
 					TextNode son = new TextNode(line.replace("    ", ""), currentFather, true, attri);
+					Label label=new Label(line.replace("    ", ""));
+					lr.save(label);
 					tr.save(son);
 				}
 				else{
 					currentFather=line;
 					System.out.println(currentFather);
 					TextNode father=new TextNode(currentFather,null,false,null);
-					System.out.println(father.getName());
 					tr.save(father);
 				}
 			}

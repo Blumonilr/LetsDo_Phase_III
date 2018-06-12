@@ -1,11 +1,14 @@
 package YingYingMonster.LetsDo_Phase_III.service;
 
+import YingYingMonster.LetsDo_Phase_III.entity.Label;
 import YingYingMonster.LetsDo_Phase_III.entity.ProjectLabel;
 import YingYingMonster.LetsDo_Phase_III.entity.UserLabel;
 
 import java.util.List;
 
 public interface LabelService {
+
+    public List<Label> findAllLabel();
 
     public List<UserLabel> findWorkerAllLabel(long workerId);
 
