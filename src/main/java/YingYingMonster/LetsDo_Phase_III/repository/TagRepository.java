@@ -18,7 +18,15 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     @Query("select t from Tag t where t.imageId in ?1")
     public List<Tag>findByImageIds(List<Long>list);
 
-    List<Tag> findByProjectId(long id, Pageable pageable);
+    public List<Tag> findByProjectId(long id, Pageable pageable);
+
+    public List<Tag> findByWorkerId(long workerId);
+
+    public List<Tag> findByWorkerIdAndProjectId(long workerId, long projectId);
+
+    public Tag findByWorkerIdAndImageId(long workerId, long imageId);
+
+
 }
 
 

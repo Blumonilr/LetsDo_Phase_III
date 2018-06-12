@@ -67,9 +67,9 @@ public class TestProjectServiceImpl implements TestProjectService {
     /**
      * 查看下一页未完成的测试集图片
      */
-    public List<Image> getAPageOfImages(long testProjectId) {
+    public List<Image> getAPageOfImages(int pageId, long testProjectId) {
         return imageRepository.findByProjectIdAndIsFinishedFalseAndIsTestTrue(testProjectId,
-                PageRequest.of(0, 5)).stream().collect(Collectors.toList());
+                PageRequest.of(pageId, 5)).stream().collect(Collectors.toList());
     }
 
     @Override

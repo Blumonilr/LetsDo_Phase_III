@@ -2,6 +2,8 @@ package YingYingMonster.LetsDo_Phase_III.service;
 
 import java.util.List;
 
+import YingYingMonster.LetsDo_Phase_III.entity.Ability;
+import YingYingMonster.LetsDo_Phase_III.entity.Label;
 import YingYingMonster.LetsDo_Phase_III.entity.User;
 
 public interface UserService {
@@ -40,4 +42,8 @@ public interface UserService {
 	 * @return
 	 */
 	public List<User> findByStringAttr(String attr);
+
+	public List<Label> getUserLabels(long userId);
+
+	public List<Ability> getUserAbilities(long userId);
 }

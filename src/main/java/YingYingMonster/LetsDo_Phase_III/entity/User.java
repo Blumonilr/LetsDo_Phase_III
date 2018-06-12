@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,21 +18,31 @@ public abstract class User {
 	
 	private String name,pw,email,intro;
 	private long money;
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="label_id")
-	List<UserLabel> labels;
 
-	public User(String name, String pw, String email, String intro, long money,List<UserLabel> labels) {
-		super();
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Ability> abilities;
+
+	public List<Ability> getAbilities() {
+		return abilities;
+	}
+
+	public void setAbilities(List<Ability> abilities) {
+		this.abilities = abilities;
+	}
+
+	public User(String name, String pw, String email, String intro, long money) {
+
 		this.name = name;
 		this.pw = pw;
 		this.email = email;
 		this.intro = intro;
 		this.money = money;
-		this.labels=labels;
+		abilities = new ArrayList<>();
 	}
+
 	public User() {
 		super();
+		abilities = new ArrayList<>();
 	}
 	public String getName() {
 		return name;
@@ -67,12 +78,4 @@ public abstract class User {
 		return id;
 	}
 
-
-	public List<UserLabel> getLabels() {
-		return labels;
-	}
-
-	public void setLabels(List<UserLabel> labels) {
-		this.labels = labels;
-	}
 }

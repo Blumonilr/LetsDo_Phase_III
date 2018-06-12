@@ -2,11 +2,14 @@ package YingYingMonster.LetsDo_Phase_III.aspect;
 
 
 import YingYingMonster.LetsDo_Phase_III.entity.CommitEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
+import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.CommitEventRepository;
+import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
+import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +21,12 @@ public aspect WorkerMonitor {
 
     @Autowired
     CommitEventRepository commitEventRepository;
+    @Autowired
+    AbilityRepository abilityRepository;
+    @Autowired
+    UserService userService;
+    @Autowired
+    ProjectService projectService;
 
     /**
      * 项目测试集答案制作切点
@@ -28,6 +37,15 @@ public aspect WorkerMonitor {
             ".uploadAnswer(..)) &&args(workerId,tag) ", argNames = "workerId,tag")
     public void innerTestPoint(long workerId,Tag tag){}
 
+    /**
+     * execute when worker joins a project
+     * @param workerId
+     * @param projectId
+     */
+    @Pointcut(value = "execution(int YingYingMonster.LetsDo_Phase_III.service." +
+            "WorkerService.joinProject(..))&&args(workerId,projectId) ", argNames = "workerId,projectId")
+    public void joinProject(long workerId, long projectId) {}
+
 
     /**
      *
@@ -36,6 +54,7 @@ public aspect WorkerMonitor {
      * @param tag
      * @throws Throwable
      */
+    @Around(value = "innerTestPoint(workerId,tag)")
     public void recordTestProjectCommitEvent(ProceedingJoinPoint proceedingJoinPoint,
                                              long workerId, Tag tag) throws Throwable {
         Tag res = (Tag) proceedingJoinPoint.proceed();
@@ -45,6 +64,12 @@ public aspect WorkerMonitor {
         System.out.println("monitor in package aspect works!");
     }
 
-//    @Pointcut(value = "execution() &&args(tag) ")
-//    public void workPoint(Tag tag) {}
+    @AfterReturning(value = "joinProject(workerId,projectId)",returning = "res")
+    public void updateAbilityWhenJoin(long workerId, long projectId,int res) {
+
+        if (res == 0) {
+            Project project = projectService.getAProject(projectId);
+
+        }
+    }
 }

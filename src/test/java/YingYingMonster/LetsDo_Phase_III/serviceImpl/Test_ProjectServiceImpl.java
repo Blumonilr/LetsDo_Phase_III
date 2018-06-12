@@ -26,7 +26,7 @@ public class Test_ProjectServiceImpl {
 //        System.out.println(System.getProperty("user.dir"));
 
         Image image = imageRepository.findAll().get(0);
-        publisherService.saveProjectOverview(90, image);
+//        publisherService.saveProjectOverview(90, image);
         String path = "src/main/resources/static/images/projectOverview/pj" + 90 + ".jpg";
         File file = new File(path);
         assertEquals(true, file.exists());
