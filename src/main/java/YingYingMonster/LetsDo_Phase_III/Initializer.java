@@ -9,12 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Label;
-import YingYingMonster.LetsDo_Phase_III.entity.Project;
-import YingYingMonster.LetsDo_Phase_III.entity.ProjectLabel;
 import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
 import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TextNodeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import YingYingMonster.LetsDo_Phase_III.dao.MockDB;
 import YingYingMonster.LetsDo_Phase_III.daoImpl.CSVHandler;

@@ -18,7 +18,7 @@ public abstract class User {
 	private String name,pw,email,intro;
 	private long money;
 	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="label_id")
+	@JoinColumn(name="userId")
 	List<UserLabel> labels;
 
 	public User(String name, String pw, String email, String intro, long money,List<UserLabel> labels) {

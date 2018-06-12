@@ -1,7 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.service;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Label;
-import YingYingMonster.LetsDo_Phase_III.entity.ProjectLabel;
 import YingYingMonster.LetsDo_Phase_III.entity.UserLabel;
 
 import java.util.List;
@@ -12,13 +11,13 @@ public interface LabelService {
 
     public List<UserLabel> findWorkerAllLabel(long workerId);
 
-    public List<ProjectLabel> findProjectAllLabel(long projectId);
+    public List<String> findProjectAllLabel(long projectId);
 
     public UserLabel findWorkerLabel(long workerId,String labelName);
 
     public boolean addWorkerLabel(UserLabel userLabel);
 
-    public boolean addProjectLabel(ProjectLabel projectLabel);
+    public boolean addProjectLabel(Label projectLabel,long projectId);
 
     public boolean deleteWorkerLabel(UserLabel userLabel);
 

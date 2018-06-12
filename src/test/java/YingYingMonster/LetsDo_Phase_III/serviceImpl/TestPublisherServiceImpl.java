@@ -20,15 +20,15 @@ public class TestPublisherServiceImpl {
      */
     @Test public void test_uuid(){
         String uuid, old_uuid;
-        uuid = old_uuid = publisherService.generateUUID();
-        for (int i = 0; i < 10000000; i++) {
-            uuid = publisherService.generateUUID();
-            if (uuid.equals(old_uuid)) {
-                System.out.println("duplicate at " + i + " times");
-                break;
-            } else {
-                old_uuid = uuid;
-            }
-        }
+//        uuid = old_uuid = publisherService.generateUUID();
+//        for (int i = 0; i < 10000000; i++) {
+//            uuid = publisherService.generateUUID();
+//            if (uuid.equals(old_uuid)) {
+//                System.out.println("duplicate at " + i + " times");
+//                break;
+//            } else {
+//                old_uuid = uuid;
+//            }
+//        }
     }
 }
