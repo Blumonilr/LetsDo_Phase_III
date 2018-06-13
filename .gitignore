@@ -26,3 +26,7 @@ nbdist/
 
 ### dev
 .yml
+
+###jpg
+projectOverview/*.jpg
+
