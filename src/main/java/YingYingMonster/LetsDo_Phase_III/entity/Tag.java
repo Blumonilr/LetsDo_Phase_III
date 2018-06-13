@@ -2,10 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.entity;
 
 import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tags")
@@ -19,8 +16,10 @@ public class Tag {
 
     private long projectId;
 
+    @Column(length = 20971520)
     private byte[] data;//图片
 
+    @Column(length = 255)
     private String xmlFile;//xml文档
 
     public Tag(long workerId, long imageId, long projectId, byte[] data, String xmlFile) {
