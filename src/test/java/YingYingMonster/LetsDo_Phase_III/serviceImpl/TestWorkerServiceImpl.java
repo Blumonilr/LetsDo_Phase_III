@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,13 +70,13 @@ public class TestWorkerServiceImpl {
 		Project project = new Project(MarkMode.AREA, 1, "pj1",
 				5, 1, null, "",
 				0, 0.60, 0, Arrays.asList("label"));
-		Project project1 = new Project(MarkMode.AREA, 1, "pj1",
+		Project project1 = new Project(MarkMode.AREA, 1, "pj2",
 				5, 1, null, "",
 				0, 0.60, 0, Arrays.asList("label1"));
-		Project project2 = new Project(MarkMode.AREA, 1, "pj1",
+		Project project2 = new Project(MarkMode.AREA, 1, "pj3",
 				5, 1, null, "",
 				0, 0.60, 0, Arrays.asList("label1","label2"));
-		Project project3 = new Project(MarkMode.AREA, 1, "pj1",
+		Project project3 = new Project(MarkMode.AREA, 1, "pj4",
 				5, 1, null, "",
 				0, 0.60, 0, Arrays.asList("label","label1"));
 		projectRepository.save(project);
@@ -85,23 +86,26 @@ public class TestWorkerServiceImpl {
 		projectRepository.flush();
 	}
 
-	public void teardown(){
-		userService.deleteUsersByName(Arrays.asList("name1", "name2", "name3"));
-		labelRepository.deleteAll();
-		abilityRepository.deleteAll();
-		projectRepository.deleteAll();
-	}
+	//this method is not safe!!!
+//	@Transactional(rollbackOn = Exception.class)
+//	public void teardown(){
+//		userService.deleteUsersByName(Arrays.asList("name1", "name2", "name3"));
+//		labelRepository.deleteAll();
+//		abilityRepository.deleteAll();
+//		projectRepository.deleteAll();
+//	}
 
 	@Test public void test_discover_projects(){
+//		teardown();
 		setup();
 		User user = userService.findUsersByName("name1").get(0);
 		List<Project> projects = wkService.discoverProjects(user.getId());
 		for (Project project : projects) {
 			System.out.println(project.getProjectName());
 		}
-		teardown();
+//		teardown();
 	}
 	
-
+	
 
 }

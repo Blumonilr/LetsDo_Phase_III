@@ -44,7 +44,8 @@ public class ProjectServiceImpl implements ProjectService  {
     public List<Project> viewAllProjects(List<String> list) {
         //list is sorted list of user's attributes...
         List<Project> projects = projectRepository.findAll();
-        Set<Project> res = new HashSet<>();
+//        Set<Project> res = new HashSet<>();
+        List<Project> res = new ArrayList<>();
         for (String s : list) {
             for (Project project : projects) {
                 if (project.getLabels().contains(s)) {
@@ -52,7 +53,7 @@ public class ProjectServiceImpl implements ProjectService  {
                 }
             }
         }
-        return res.stream().collect(Collectors.toList());
+        return res.stream().distinct().collect(Collectors.toList());
     }
 
     @Override

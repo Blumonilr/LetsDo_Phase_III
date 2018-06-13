@@ -20,13 +20,13 @@ public class MyProjectsDebug {
 		System.out.println("============");
 		System.out.println("MyProjectsController.getList");
 		
-		List<String>list=wks.viewMyProjects(userId);
-		for(String str:list){
-			boolean flag=wks.isPjFinished(userId, str);
-			System.out.println("==="+flag);
-			System.out.println("==="+str);
-		}
-		System.out.println("===getList for : "+userId);
+//		List<String>list=wks.viewMyProjects(userId);
+//		for(String str:list){
+//			boolean flag=wks.isPjFinished(userId, str);
+//			System.out.println("==="+flag);
+//			System.out.println("==="+str);
+//		}
+//		System.out.println("===getList for : "+userId);
 		
 		String res=(String) pjp.proceed();
 		System.out.println("==="+res);

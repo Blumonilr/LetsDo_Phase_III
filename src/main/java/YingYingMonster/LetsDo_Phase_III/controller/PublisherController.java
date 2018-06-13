@@ -69,7 +69,11 @@ public class PublisherController {
         }
         int payment = Integer.parseInt(money);
 
-        String[] labelList=tags.split(",");
+        String[] tagList=tags.split(",");
+        List<String> labelList=new ArrayList<>();
+        for(int i=0;i<labelList.size();i++){
+            labelList.add(tagList[i]);
+        }
 
         Project project = new Project(type, Long.parseLong(publisherId), projectName,
                 Integer.parseInt(maxNumPerPic), Integer.parseInt(minNumPerPic), endDate, tagRequirement, Integer.parseInt(levelLimit),

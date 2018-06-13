@@ -75,7 +75,7 @@ public aspect WorkerMonitor {
             Project project = projectService.getAProject(projectId);
             User user = userService.getUser(workerId);
 
-            List<Ability> abilities = abilityRepository.findByUser(workerId);
+            List<Ability> abilities = abilityRepository.findByUser(user);
             List<String> user_label_names = abilities.stream().map(x -> x.getLabel().getName())
                     .collect(Collectors.toList());
 
