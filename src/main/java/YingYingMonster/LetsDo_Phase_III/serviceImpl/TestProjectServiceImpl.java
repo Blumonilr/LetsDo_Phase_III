@@ -46,6 +46,7 @@ public class TestProjectServiceImpl implements TestProjectService {
         int picNum = imageService.saveImages(multipartFile, projectId,true);
         testProject.setPicNum(picNum);
         testProject.setInviteCode(generateUUID());
+        testProject.setProject(project);
         testProject = testProjectRepository.saveAndFlush(testProject);
         projectRepository.updateTestProject(projectId, testProject);
 
