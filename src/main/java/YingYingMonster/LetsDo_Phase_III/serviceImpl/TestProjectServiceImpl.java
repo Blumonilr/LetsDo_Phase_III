@@ -76,6 +76,7 @@ public class TestProjectServiceImpl implements TestProjectService {
     public Tag uploadAnswer(long workerId,Tag tag) {
         long imageId = tag.getImageId();
         imageRepository.updateIsFinished(imageId, true);
+        tag.setResult(true);
         return tagRepository.saveAndFlush(tag);
     }
 

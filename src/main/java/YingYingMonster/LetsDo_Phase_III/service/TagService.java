@@ -1,11 +1,11 @@
 package YingYingMonster.LetsDo_Phase_III.service;
 
-import YingYingMonster.LetsDo_Phase_III.model.ObjectTag;
+import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 
 import java.util.List;
 
 public interface TagService {
-	public List<String> getProjectTags(String projectId,String publisherId);
-	public boolean addTag(ObjectTag tag);
-	public boolean modifyTag(ObjectTag tag);
+	public List<Tag> getProjectTags(long projectId);
+	public List<Tag> getImageTags(long imageId);
+	public double calculateAccuracy(long tagId);
 }
