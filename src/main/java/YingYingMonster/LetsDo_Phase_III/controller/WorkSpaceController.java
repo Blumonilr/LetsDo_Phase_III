@@ -45,7 +45,7 @@ public class WorkSpaceController {
 		}	
 		else {
 			//default
-			return "workspace/total";
+			return "error";
 		}
 	}
 	
