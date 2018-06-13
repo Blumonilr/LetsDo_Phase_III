@@ -51,7 +51,7 @@ public interface WorkerService {
 	 */
 	public void quitProject(long workerId, long projectId);
 
-	public void uploadTag(Tag tag);
+	public Tag uploadTag(Tag tag);
 
 	public List<Image> getAPageOfImage(long projectId, int pageId);
 
@@ -62,7 +62,6 @@ public interface WorkerService {
 	 * @return
 	 */
 	public List<Tag> viewTags(long workerId, long projectId);
-
 
 	
 }

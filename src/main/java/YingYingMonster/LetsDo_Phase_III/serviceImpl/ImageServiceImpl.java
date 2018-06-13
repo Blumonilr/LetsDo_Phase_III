@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
+import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ImageService;
 import de.innosystec.unrar.Archive;
@@ -102,6 +103,11 @@ public class ImageServiceImpl implements ImageService {
 
         imageRepository.flush();
         return picNum;
+    }
+
+    @Override
+    public Tag calculateResult(long imageId) {
+        return null;
     }
 
     private void saveProjectOverview(long projectId, Image image) {

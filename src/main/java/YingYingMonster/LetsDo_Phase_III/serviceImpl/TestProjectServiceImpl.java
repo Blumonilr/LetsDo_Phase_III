@@ -46,6 +46,7 @@ public class TestProjectServiceImpl implements TestProjectService {
         int picNum = imageService.saveImages(multipartFile, projectId,true);
         testProject.setPicNum(picNum);
         testProject.setInviteCode(generateUUID());
+        testProject.setProject(project);
         testProject = testProjectRepository.saveAndFlush(testProject);
         projectRepository.updateTestProject(projectId, testProject);
 
@@ -76,6 +77,7 @@ public class TestProjectServiceImpl implements TestProjectService {
     public Tag uploadAnswer(long workerId,Tag tag) {
         long imageId = tag.getImageId();
         imageRepository.updateIsFinished(imageId, true);
+        tag.setResult(true);
         return tagRepository.saveAndFlush(tag);
     }
 

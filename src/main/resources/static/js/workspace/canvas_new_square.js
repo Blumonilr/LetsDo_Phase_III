@@ -612,7 +612,7 @@ function get_xml_string(){
         tags = tags + "            </tags>\n";
 
         for(let i=0;i<yellow_obj_list.length;i++){
-            var temp_points = red_obj_list[i];
+            var temp_points = yellow_obj_list[i];
             var x1 = temp_points[0][0];
             var y1 = temp_points[0][1];
             var x2 = temp_points[1][0];

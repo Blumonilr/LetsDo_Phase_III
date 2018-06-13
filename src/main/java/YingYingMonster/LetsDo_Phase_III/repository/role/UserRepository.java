@@ -2,8 +2,10 @@ package YingYingMonster.LetsDo_Phase_III.repository.role;
 
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
