@@ -12,7 +12,7 @@ public interface ProjectService {
 
     public List<Project> viewAllProjects();
 
-    public List<Project> viewAllProjects(User user);
+    public List<Project> viewAllProjects(List<String> list);
 
     public List<Project> findWorkerProjects(long workerId, String key);
 

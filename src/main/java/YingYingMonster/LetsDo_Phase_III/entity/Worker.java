@@ -13,6 +13,7 @@ public class Worker extends User {
 	private int tagNum,passedTagNum;
 
 	public Worker() {
+		super();
 	}
 
 	public Worker(String name, String pw, String email, String intro, long money,

@@ -17,8 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -42,10 +41,18 @@ public class ProjectServiceImpl implements ProjectService  {
     }
 
     @Override
-    public List<Project> viewAllProjects(User user) {
-        //do something with user's attributes...
-
-        return projectRepository.findAll();
+    public List<Project> viewAllProjects(List<String> list) {
+        //list is sorted list of user's attributes...
+        List<Project> projects = projectRepository.findAll();
+        Set<Project> res = new HashSet<>();
+        for (String s : list) {
+            for (Project project : projects) {
+                if (project.getLabels().contains(s)) {
+                    res.add(project);
+                }
+            }
+        }
+        return res.stream().collect(Collectors.toList());
     }
 
     @Override

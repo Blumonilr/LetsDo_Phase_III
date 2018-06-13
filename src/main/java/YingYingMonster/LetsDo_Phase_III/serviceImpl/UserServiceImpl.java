@@ -70,4 +70,29 @@ public class UserServiceImpl implements UserService {
     public List<Ability> getUserAbilities(long userId) {
         return userRepository.findById(userId).getAbilities();
     }
+
+    @Override
+    public void deleteUserById(long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteUsersById(List<Long> ids) {
+        userRepository.deleteByIdIn(ids);
+    }
+
+    @Override
+    public void deleteUserByName(String name) {
+        userRepository.deleteByName(name);
+    }
+
+    @Override
+    public void deleteUsersByName(List<String> names) {
+        userRepository.deleteByNameIn(names);
+    }
+
+    @Override
+    public List<User> addUsersBatch(List<User> users) {
+        return userRepository.saveAll(users);
+    }
 }
