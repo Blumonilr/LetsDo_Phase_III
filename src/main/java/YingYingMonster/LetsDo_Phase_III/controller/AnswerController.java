@@ -2,6 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Base64;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
 import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
+import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.service.TestProjectService;
 
 @Controller
 @RequestMapping("/answer")
 public class AnswerController {
+	
+	ArrayList<Image> picture_list = new ArrayList<Image>();//暂存
 	
 	@Autowired
 	TestProjectService service;
@@ -80,7 +84,7 @@ public class AnswerController {
 	}
 	
 
-	/**
+	/**DONE
 	 * 上传一个tag
 	 * @param request
 	 * @param response
@@ -100,25 +104,33 @@ public class AnswerController {
     	long picid = Long.parseLong(pictureId);
     	long pjid = Long.parseLong(projectId);
     	
-    	Tag tag = new Tag(picid,pjid,mb,xml);
+    	Tag tag = new Tag(uid,picid,pjid,mb,xml);
     	
     	service.uploadAnswer(uid,tag);
     	
 	}
 	
 	/*
-	 * not yet completed
+	 * 返回一些图片的id，下划线分割
 	 */
-	@GetMapping("/{workType}")
-	public String getNewImageSize(HttpServletRequest request, HttpServletResponse response) {
+	@ResponseBody
+	@GetMapping("/getsomeimages")
+	public String getSomeImages(HttpServletRequest request, HttpServletResponse response) {
 		String res = "";
-		String userId = request.getParameter("userId");
-		String pictureId = request.getParameter("pictureId");
+	
 		String projectId = request.getParameter("projectId");
-		long uid = Long.parseLong(userId);
-    	long picid = Long.parseLong(pictureId);
-    	long pjid = Long.parseLong(projectId);
+		System.out.println("GET SOME IMGS: "+projectId);
 		
+    	long pjid = Long.parseLong(projectId);
+    	
+    	picture_list = (ArrayList<Image>) service.getAPageOfImages(0, pjid);//pageNum参数不给出，给0
+		int len = picture_list.size();
+		for(int i=0;i<len;i++) {
+			res += picture_list.get(i).getId();
+			if(i != len-1) {
+				res += "_";
+			}
+		}
 		
 		return res;
 	}
@@ -127,22 +139,41 @@ public class AnswerController {
    	* 把一张等待完成的图片放到url里
  * @throws IOException 
    	*/
-    @RequestMapping("/getNewPicture")  
+    @RequestMapping("/getNewPicture/{pictureId}")  
     @ResponseBody  
-	public void getNewImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String userId = request.getParameter("userId");
-		String pictureId = request.getParameter("pictureId");
-		String projectId = request.getParameter("projectId");
-		long uid = Long.parseLong(userId);
-    	long picid = Long.parseLong(pictureId);
-    	long pjid = Long.parseLong(projectId);
+	public void getNewImage(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("pictureId")String pictureId) throws IOException {
+    	long picId = Long.parseLong(pictureId);
     	
-    	String JPG="image/jpeg;charset=UTF-8";      
-        // 获取输出流  
-        OutputStream outputStream = response.getOutputStream();  
-        
-        
+    	String JPG="image/jpeg;charset=UTF-8";  
+    	
+    	for(Image image : picture_list) {
+    		if(image.getId() == picId) {
+    			byte[] data = image.getPicture();
+    			OutputStream outputStream = response.getOutputStream();  
+    			response.setContentType(JPG);  
+                outputStream.write(data);  
+                outputStream.flush();   
+                outputStream.close();  
+                break;
+    		}
+    	}
 	}
 	
+    /**
+     * 返回项目要求
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/getRequirement")  
+    @ResponseBody 
+    public String get_requirement(HttpServletRequest request, HttpServletResponse response) {
+    	String inviteCode = request.getParameter("inviteCode");
+		TestProject testProject = service.getTestProjectByInviteCode(inviteCode);
+		
+		String req = testProject.getProject().getTagRequirement();
+		return req;
+    }
 	
 }

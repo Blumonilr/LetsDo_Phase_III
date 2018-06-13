@@ -9,7 +9,7 @@ var requirement_hide = false;
  */
 function submit_tag(){
 
-    var type = getCookie("type");
+    var type = getCookie("PojectType");
     var userId = getCookie("userId");
     var projectId = getCookie("testProjectId");//testProject
 
@@ -22,7 +22,7 @@ function submit_tag(){
 
     var url = "/answer/submit";
 
-    if(remark === ""){
+    if(xml === ""){
         //未填写完成
         toastr.error("标注填写不完整！");
 
@@ -49,22 +49,23 @@ function submit_tag(){
 }
 
 
-/**
+
+/**DONE
  * 设置要求区
  */
 function set_requirement(){
-    //加载要求
-    var projectId = getCookie("projectId");
-    var publisherId = getCookie("publisherId");
+    var inviteCode = getCookie("inviteCode");
     $.ajax({
-        url:  "/myProjects/getProjectRequirement/"+publisherId+"/"+projectId,
+        url:  "/answer/getRequirement",
         type: "get",
+        data:{"inviteCode" : inviteCode},
         success: function(data){
             $("#requirementArea").append(data);
         }
     });
 }
-/**
+
+/**DONE
  * 显示隐藏要求
  */
 function hide_show_requirement(){
