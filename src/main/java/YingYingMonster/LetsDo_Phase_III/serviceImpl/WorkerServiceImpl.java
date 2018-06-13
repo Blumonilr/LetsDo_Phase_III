@@ -42,20 +42,25 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public List<Project> discoverProjects(long workerId) {
 		//获得worker的能力、偏好等数据
-		List<Ability> abilities = abilityRepository.findByUser(workerId);
-		
+		User user = userService.getUser(workerId);
+
+		List<Ability> abilities = abilityRepository.findByUser(user);
 		List<String>labelNames=abilities.stream().sorted((x, y) -> {
 			if (x.getAccuracy() > y.getAccuracy() ||
 					x.getAccuracy() == y.getAccuracy() && x.getBias() > y.getBias()) {
-				return 1;
+				return -1;
 			} else {
 				if (x.getAccuracy() == y.getAccuracy() && x.getBias() == y.getBias()) {
 					return 0;
 				} else {
-					return -1;
+					return 1;
 				}
 			}
 		}).map(x -> x.getLabel().getName()).collect(Collectors.toList());
+
+//		for (String s : labelNames) {
+//			System.out.println(s);
+//		}
 
 		return projectService.viewAllProjects(labelNames);
 	}
