@@ -131,7 +131,7 @@ public class PublisherController {
         testProject=publisherService.addTestProject(Long.parseLong(projectId),dataSet);
         if(testProject.getId()!=0) {
             session.removeAttribute("testSet");
-            return "success";
+            return testProject.getInviteCode();
         }else{
             return "fail";
         }
