@@ -51,36 +51,36 @@ public class ProjectMarketController {
 	@ResponseBody
 	public String getList(@PathVariable("userId")String userId) {
 		String res = "";
-		ArrayList<String> list = (ArrayList<String>) service.viewAllProjects();
-		int len = list.size();
-		for(int i=0 ; i<len ; i++) {//pubid_pjid
-			
-			//加描述
-			String pubid = list.get(i).split("_")[0];
-			String pjid = list.get(i).split("_")[1];
-			Project pj = service.getAProject(pubid, pjid);
-			String startDate = pj.getStartDate();
-			String endDate = pj.getEndDate();
-			String type = "";
-			TagRequirement requirement = pj.getTagRequirement();
-			switch(requirement.getMarkMode()) {
-				case SQUARE:
-					type = "框选项目";
-					break;
-				case AREA:
-					type = "区域覆盖标注项目";
-					break;
-			}
-			
-			String workerLevel = pj.getWorkerRequirement().getLevelLimit()+"";
-			
-			res = res + pubid+"_"+pjid+"_"+startDate+"_"+endDate+"_"+type+"_"+workerLevel;
-			
-			if(i!=len-1) {
-				res = res + ",";
-			}
-			
-		}
+//		ArrayList<String> list = (ArrayList<String>) service.viewAllProjects();
+//		int len = list.size();
+//		for(int i=0 ; i<len ; i++) {//pubid_pjid
+//			
+//			//加描述
+//			String pubid = list.get(i).split("_")[0];
+//			String pjid = list.get(i).split("_")[1];
+//			Project pj = service.getAProject(pubid, pjid);
+//			String startDate = pj.getStartDate();
+//			String endDate = pj.getEndDate();
+//			String type = "";
+//			TagRequirement requirement = pj.getTagRequirement();
+//			switch(requirement.getMarkMode()) {
+//				case SQUARE:
+//					type = "框选项目";
+//					break;
+//				case AREA:
+//					type = "区域覆盖标注项目";
+//					break;
+//			}
+//			
+//			String workerLevel = pj.getWorkerRequirement().getLevelLimit()+"";
+//			
+//			res = res + pubid+"_"+pjid+"_"+startDate+"_"+endDate+"_"+type+"_"+workerLevel;
+//			
+//			if(i!=len-1) {
+//				res = res + ",";
+//			}
+//			
+//		}
 		System.out.println(res);
 		return res;
 	}
@@ -115,29 +115,29 @@ public class ProjectMarketController {
 	public String fork(@PathVariable("userId")String userId,
 			@PathVariable("publisherId")String publisherId,
 			@PathVariable("projectId")String projectId) {
-		int res = service.forkProject(userId, publisherId, projectId);
+	//	int res = service.forkProject(userId, publisherId, projectId);
 		String info = "";
-		if(res==0) {
-			info = "恭喜您获取成功，快去工作吧~";
-		}
-		else if(res==-1) {
-			info = "发生数据错误，请稍后重试";
-		}
-		else if(res==-2) {
-			info = "用户不存在";
-		}
-		else if(res==-3) {
-			info = "您已经选取过该项目啦，不能重复选取哦";
-		}
-		else if(res==-4) {
-			info = "项目已取消或不存在";
-		}
-		else if(res==-5) {
-			info = "啊哦，项目人数已满，下次要快一点啊";
-		}
-		else if(res==-6) {
-			info = "啊哦，您的等级不足，快快努力打怪升级吧~";
-		}
+//		if(res==0) {
+//			info = "恭喜您获取成功，快去工作吧~";
+//		}
+//		else if(res==-1) {
+//			info = "发生数据错误，请稍后重试";
+//		}
+//		else if(res==-2) {
+//			info = "用户不存在";
+//		}
+//		else if(res==-3) {
+//			info = "您已经选取过该项目啦，不能重复选取哦";
+//		}
+//		else if(res==-4) {
+//			info = "项目已取消或不存在";
+//		}
+//		else if(res==-5) {
+//			info = "啊哦，项目人数已满，下次要快一点啊";
+//		}
+//		else if(res==-6) {
+//			info = "啊哦，您的等级不足，快快努力打怪升级吧~";
+//		}
 		return info;
 	}
 	
