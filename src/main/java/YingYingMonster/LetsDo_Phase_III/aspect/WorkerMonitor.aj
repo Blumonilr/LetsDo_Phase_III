@@ -2,10 +2,11 @@ package YingYingMonster.LetsDo_Phase_III.aspect;
 
 
 import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
-import YingYingMonster.LetsDo_Phase_III.repository.CommitEventRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
-import YingYingMonster.LetsDo_Phase_III.service.LabelService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.aspectj.lang.ProceedingJoinPoint;

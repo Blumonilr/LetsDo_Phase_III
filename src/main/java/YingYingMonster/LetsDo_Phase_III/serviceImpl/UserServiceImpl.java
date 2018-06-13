@@ -2,8 +2,8 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Ability;
 import YingYingMonster.LetsDo_Phase_III.entity.Label;
-import YingYingMonster.LetsDo_Phase_III.entity.User;
-import YingYingMonster.LetsDo_Phase_III.repository.UserRepository;
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+import YingYingMonster.LetsDo_Phase_III.repository.role.UserRepository;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

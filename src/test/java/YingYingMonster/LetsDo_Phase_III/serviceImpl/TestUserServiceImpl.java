@@ -1,9 +1,9 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
-import YingYingMonster.LetsDo_Phase_III.entity.Administrator;
-import YingYingMonster.LetsDo_Phase_III.entity.Publisher;
-import YingYingMonster.LetsDo_Phase_III.entity.User;
-import YingYingMonster.LetsDo_Phase_III.entity.Worker;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Administrator;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
