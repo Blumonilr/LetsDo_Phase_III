@@ -1,11 +1,10 @@
-package YingYingMonster.LetsDo_Phase_III.entity;
+package YingYingMonster.LetsDo_Phase_III.entity.role;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import YingYingMonster.LetsDo_Phase_III.entity.Ability;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -21,16 +20,31 @@ public abstract class User {
 	
 	private String name,pw,email,intro;
 	private long money;
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Ability> abilities;
+
+	public List<Ability> getAbilities() {
+		return abilities;
+	}
+
+	public void setAbilities(List<Ability> abilities) {
+		this.abilities = abilities;
+	}
+
 	public User(String name, String pw, String email, String intro, long money) {
-		super();
+
 		this.name = name;
 		this.pw = pw;
 		this.email = email;
 		this.intro = intro;
 		this.money = money;
+		abilities = new ArrayList<>();
 	}
+
 	public User() {
 		super();
+		abilities = new ArrayList<>();
 	}
 	public String getName() {
 		return name;
@@ -65,6 +79,5 @@ public abstract class User {
 	public long getId() {
 		return id;
 	}
-	
-	
+
 }

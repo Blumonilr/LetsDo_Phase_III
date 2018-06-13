@@ -1,5 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
+import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +13,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 @Controller
@@ -22,6 +26,10 @@ public class ProjectController {
     PublisherService publisherService;
     @Autowired
     AdminService adminService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    ProjectService projectService;
 
     @GetMapping("/publisherProjects")
     public String projects() {
@@ -38,21 +46,40 @@ public class ProjectController {
     }
     /**
     * 查找当前发布的项目列表
-    * @param id 上传者用户id
     * @param keyword 关键字，可以为空
     */
     @PostMapping("/publisherProjects")
     @ResponseBody
-    public String queryProjects(@RequestParam("userId") String id, @RequestParam("keyword") String keyword){
-        List<Project> temp=publisherService.searchProjects(keyword);
-        String result="";
-        for(int i=0;i<temp.size();i++){
-            if(i==temp.size()-1)
-                result+=temp.get(i).getProjectName()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+ temp.get(i).getId();
-            else
-                result+=temp.get(i).getProjectName()+"_"+temp.get(i).getPublisherId()+"_"+temp.get(i).getTagRequirement()+temp.get(i).getId()+"/";
+    public String queryProjects(@RequestParam("keyword") String keyword) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
+        List<Project> temp = publisherService.searchProjects(Long.parseLong(userId), keyword);
+        String result = "";
+        for (int i = 0; i < temp.size(); i++) {
+            if (i == temp.size() - 1) {
+                result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getTagRequirement() + "_" + temp.get(i).getId() + "_" + "/project/projectOverview/" + temp.get(i).getId();
+            } else
+                result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getTagRequirement() + "_" + temp.get(i).getId() + "_" + "/project/projectOverview/" + temp.get(i).getId() + "+";
         }
         return result;
+    }
+
+    @GetMapping("/projectOverview/{projectId}")
+    public void getDoneImage(@PathVariable("projectId")String projectId) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletResponse response=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+
+        String JPG="image/jpeg;charset=UTF-8";
+        // 获取输出流
+        OutputStream outputStream = response.getOutputStream();
+        // 读数据
+        byte[] data = projectService.getProjectOverview(Long.parseLong(projectId));
+        // 回写
+        response.setContentType(JPG);
+        outputStream.write(data);
+        outputStream.flush();
+        outputStream.close();
     }
 
     /**
@@ -143,7 +170,7 @@ public class ProjectController {
         String result="{";
         Project project=publisherService.getAProject(Long.parseLong(projectId));
         result+="\"projectName\":\""+project.getProjectName()+"\",";
-        result+="\"publisherId\":\""+project.getPublisherId()+"\",";
+        result+="\"publisherName\":\""+userService.getUser(project.getPublisherId()).getName()+"\",";
         result+="\"markMode\":\""+project.getType().toString()+"\",";
         result+="\"maxNumPerPic\":\""+project.getMaxNumPerPic()+"\",";
         result+="\"minNumPerPic\":\""+project.getMinNumPerPic()+"\",";
@@ -151,7 +178,7 @@ public class ProjectController {
         result+="\"endDate\":\""+project.getEndDate()+"\",";
         result+="\"levelLimit\":\""+project.getWorkerMinLevel()+"\",";
         result+="\"testAccuracy\":\""+project.getTestAccuracy()+"\",";
-        result+="\"money\":\""+project.getMoney()+"\",";
+        result+="\"money\":\""+project.getMoney()+"\"";
         result+="}*";
         result+=project.getTagRequirement();
         return result;

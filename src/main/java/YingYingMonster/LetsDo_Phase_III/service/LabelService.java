@@ -1,23 +1,23 @@
 package YingYingMonster.LetsDo_Phase_III.service;
 
-import YingYingMonster.LetsDo_Phase_III.entity.ProjectLabel;
-import YingYingMonster.LetsDo_Phase_III.entity.UserLabel;
+import YingYingMonster.LetsDo_Phase_III.entity.Ability;
+import YingYingMonster.LetsDo_Phase_III.entity.Label;
 
 import java.util.List;
 
 public interface LabelService {
 
-    public List<UserLabel> findWorkerAllLabel(long workerId);
+    public List<Label> findAllLabel();
 
-    public List<ProjectLabel> findProjectAllLabel(long projectId);
+    public List<Label> findWorkerAllLabel(long workerId);
 
-    public UserLabel findWorkerLabel(long workerId,String labelName);
+    public List<String> findProjectAllLabel(long projectId);
 
-    public boolean addWorkerLabel(UserLabel userLabel);
+    public Label findWorkerLabel(long workerId,String labelName);
 
-    public boolean addProjectLabel(ProjectLabel projectLabel);
+    public boolean addWorkerLabel(long workerId,Label userLabel);
 
-    public boolean deleteWorkerLabel(UserLabel userLabel);
+    public boolean addProjectLabel(Label projectLabel,long projectId);
 
-    public boolean updateWorkerLabel(UserLabel userLabel);
+    public boolean updateUserAbility(long workerId, Ability newAbility);
 }

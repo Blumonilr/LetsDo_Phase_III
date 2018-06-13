@@ -390,7 +390,7 @@
                     }else if(markMode==="AREA"){
                         $("#markMode").text("区域覆盖标注项目");
                     }
-                    $("#publisherId").text(project.publisherId);
+                    $("#publisherId").text(project.publisherName);
                     $("#tagRequirement").html(detail[1]);
                     // $("#maxWorkerNum").text(project.maxWorkerNum);
                     // $("#currWorkerNum").text(project.currWorkerNum);
@@ -418,7 +418,7 @@
                 url: "/publisherPage/publishTestPage",
                 type: "post",
                 dataType:"text",
-                data:{"projectId":getCookie(projectId)},
+                data:{"projectId":getCookie("projectId")},
                 success : function(data){
                     if(data==="alreadyHaveTest"){
                         alert("已经上传过测试集");

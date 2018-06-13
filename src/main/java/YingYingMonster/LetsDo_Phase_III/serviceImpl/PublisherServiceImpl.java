@@ -7,23 +7,28 @@ import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TestProjectRepository;
+import YingYingMonster.LetsDo_Phase_III.service.ImageService;
+import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
+import YingYingMonster.LetsDo_Phase_III.service.TestProjectService;
 import de.innosystec.unrar.Archive;
 import de.innosystec.unrar.exception.RarException;
 import de.innosystec.unrar.rarfile.FileHeader;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -31,81 +36,56 @@ import java.util.zip.ZipInputStream;
 public class PublisherServiceImpl implements PublisherService {
 
 	@Autowired
-	ProjectRepository pjrepository;
+	ProjectService projectService;
+
 	@Autowired
-	ImageRepository imrepository;
-	@Autowired
-	TestProjectRepository tsrepository;
+	TestProjectService testProjectService;
 
 
 	@Override
 	public Project createProject(Project project, MultipartFile dataSet) {
-        project.setProjectState(ProjectState.setup);
-        project.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-        project = pjrepository.saveAndFlush(project);
-
-        int picNum = unzipFile(dataSet, project.getId());
-        project.setPicNum(picNum);
-
-        return pjrepository.saveAndFlush(project);
+		return projectService.addProject(project, dataSet);
 	}
 
     @Override
     public boolean validateProjectName(long publisherId, String projectName) {
-        List<Project> list = pjrepository.findByPublisherId(publisherId);
-        for (Project project : list) {
-            if (project.getProjectName().equals(projectName)) {
-                return false;
-            }
-        }
-
-        return true;
+		return projectService.validateProjectName(publisherId, projectName);
     }
 
     @Override
 	public Project initializeProject(long id) {
-        Project project = pjrepository.findById(id);
-        project.setProjectState(ProjectState.initialize);
-        return pjrepository.saveAndFlush(project);
+		return projectService.initializeProject(id);
 	}
 
     @Override
-    public TestProject addTestProject(long publisherId, TestProject testProject, MultipartFile multipartFile) {
-
-        int picNum = unzipFile(multipartFile, publisherId);
-        testProject.setPicNum(picNum);
-        TestProject testProject1 = tsrepository.saveAndFlush(testProject);
-        pjrepository.updateTestProject(publisherId, testProject1);
-
-        return testProject1;
-
+    public TestProject addTestProject(long projectId,  MultipartFile multipartFile) {
+		return testProjectService.addTestProject(projectId, multipartFile);
     }
 
 	@Override
 	public Project openProject(long id) {
-		Project prtemp=pjrepository.findById(id);
-		prtemp.setProjectState(ProjectState.open);
-		return  pjrepository.saveAndFlush(prtemp);
+		return projectService.openProject(id);
 	}
 
 	@Override
 	public Project closeProject(long id) {
-		return null;
+		return projectService.closeProject(id);
 	}
 
 	@Override
 	public Project getAProject(long projectId) {
-		return null;
+		return projectService.getAProject(projectId);
 	}
 
 	@Override
 	public List<Project> findProjectByPublisherId(long publisherId) {
-		return null;
+
+		return projectService.findPublisherProjects(publisherId, "");
 	}
 
 	@Override
-	public List<Project> searchProjects(String keyword) {
-		return null;
+	public List<Project> searchProjects(long publisherId, String keyword) {
+		return projectService.findPublisherProjects(publisherId, keyword);
 	}
 
 	@Override
@@ -128,63 +108,4 @@ public class PublisherServiceImpl implements PublisherService {
 		return null;
 	}
 
-	private int unzipFile(MultipartFile multipartFile,long projectId){
-		String packageName = multipartFile.getOriginalFilename();                    //上传的包名
-		int picNum=0;
-
-		if(packageName.matches(".*\\.zip")){                //是zip压缩文件
-			try{
-				ZipInputStream zs = new ZipInputStream(multipartFile.getInputStream());
-				BufferedInputStream bs = new BufferedInputStream(zs);
-				ZipEntry ze;
-				byte[] picture = null;
-				while((ze = zs.getNextEntry()) != null){                    //获取zip包中的每一个zip file entry
-					String fileName = ze.getName();                            //pictureName
-					if(!(fileName.endsWith(".jpg")||fileName.endsWith(".png")||fileName.endsWith(".JPG")||fileName.endsWith(".PNG")))
-						continue;
-					picture = new byte[(int) ze.getSize()];                    //读一个文件大小
-					bs.read(picture, 0, (int) ze.getSize());
-					Image image = new Image(projectId,picture,1,1,0,false,true); //保存image
-					imrepository.saveAndFlush(image);
-					picNum++;
-				}
-				bs.close();
-				zs.close();
-			}catch(IOException e){
-				e.printStackTrace();
-			}
-		}else if(packageName.matches(".*\\.rar")){                    //是rar压缩文件
-			try {
-				//MultipartFile file 转化为File 有临时文件产生：
-				CommonsMultipartFile cf= (CommonsMultipartFile) multipartFile;
-				DiskFileItem fi = (DiskFileItem)cf.getFileItem();
-				File fs = fi.getStoreLocation();
-				Archive archive = new Archive(fs);
-				ByteArrayOutputStream bos = null;
-				byte[] picture = null;
-				FileHeader fh = archive.nextFileHeader();
-				while(fh!=null){
-					String fileName = fh.getFileNameString();
-					if(!(fileName.endsWith(".jpg")||fileName.endsWith(".png")||fileName.endsWith(".JPG")||fileName.endsWith(".PNG")))
-						continue;
-					bos = new ByteArrayOutputStream();
-					archive.extractFile(fh, bos);
-					picture = bos.toByteArray();
-					Image image = new Image(projectId, picture, 1, 1,0,false,true); //保存image，非缩略图
-					imrepository.saveAndFlush(image);
-					picNum++;
-					fh = archive.nextFileHeader();
-				}
-
-				bos.close();
-				archive.close();
-			} catch (RarException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}
-		return picNum;
-	}
 }

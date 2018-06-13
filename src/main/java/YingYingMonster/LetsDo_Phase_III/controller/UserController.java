@@ -1,12 +1,13 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import YingYingMonster.LetsDo_Phase_III.exception.LoginFailException;
-import YingYingMonster.LetsDo_Phase_III.entity.*;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -86,10 +87,8 @@ public class UserController {
     @ResponseBody
     public String login(@RequestParam("userId")String userId
             ,@RequestParam("password")String password) {
-        User user = null;
-        try {
-            user = userService.login(Long.parseLong(userId), password);
-        } catch (LoginFailException e) {
+        User user  = userService.login(Long.parseLong(userId), password);
+        if (user==null) {
             return "login failed";
         }
 

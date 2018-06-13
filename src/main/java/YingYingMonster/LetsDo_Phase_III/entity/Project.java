@@ -4,6 +4,8 @@ import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="projects")
@@ -27,6 +29,7 @@ public class Project {
 
     private String startDate,endDate;//yyyy-MM-dd
 
+    @Column(length=10*1024)
     private String tagRequirement;//改成String
 
     private int workerMinLevel;//worker最低等级
@@ -35,13 +38,18 @@ public class Project {
 
     private int money;//任务赏金
 
+    @ElementCollection(targetClass = String.class,fetch = FetchType.EAGER)
+    List<String> labels;
+
+    private String xmlFile;
+
     @OneToOne
     @JoinColumn(name = "testProject_id")
     private TestProject testProject;
 
     public Project(MarkMode type, long publisherId, String projectName,
                    int maxNumPerPic, int minNumPerPic, String endDate, String tagRequirement,
-                   int workerMinLevel, double testAccuracy, int money) {
+                   int workerMinLevel, double testAccuracy, int money,List<String> labels) {
         this.type = type;
         this.publisherId = publisherId;
         this.projectName = projectName;
@@ -53,6 +61,7 @@ public class Project {
         this.testAccuracy = testAccuracy;
         this.money = money;
         this.currWorkerNum=0;
+        this.labels=labels;
     }
 
     public ProjectState getProjectState() {
@@ -186,5 +195,25 @@ public class Project {
 
     public String toString(){
         return String.format("Project[id=%d , projectId=%s , publisherId=%d]", id,projectName,publisherId);
+    }
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void addLabel(Label label) {
+        this.labels.add(label.getName());
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
+    }
+
+    public String getXmlFile() {
+        return xmlFile;
+    }
+
+    public void setXmlFile(String xmlFile) {
+        this.xmlFile = xmlFile;
     }
 }

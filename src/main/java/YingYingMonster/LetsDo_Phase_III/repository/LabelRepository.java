@@ -10,4 +10,5 @@ public interface LabelRepository extends JpaRepository<Label,Long> {
 
     public List<Label> findByName(String name);
 
+
 }

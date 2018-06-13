@@ -1,4 +1,6 @@
-package YingYingMonster.LetsDo_Phase_III.entity;
+package YingYingMonster.LetsDo_Phase_III.entity.role;
+
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ public class Worker extends User {
 	private int tagNum,passedTagNum;
 
 	public Worker() {
+		super();
 	}
 
 	public Worker(String name, String pw, String email, String intro, long money,

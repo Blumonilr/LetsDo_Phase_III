@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
+import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
+import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +27,23 @@ public class AdminServiceImpl implements AdminService{
 	ProjectDAO projectDAO;
 	@Autowired
 	DataDAO dataDAO;
-	
+
+	@Autowired
+	JoinEventRepository joinEventRepository;
+
+	@Autowired
+	ProjectService projectService;
+
+	@Override
+	public List<Project> viewAllProjects() {
+		return null;
+	}
+
+	@Override
+	public List<JoinEvent> viewAllJoinEvents(String workerName, String projectName) {
+		return null;
+	}
+
 	@Override
 	public int viewUserNum() throws FileNotFoundException, ClassNotFoundException, IOException {
 		// TODO 自动生成的方法存根

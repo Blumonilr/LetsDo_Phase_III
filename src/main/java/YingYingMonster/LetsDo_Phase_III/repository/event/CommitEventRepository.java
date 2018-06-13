@@ -1,6 +1,6 @@
-package YingYingMonster.LetsDo_Phase_III.repository;
+package YingYingMonster.LetsDo_Phase_III.repository.event;
 
-import YingYingMonster.LetsDo_Phase_III.entity.CommitEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.model.CommitResult;
 import org.springframework.data.jpa.repository.JpaRepository;
 

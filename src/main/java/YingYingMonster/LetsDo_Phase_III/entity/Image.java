@@ -1,9 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="images")
@@ -13,7 +10,11 @@ public class Image {
     private long id;
 
     private long projectId;
+
+    @Lob @Basic(fetch = FetchType.LAZY)
+    @Column(length=20971520)
     private byte[] picture;
+    private int  width, height;//图片尺寸
     private int minNum,maxNum;
     private int currentNum;
     private boolean isFinished;
@@ -30,6 +31,22 @@ public class Image {
     }
 
     public Image() {
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     public long getId() {

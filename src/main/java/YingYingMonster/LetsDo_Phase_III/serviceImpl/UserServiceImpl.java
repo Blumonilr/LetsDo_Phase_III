@@ -1,7 +1,9 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
-import YingYingMonster.LetsDo_Phase_III.entity.User;
-import YingYingMonster.LetsDo_Phase_III.repository.UserRepository;
+import YingYingMonster.LetsDo_Phase_III.entity.Ability;
+import YingYingMonster.LetsDo_Phase_III.entity.Label;
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+import YingYingMonster.LetsDo_Phase_III.repository.role.UserRepository;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id);
     }
 
     @Override
@@ -51,14 +53,46 @@ public class UserServiceImpl implements UserService {
     @Override
     public User financeTransaction(long userId, long money) {
         userRepository.changeMoney(userId, money);
-        return userRepository.findById(userId).get();
+        return userRepository.findById(userId);
     }
 
     @Override
     public List<User> findByStringAttr(String attr) {
-        List<User> list = userRepository.findByNameLike(attr);
-        list.addAll(userRepository.findByEmailLike(attr));
-        list.addAll(userRepository.findByIntroLike(attr));
-        return list ;
+        return userRepository.findByStringAttr(attr);
+    }
+
+    @Override
+    public List<Label> getUserLabels(long userId) {
+        return null;
+    }
+
+    @Override
+    public List<Ability> getUserAbilities(long userId) {
+        return userRepository.findById(userId).getAbilities();
+    }
+
+    @Override
+    public void deleteUserById(long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteUsersById(List<Long> ids) {
+        userRepository.deleteByIdIn(ids);
+    }
+
+    @Override
+    public void deleteUserByName(String name) {
+        userRepository.deleteByName(name);
+    }
+
+    @Override
+    public void deleteUsersByName(List<String> names) {
+        userRepository.deleteByNameIn(names);
+    }
+
+    @Override
+    public List<User> addUsersBatch(List<User> users) {
+        return userRepository.saveAll(users);
     }
 }

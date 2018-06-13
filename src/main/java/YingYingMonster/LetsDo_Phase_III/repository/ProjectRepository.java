@@ -11,7 +11,11 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<Project,Long> {
+    
     public Project findById(long id);
+
+    @Query("select p from Project p where p.publisherId =?1 and (p.projectName like %?2% or p.tagRequirement like %?2%)")
+    public List<Project> findByPublisherIdAndStringAttributes(long publisherId,String key);
 
     public List<Project> findByPublisherId(long publisherId);
 
@@ -21,11 +25,8 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
 
     public List<Project> findByType(MarkMode type);
 
-    @Query("select p from Project p where p.startDate <= ?1 and p.endDate >= ?1")
+    @Query("select p from Project p where p.endDate >= ?1")
     public List<Project> findProjectsProcessing(String dateInstance);
-
-    @Query("select p from Project p where p.startDate > ?1")
-    public List<Project> findProjectsUnstart(String dateInstance);
 
     @Query("select p from Project p where p.endDate < ?1")
     public List<Project> findProjectsEnded(String dateInstance);

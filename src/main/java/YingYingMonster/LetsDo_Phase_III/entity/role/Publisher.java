@@ -1,4 +1,4 @@
-package YingYingMonster.LetsDo_Phase_III.entity;
+package YingYingMonster.LetsDo_Phase_III.entity.role;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

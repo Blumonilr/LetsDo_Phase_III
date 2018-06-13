@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="labels")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+//@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class Label {
     @Id @GeneratedValue
     private long id;

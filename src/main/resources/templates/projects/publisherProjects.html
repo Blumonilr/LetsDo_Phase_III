@@ -398,10 +398,10 @@
             $("#content").empty();
             if(projectList==="")
                 return;
-            var arr = projectList.split("/");
+            var arr = projectList.split("+");
             var len = arr.length;
             for(var i = 0;i < len;){
-                var sep=arr[i].split('_');//sep[0]是项目名，sep[1]是发布者Id，sep[2]是项目描述,sep[3]是项目id
+                var sep=arr[i].split('_');//sep[0]是项目名，sep[1]是发布者Id，sep[2]是项目描述,sep[3]是项目id,sep[4]是缩略图路径
                 if(strlen(sep[2])>110)
                     sep[2]=sep[2].substring(0,55)+"...";
                 $("#content").append("<div class=\"single-member effect-4\">\n" +
@@ -410,7 +410,7 @@
                     "                            <h5>"+sep[1]+"</h5>\n" +
                     "                        </div>\n" +
                     "                        <div class=\"member-image\">\n" +
-                    "                            <img src=\""+"/publisher/img/member_270x210.jpg"+"\" alt=\"Member\">\n" +
+                    "                            <img src=\""+sep[4]+"\" alt=\"Member\">\n" +
                     "                        </div>\n" +
                     "                        <div class=\"more-info\">\n" +
                     "                            <p>"+sep[2]+"</p>\n" +

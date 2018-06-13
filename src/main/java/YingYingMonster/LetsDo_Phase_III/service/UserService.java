@@ -2,7 +2,11 @@ package YingYingMonster.LetsDo_Phase_III.service;
 
 import java.util.List;
 
-import YingYingMonster.LetsDo_Phase_III.entity.User;
+import YingYingMonster.LetsDo_Phase_III.entity.Ability;
+import YingYingMonster.LetsDo_Phase_III.entity.Label;
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+
+import javax.transaction.Transactional;
 
 public interface UserService {
 
@@ -40,4 +44,19 @@ public interface UserService {
 	 * @return
 	 */
 	public List<User> findByStringAttr(String attr);
+
+	public List<Label> getUserLabels(long userId);
+
+	public List<Ability> getUserAbilities(long userId);
+
+	@Transactional(rollbackOn = Exception.class)
+	public void deleteUserById(long id);
+	@Transactional(rollbackOn = Exception.class)
+	public void deleteUsersById(List<Long> ids);
+	@Transactional(rollbackOn = Exception.class)
+	public void deleteUserByName(String name);
+	@Transactional(rollbackOn = Exception.class)
+	public void deleteUsersByName(List<String> names);
+	@Transactional(rollbackOn = Exception.class)
+	public List<User> addUsersBatch(List<User> users);
 }
