@@ -124,4 +124,14 @@ public class ProjectServiceImpl implements ProjectService  {
         return data;
     }
 
+    @Override
+    public void setProjectCustomTextNode(long projectId,String xmlFile) {
+
+    }
+
+    @Override
+    public List<String> getProjectTextNode(long projectId) {
+        return null;
+    }
+
 }

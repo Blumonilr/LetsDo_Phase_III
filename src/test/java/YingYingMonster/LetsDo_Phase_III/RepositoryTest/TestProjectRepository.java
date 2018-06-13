@@ -1,8 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.RepositoryTest;
 
+import YingYingMonster.LetsDo_Phase_III.entity.Label;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
-import YingYingMonster.LetsDo_Phase_III.entity.ProjectLabel;
-import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import org.junit.Test;
@@ -26,16 +25,16 @@ public class TestProjectRepository {
 
     @Test
     public void test1(){
-        ProjectLabel l1=new ProjectLabel("动物",0);
-        ProjectLabel l2=new ProjectLabel("植物",0);
-        List<ProjectLabel> list=new ArrayList<>(); list.add(l1); list.add(l2);
-        lr.save(l1); lr.save(l2);
+        Label l1=lr.findByName("动物").get(0);
+        Label l2=lr.findByName("植物").get(0);
+        List<String> list=new ArrayList<>();
+        list.add(l1.getName());list.add(l2.getName());
         Project p1=new Project(SQUARE,1,"test1",0,10,"2018-07-07","null",0,0.8,10,list);
-        pr.save(p1);
+        pr.saveAndFlush(p1);
         Project p2=new Project(SQUARE,1,"test1",0,10,"2018-07-08","null",0,0.8,10,list);
-        pr.save(p2);
+        pr.saveAndFlush(p2);
         Project p3=new Project(SQUARE,3,"test1",0,10,"2018-06-09","null",0,0.8,10,list);
-        pr.save(p3);
+        pr.saveAndFlush(p3);
     }
 
     @Test
@@ -63,10 +62,18 @@ public class TestProjectRepository {
 
     @Test
     public void test5(){
-        Project p=pr.findById(6);
-        List<ProjectLabel> list=p.getLabels();
-        for(ProjectLabel pl:list)
-            System.out.println(pl.getName());
+        Project p=pr.findById(18);
+        List<String> list=p.getLabels();
+        for(String pl:list)
+            System.out.println(pl);
+    }
+
+    @Test
+    public void test6(){
+        Project p=pr.findById(19);
+        Label l1=lr.findById(9);
+        p.addLabel(l1);
+        pr.saveAndFlush(p);
     }
 
     @Test
