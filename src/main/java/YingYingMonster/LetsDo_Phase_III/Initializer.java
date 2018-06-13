@@ -140,7 +140,6 @@ public class Initializer {
 				}
 				else{
 					currentFather=line;
-					System.out.println(currentFather);
 					TextNode father=new TextNode(currentFather,null,false,null);
 					tr.save(father);
 				}

@@ -1,6 +1,9 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
+import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
+import YingYingMonster.LetsDo_Phase_III.entity.User;
+import YingYingMonster.LetsDo_Phase_III.model.JsonOb;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
@@ -8,6 +11,8 @@ import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ImageService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import net.coobird.thumbnailator.Thumbnails;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -133,12 +138,41 @@ public class ProjectServiceImpl implements ProjectService  {
 
     @Override
     public void setProjectCustomTextNode(long projectId,String xmlFile) {
-
+        Project project=projectRepository.findById(projectId);
+        project.setXmlFile(xmlFile);
+        projectRepository.saveAndFlush(project);
     }
 
     @Override
-    public List<String> getProjectTextNode(long projectId) {
-        return null;
+    public List<TextNode> getProjectTextNode(long projectId) {
+        Project prj=projectRepository.findById(projectId);
+        JSONArray jsonArray = JSONArray.fromObject(prj.getXmlFile());
+        List<TextNode> nodes=new ArrayList<>();
+        for (Object o : jsonArray) {
+            JSONObject jsonObject2 = JSONObject.fromObject(o);
+            JsonOb ob = (JsonOb) JSONObject.toBean(jsonObject2,JsonOb.class);
+            List<JsonOb> children = ob.getChildren();
+            if (children != null) {
+                JSONArray array = JSONArray.fromObject(children);
+                for (Object oc : array) {
+                    JSONObject jsonObject3 = JSONObject.fromObject(oc);
+                    JsonOb obc = (JsonOb) JSONObject.toBean(jsonObject3, JsonOb.class);
+                    List<String> attributions=new ArrayList<>();
+                    if(obc.getChildren()!=null){
+                        JSONArray attri=JSONArray.fromObject(obc.getChildren());
+                        for(Object oa:attri){
+                            JSONObject jsonObject4 = JSONObject.fromObject(oa);
+                            JsonOb oba = (JsonOb) JSONObject.toBean(jsonObject4, JsonOb.class);
+                            attributions.add(oba.getName());
+                        }
+                    }
+                    TextNode tn=new TextNode(obc.getName(),ob.getName(),true,attributions);
+                    nodes.add(tn);
+                }
+            }
+        }
+        return nodes;
     }
+
 
 }

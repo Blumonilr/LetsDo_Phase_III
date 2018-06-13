@@ -1,6 +1,9 @@
 package YingYingMonster.LetsDo_Phase_III.service;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
+import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
+import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
+import YingYingMonster.LetsDo_Phase_III.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -32,5 +35,5 @@ public interface ProjectService {
 
     public void setProjectCustomTextNode(long projectId,String xmlFile);
 
-    public List<String> getProjectTextNode(long projectId);
+    public List<TextNode> getProjectTextNode(long projectId);
 }
