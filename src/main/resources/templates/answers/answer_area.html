@@ -45,9 +45,7 @@
 
     <!-- 自己的js文件 -->
     <script type="text/javascript" th:src="@{/js/workspace/canvas_new_area.js}"></script>
-    <script type="text/javascript" th:src="@{/js/answers/answer_area.js}"></script>
     <script type="text/javascript" th:src="@{/js/answers/getPicture_answer.js}"></script>
-    <script type="text/javascript" th:src="@{/js/workspace/progress.js}"></script>
     <script type="text/javascript" th:src="@{/js/util/cookie.js}"></script>
     <script type="text/javascript" th:src="@{/js/workspace/toolsEffect.js}"></script>
     <script type="text/javascript" th:src="@{/toastr/toastr.js}"></script>
@@ -61,7 +59,7 @@
             var mark = new Mark();
             mark.init();//初始化画笔
 
-            set_requirement();//area.js
+            set_requirement();//
             getNewPicture();//getPicture.js
         };
     </script>
@@ -341,13 +339,6 @@
             </div>
             <!--上传标志结束-->
 
-            <!--展示项目进度开始-->
-            <div class="progress">
-                <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 20%;">
-                    <div class="progress-value">0%</div>
-                </div>
-            </div>
-            <!--展示项目进度结束-->
             <div id="requirementArea">
                 <!--标注要求开始-->
 

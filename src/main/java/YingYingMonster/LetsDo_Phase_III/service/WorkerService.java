@@ -63,6 +63,5 @@ public interface WorkerService {
 	 */
 	public List<Tag> viewTags(long workerId, long projectId);
 
-
 	
 }

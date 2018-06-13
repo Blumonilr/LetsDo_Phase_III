@@ -26,3 +26,6 @@ nbdist/
 
 ### dev
 .yml
+
+### project overviews
+projectOverview/*

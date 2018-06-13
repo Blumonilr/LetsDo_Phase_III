@@ -26,6 +26,7 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 
     public Tag findByWorkerIdAndImageId(long workerId, long imageId);
 
+    public List<Tag> findByImageIdAndIsResult(long imageId,boolean isResult);
 
 }
 
