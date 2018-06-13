@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Aspect
 @Component
-public aspect WorkerMonitor {
+public aspect WorkerAspect {
 
     @Autowired
     CommitEventRepository commitEventRepository;
