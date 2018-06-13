@@ -11,6 +11,8 @@ public interface PublishEventRepository extends JpaRepository<PublishEvent, Long
 
     public List<PublishEvent> findByPublisherId(long publisherId);
 
+    public PublishEvent findByProjectId(long projectId);
+
     public List<PublishEvent> findByDateBetween(Date start, Date end);
 
     public List<PublishEvent> findByDateBefore(Date date);
