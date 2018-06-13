@@ -22,12 +22,15 @@ public class Tag {
     @Column(length = 255)
     private String xmlFile;//xml文档
 
-    public Tag(long workerId, long imageId, long projectId, byte[] data, String xmlFile) {
+    boolean isResult;
+
+    public Tag(long workerId, long imageId, long projectId, byte[] data, String xmlFile,boolean isResult) {
         this.workerId = workerId;
         this.imageId = imageId;
         this.projectId = projectId;
         this.data = data;
         this.xmlFile = xmlFile;
+        this.isResult=isResult;
     }
 
     public long getWorkerId() {
@@ -78,6 +81,14 @@ public class Tag {
 
     public Tag() {
 
+    }
+
+    public boolean isResult() {
+        return isResult;
+    }
+
+    public void setResult(boolean result) {
+        isResult = result;
     }
 
     //    MarkMode type;

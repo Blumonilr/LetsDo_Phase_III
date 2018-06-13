@@ -100,7 +100,7 @@ public class AnswerController {
     	long picid = Long.parseLong(pictureId);
     	long pjid = Long.parseLong(projectId);
     	
-    	Tag tag = new Tag(uid,picid,pjid,mb,xml);
+    	Tag tag = new Tag(uid,picid,pjid,mb,xml,false);
     	
     	service.uploadAnswer(uid,tag);
     	
