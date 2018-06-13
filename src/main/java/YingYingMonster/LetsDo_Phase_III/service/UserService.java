@@ -46,4 +46,14 @@ public interface UserService {
 	public List<Label> getUserLabels(long userId);
 
 	public List<Ability> getUserAbilities(long userId);
+
+	public void deleteUserById(long id);
+
+	public void deleteUsersById(List<Long> ids);
+
+	public void deleteUserByName(String name);
+
+	public void deleteUsersByName(List<String> names);
+
+	public List<User> addUsersBatch(List<User> users);
 }

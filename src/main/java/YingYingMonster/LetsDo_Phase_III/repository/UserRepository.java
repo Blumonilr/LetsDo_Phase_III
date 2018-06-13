@@ -27,4 +27,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("update User u set u.money =u.money +?2 where u.id =?1")
     public void changeMoney(long id, long money);
+
+    public void deleteById(long id);
+
+//    @Query("delete from User u where u.id in ?1")
+    public void deleteByIdIn(List<Long> ids);
+
+    public void deleteByName(String name);
+
+    public void deleteByNameIn(List<String> names);
 }

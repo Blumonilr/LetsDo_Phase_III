@@ -59,11 +59,11 @@ public class Ability {
     }
 
     public Ability() {
-
+        bias = 1;
     }
 
     public Ability(User user, Label label) {
-
+        bias = 1;
         this.user = user;
         this.label = label;
     }

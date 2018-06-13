@@ -3,7 +3,7 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 import YingYingMonster.LetsDo_Phase_III.entity.*;
 import YingYingMonster.LetsDo_Phase_III.repository.CommitEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
-import YingYingMonster.LetsDo_Phase_III.repository.ProjectLabelRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.UserLabelRepository;
 import YingYingMonster.LetsDo_Phase_III.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ public class LabelServiceImpl implements LabelService {
     @Autowired
     UserLabelRepository uslr;
     @Autowired
-    ProjectLabelRepository prlr;
-    @Autowired
     LabelRepository lbr;
+    @Autowired
+    ProjectRepository pjr;
     @Autowired
     CommitEventRepository cer;
 
@@ -33,8 +33,8 @@ public class LabelServiceImpl implements LabelService {
     }
 
     @Override
-    public List<ProjectLabel> findProjectAllLabel(long projectId) {
-        return prlr.findByProjectId(projectId);
+    public List<String> findProjectAllLabel(long projectId) {
+        return pjr.findById(projectId).getLabels();
     }
 
     @Override
@@ -53,13 +53,12 @@ public class LabelServiceImpl implements LabelService {
     }
 
     @Override
-    public boolean addProjectLabel(ProjectLabel projectLabel) {
-        if(prlr.findByProjectIdAndName(projectLabel.getProjectId(),projectLabel.getName())!=null)
-            return false;
-        ProjectLabel pl=prlr.save(projectLabel);
-        if(pl==null)
-            return false;
-        return true;
+    public boolean addProjectLabel(Label projectLabel,long projectId) {
+        Project pr=pjr.findById(projectId);
+        pr.addLabel(projectLabel);
+        if(pjr.saveAndFlush(pr)!=null)
+            return true;
+        return false;
     }
 
     @Override

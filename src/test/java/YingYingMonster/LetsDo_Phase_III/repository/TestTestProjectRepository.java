@@ -20,13 +20,13 @@ public class TestTestProjectRepository {
     ProjectRepository projectRepository;
 
     @Test public void test_addAndUpdate(){
-        Project project = new Project(MarkMode.AREA, 1, "aaah", 10,
-                6, "2018-06-24", "", 0, 0.6,
-                10,null);
-        long id = projectRepository.saveAndFlush(project).getId();
-        TestProject testProject = new TestProject(MarkMode.AREA,0);
-        testProject = testProjectRepository.saveAndFlush(testProject);
-        projectRepository.updateTestProject(id, testProject);
+//        Project project = new Project(MarkMode.AREA, 1, "aaah", 10,
+//                6, "2018-06-24", "", 0, 0.6,
+//                10);
+//        long id = projectRepository.saveAndFlush(project).getId();
+//        TestProject testProject = new TestProject(MarkMode.AREA,0);
+//        testProject = testProjectRepository.saveAndFlush(testProject);
+//        projectRepository.updateTestProject(id, testProject);
 
     }
 

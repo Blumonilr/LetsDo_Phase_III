@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
 import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
+import YingYingMonster.LetsDo_Phase_III.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,9 @@ import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/publisherPage")
@@ -20,6 +24,8 @@ public class PublisherController {
 
     @Autowired
     private PublisherService publisherService;
+    @Autowired
+    private LabelService labelService;
 
     //发布者界面
     @GetMapping("/publish")
@@ -49,7 +55,8 @@ public class PublisherController {
                                 @RequestParam("tagRequirement")String tagRequirement,
                                 @RequestParam("levelLimit")String levelLimit,
                                 @RequestParam("testAccuracy")String testAccuracy,
-                                @RequestParam("money")String money) {
+                                @RequestParam("money")String money,
+                                @RequestParam("tags")String tags) {
         System.out.println("进入了方法发布项目的方法");
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
@@ -61,9 +68,12 @@ public class PublisherController {
             type = MarkMode.AREA;
         }
         int payment = Integer.parseInt(money);
+
+        String[] labelList=tags.split(",");
+
         Project project = new Project(type, Long.parseLong(publisherId), projectName,
                 Integer.parseInt(maxNumPerPic), Integer.parseInt(minNumPerPic), endDate, tagRequirement, Integer.parseInt(levelLimit),
-                Double.parseDouble(testAccuracy), payment,null);
+                Double.parseDouble(testAccuracy), payment,Arrays.asList(labelList));
 
         project = publisherService.createProject(project, dataSet);
         if (project.getId() != 0) {
@@ -71,7 +81,20 @@ public class PublisherController {
         } else {
             return "fail";
         }
+    }
 
+    @PostMapping("/getLabels")
+    @ResponseBody
+    public String getLabels(){
+        List<Label> list=labelService.findAllLabel();
+        StringBuilder sb=new StringBuilder();
+        for (int i=0;i<list.size();i++) {
+            if (i == list.size() - 1)
+                sb.append(list.get(i).getName());
+            else
+                sb.append(list.get(i).getName() + ",");
+        }
+        return sb.toString();
     }
 
     @PostMapping("/publishTestPage")
@@ -108,7 +131,7 @@ public class PublisherController {
         testProject=publisherService.addTestProject(Long.parseLong(projectId),dataSet);
         if(testProject.getId()!=0) {
             session.removeAttribute("testSet");
-            return "success";
+            return testProject.getInviteCode();
         }else{
             return "fail";
         }

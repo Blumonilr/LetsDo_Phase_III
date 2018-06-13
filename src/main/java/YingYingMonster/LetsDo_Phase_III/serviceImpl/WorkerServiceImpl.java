@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.JoinEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TagRepository;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import java.time.Year;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,12 +35,29 @@ public class WorkerServiceImpl implements WorkerService {
 	@Autowired
 	ImageRepository imageRepository;
 
+	@Autowired
+	AbilityRepository abilityRepository;
+
 
 	@Override
 	public List<Project> discoverProjects(long workerId) {
 		//获得worker的能力、偏好等数据
+		List<Ability> abilities = abilityRepository.findByUser(workerId);
+		
+		List<String>labelNames=abilities.stream().sorted((x, y) -> {
+			if (x.getAccuracy() > y.getAccuracy() ||
+					x.getAccuracy() == y.getAccuracy() && x.getBias() > y.getBias()) {
+				return 1;
+			} else {
+				if (x.getAccuracy() == y.getAccuracy() && x.getBias() == y.getBias()) {
+					return 0;
+				} else {
+					return -1;
+				}
+			}
+		}).map(x -> x.getLabel().getName()).collect(Collectors.toList());
 
-		return null;
+		return projectService.viewAllProjects(labelNames);
 	}
 
 	@Override

@@ -13,12 +13,13 @@ public class Worker extends User {
 	private int tagNum,passedTagNum;
 
 	public Worker() {
+		super();
 	}
 
 	public Worker(String name, String pw, String email, String intro, long money,
 				  int level, int exp, int tagNum, int passedTagNum) {
 
-		super(name, pw, email, intro, money,new ArrayList<UserLabel>());
+		super(name, pw, email, intro, money);
 		this.level = level;
 		this.exp = exp;
 		this.tagNum = tagNum;

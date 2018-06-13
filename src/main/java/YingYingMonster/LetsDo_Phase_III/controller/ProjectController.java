@@ -13,8 +13,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 @Controller
@@ -55,16 +57,29 @@ public class ProjectController {
         List<Project> temp = publisherService.searchProjects(Long.parseLong(userId), keyword);
         String result = "";
         for (int i = 0; i < temp.size(); i++) {
-            try {
-                if (i == temp.size() - 1) {
-                    result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getTagRequirement() + "_" + temp.get(i).getId() + "_" + projectService.getProjectOverview(temp.get(i).getId());
-                } else
-                    result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getTagRequirement() + "_" + temp.get(i).getId() + "_" + projectService.getProjectOverview(temp.get(i).getId()) + "+";
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            if (i == temp.size() - 1) {
+                result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getTagRequirement() + "_" + temp.get(i).getId() + "_" + "/project/projectOverview/" + temp.get(i).getId();
+            } else
+                result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getTagRequirement() + "_" + temp.get(i).getId() + "_" + "/project/projectOverview/" + temp.get(i).getId() + "+";
         }
         return result;
+    }
+
+    @GetMapping("/projectOverview/{projectId}")
+    public void getDoneImage(@PathVariable("projectId")String projectId) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletResponse response=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+
+        String JPG="image/jpeg;charset=UTF-8";
+        // 获取输出流
+        OutputStream outputStream = response.getOutputStream();
+        // 读数据
+        byte[] data = projectService.getProjectOverview(Long.parseLong(projectId));
+        // 回写
+        response.setContentType(JPG);
+        outputStream.write(data);
+        outputStream.flush();
+        outputStream.close();
     }
 
     /**

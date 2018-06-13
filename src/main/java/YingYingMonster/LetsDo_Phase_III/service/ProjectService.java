@@ -12,7 +12,7 @@ public interface ProjectService {
 
     public List<Project> viewAllProjects();
 
-    public List<Project> viewAllProjects(User user);
+    public List<Project> viewAllProjects(List<String> list);
 
     public List<Project> findWorkerProjects(long workerId, String key);
 
@@ -31,4 +31,8 @@ public interface ProjectService {
     public Project closeProject(long projectId);
 
     public byte[] getProjectOverview(long projectId) throws IOException;
+
+    public void setProjectCustomTextNode(long projectId,String xmlFile);
+
+    public List<String> getProjectTextNode(long projectId);
 }

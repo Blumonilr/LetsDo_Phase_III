@@ -51,16 +51,11 @@ function uploadTestSet(){
         processData: false,
         contentType: false,
         success:function(res){
-            if(res==="success"){
-                alert("上传成功");
-            }
             if(res==="fail"){
                 alert("上传失败，数据库出错");
+            }else{
+                alert("项目邀请码是:"+res);
             }
-            if(res==="repetitive"){
-                alert("上传失败，该项目名已被使用");
-            }
-            console.log(res);
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown+"\n"+"发生了预料之外的错误，请稍后再试或联系开发人员");
