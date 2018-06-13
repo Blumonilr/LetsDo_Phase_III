@@ -1,10 +1,9 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
-import YingYingMonster.LetsDo_Phase_III.entity.User;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
-import YingYingMonster.LetsDo_Phase_III.repository.JoinEventRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ImageService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;

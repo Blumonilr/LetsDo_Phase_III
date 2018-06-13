@@ -77,7 +77,7 @@ public class PublisherController {
 
         Project project = new Project(type, Long.parseLong(publisherId), projectName,
                 Integer.parseInt(maxNumPerPic), Integer.parseInt(minNumPerPic), endDate, tagRequirement, Integer.parseInt(levelLimit),
-                Double.parseDouble(testAccuracy), payment,Arrays.asList(labelList));
+                Double.parseDouble(testAccuracy), payment,new ArrayList<>(labelList));
 
         project = publisherService.createProject(project, dataSet);
         if (project.getId() != 0) {

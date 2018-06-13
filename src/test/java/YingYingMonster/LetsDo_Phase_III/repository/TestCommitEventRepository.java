@@ -1,7 +1,8 @@
 package YingYingMonster.LetsDo_Phase_III.repository;
 
-import YingYingMonster.LetsDo_Phase_III.entity.CommitEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.model.CommitResult;
+import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

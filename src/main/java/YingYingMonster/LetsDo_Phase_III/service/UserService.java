@@ -4,7 +4,7 @@ import java.util.List;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Ability;
 import YingYingMonster.LetsDo_Phase_III.entity.Label;
-import YingYingMonster.LetsDo_Phase_III.entity.User;
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 
 import javax.transaction.Transactional;
 

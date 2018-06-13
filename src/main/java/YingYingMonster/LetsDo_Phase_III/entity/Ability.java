@@ -1,5 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+
 import javax.persistence.*;
 
 @Entity

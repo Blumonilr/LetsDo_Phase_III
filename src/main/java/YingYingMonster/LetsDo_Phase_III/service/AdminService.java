@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import YingYingMonster.LetsDo_Phase_III.entity.JoinEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import YingYingMonster.LetsDo_Phase_III.model.Project;
 import YingYingMonster.LetsDo_Phase_III.model.User;
 
