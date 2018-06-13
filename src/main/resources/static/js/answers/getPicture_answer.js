@@ -13,6 +13,7 @@ function getNewPicture(){
 
    var pictureId = picture_id_list[0];
    picture_id_list.splice(0,1);
+   setCookie("pictureId" , pictureId);
    setCssBackground(pictureId);
 }
 
@@ -20,12 +21,12 @@ function getNewPicture(){
  *获得一组图片
  */
 function get_a_list_of_pictures(){
-    var inviteCode = getCookie("inviteCode");
+    var projectId = getCookie("projectId");
     $.ajax({
         url:  "/answer/getsomeimages",
         type: "get",
         async:false, //同步
-        data:{"inviteCode" : inviteCode},
+        data:{"projectId" : projectId},
         success: function (data) {
             var list = data.split("_");
             var len = list.length;

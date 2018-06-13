@@ -117,11 +117,10 @@ public class AnswerController {
 	@GetMapping("/getsomeimages")
 	public String getSomeImages(HttpServletRequest request, HttpServletResponse response) {
 		String res = "";
-		String userId = request.getParameter("userId");
-		String pictureId = request.getParameter("pictureId");
+	
 		String projectId = request.getParameter("projectId");
-		long uid = Long.parseLong(userId);
-    	long picid = Long.parseLong(pictureId);
+		System.out.println("GET SOME IMGS: "+projectId);
+		
     	long pjid = Long.parseLong(projectId);
     	
     	picture_list = (ArrayList<Image>) service.getAPageOfImages(0, pjid);//pageNum参数不给出，给0
@@ -145,6 +144,7 @@ public class AnswerController {
 	public void getNewImage(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable("pictureId")String pictureId) throws IOException {
     	long picId = Long.parseLong(pictureId);
+    	
     	String JPG="image/jpeg;charset=UTF-8";  
     	
     	for(Image image : picture_list) {

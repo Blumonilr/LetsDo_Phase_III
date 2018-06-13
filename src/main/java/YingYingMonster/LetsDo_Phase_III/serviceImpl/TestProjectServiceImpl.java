@@ -59,7 +59,7 @@ public class TestProjectServiceImpl implements TestProjectService {
             int index = (int) (Math.random() * 4);
             sb.append(uuid.substring(i, i + 4).charAt(index));
         }
-
+        
         return sb.toString();
     }
 

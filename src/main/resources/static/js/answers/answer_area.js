@@ -22,7 +22,7 @@ function submit_tag(){
 
     var url = "/answer/submit";
 
-    if(remark === ""){
+    if(xml === ""){
         //未填写完成
         toastr.error("标注填写不完整！");
 
