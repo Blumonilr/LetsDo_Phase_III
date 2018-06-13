@@ -141,9 +141,8 @@ function show_a_new_tip(num){
             "<br>";
         final_txt = final_txt + obj_txt;
     }
-    var btn1 = "<input type='button' id='submit_"+num+"' onclick='submit_one_obj(this)' value='确认'>";
-    var btn2 = "<input type='button' id='delete_"+num+"' onclick='delete_a_tip(this)' value='删除'>";
-    final_txt = final_txt + btn1 + btn2 + " </div>";
+    var btn = "<input type='button' id='delete_"+num+"' onclick='delete_a_tip(this)' value='删除'>";
+    final_txt = final_txt + btn + " </div>";
     $("#tipInput").append(final_txt);
 }
 
