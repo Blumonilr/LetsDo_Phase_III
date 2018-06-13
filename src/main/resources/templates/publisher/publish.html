@@ -25,8 +25,8 @@
     <script src="/publisher/table/momentjs/moment.min.js"></script>
 
     <!-- select2 -->
-    <link href="/publisher/table/select2/select2.css" rel="stylesheet">
-    <script src="/publisher/table/select2/select2.js"></script>
+    <link href="/publisher/table/select2.css" rel="stylesheet" />
+    <script src="/publisher/table/select2.js"></script>
 
     <link href="/css/JQUI/jquery-ui.css" rel="stylesheet" />
     <link href="/css/JQUI/jquery-ui.theme.css" rel="stylesheet" />
@@ -51,9 +51,6 @@
     <!-- x-editable (bootstrap 3) -->
     <link href="/publisher/table/x-editable/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
     <script src="/publisher/table/x-editable/bootstrap3-editable/js/bootstrap-editable.js"></script>
-
-    <!-- select2 bootstrap -->
-    <link href="/publisher/table/select2/select2-bootstrap.css" rel="stylesheet">
 
     <!-- wysihtml5 -->
     <link href="/publisher/table/x-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css" rel="stylesheet">
@@ -407,7 +404,10 @@
                                         </tr>
                                         <tr>
                                         <td>项目类型</td>
-                                        <td><a href="#" id="tags" data-type="select2" data-pk="1" data-title="选择项目领域,支持多选与自定义"></a></td>
+                                        <td>
+                                            <select id="tags" multiple="multiple" style="width: 100%">
+                                            </select>
+                                        </td>
                                         </tr>
                                         <tr>
                                             <td>每张图片最大工作者数</td>
