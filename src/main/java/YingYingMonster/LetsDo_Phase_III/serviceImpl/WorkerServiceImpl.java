@@ -130,17 +130,18 @@ public class WorkerServiceImpl implements WorkerService {
 	}
 
 	@Override
-	public void uploadTag(Tag tag) {
+	public Tag uploadTag(Tag tag) {
 
 		Tag tag1 = tagRepository.findByWorkerIdAndImageId(tag.getWorkerId(), tag.getImageId());
 
 		if (tag1 != null) {
 			tag1.setData(tag.getData());
 			tag1.setXmlFile(tag.getXmlFile());
-			tagRepository.saveAndFlush(tag1);
+			tag1=tagRepository.saveAndFlush(tag1);
 		} else {
-			tagRepository.saveAndFlush(tag);
+			tag1=tagRepository.saveAndFlush(tag);
 		}
+		return tag1;
 	}
 
 	@Override
