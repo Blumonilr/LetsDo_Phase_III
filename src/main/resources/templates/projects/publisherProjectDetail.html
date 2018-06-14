@@ -331,36 +331,43 @@
                                     <span class="byline">在此页查看你的项目详情和进度</span>
                                 </header>
                                 <h3>项目类型:<span id="markMode"></span></h3>
-                                <h3 id="requireToggle">标注要求:<p id="tagRequirement"></p></h3><br/>
-                                <h3>每包最大参与人数:<span id="maxWorkerNum"></span></h3>
+                                <h3>项目状态:<span id="projectState"></span></h3>
+                                <h3>图片类型:<span id="labels"></span></h3>
                                 <h3>当前总参与人数:<span id="currWorkerNum"></span></h3>
-                                <h3>分包数:<span id="packageNum"></span></h3>
                                 <h3>图片数:<span id="picNum"></span></h3>
+                                <h3>单位图片最大参与人数:<span id="maxNumPerPic"></span></h3>
+                                <h3>单位图片最小参与人数:<span id="minNumPerPic"></span></h3>
                                 <h3>开始日期:<span id="startDate"></span></h3>
                                 <h3>截止日期:<span id="endDate"></span></h3>
                                 <h3>最低等级:<span id="levelLimit"></span></h3>
-                                <h3>最低分数:<span id="gradesLimit"></span></h3>
+                                <h3>最低准确率:<span id="testAccuracy"></span></h3>
                                 <h3>赏金:<span id="money"></span></h3>
-                                <h3>项目进度:<div style="margin-top: 20px" class="progress progress-striped active">
-                                    <div id="progressBar" class="progress-bar progress-bar-success" role="progressbar"
-                                         style="width: 100%;">
-                                        <span id="progressValue">100% 完成</span>
-                                    </div>
-                                </div></h3>
+                                <h3>测试集邀请码:<span id="inviteCode"></span></h3>
+                                <h3 id="requireToggle">标注要求:<p id="tagRequirement"></p></h3><br/>
+                                <!--<h3>项目进度:<div style="margin-top: 20px" class="progress progress-striped active">-->
+                                    <!--<div id="progressBar" class="progress-bar progress-bar-success" role="progressbar"-->
+                                         <!--style="width: 100%;">-->
+                                        <!--<span id="progressValue">100% 完成</span>-->
+                                    <!--</div>-->
+                                <!--</div></h3>-->
                             </section>
                         </div>
                         <div class="col-md-3">
-                            <div class="row" style="margin-top: 210px;margin-bottom: 210px;">
-                                <div class="col-md-12">
+                            <div class="row" style="margin-top: 130px;margin-bottom: 130px;">
+                                <div class="col-md-12"  >
                                     <button id="upLoadTest" onclick="uploadTest()" type="button" class="btn btn-outline-primary btn-lg">上传测试集</button>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="margin-top: 130px;margin-bottom: 130px;">
                                 <div class="col-md-12">
                                     <button id="upLoadTagTree" onclick="window.location.href='/publisherPage/editTagTree';" type="button" class="btn btn-outline-primary btn-lg">上传文字标签</button>
                                 </div>
                             </div>
-
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button id="submit" onclick="release()" type="button" class="btn btn-outline-primary btn-lg">发布项目</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!--下面放横版的图片预览-->
@@ -377,9 +384,6 @@
 
     <!-- Metis Menu Js -->
     <script src="/publisher/js/jquery.metisMenu.js"></script>
-    <!-- Morris Chart Js -->
-    <script src="/publisher/js/morris/raphael-2.1.0.min.js"></script>
-    <script src="/publisher/js/morris/morris.js"></script>
 
     <!-- Custom Js -->
     <script src="/publisher/js/custom-scripts.js"></script>
@@ -401,16 +405,19 @@
                         $("#markMode").text("区域覆盖标注项目");
                     }
                     $("#publisherId").text(project.publisherName);
+                    $("#projectState").text(project.projectState);
+                    $("#labels").text(project.labels);
+                    $("#currWorkerNum").text(project.currWorkerNum);
+                    $("#picNum").text(project.picNum);
+                    $("#maxNumPerPic").text(project.maxNumPerPic);
+                    $("#minNumPerPic").text(project.minNumPerPic);
+                    $("#startDate").text(project.startDate);
+                    $("#endDate").text(project.endDate);
+                    $("#levelLimit").text(project.levelLimit);
+                    $("#testAccuracy").text(project.testAccuracy);
+                    $("#money").text(project.money);
+                    $("#inviteCode").text(project.inviteCode);
                     $("#tagRequirement").html(detail[1]);
-                    // $("#maxWorkerNum").text(project.maxWorkerNum);
-                    // $("#currWorkerNum").text(project.currWorkerNum);
-                    // $("#packageNum").text(project.packageNum);
-                    // $("#picNum").text(project.picNum);
-                    // $("#startDate").text(project.startDate);
-                    // $("#endDate").text(project.endDate);
-                    // $("#levelLimit").text(project.levelLimit);
-                    // $("#gradesLimit").text(project.gradesLimit);
-                    // $("#money").text(project.money);
                     // $("#progressBar").attr("style","width: "+project.progress+"%;");
                     // $("#progressValue").text(project.progress+"% 完成");
 
@@ -435,6 +442,21 @@
                     }else{
                         window.location.href="/publisherPage/publishTestPage"
                     }
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
+                },
+            });
+        }
+
+        function release(){
+            $.ajax({
+                url: "/project/release",
+                type: "post",
+                dataType:"text",
+                data:{"projectId":getCookie("projectId")},
+                success : function(msg){
+                    alert(msg);
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown) {
                     alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
