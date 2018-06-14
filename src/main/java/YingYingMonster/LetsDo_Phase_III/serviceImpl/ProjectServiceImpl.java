@@ -167,7 +167,21 @@ public class ProjectServiceImpl implements ProjectService  {
                         for(Object oa:attri){
                             JSONObject jsonObject4 = JSONObject.fromObject(oa);
                             JsonOb oba = (JsonOb) JSONObject.toBean(jsonObject4, JsonOb.class);
-                            attributions.add(oba.getName());
+                            StringBuilder builder=new StringBuilder();
+                            builder.append(oba.getName()+":");
+                            if(oba.getChildren()!=null){
+                                JSONArray choices=JSONArray.fromObject(oba.getChildren());
+                                for(int i=0;i<choices.size();i++){
+                                    Object ch=choices.get(i);
+                                    JSONObject jsonObject5=JSONObject.fromObject(ch);
+                                    JsonOb obch=(JsonOb)JSONObject.toBean(jsonObject5,JsonOb.class);
+                                    builder.append(obch.getName());
+                                    if (i!=choices.size()-1){
+                                        builder.append("_");
+                                    }
+                                }
+                            }
+                            attributions.add(builder.toString());
                         }
                     }
                     TextNode tn=new TextNode(obc.getName(),ob.getName(),true,attributions);
@@ -185,15 +199,24 @@ public class ProjectServiceImpl implements ProjectService  {
         List<TextNode> fathers=textNodeRepository.findFathers();
         for (int k=0;k<fathers.size();k++){
             TextNode t=fathers.get(k);
-            builder.append("{name:\""+t.getName()+"\",");
+            builder.append("{\"name\":\""+t.getName()+"\",");
             if (textNodeRepository.findByFather(t.getName())!=null){
-                builder.append("children:[");
+                builder.append("\"children\":[");
                 for (int i=0;i<textNodeRepository.findByFather(t.getName()).size();i++){
                     TextNode tc=textNodeRepository.findByFather(t.getName()).get(i);
-                    builder.append("{name:\""+tc.getName()+"\",children:[");
+                    builder.append("{\"name\":\""+tc.getName()+"\",\"children\":[");
                     for (int j=0;j<tc.getAttributions().size();j++){
                         String s=tc.getAttributions().get(j);
-                        builder.append("{name:\""+s+"\'}");
+                        builder.append("{\"name\":\""+s.substring(0,s.indexOf(":"))+"\",\"children\":[");
+                        String tmp=s.substring(s.indexOf(":")+1);
+                        String[] choices=tmp.split("_");
+                        for (int n=0;n<choices.length;n++){
+                            String str=choices[n];
+                            builder.append("{\"name\":\""+str+"\"}");
+                            if (n!=choices.length-1)
+                                builder.append(",");
+                        }
+                        builder.append("]}");
                         if (j!=tc.getAttributions().size()-1)
                             builder.append(",");
                     }
@@ -201,8 +224,6 @@ public class ProjectServiceImpl implements ProjectService  {
                     if (i!=textNodeRepository.findByFather(t.getName()).size()-1)
                         builder.append(",");
                 }
-            }else{
-                builder.append("isParent:true}]}");
             }
             builder.append("]}");
             if (k!=fathers.size()-1)
