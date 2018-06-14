@@ -3,12 +3,14 @@ var is_deleted_list = [];//如果对应的点集被删除，为false
 var is_submitted_list = [];//用来记录用户是否提交了文字
 var point_list = [];//记录用户描的点
 var tip_list = [];//记录用户的输入
+var tip_class_list = [];//记录用户的输入（类型）
 var color_r_list = [255,144,255,255,135,255,205,205,255,230];//颜色值
 var color_g_list = [127,238,255,181,206,215,205,92,231,230];//颜色值
 var color_b_list = [80,144,255,197,255,0,193,92,186,250];//颜色值
 var color_list = ["coral","palegreen","yellow","pink","skyblue","gold","ivory","indianred","wheat","lavender"];
 var global_mark_ptr;
 var place_holder = "--------";
+var place_holder_class = "- - - - -"
 
 
 var supervise_delete_time = 0;
@@ -69,15 +71,22 @@ function produce_an_obj(){
 
     //满足闭合条件
     var number_of_new = point_list_list.length;//这是新obj的下标，比实际个数少一️
-    var str = "名称_牛_羊_猪,年龄_幼_壮_老";
-    var new_tip = [];//用来记录用户输入 title1_c1,title2_c2,c不生成，只要title1_,title2_
-    var strs = str.split(",");
-    for(let i=0;i<strs.length;i++){
-        var input = strs[i].split("_")[0]+"_";
-        new_tip.push(input);
-    }
 
-    tip_list.push(new_tip);//生成输入
+    //让用户选择类型
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//     var str = "名称_牛_羊_猪,年龄_幼_壮_老";//需要根据用户选择的类型获得                           ///
+
+    var new_tip = [];//用来记录用户输入 title1_c1,title2_c2,c不生成，只要title1_,title2_
+    // var strs = str.split(",");
+    // for(let i=0;i<strs.length;i++){
+    //     var input = strs[i].split("_")[0]+"_";
+    //     new_tip.push(input);
+    // }
+    //
+    // tip_list.push(new_tip);//生成输入                                                         ///
+ ///////////////////////////////////////////////////////////////////////////////////////////////
+
     show_a_new_tip(number_of_new);//显示新输入区
     point_list_list.push(point_list);//记录点集
     point_list = [];//清空记录 point_list = [];
@@ -123,11 +132,31 @@ function print_an_obj(num){
  * @param num第几个，tip_list
  */
 function show_a_new_tip(num){
-    //格式: name1_opt1_opt2_opt3,name2_opt1_opt2
-    var str = "名称_牛_羊_猪,年龄_幼_壮_老";
+
+    var final_txt = " <div class='obj_tips' style='background-color: rgba("+color_r_list[num]+","+color_g_list[num]+","+color_b_list[num]+",0.6)' id='obj_"+num+"'>";
+    var class_option_txt = get_class_option_txt(num);
+    final_txt = final_txt + class_option_txt;
+    final_txt = final_txt + "<div id='obj_selections_div_"+num+"'>...</div>";
+
+    var btn = "<input type='button' id='delete_"+num+"' onclick='delete_a_tip(this)' value='删除'>";
+    final_txt = final_txt + btn + " </div>";
+    $("#tipInput").append(final_txt);
+}
+
+/**
+ * 添加selections
+ * @param num
+ * @param class_name
+ */
+function append_selections(num,class_name){
+    var str = get_selections_of_a_class(class_name);
+    tip_list[num] = str;///change
+    tip_class_list[num] = class_name;
+    var selection_txt = "";
+
     var title_list = str.split(",");
     var len = title_list.length;
-    var final_txt = " <div class='obj_tips' style='background-color: rgba("+color_r_list[num]+","+color_g_list[num]+","+color_b_list[num]+",0.6)' id='obj_"+num+"'>";
+
     for(let i=0;i<len;i++){
         var opts = title_list[i].split("_");
         var sub_len = opts.length;
@@ -139,11 +168,27 @@ function show_a_new_tip(num){
         }
         obj_txt = obj_txt + " </select>\n" +
             "<br>";
-        final_txt = final_txt + obj_txt;
+        selection_txt = selection_txt + obj_txt;
     }
-    var btn = "<input type='button' id='delete_"+num+"' onclick='delete_a_tip(this)' value='删除'>";
-    final_txt = final_txt + btn + " </div>";
-    $("#tipInput").append(final_txt);
+    $("#obj_selections_div_"+num).empty();
+    $("div#obj_selections_div_"+num).append(selection_txt);
+}
+
+/**
+ * 为了主方法短一点而拿出来的方法
+ */
+function get_class_option_txt(num){
+    var txt1 = "对象种类:  "+"<select id='class_option_"+num +"' onchange='choose_class(this)'>"  + "  <option value='"+place_holder_class+"'>"+place_holder_class+"</option>";//首栏默认值
+    var class_num = class_name_list.length;
+    for(let i=0;i<class_num;i++){
+        var opt_txt = "  <option value='"+class_name_list[i]+"'>"+class_name_list[i]+"</option>";
+        txt1 += opt_txt;
+    }
+
+    txt1 = txt1 + " </select>\n" +
+        "<br>";
+
+    return txt1;
 }
 
 /**
@@ -162,29 +207,14 @@ function delete_a_tip(that){
 }
 
 /**
- * 提交一个区域的输入
+ * 用户选择了class
  * @param that
  */
-function submit_one_obj(that){
-    var num = parseInt(that.id.split("_")[1]);
-    var str = "名称_牛_羊_猪,年龄_幼_壮_老";
-    var strs = str.split(",");
-    var result_list = [];
-    for(let i=0;i<strs.length;i++){
-        var title = strs[i].split("_")[0];
-        var select_id = "select_"+num+"_"+title;
-        var tip = $("#"+select_id).val();
-        if(tip === place_holder){
-            alert("请填写完整")
-            return false;
-        }
-        else{
-            var result = title+"_"+tip;
-            result_list.push(result);
-        }
-    }
-    tip_list[num] = result_list;
-    is_submitted_list[num] = true;
+function choose_class(that){
+    var num = that.id.split("_")[2];
+    num = parseInt(num);
+    var class_name = $("#"+that.id).val();
+    append_selections(num,class_name);
 }
 
 var Mark = function (){
@@ -329,13 +359,15 @@ function get_xml_string(){
         }
         else{//提交了文字
             if(!is_deleted_list[i]){//obj存在，没有被删除
-                var s_obj = "    ";
+                var s_obj = "";
                 var color = "            <color>\n" +
                     "                <R>"+color_r_list[i]+"</R>\n" +
                     "                <G>"+color_g_list[i]+"</G>\n" +
                     "                <B>"+color_b_list[i]+"</B>\n" +
                     "            </color>\n";
-
+                var obj_class = "            <class>\n"+
+                                "            "+tip_class_list[i]+"\n"+
+                                 "            </class>\n"
 
                 var tag_list = tip_list[i];
                 var tags = "            <tags>\n";
@@ -351,6 +383,7 @@ function get_xml_string(){
 
                 s_obj = "        <object>\n"
                     +color
+                    +obj_class
                     +tags
                     +"        </object>\n";
 
@@ -382,12 +415,13 @@ function get_xml_string(){
 
 function auto_submit_tips(){
 
-    var str = "名称_牛_羊_猪,年龄_幼_壮_老";
-    var strs = str.split(",");
-
     var total_num = tip_list.length;
     for(let index=0;index<total_num;index++){
         if(!is_deleted_list[index]){
+
+            var str = tip_list[index];
+            var strs = str.split(",");
+
             var result_list = [];
             for(let i=0;i<strs.length;i++){
                 var title = strs[i].split("_")[0];
@@ -418,6 +452,7 @@ function prepare_for_next_picture(){
     is_submitted_list = [];//用来记录用户是否提交了文字
     point_list = [];//记录用户描的点
     tip_list = [];//记录用户的输入
+    tip_class_list = [];
 
     supervise_delete_time = 0;
     supervise_click_time = 0;

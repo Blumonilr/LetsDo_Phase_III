@@ -6,6 +6,10 @@ var picture_id_list = [];
 
 var requirement_hide = false;
 
+var class_name_list = ["猪","牛"];
+
+var selection_str_list = ["肥瘦_肥_瘦,大小_大_小","性别_雄_雌,种类_耕牛_奶牛"];
+
 function getNewPicture(){
 
    if(picture_id_list.length === 0){
@@ -166,4 +170,41 @@ function hide_show_requirement(){
         $("#requirementArea").hide();
         requirement_hide = true;
     }
+}
+
+/**
+ * 获得文字选项
+ */
+function get_options(){
+    var projectId = getCookie("projectId");
+    $.ajax({
+        url:  "/answer/getOptions",
+        type: "get",
+        data:{"projectId" : projectId},
+        success: function(data){// 猪:肥瘦_肥_瘦,大小_大_小!牛:性别_雄_雌,种类_耕牛_奶牛
+            class_name_list = [];
+            selection_str_list = [];
+            var classes = data.split("!");
+            var num_of_class = classes.length;
+            for(let i=0;i<num_of_class;i++){//
+                var name_and_selections = classes[i].split(":");
+                class_name_list.push(name_and_selections[0]);//猪
+                selection_str_list.push(name_and_selections[1]);//肥瘦_肥_瘦,大小_大_小
+            }
+        }
+    });
+}
+
+
+/**
+ * 根据classname得到对应的selections
+ */
+function get_selections_of_a_class(class_name){
+    var num_of_class = class_name_list.length;
+    for(let i=0;i<num_of_class;i++){
+        if(class_name_list[i] === class_name){
+            return selection_str_list[i];
+        }
+    }
+    return "";//没有找到返回""
 }
