@@ -192,76 +192,52 @@ function resetTree() {
 
 var zNodes, zTree, rMenu;
 function initTree(){
-    // $.ajax({
-    //     url: "/user/"+type+"SignUp",
-    //     type: "POST",
-    //     data: formData,
-    //     dataType: "text",
-    //     processData: false,
-    //     contentType: false,
-    //     success: function (res) {
-    //         alert("请牢记:你的用户名是"+res)
-    //         window.location.href="/user/login";
-    //     },
-    //     error: function (XMLHttpRequest, textStatus, errorThrown) {
-    //         alert(XMLHttpRequest + "///" + textStatus + "///" + errorThrown + "\n" + "发生了预料之外的错误，请稍后再试或联系开发人员");
-    //     }
-    // });
-    zNodes=[
-        { name:"父节点1 - 展开", open:true,
-            children: [
-                { name:"父节点11 - 折叠",
-                    children: [
-                        { name:"叶子节点111"},
-                        { name:"叶子节点112"},
-                        { name:"叶子节点113"},
-                        { name:"叶子节点114"}
-                    ]},
-                { name:"父节点12 - 折叠",
-                    children: [
-                        { name:"叶子节点121"},
-                        { name:"叶子节点122"},
-                        { name:"叶子节点123"},
-                        { name:"叶子节点124"}
-                    ]},
-                { name:"父节点13 - 没有子节点", isParent:true}
-            ]},
-        { name:"父节点2 - 折叠",
-            children: [
-                { name:"父节点21 - 展开", open:true,
-                    children: [
-                        { name:"叶子节点211"},
-                        { name:"叶子节点212"},
-                        { name:"叶子节点213"},
-                        { name:"叶子节点214"}
-                    ]},
-                { name:"父节点22 - 折叠",
-                    children: [
-                        { name:"叶子节点221"},
-                        { name:"叶子节点222"},
-                        { name:"叶子节点223"},
-                        { name:"叶子节点224"}
-                    ]},
-                { name:"父节点23 - 折叠",
-                    children: [
-                        { name:"叶子节点231"},
-                        { name:"叶子节点232"},
-                        { name:"叶子节点233"},
-                        { name:"叶子节点234"}
-                    ]}
-            ]},
-        { name:"父节点3 - 没有子节点", isParent:true}
+    var projectId=getCookie("projectId");
+    var formData = new FormData();
+    formData.append("projectId",projectId);
+    $.ajax({
+        url: "/publisherPage/editTagTree",
+        type: "POST",
+        data: formData,
+        dataType: "text",
+        processData: false,
+        contentType: false,
+        success: function (res) {
+            zNodes=JSON.parse(res);
+            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            zTree = $.fn.zTree.getZTreeObj("treeDemo");
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest + "///" + textStatus + "///" + errorThrown + "\n" + "发生了预料之外的错误，请稍后再试或联系开发人员");
+        }
+    });
 
-    ];
-    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-    zTree = $.fn.zTree.getZTreeObj("treeDemo");
     rMenu = $("#rMenu");
 };
-
-
 
 $(document).ready(function () {
     initFunction();
     initTree();
 });
+
+function upload() {
+    var tagTree=zTree.getNodes();
+    var formData = new FormData();
+    formData.append("projectId",getCookie("projectId"));
+    formData.append("tagTree",tagTree);
+    $.ajax({
+        url: "/publisherPage/uploadTagTree",
+        type: "POST",
+        data: formData,
+        dataType: "text",
+        processData: false,
+        contentType: false,
+        success: function (res) {
+            alert(res);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest + "///" + textStatus + "///" + errorThrown + "\n" + "发生了预料之外的错误，请稍后再试或联系开发人员");
+        }
+    });
+}
 
