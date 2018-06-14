@@ -3,6 +3,7 @@ package YingYingMonster.LetsDo_Phase_III.service;
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
+import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public interface TestProjectService {
      * @param testProjectId
      * @return   每一个String的格式为   key_opt1_opt2_opt3_.._optn
      */
-    public List<String> getTextLabel(long testProjectId);
+    public List<TextNode> getTextLabel(long testProjectId);
 
     public long getProjectPublisherId(long testProjectId);
 

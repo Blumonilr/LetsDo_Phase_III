@@ -1,15 +1,11 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
-import YingYingMonster.LetsDo_Phase_III.entity.Image;
-import YingYingMonster.LetsDo_Phase_III.entity.Project;
-import YingYingMonster.LetsDo_Phase_III.entity.Tag;
-import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
-import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
-import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
-import YingYingMonster.LetsDo_Phase_III.repository.TagRepository;
-import YingYingMonster.LetsDo_Phase_III.repository.TestProjectRepository;
+import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.repository.*;
 import YingYingMonster.LetsDo_Phase_III.service.ImageService;
+import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.TestProjectService;
+import YingYingMonster.LetsDo_Phase_III.service.TextNodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -37,6 +33,9 @@ public class TestProjectServiceImpl implements TestProjectService {
     @Autowired
     ProjectRepository projectRepository;
 
+    @Autowired
+    ProjectService projectService;
+
     @Override
     public TestProject addTestProject(long projectId, MultipartFile multipartFile) {
         TestProject testProject = new TestProject();
@@ -46,6 +45,7 @@ public class TestProjectServiceImpl implements TestProjectService {
         int picNum = imageService.saveImages(multipartFile, projectId,true);
         testProject.setPicNum(picNum);
         testProject.setInviteCode(generateUUID());
+        testProject.setProject(project);
         testProject = testProjectRepository.saveAndFlush(testProject);
         projectRepository.updateTestProject(projectId, testProject);
 
@@ -76,6 +76,7 @@ public class TestProjectServiceImpl implements TestProjectService {
     public Tag uploadAnswer(long workerId,Tag tag) {
         long imageId = tag.getImageId();
         imageRepository.updateIsFinished(imageId, true);
+        tag.setResult(true);
         return tagRepository.saveAndFlush(tag);
     }
 
@@ -95,8 +96,9 @@ public class TestProjectServiceImpl implements TestProjectService {
     }
 
     @Override
-    public List<String> getTextLabel(long testProjectId) {
-        return null;
+    public List<TextNode> getTextLabel(long testProjectId) {
+        Project pr=testProjectRepository.findById(testProjectId).get().getProject();
+        return projectService.getProjectTextNode(pr.getId());
     }
 
     @Override

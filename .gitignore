@@ -27,6 +27,9 @@ nbdist/
 ### dev
 .yml
 
-###jpg
-projectOverview/*.jpg
+### project overviews
+projectOverview/*
 
+
+### files in Integrater
+Integrater/venv/

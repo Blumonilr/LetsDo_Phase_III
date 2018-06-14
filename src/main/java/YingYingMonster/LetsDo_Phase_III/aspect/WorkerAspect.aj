@@ -4,9 +4,11 @@ package YingYingMonster.LetsDo_Phase_III.aspect;
 import YingYingMonster.LetsDo_Phase_III.entity.*;
 import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.role.UserRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,20 +29,17 @@ public aspect WorkerAspect {
     @Autowired
     AbilityRepository abilityRepository;
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
     @Autowired
     ProjectService projectService;
     @Autowired
     LabelRepository labelRepository;
 
-    /**
-     * 项目测试集答案制作切点
-     * @param workerId
-     * @param tag
-     */
-    @Pointcut(value = "execution(* YingYingMonster.LetsDo_Phase_III.service.TestProjectService" +
-            ".uploadAnswer(..)) &&args(workerId,tag) ", argNames = "workerId,tag")
-    public void innerTestPoint(long workerId,Tag tag){}
+
+
+    @Pointcut(value = "execution(* YingYingMonster.LetsDo_Phase_III.service." +
+            "TestProjectService.uploadAnswer(..))")
+    public void addCommitEventInMakeAnswer(){}
 
     /**
      * execute when worker joins a project
@@ -51,22 +50,24 @@ public aspect WorkerAspect {
             "WorkerService.joinProject(..))&&args(workerId,projectId) ", argNames = "workerId,projectId")
     public void joinProject(long workerId, long projectId) {}
 
+    @Pointcut(value = "execution(* YingYingMonster.LetsDo_Phase_III.service.WorkerService.uploadTag(..))")
+    public void addCommitEvent(){}
 
-    /**
-     *
-     * @param proceedingJoinPoint
-     * @param workerId
-     * @param tag
-     * @throws Throwable
-     */
-    @Around(value = "innerTestPoint(workerId,tag)")
-    public void recordTestProjectCommitEvent(ProceedingJoinPoint proceedingJoinPoint,
-                                             long workerId, Tag tag) throws Throwable {
-        Tag res = (Tag) proceedingJoinPoint.proceed();
-        CommitEvent commitEvent = new CommitEvent(workerId, res.getProjectId(), res.getId(),
-                res.getImageId(), new Date());
 
-        System.out.println("monitor in package aspect works!");
+
+    /*=============================================================================================
+    * ============================================================================================*/
+
+
+    @AfterReturning(value = "addCommitEventInMakeAnswer()", returning = "tag")
+    public void recordTestProjectCommitEvent(Tag tag) {
+
+        System.out.println("add commit event in making test answer");
+        CommitEvent commitEvent = new CommitEvent(tag.getWorkerId(), tag.getProjectId(), tag.getId(),
+                tag.getImageId(), new Date());
+        commitEventRepository.saveAndFlush(commitEvent);
+
+
     }
 
     @AfterReturning(value = "joinProject(workerId,projectId)",returning = "res")
@@ -74,7 +75,7 @@ public aspect WorkerAspect {
 
         if (res == 0) {
             Project project = projectService.getAProject(projectId);
-            User user = userService.getUser(workerId);
+            User user = userRepository.findById(workerId);
 
             List<Ability> abilities = abilityRepository.findByUser(user);
             List<String> user_label_names = abilities.stream().map(x -> x.getLabel().getName())
@@ -97,5 +98,18 @@ public aspect WorkerAspect {
             }
             abilityRepository.flush();
         }
+    }
+
+    @AfterReturning(value = "addCommitEvent()",returning = "tag")
+    public void recordWorkCommitEvent(Tag tag) {
+
+        System.out.println("add commit event in working");
+        CommitEvent commitEvent = new CommitEvent(tag.getWorkerId(), tag.getProjectId(), tag.getId(),
+                tag.getImageId(), new Date());
+        commitEventRepository.saveAndFlush(commitEvent);
+
+        Worker worker = (Worker) userRepository.findById(tag.getWorkerId());
+        worker.setTagNum(worker.getTagNum() + 1);
+        userRepository.saveAndFlush(worker);
     }
 }
