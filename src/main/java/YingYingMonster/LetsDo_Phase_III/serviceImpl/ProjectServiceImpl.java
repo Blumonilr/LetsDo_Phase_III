@@ -6,6 +6,7 @@ import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.model.JsonOb;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.TextNodeRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ImageService;
@@ -38,6 +39,9 @@ public class ProjectServiceImpl implements ProjectService  {
 
     @Autowired
     JoinEventRepository joinEventRepository;
+
+    @Autowired
+    TextNodeRepository textNodeRepository;
 
     @Override
     public List<Project> viewAllProjects() {
@@ -172,6 +176,40 @@ public class ProjectServiceImpl implements ProjectService  {
             }
         }
         return nodes;
+    }
+
+    @Override
+    public String getInitialTextNodeTree() {
+        StringBuilder builder=new StringBuilder();
+        builder.append("[");
+        List<TextNode> fathers=textNodeRepository.findFathers();
+        for (int k=0;k<fathers.size();k++){
+            TextNode t=fathers.get(k);
+            builder.append("{name:\""+t.getName()+"\",");
+            if (textNodeRepository.findByFather(t.getName())!=null){
+                builder.append("children:[");
+                for (int i=0;i<textNodeRepository.findByFather(t.getName()).size();i++){
+                    TextNode tc=textNodeRepository.findByFather(t.getName()).get(i);
+                    builder.append("{name:\""+tc.getName()+"\",children:[");
+                    for (int j=0;j<tc.getAttributions().size();j++){
+                        String s=tc.getAttributions().get(j);
+                        builder.append("{name:\""+s+"\'}");
+                        if (j!=tc.getAttributions().size()-1)
+                            builder.append(",");
+                    }
+                    builder.append("]}");
+                    if (i!=textNodeRepository.findByFather(t.getName()).size()-1)
+                        builder.append(",");
+                }
+            }else{
+                builder.append("isParent:true}]}");
+            }
+            builder.append("]}");
+            if (k!=fathers.size()-1)
+                builder.append(",");
+        }
+        builder.append("]");
+        return builder.toString();
     }
 
 

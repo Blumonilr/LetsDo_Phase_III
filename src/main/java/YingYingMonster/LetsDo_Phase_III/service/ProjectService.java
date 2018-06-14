@@ -36,4 +36,6 @@ public interface ProjectService {
     public void setProjectCustomTextNode(long projectId,String xmlFile);
 
     public List<TextNode> getProjectTextNode(long projectId);
+
+    public String getInitialTextNodeTree();
 }

@@ -131,10 +131,10 @@ public class Initializer {
 					List<String> attri = new ArrayList<>();
 					String attribution = null;
 					while ((attribution = br.readLine()).startsWith("        ")) {
-						attri.add(attribution);
+						attri.add(attribution.replaceAll(" ",""));
 					}
-					TextNode son = new TextNode(line.replace("    ", ""), currentFather, true, attri);
-					Label label=new Label(line.replace("    ", ""));
+					TextNode son = new TextNode(line.replace(" ", ""), currentFather, true, attri);
+					Label label=new Label(line.replace(" ", ""));
 					lr.save(label);
 					tr.save(son);
 				}

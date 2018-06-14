@@ -31,4 +31,9 @@ public class Test_ProjectServiceImpl {
         File file = new File(path);
         assertEquals(true, file.exists());
     }
+
+    @Test
+    public void testInitialTree(){
+        System.out.println(projectService.getInitialTextNodeTree());
+    }
 }
