@@ -25,4 +25,11 @@ nbdist/
 .nb-gradle/
 
 ### dev
-src/main/resources/application-dev.yml
+.yml
+
+### project overviews
+projectOverview/*
+
+
+### files in Integrater
+Integrater/venv/

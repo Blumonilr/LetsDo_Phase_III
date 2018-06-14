@@ -1,4 +1,4 @@
-package YingYingMonster.LetsDo_Phase_III.entity;
+package YingYingMonster.LetsDo_Phase_III.entity.event;
 
 import YingYingMonster.LetsDo_Phase_III.model.CommitResult;
 

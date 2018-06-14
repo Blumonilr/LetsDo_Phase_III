@@ -2,9 +2,8 @@ package YingYingMonster.LetsDo_Phase_III.repository;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Ability;
 import YingYingMonster.LetsDo_Phase_III.entity.Label;
-import YingYingMonster.LetsDo_Phase_III.entity.User;
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

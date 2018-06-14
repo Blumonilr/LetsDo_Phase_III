@@ -3,7 +3,7 @@ package YingYingMonster.LetsDo_Phase_III.service;
 import java.util.List;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
-import YingYingMonster.LetsDo_Phase_III.entity.JoinEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 
@@ -51,7 +51,7 @@ public interface WorkerService {
 	 */
 	public void quitProject(long workerId, long projectId);
 
-	public void uploadTag(Tag tag);
+	public Tag uploadTag(Tag tag);
 
 	public List<Image> getAPageOfImage(long projectId, int pageId);
 

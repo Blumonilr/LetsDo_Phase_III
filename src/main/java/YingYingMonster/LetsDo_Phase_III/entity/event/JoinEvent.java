@@ -1,4 +1,4 @@
-package YingYingMonster.LetsDo_Phase_III.entity;
+package YingYingMonster.LetsDo_Phase_III.entity.event;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

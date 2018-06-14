@@ -19,7 +19,7 @@ public class Tag {
     @Column(length = 20971520)
     private byte[] data;//图片
 
-    @Column(length = 255)
+    @Column(length = 1048576)
     private String xmlFile;//xml文档
 
     boolean isResult;

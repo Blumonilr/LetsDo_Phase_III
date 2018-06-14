@@ -1,4 +1,6 @@
-package YingYingMonster.LetsDo_Phase_III.entity;
+package YingYingMonster.LetsDo_Phase_III.entity.role;
+
+import YingYingMonster.LetsDo_Phase_III.entity.Ability;
 
 import javax.persistence.*;
 import java.util.ArrayList;

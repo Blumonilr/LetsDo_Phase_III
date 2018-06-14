@@ -1,9 +1,12 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
-import YingYingMonster.LetsDo_Phase_III.repository.JoinEventRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TagRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
@@ -12,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import java.time.Year;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -128,17 +130,18 @@ public class WorkerServiceImpl implements WorkerService {
 	}
 
 	@Override
-	public void uploadTag(Tag tag) {
+	public Tag uploadTag(Tag tag) {
 
 		Tag tag1 = tagRepository.findByWorkerIdAndImageId(tag.getWorkerId(), tag.getImageId());
 
 		if (tag1 != null) {
 			tag1.setData(tag.getData());
 			tag1.setXmlFile(tag.getXmlFile());
-			tagRepository.saveAndFlush(tag1);
+			tag1=tagRepository.saveAndFlush(tag1);
 		} else {
-			tagRepository.saveAndFlush(tag);
+			tag1=tagRepository.saveAndFlush(tag);
 		}
+		return tag1;
 	}
 
 	@Override

@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import YingYingMonster.LetsDo_Phase_III.entity.JoinEvent;
-import YingYingMonster.LetsDo_Phase_III.repository.JoinEventRepository;
+import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
+import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
