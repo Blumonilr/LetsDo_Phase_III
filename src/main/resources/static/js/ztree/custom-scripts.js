@@ -48,7 +48,10 @@ var setting = {
     },
     data: {
         simpleData: {
-            enable: false
+            enable: false,
+            idKey: "tId",
+            pIdKey: "parentTId",
+            rootPId: null
         }
     },
     callback: {
@@ -222,9 +225,18 @@ $(document).ready(function () {
 
 function upload() {
     var tagTree=zTree.getNodes();
+    var array = zTree.transformToArray(tagTree);
+    for (var i=0,l=array.length;i<l;i++) {
+        for (var key in array[i]) {
+            if(key!="parentTId"&&key!="tId"&&key!="name"){
+                delete array[i][key];
+            }
+        }
+    }
+    var result=zTree.transformTozTreeNodes(array);
     var formData = new FormData();
     formData.append("projectId",getCookie("projectId"));
-    formData.append("tagTree",tagTree);
+    formData.append("tagTree",JSON.stringify(result));
     $.ajax({
         url: "/publisherPage/uploadTagTree",
         type: "POST",

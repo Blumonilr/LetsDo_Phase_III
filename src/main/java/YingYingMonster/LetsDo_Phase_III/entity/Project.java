@@ -40,6 +40,7 @@ public class Project {
     @ElementCollection(targetClass = String.class,fetch = FetchType.EAGER)
     List<String> labels;
 
+    @Column(length=1024*1024)
     private String tagTree;
 
     @OneToOne

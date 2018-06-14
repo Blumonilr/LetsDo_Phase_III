@@ -121,6 +121,10 @@ public class PublisherController {
     public String publishTestPage(){
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
+        String userId=(String)session.getAttribute("userId");
+        if(userId==null){
+            return "redirect:/user/login";
+        }
         if(session.getAttribute("testSet")!=null){
             return "publisher/publishTest";
         } else {
@@ -146,6 +150,12 @@ public class PublisherController {
 
     @GetMapping("/editTagTree")
     public String tagTreePage(){
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId=(String)session.getAttribute("userId");
+        if(userId==null){
+            return "redirect:/user/login";
+        }
         return "publisher/uploadTagTree";
     }
 

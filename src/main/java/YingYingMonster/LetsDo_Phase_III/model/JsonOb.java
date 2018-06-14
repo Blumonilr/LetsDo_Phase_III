@@ -5,6 +5,8 @@ import java.util.List;
 public class JsonOb {
     private String name;
     private List<JsonOb> children;
+    private String parentTId;
+    private String tId;
 
 
     public String getName() {
@@ -21,5 +23,21 @@ public class JsonOb {
 
     public void setChildren(List<JsonOb> children) {
         this.children = children;
+    }
+
+    public String getParentTId() {
+        return parentTId;
+    }
+
+    public void setParentTId(String parentTId) {
+        this.parentTId = parentTId;
+    }
+
+    public String gettId() {
+        return tId;
+    }
+
+    public void settId(String tId) {
+        this.tId = tId;
     }
 }
