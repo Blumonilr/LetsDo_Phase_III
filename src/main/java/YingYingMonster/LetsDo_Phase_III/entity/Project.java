@@ -4,7 +4,6 @@ import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,7 +40,7 @@ public class Project {
     @ElementCollection(targetClass = String.class,fetch = FetchType.EAGER)
     List<String> labels;
 
-    private String xmlFile;
+    private String tagTree;
 
     @OneToOne
     @JoinColumn(name = "testProject_id")
@@ -209,11 +208,11 @@ public class Project {
         this.labels = labels;
     }
 
-    public String getXmlFile() {
-        return xmlFile;
+    public String getTagTree() {
+        return tagTree;
     }
 
-    public void setXmlFile(String xmlFile) {
-        this.xmlFile = xmlFile;
+    public void setTagTree(String tagTree) {
+        this.tagTree = tagTree;
     }
 }

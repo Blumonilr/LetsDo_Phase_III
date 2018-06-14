@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Publish your Project</title>
+    <title>自定义文字标签</title>
 	<!-- Bootstrap Styles-->
     <link href="/publisher/css/bootstrap3.3.4.css" rel="stylesheet" />
      <!-- FontAwesome Styles-->
@@ -13,54 +13,9 @@
      <!-- Google Fonts-->
    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
-    <link rel="stylesheet" href="/publisher/css/fileUploadStyle.css">
-
-    <!--x-editable引用-->
-    <script src="/publisher/table/jquery/jquery-1.9.1.min.js"></script>
-    <!--<script src="/publisher/js/jquery-1.10.2.js"></script>-->
-
-    <script src="/publisher/table/mockjax/jquery.mockjax.js"></script>
-
-    <!-- momentjs -->
-    <script src="/publisher/table/momentjs/moment.min.js"></script>
-
-    <!-- select2 -->
-    <link href="/publisher/table/select2.css" rel="stylesheet" />
-    <script src="/publisher/table/select2.js"></script>
-
-    <link href="/css/JQUI/jquery-ui.css" rel="stylesheet" />
-    <link href="/css/JQUI/jquery-ui.theme.css" rel="stylesheet" />
-    <link href="/css/JQUI/jquery-ui.structure.css" rel="stylesheet" />
-
-    <script src="/js/JQUI/jquery-ui.js"></script>
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-
-    <!-- bootstrap 3 -->
-    <link href="/publisher/table/bootstrap300/css/bootstrap.css" rel="stylesheet">
-    <script src="/publisher/table/bootstrap300/js/bootstrap.js"></script>
-    <!--<script src="/publisher/js/bootstrap.min.js"></script>-->
-
-    <!-- x-editable (bootstrap 3) -->
-    <link href="/publisher/table/x-editable/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
-    <script src="/publisher/table/x-editable/bootstrap3-editable/js/bootstrap-editable.js"></script>
-
-    <!-- wysihtml5 -->
-    <link href="/publisher/table/x-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css" rel="stylesheet">
-    <script src="/publisher/table/x-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js"></script>
-    <script src="/publisher/table/x-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.min.js"></script>
-    <script src="/publisher/table/x-editable/inputs-ext/wysihtml5/wysihtml5.js"></script>
-
-    <script src="/js/util/cookie.js"></script>
-
-
-    <link href="/publisher/table/demo-bs3.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="/css/zTreeStyle/tagTree.css" type="text/css">
+    <link rel="stylesheet" href="/css/zTreeStyle/zTreeStyle.css" type="text/css">
 </head>
-
 <body>
     <div id="wrapper">
         <nav class="navbar navbar-default top-navbar" role="navigation">
@@ -272,9 +227,9 @@
                         <i class="fa fa-user fa-fw"></i><span id="userId" style="color: #ffe4b5">username&nbsp;</span><i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#" id="profile"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> 个人信息</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> 设置</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
@@ -289,14 +244,13 @@
         <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
-
                     <li>
                         <a href="/"><i class="fa fa-dashboard"></i> 主页</a>
                     </li>
                     <li>
                         <a class="active-menu" href="#"><i class="fa fa-desktop"></i> 发布</a>
                     </li>
-					<li>
+                    <li>
                         <a href="/project/publisherProjects"><i class="fa fa-bar-chart-o"></i> 项目</a>
                     </li>
                     <li>
@@ -306,31 +260,31 @@
                         <a href="#"><i class="fa fa-table"></i> 标签</a>
                     </li>
                     <!--<li>-->
-                        <!--<a href="#"><i class="fa fa-sitemap"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>-->
-                        <!--<ul class="nav nav-second-level">-->
-                            <!--<li>-->
-                                <!--<a href="#">Second Level Link</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">Second Level Link</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">Second Level Link<span class="fa arrow"></span></a>-->
-                                <!--<ul class="nav nav-third-level">-->
-                                    <!--<li>-->
-                                        <!--<a href="#">Third Level Link</a>-->
-                                    <!--</li>-->
-                                    <!--<li>-->
-                                        <!--<a href="#">Third Level Link</a>-->
-                                    <!--</li>-->
-                                    <!--<li>-->
-                                        <!--<a href="#">Third Level Link</a>-->
-                                    <!--</li>-->
+                    <!--<a href="#"><i class="fa fa-sitemap"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>-->
+                    <!--<ul class="nav nav-second-level">-->
+                    <!--<li>-->
+                    <!--<a href="#">Second Level Link</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<a href="#">Second Level Link</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<a href="#">Second Level Link<span class="fa arrow"></span></a>-->
+                    <!--<ul class="nav nav-third-level">-->
+                    <!--<li>-->
+                    <!--<a href="#">Third Level Link</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<a href="#">Third Level Link</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<a href="#">Third Level Link</a>-->
+                    <!--</li>-->
 
-                                <!--</ul>-->
+                    <!--</ul>-->
 
-                            <!--</li>-->
-                        <!--</ul>-->
+                    <!--</li>-->
+                    <!--</ul>-->
                     <!--</li>-->
                 </ul>
 
@@ -341,152 +295,91 @@
         <div id="page-wrapper">
             <div class="header">
                 <h1 class="page-header">
-                  Publish <small>Publish your project.</small>
+                    自定义你项目中的文字标签
                 </h1>
             </div>
             <div style="text-align:center;background: #8d8888">
                 <hr style="height: 2px" />
             </div>
             <div id="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="agile-its">
-                                    <h1>上传数据集</h1>
-                                    <div class="w3layouts">
-                                        <h5>在提交之前清闲上传数据集. 你可以点击选择文件,或者拖动文件到文件框内.</h5>
-                                        <br/>
-                                        <div class="photos-upload-view">
-                                            <form id="upload" action="" method="POST" enctype="multipart/form-data">
-                                                <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
-                                                <br/>
-                                                <div class="agileinfo">
-                                                    <input id="submitbutton" type="submit" class="choose" value="选择文件..">
-                                                    <br/>
-                                                    <br/>
-                                                    <h3>OR</h3>
-                                                    <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
-                                                    <div id="filedrag">拖动文件到这里</div>
-                                                </div>
-                                            </form>
-                                            <div id="messages">
-                                                <p>状态信息</p>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-6">
+                            <div class="zTreeDemoBackground center-block">
+                                <ul id="treeDemo" class="ztree"></ul>
+                            </div>
+                        </div>
+                        <div class="col-md-5 container">
+                            <div class="row" style="margin-top: 210px;margin-bottom: 210px;">
+                                <div class="col-md-12">
+                                    <button type="button" onclick="resetTree()" class="btn btn-lg btn-primary">
+                                        重置
+                                    </button>
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <div style="width: 90%; margin: auto;background: #FFFFFF;">
-                                    <h1>项目要求</h1>
-                                    <h2>&nbsp;注意</h2>
-                                    <p>&nbsp;这里填一下以下各项的解释和要求</p>
-                                    <br/>
-                                    <div style="float: right; margin-bottom: 10px">
-                                        <label style="display: inline-block; margin-right: 50px"><input type="checkbox" id="autoopen" style="vertical-align: baseline">&nbsp;自动开启下一行文本域</label>
-                                        <!--<button id="enable" class="btn btn-default">enable / disable</button>-->
-                                    </div>
-                                    <table id="user" class="table table-bordered table-striped" style="clear: both">
-                                        <tbody>
-                                        <tr>
-                                            <td>项目名称</td>
-                                            <td><a href="#" id="projectName" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="给你的项目起个有吸引力的名字吧"></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>标注类型</td>
-                                            <td><a href="#" id="markMode" data-type="select" data-pk="1" data-value="" data-title="选择你想要的标注类型"></a></td>
-                                        </tr>
-                                        <tr>
-                                        <td>项目类型</td>
-                                        <td>
-                                            <select id="tags" multiple="multiple" style="width: 100%">
-                                            </select>
-                                        </td>
-                                        </tr>
-                                        <tr>
-                                            <td>每张图片最大工作者数</td>
-                                            <td><a href="#" id="maxNumPerPic" data-type="select" data-pk="1" data-value="" data-title="选择每张图片的最大工作者数"></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>每张图片最低工作者数</td>
-                                            <td><a href="#" id="minNumPerPic" data-type="select" data-pk="1" data-value="" data-title="选择每张图片的最低工作者数"></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>最低等级</td>
-                                            <td><a href="#" id="levelLimit" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="选择对于参与你的项目的工作者的等级限制"></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>测试准确率限制</td>
-                                            <td><a href="#" id="testAccuracy" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="准确率限制越高准确度越高,但数据量越少 分数范围0~100%"></a></td>
-                                        </tr>
-                                        <!--这里直接用JQ的datepicker-->
-                                            <td>结束时间</td>
-                                            <td><input type="text" id="endDate" size="30"></td>
-                                        </tr>
-                                        <script>
-                                            $(function() {
-                                                $( "#endDate" ).datepicker({
-                                                    changeMonth: true,
-                                                    changeYear: true
-                                                });
-                                                $( "#endDate" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
-                                                $( "#endDate" ).datepicker( "option", "showAnim","slideDown");
-                                            });
-                                        </script>
-                                        <tr>
-                                            <td>报酬</td>
-                                            <td><a href="#" id="payment" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="你提供的报酬将平分给完成工作的工作者"></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>标注要求<a href="#" id="pencil"><i class="icon-pencil" style="padding-right: 5px"></i>[edit]</a></td>
-                                            <td>
-                                                <div id="note" data-pk="1" data-type="wysihtml5" data-toggle="manual" data-title="Enter notes" data-placement="top">
-                                                    <h3>标注要求</h3>
-                                                    请在这里填写你想要工作者注意到的 <i>补充要求</i> ,可以尽量限制工作者自由发挥的空间.<br>
-                                                    包括但不限于:
-                                                    <ul>
-                                                        <li>1.</li>
-                                                        <li>2.</li>
-                                                        <li>3.</li>
-                                                    </ul>
-                                                    (建议将默认文本删除)
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" onclick="confirm()" class="btn btn-lg btn-success">
+                                        提交
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-10">
-                    </div>
-                    <div class="col-md-2" style="padding: 20px 0 0 0">
-                        <button id="confirm" type="button" onclick="uploadDataSet()" class="btn btn-outline-success btn-lg">
-                            提交
-                        </button>
-                    </div>
+                    <!--下面放横版的图片预览-->
+                    <!--貌似暂时不用做查看图片标注情况的-->
                 </div>
             </div>
              <!-- /. PAGE INNER  -->
             </div>
          <!-- /. PAGE WRAPPER  -->
         </div>
-     <!-- /. WRAPPER  -->
 
+    <style type="text/css">
+        .rMenu {position:absolute; visibility:hidden; top:0; background-color: #555;text-align: left;padding: 2px;}
+        .rmenu{
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+            list-style: none outside none;
+            background-color: #DFDFDF;
+        }
+    </style>
+    <div id="rMenu" class="rMenu">
+        <ul class="rmenu">
+            <li id="m_add" onclick="addTreeNode();">增加节点</li>
+            <li id="m_modify" onclick="modifyTreeNode();">修改节点</li>
+            <li id="m_del" onclick="removeTreeNode();">删除节点</li>
+            <li id="m_reset" onclick="resetTree();">恢复zTree</li>
+        </ul>
+    </div>
+     <!-- /. WRAPPER  -->
+    <!-- jQuery Js -->
+    <script src="/publisher/js/jquery-1.10.2.js"></script>
+    <!-- Bootstrap Js -->
+    <script src="/publisher/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript" src="/js/ztree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/js/ztree/jquery.ztree.exedit.js"></script>
     <!-- Metis Menu Js -->
     <script src="/publisher/js/jquery.metisMenu.js"></script>
 
+    <script src="/js/util/cookie.js"></script>
     <!-- Custom Js -->
-    <script src="/publisher/js/custom-scripts.js"></script>
+    <script type="text/javascript" src="/js/ztree/custom-scripts.js"></script>
 
-    <script src="/publisher/table/demo-mock.js"></script>
-    <script src="/publisher/table/demo.js"></script>
 
-    <script src="/publisher/js/publish.js"></script>
 </body>
 </html>
