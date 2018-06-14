@@ -11,11 +11,11 @@ public class Ability {
     @GeneratedValue
     private long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "label_id")
     private Label label;
 

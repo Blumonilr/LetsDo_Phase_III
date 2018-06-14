@@ -2,6 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.model.JsonOb;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
@@ -136,16 +137,16 @@ public class ProjectServiceImpl implements ProjectService  {
     }
 
     @Override
-    public void setProjectCustomTextNode(long projectId,String tagTree) {
+    public void setProjectCustomTextNode(long projectId,String xmlFile) {
         Project project=projectRepository.findById(projectId);
-        project.setTagTree(tagTree);
+        project.setXmlFile(xmlFile);
         projectRepository.saveAndFlush(project);
     }
 
     @Override
     public List<TextNode> getProjectTextNode(long projectId) {
         Project prj=projectRepository.findById(projectId);
-        JSONArray jsonArray = JSONArray.fromObject(prj.getTagTree());
+        JSONArray jsonArray = JSONArray.fromObject(prj.getXmlFile());
         List<TextNode> nodes=new ArrayList<>();
         for (Object o : jsonArray) {
             JSONObject jsonObject2 = JSONObject.fromObject(o);
