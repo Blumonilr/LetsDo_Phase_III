@@ -166,20 +166,6 @@ function show_a_new_tip(color_num){
     final_txt = final_txt + class_option_txt;
     final_txt = final_txt + "<div id='obj_selections_div_"+color_num+"'>...</div>";
 
-    // for(let i=0;i<len;i++){//id是 obj_num
-    //     var opts = title_list[i].split("_");
-    //     var sub_len = opts.length;
-    //     var obj_txt = opts[0]+": <select id='select_"+color_num+"_"+opts[0]+"'>" +
-    //         "  <option value='"+place_holder+"'>"+place_holder+"</option>";//首栏默认值
-    //     for(let j=1;j<sub_len;j++){
-    //         var opt_txt = "  <option value='"+opts[j]+"'>"+opts[j]+"</option>";
-    //         obj_txt = obj_txt + opt_txt;
-    //     }
-    //     obj_txt = obj_txt + " </select>\n" +
-    //         "<br>";
-    //     final_txt = final_txt + obj_txt;
-    // }
-
     var btn = "<input type='button' id='delete_"+color_num+"' onclick='delete_one_color(this)' value='删除'>";
     final_txt = final_txt + btn + " </div>";
     $("#tipInput").append(final_txt);
@@ -187,42 +173,64 @@ function show_a_new_tip(color_num){
 
 function append_selections(color_num,class_name){
     var str = get_selections_of_a_class(class_name);
-    var title_list = str.split(",");
-    var len = title_list.length;
-
-    if(color_num === 0){//red
-        // red_tip = str;
-        red_tip_class = class_name;
-    }
-    else if(color_num === 1){//yellow
-        // yellow_tip = str;
-        yellow_tip_class = class_name;
-    }
-    else if(color_num === 2){//blue
-        // blue_tip = str;
-        blue_tip_class = class_name;
-    }
-    else if(color_num === 3){//green
-        // green_tip = str;
-        green_tip_class = class_name;
-    }
-
-    var selection_txt = "";
-    for(let i=0;i<len;i++){//id是 obj_num
-        var opts = title_list[i].split("_");
-        var sub_len = opts.length;
-        var obj_txt = opts[0]+": <select id='select_"+color_num+"_"+opts[0]+"'>" +
-            "  <option value='"+place_holder+"'>"+place_holder+"</option>";//首栏默认值
-        for(let j=1;j<sub_len;j++){
-            var opt_txt = "  <option value='"+opts[j]+"'>"+opts[j]+"</option>";
-            obj_txt = obj_txt + opt_txt;
+    if(str === ""){//相当于重写文字标签
+        $("#obj_selections_div_"+color_num).empty();
+        if(color_num === 0){//red
+            // red_tip = str;
+            red_tip_class = "";
         }
-        obj_txt = obj_txt + " </select>\n" +
-            "<br>";
-        selection_txt = selection_txt + obj_txt;
+        else if(color_num === 1){//yellow
+            // yellow_tip = str;
+            yellow_tip_class = "";
+        }
+        else if(color_num === 2){//blue
+            // blue_tip = str;
+            blue_tip_class = "";
+        }
+        else if(color_num === 3){//green
+            // green_tip = str;
+            green_tip_class = "";
+        }
     }
-    $("#obj_selections_div_"+color_num).empty();
-    $("div#obj_selections_div_"+color_num).append(selection_txt);
+
+    else{
+        var title_list = str.split(",");
+        var len = title_list.length;
+
+        if(color_num === 0){//red
+            // red_tip = str;
+            red_tip_class = class_name;
+        }
+        else if(color_num === 1){//yellow
+            // yellow_tip = str;
+            yellow_tip_class = class_name;
+        }
+        else if(color_num === 2){//blue
+            // blue_tip = str;
+            blue_tip_class = class_name;
+        }
+        else if(color_num === 3){//green
+            // green_tip = str;
+            green_tip_class = class_name;
+        }
+
+        var selection_txt = "";
+        for(let i=0;i<len;i++){//id是 obj_num
+            var opts = title_list[i].split("_");
+            var sub_len = opts.length;
+            var obj_txt = opts[0]+": <select id='select_"+color_num+"_"+opts[0]+"'>" +
+                "  <option value='"+place_holder+"'>"+place_holder+"</option>";//首栏默认值
+            for(let j=1;j<sub_len;j++){
+                var opt_txt = "  <option value='"+opts[j]+"'>"+opts[j]+"</option>";
+                obj_txt = obj_txt + opt_txt;
+            }
+            obj_txt = obj_txt + " </select>\n" +
+                "<br>";
+            selection_txt = selection_txt + obj_txt;
+        }
+        $("#obj_selections_div_"+color_num).empty();
+        $("div#obj_selections_div_"+color_num).append(selection_txt);
+    }
 }
 
 
@@ -649,6 +657,11 @@ function get_xml_string(){
     //object
     if(red_tip !== []){//red begin
         //red
+
+        var obj_class = "            <category>\n"+
+            "            "+red_tip_class+"\n"+
+            "            </category>\n"
+
         var tags = "            <tags>\n";
         for(let j=0;j<red_tip.length;j++){
             var tag = "                <tag>\n"+
@@ -673,7 +686,7 @@ function get_xml_string(){
                          "                <y2>"+y2+"</y2>\n"+
                          "            </points>\n";
 
-            var obj = "        <object>\n"+points+tags+
+            var obj = "        <object>\n"+points+obj_class+tags+
                       "        </object>\n";
 
             s_objs = s_objs + obj;
@@ -682,6 +695,10 @@ function get_xml_string(){
 
     if(yellow_tip !== []){//yellow begin
         //yellow
+
+        var obj_class = "            <category>\n"+
+            "            "+yellow_tip_class+"\n"+
+            "            </category>\n"
         var tags = "            <tags>\n";
         for(let j=0;j<yellow_tip.length;j++){
             var tag = "                <tag>\n"+
@@ -706,7 +723,7 @@ function get_xml_string(){
                 "                <y2>"+y2+"</y2>\n"+
                 "            </points>\n";
 
-            var obj = "        <object>\n"+points+tags+
+            var obj = "        <object>\n"+points+obj_class+tags+
                 "        </object>\n";
 
             s_objs = s_objs + obj;
@@ -715,6 +732,10 @@ function get_xml_string(){
 
     if(blue_tip !== []){//blue begin
         //blue
+
+        var obj_class = "            <category>\n"+
+            "            "+blue_tip_class+"\n"+
+            "            </category>\n"
         var tags = "            <tags>\n";
         for(let j=0;j<blue_tip.length;j++){
             var tag = "                <tag>\n"+
@@ -739,7 +760,7 @@ function get_xml_string(){
                 "                <y2>"+y2+"</y2>\n"+
                 "            </points>\n";
 
-            var obj = "        <object>\n"+points+tags+
+            var obj = "        <object>\n"+points+obj_class+tags+
                 "        </object>\n";
 
             s_objs = s_objs + obj;
@@ -748,6 +769,10 @@ function get_xml_string(){
 
     if(green_tip !== []){//green begin
         //green
+
+        var obj_class = "            <category>\n"+
+            "            "+green_tip_class+"\n"+
+            "            </category>\n"
         var tags = "            <tags>\n";
         for(let j=0;j<green_tip.length;j++){
             var tag = "                <tag>\n"+
@@ -772,7 +797,7 @@ function get_xml_string(){
                 "                <y2>"+y2+"</y2>\n"+
                 "            </points>\n";
 
-            var obj = "        <object>\n"+points+tags+
+            var obj = "        <object>\n"+points+obj_class+tags+
                 "        </object>\n";
 
             s_objs = s_objs + obj;
@@ -798,7 +823,9 @@ function get_xml_string(){
 
     //supervise   end
 
-    var final_s = s1 + s2 + s3 + s4 + s5 + supervise_str + s_objs;
+    var final_s = "<root>\n"+
+                 s1 + s2 + s3 + s4 + s5 + supervise_str + s_objs+
+                   "\n</root>";
     return final_s;
 
 }
@@ -809,6 +836,11 @@ function get_xml_string(){
 function auto_submit_tips(){
     var str;
     var strs;
+
+    if(red_tip_class === "" && yellow_tip_class === "" && blue_tip_class === "" && green_tip_class === ""){
+        return false;
+    }
+
     if(red_tip_class !== ""){
         //red
         str = get_selections_of_a_class(red_tip_class);

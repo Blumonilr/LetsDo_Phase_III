@@ -74,19 +74,6 @@ function produce_an_obj(){
 
     //让用户选择类型
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-//     var str = "名称_牛_羊_猪,年龄_幼_壮_老";//需要根据用户选择的类型获得                           ///
-
-    var new_tip = [];//用来记录用户输入 title1_c1,title2_c2,c不生成，只要title1_,title2_
-    // var strs = str.split(",");
-    // for(let i=0;i<strs.length;i++){
-    //     var input = strs[i].split("_")[0]+"_";
-    //     new_tip.push(input);
-    // }
-    //
-    // tip_list.push(new_tip);//生成输入                                                         ///
- ///////////////////////////////////////////////////////////////////////////////////////////////
-
     show_a_new_tip(number_of_new);//显示新输入区
     point_list_list.push(point_list);//记录点集
     point_list = [];//清空记录 point_list = [];
@@ -150,28 +137,36 @@ function show_a_new_tip(num){
  */
 function append_selections(num,class_name){
     var str = get_selections_of_a_class(class_name);
-    tip_list[num] = str;///change
-    tip_class_list[num] = class_name;
-    var selection_txt = "";
 
-    var title_list = str.split(",");
-    var len = title_list.length;
-
-    for(let i=0;i<len;i++){
-        var opts = title_list[i].split("_");
-        var sub_len = opts.length;
-        var obj_txt = opts[0]+": <select id='select_"+num+"_"+opts[0]+"'>" +
-            "  <option value='"+place_holder+"'>"+place_holder+"</option>";//首栏默认值
-        for(let j=1;j<sub_len;j++){
-            var opt_txt = "  <option value='"+opts[j]+"'>"+opts[j]+"</option>";
-            obj_txt = obj_txt + opt_txt;
-        }
-        obj_txt = obj_txt + " </select>\n" +
-            "<br>";
-        selection_txt = selection_txt + obj_txt;
+    if(str === ""){//相当于重写文字描述
+        $("#obj_selections_div_"+num).empty();
+        tip_list[num] = "";///change
+        tip_class_list[num] = "";
     }
-    $("#obj_selections_div_"+num).empty();
-    $("div#obj_selections_div_"+num).append(selection_txt);
+    else{
+        tip_list[num] = str;///change
+        tip_class_list[num] = class_name;
+        var selection_txt = "";
+
+        var title_list = str.split(",");
+        var len = title_list.length;
+
+        for(let i=0;i<len;i++){
+            var opts = title_list[i].split("_");
+            var sub_len = opts.length;
+            var obj_txt = opts[0]+": <select id='select_"+num+"_"+opts[0]+"'>" +
+                "  <option value='"+place_holder+"'>"+place_holder+"</option>";//首栏默认值
+            for(let j=1;j<sub_len;j++){
+                var opt_txt = "  <option value='"+opts[j]+"'>"+opts[j]+"</option>";
+                obj_txt = obj_txt + opt_txt;
+            }
+            obj_txt = obj_txt + " </select>\n" +
+                "<br>";
+            selection_txt = selection_txt + obj_txt;
+        }
+        $("#obj_selections_div_"+num).empty();
+        $("div#obj_selections_div_"+num).append(selection_txt);
+    }
 }
 
 /**
@@ -365,9 +360,9 @@ function get_xml_string(){
                     "                <G>"+color_g_list[i]+"</G>\n" +
                     "                <B>"+color_b_list[i]+"</B>\n" +
                     "            </color>\n";
-                var obj_class = "            <class>\n"+
+                var obj_class = "            <category>\n"+
                                 "            "+tip_class_list[i]+"\n"+
-                                 "            </class>\n"
+                                 "            </category>\n"
 
                 var tag_list = tip_list[i];
                 var tags = "            <tags>\n";
@@ -409,13 +404,32 @@ function get_xml_string(){
 
     //supervise   end
 
-    var final_s = s1 + s2 + s3 + s4 + s5 +supervise_str+ s_objs;
+    var final_s = "<root>\n"+
+        s1 + s2 + s3 + s4 + s5 + supervise_str + s_objs+
+        "\n</root>";
     return final_s;
 }
 
 function auto_submit_tips(){
 
     var total_num = tip_list.length;
+    var points_num = point_list_list.length;
+    if(total_num !== points_num){
+        //有新化的区域没有选择
+        alert("HIA");
+        return false;
+    }
+    var num_deleted = 0;
+    for(let index=0;index<total_num;index++){
+        if(is_deleted_list[index]){
+            num_deleted ++;
+        }
+    }
+    if(num_deleted === total_num){
+        //空的
+        return false;
+    }
+
     for(let index=0;index<total_num;index++){
         if(!is_deleted_list[index]){
 
