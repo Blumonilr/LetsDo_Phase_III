@@ -40,6 +40,14 @@ public class TestTextNodeRepository {
     }
 
     @Test
+    public void test3(){
+        List<TextNode> list=tr.findFathers();
+        for(TextNode t:list){
+            System.out.println(t.getName());
+        }
+    }
+
+    @Test
     public void testover(){
         tr.deleteAll();
     }
