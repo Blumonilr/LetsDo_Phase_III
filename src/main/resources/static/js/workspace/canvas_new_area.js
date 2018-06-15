@@ -360,9 +360,8 @@ function get_xml_string(){
                     "                <G>"+color_g_list[i]+"</G>\n" +
                     "                <B>"+color_b_list[i]+"</B>\n" +
                     "            </color>\n";
-                var obj_class = "            <category>\n"+
-                                "            "+tip_class_list[i]+"\n"+
-                                 "            </category>\n"
+                var obj_class = "            <category>"+
+                                tip_class_list[i]+"</category>\n"
 
                 var tag_list = tip_list[i];
                 var tags = "            <tags>\n";
@@ -416,7 +415,6 @@ function auto_submit_tips(){
     var points_num = point_list_list.length;
     if(total_num !== points_num){
         //有新化的区域没有选择
-        alert("HIA");
         return false;
     }
     var num_deleted = 0;

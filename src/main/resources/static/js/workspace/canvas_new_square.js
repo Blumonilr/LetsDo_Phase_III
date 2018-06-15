@@ -770,9 +770,8 @@ function get_xml_string(){
     if(green_tip !== []){//green begin
         //green
 
-        var obj_class = "            <category>\n"+
-            "            "+green_tip_class+"\n"+
-            "            </category>\n"
+        var obj_class = "            <category>"+
+            "            "+green_tip_class+"</category>\n"
         var tags = "            <tags>\n";
         for(let j=0;j<green_tip.length;j++){
             var tag = "                <tag>\n"+
