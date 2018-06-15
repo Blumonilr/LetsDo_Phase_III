@@ -17,7 +17,7 @@
 
     <!--x-editable引用-->
     <script src="/publisher/table/jquery/jquery-1.9.1.min.js"></script>
-    <!--<script src="publisher/js/jquery-1.10.2.js"></script>-->
+    <!--<script src="/publisher/js/jquery-1.10.2.js"></script>-->
 
     <script src="/publisher/table/mockjax/jquery.mockjax.js"></script>
 
@@ -25,8 +25,8 @@
     <script src="/publisher/table/momentjs/moment.min.js"></script>
 
     <!-- select2 -->
-    <link href="/publisher/table/select2/select2.css" rel="stylesheet">
-    <script src="/publisher/table/select2/select2.js"></script>
+    <link href="/publisher/table/select2.css" rel="stylesheet" />
+    <script src="/publisher/table/select2.js"></script>
 
     <link href="/css/JQUI/jquery-ui.css" rel="stylesheet" />
     <link href="/css/JQUI/jquery-ui.theme.css" rel="stylesheet" />
@@ -42,18 +42,11 @@
     <!-- bootstrap 3 -->
     <link href="/publisher/table/bootstrap300/css/bootstrap.css" rel="stylesheet">
     <script src="/publisher/table/bootstrap300/js/bootstrap.js"></script>
-    <!--<script src="publisher/js/bootstrap.min.js"></script>-->
-
-    <!-- bootstrap-datetimepicker -->
-    <link href="/publisher/table/bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet">
-    <script src="/publisher/table/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <!--<script src="/publisher/js/bootstrap.min.js"></script>-->
 
     <!-- x-editable (bootstrap 3) -->
     <link href="/publisher/table/x-editable/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
     <script src="/publisher/table/x-editable/bootstrap3-editable/js/bootstrap-editable.js"></script>
-
-    <!-- select2 bootstrap -->
-    <link href="/publisher/table/select2/select2-bootstrap.css" rel="stylesheet">
 
     <!-- wysihtml5 -->
     <link href="/publisher/table/x-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css" rel="stylesheet">
@@ -284,7 +277,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -298,19 +291,19 @@
                 <ul class="nav" id="main-menu">
 
                     <li>
-                        <a href="/"><i class="fa fa-dashboard"></i> Home</a>
+                        <a href="/"><i class="fa fa-dashboard"></i> 主页</a>
                     </li>
                     <li>
-                        <a class="active-menu" href="#"><i class="fa fa-desktop"></i> Publish</a>
+                        <a class="active-menu" href="#"><i class="fa fa-desktop"></i> 发布</a>
                     </li>
 					<li>
-                        <a href="/project/publisherProjects"><i class="fa fa-bar-chart-o"></i> Projects</a>
+                        <a href="/project/publisherProjects"><i class="fa fa-bar-chart-o"></i> 项目</a>
                     </li>
                     <li>
-                        <a href="/project/publisher/projectDetail"><i class="fa fa-qrcode"></i> Progress</a>
+                        <a href="/project/publisher/projectDetail"><i class="fa fa-qrcode"></i> 进度</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-table"></i> Tags</a>
+                        <a href="#"><i class="fa fa-table"></i> 标签</a>
                     </li>
                     <!--<li>-->
                         <!--<a href="#"><i class="fa fa-sitemap"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>-->
@@ -407,7 +400,10 @@
                                         </tr>
                                         <tr>
                                         <td>项目类型</td>
-                                        <td><a href="#" id="tags" data-type="select2" data-pk="1" data-title="选择项目领域,支持多选与自定义"></a></td>
+                                        <td>
+                                            <select id="tags" multiple="multiple" style="width: 100%">
+                                            </select>
+                                        </td>
                                         </tr>
                                         <tr>
                                             <td>每张图片最大工作者数</td>
@@ -484,15 +480,6 @@
 
     <!-- Metis Menu Js -->
     <script src="/publisher/js/jquery.metisMenu.js"></script>
-    <!-- Morris Chart Js -->
-    <script src="/publisher/js/morris/raphael-2.1.0.min.js"></script>
-    <script src="/publisher/js/morris/morris.js"></script>
-
-
-    <script src="/publisher/js/easypiechart.js"></script>
-    <script src="/publisher/js/easypiechart-data.js"></script>
-
-    <script src="/publisher/js/Lightweight-Chart/jquery.chart.js"></script>
 
     <!-- Custom Js -->
     <script src="/publisher/js/custom-scripts.js"></script>

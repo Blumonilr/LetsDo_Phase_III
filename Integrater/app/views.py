@@ -9,7 +9,7 @@ def index():
     return "hello"
 
 
-@app.route("/hello", methods=['POST' ])
-def hello():
-    print(request.get_data())
+@app.route("/postImage", methods=['POST' ])
+def postImage():
+    image_id=request.get_data()
     return "hello"

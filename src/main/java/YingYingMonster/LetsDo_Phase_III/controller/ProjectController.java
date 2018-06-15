@@ -67,7 +67,6 @@ public class ProjectController {
 
     @GetMapping("/projectOverview/{projectId}")
     public void getDoneImage(@PathVariable("projectId")String projectId) throws Exception{
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpServletResponse response=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
 
         String JPG="image/jpeg;charset=UTF-8";
@@ -171,17 +170,35 @@ public class ProjectController {
         Project project=publisherService.getAProject(Long.parseLong(projectId));
         result+="\"projectName\":\""+project.getProjectName()+"\",";
         result+="\"publisherName\":\""+userService.getUser(project.getPublisherId()).getName()+"\",";
+        result+="\"projectState\":\""+project.getProjectState()+"\",";
         result+="\"markMode\":\""+project.getType().toString()+"\",";
+        result+="\"currWorkerNum\":\""+project.getCurrWorkerNum()+"\",";
+        result+="\"picNum\":\""+project.getPicNum()+"\",";
         result+="\"maxNumPerPic\":\""+project.getMaxNumPerPic()+"\",";
         result+="\"minNumPerPic\":\""+project.getMinNumPerPic()+"\",";
         result+="\"startDate\":\""+project.getStartDate()+"\",";
         result+="\"endDate\":\""+project.getEndDate()+"\",";
         result+="\"levelLimit\":\""+project.getWorkerMinLevel()+"\",";
         result+="\"testAccuracy\":\""+project.getTestAccuracy()+"\",";
-        result+="\"money\":\""+project.getMoney()+"\"";
+        result+="\"money\":\""+project.getMoney()+"\",";
+        result+="\"labels\":\""+String.join(",",project.getLabels())+"\",";
+        result+="\"inviteCode\":\""+((project.getTestProject())==null?"null":project.getTestProject().getInviteCode())+"\"";
         result+="}*";
         result+=project.getTagRequirement();
         return result;
     }
 
+    @PostMapping("/release")
+    @ResponseBody
+    public String release(@RequestParam String projectId){
+        Project project=projectService.getAProject(Long.parseLong(projectId));
+        if(project.getTestProject()!=null){
+            return "未上传测试集";
+        }else if(project.getTagTree()!=null){
+            return "未设定文字标签";
+        }else{
+            publisherService.openProject(Long.parseLong(projectId));
+            return "发布成功";
+        }
+    }
 }

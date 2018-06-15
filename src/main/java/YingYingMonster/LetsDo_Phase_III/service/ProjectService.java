@@ -33,7 +33,7 @@ public interface ProjectService {
 
     public byte[] getProjectOverview(long projectId) throws IOException;
 
-    public void setProjectCustomTextNode(long projectId,String xmlFile);
+    public void setProjectCustomTextNode(long projectId,String tagTree);
 
     public List<TextNode> getProjectTextNode(long projectId);
 
