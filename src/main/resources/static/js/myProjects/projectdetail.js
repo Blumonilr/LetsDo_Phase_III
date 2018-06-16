@@ -10,6 +10,7 @@ var condition = "a";//(a/b/c)
 var requirement;
 var type = "area";//(square/area)
 var type_disc;
+var score;
 
 function get_my_project_detail(){
    var pubid = getCookie("publisherId");
@@ -24,12 +25,13 @@ function get_my_project_detail(){
             "projectId" : pjid,
         },
         success: function(data){
-            //格式： condition+"_"+type+"_"+requirement+"_"+type_disc;
+            //格式： condition+"_"+type+"_"+requirement+"_"+type_disc+"_"+score
             var datas = data.split("_");
             condition = datas[0];
             type = datas[1];
             requirement = datas[2];
             type_disc = datas[3];
+            score = datas[4];
 
             set_exam();
             set_working();
@@ -46,11 +48,12 @@ function set_exam(){
     var a_href = "";
     if(condition === "a"){//考试进行中
         a_info = "考试进行中";
-        a_href = "<a href='../../workspace/"+type+"'> 去考试 </a>";
+        a_href = "<a href='../../exam/make/"+type+"'> 去考试 </a>";
     }
 
     else{
-        a_info = "考试已结束";
+        a_info = "考试已结束\n考试得分: "+score;
+
     }
 
     $("#exam_info").append(a_info);

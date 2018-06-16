@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
+import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
@@ -128,7 +129,15 @@ public class MyProjectsController {
     	
     	Project pj = service.getAProject(projectId);
     	
-    	String condition = "b";//service.getWorkingState(userId, projectId);// "b";//调用方法
+    	String condition = "";
+    	
+    	String workingState = service.getWorkingState(userId, projectId);
+    	if(workingState.equals(JoinEvent.TEST_PASSED) || workingState.equals(JoinEvent.WORKING)) {//工作中
+    		condition = "b";
+    	}
+    	else if(workingState.equals(JoinEvent.TEST_NOT_FINISHED)) {
+    		condition = "a";
+    	}
     	
     	String type = "";
     	String type_disc = "";
@@ -142,9 +151,9 @@ public class MyProjectsController {
     	}
     	
     	String requirement = pj.getTagRequirement();
+    	double examScore = service.getTestResult(userId, projectId);
     	
-    	
-    	String res = condition+"_"+type+"_"+requirement+"_"+type_disc;
+    	String res = condition+"_"+type+"_"+requirement+"_"+type_disc+"_"+examScore;
     	
     	return res;
     }
