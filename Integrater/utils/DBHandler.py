@@ -1,4 +1,6 @@
-from sqlalchemy import Column,BIGINT,BLOB,TEXT,VARCHAR,INT,FLOAT,BOOLEAN,ForeignKey,create_engine
+#coding=utf-8
+from sqlalchemy import Column,BIGINT,BLOB,TEXT,VARCHAR,INT,FLOAT,BOOLEAN,ForeignKey,create_engine,DATETIME
+from sqlalchemy.dialects.mysql import DATETIME
 from sqlalchemy.orm import sessionmaker,relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -65,10 +67,26 @@ class Image(Base):
 	is_test=Column(BOOLEAN,nullable=False)
 	picture=Column(BLOB)
 
+class CommitEvent(Base):
+	__tablename__='commits'
+	id=Column(BIGINT,primary_key=True,nullable=False)
+	commit_result=Column(VARCHAR(25),nullable=True)
+	commit_time=Column(DATETIME,nullable=True)
+	imageid=Column(BIGINT,nullable=False)
+	projectid=Column(BIGINT,nullable=False)
+	tagid=Column(BIGINT,nullable=False)
+	workerid=Column(BIGINT,nullable=False)
+
+class TestProject(Base):
+	__tablename__='test_projects'
+	id=Column(BIGINT,primary_key=True,nullable=False)
+	invite_code=Column(VARCHAR(255),nullable=True)
+	mark_node=Column(INT,nullable=True)
+	pic_num=Column(INT,nullable=False)
 
 # initialize connection
 def setup_db():
-	engine=create_engine('mysql+mysqlconnector://root:31415926@localhost:3306/letsdo',echo=True)
+	engine=create_engine('mysql+mysqlconnector://root:123456789@localhost:3306/letsdo',echo=True)
 	DBSession=sessionmaker(bind=engine)
 	return DBSession()
 
@@ -88,6 +106,16 @@ def get_image_tags(image_id):
 	session=setup_db()
 	tags=session.query(Tag).filter(Tag.image_id==image_id).all()
 	return tags
+
+def get_image_commit(image_id):
+	session=setup_db()
+	commits=session.query(CommitEvent).filter(CommitEvent.imageid==image_id).all()
+	return commits
+
+def get_test_project_images(project_id):
+	session=setup_db()
+	test_project_images=session.query(Image).filter(Image.project_id==project_id and Image.is_test==True).all()
+	return test_project_images
 
 
 '''
