@@ -14,7 +14,7 @@ public interface JoinEventRepository extends JpaRepository<JoinEvent, Long> {
 
     public List<JoinEvent> findByWorkerId(long workerId);
 
-    public List<JoinEvent> findByWorkerIdAndwAndWorkState(long workerId, String workerState);
+    public List<JoinEvent> findByWorkerIdAndWorkState(long workerId, String workerState);
 
     public List<JoinEvent> findByProjectId(long projectId);
 

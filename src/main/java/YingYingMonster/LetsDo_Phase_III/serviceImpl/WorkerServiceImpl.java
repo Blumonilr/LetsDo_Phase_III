@@ -85,7 +85,7 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public List<Project> viewMyActiveProjects(long workerId, String key) {
 		String k = key == null ? "" : key;
-		return joinEventRepository.findByWorkerIdAndwAndWorkState(workerId,JoinEvent.WORKING)
+		return joinEventRepository.findByWorkerIdAndWorkState(workerId,JoinEvent.WORKING)
 				.stream().map(x -> projectService.getAProject(x.getProjectId()))
 				.filter(x->(x.getProjectName().contains(k)||x.getTagRequirement().contains(k)))
 				.collect(Collectors.toList());
@@ -93,21 +93,21 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public List<Project> viewMyWorkingProject(long workerId) {
-		return joinEventRepository.findByWorkerIdAndwAndWorkState(workerId, JoinEvent.WORKING)
+		return joinEventRepository.findByWorkerIdAndWorkState(workerId, JoinEvent.WORKING)
 				.stream().map(x -> projectService.getAProject(x.getProjectId()))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Project> viewMyWorkFinishedProject(long workerId) {
-		return joinEventRepository.findByWorkerIdAndwAndWorkState(workerId, JoinEvent.WORK_Finished)
+		return joinEventRepository.findByWorkerIdAndWorkState(workerId, JoinEvent.WORK_Finished)
 				.stream().map(x -> projectService.getAProject(x.getProjectId()))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Project> viewMyNotStartedProject(long workerId) {
-		return joinEventRepository.findByWorkerIdAndwAndWorkState(workerId, JoinEvent.TEST_FINISHED)
+		return joinEventRepository.findByWorkerIdAndWorkState(workerId, JoinEvent.TEST_FINISHED)
 				.stream().map(x -> projectService.getAProject(x.getProjectId()))
 				.collect(Collectors.toList());
 	}
