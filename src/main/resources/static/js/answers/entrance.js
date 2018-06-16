@@ -5,6 +5,7 @@ var trueProjectId;
 var testProjectId;
 var type;
 var publisherId;
+var invite_code;
 
 function enter(){
     var numId = $("#number_input").val();

@@ -1,7 +1,10 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
+import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
 import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.TestProjectService;
@@ -25,7 +30,7 @@ import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 @Controller
 @RequestMapping("/exam")
 public class ExamController {
-ArrayList<Image> picture_list = new ArrayList<Image>();//暂存
+	ArrayList<Image> picture_list = new ArrayList<Image>();//暂存
 
 	@Autowired
 	WorkerService wkservice;
@@ -116,5 +121,128 @@ ArrayList<Image> picture_list = new ArrayList<Image>();//暂存
     	//wkservice.uploadAnswer(uid,tag);
     	
 	}
+	
+	/*
+	 * 返回所有考试图片的id
+	 */
+	@ResponseBody
+	@GetMapping("/getAllExamPic")
+	public String getSomeImages(HttpServletRequest request, HttpServletResponse response) {
+		String res = "";
+	
+		String projectId = request.getParameter("projectId");
+		
+    	long pjid = Long.parseLong(projectId);
+    	
+    	picture_list = (ArrayList<Image>) wkservice.getAllImages(pjid);
+		int len = picture_list.size();
+		for(int i=0;i<len;i++) {
+			res += picture_list.get(i).getId();
+			if(i != len-1) {
+				res += "_";
+			}
+		}
+		
+		return res;//如果没有了，返回""
+	}
+	
+	 /**
+   	* 把一张等待完成的图片放到url里
+ * @throws IOException 
+   	*/
+    @RequestMapping("/getNewPicture/{pictureId}")  
+    @ResponseBody  
+	public void getNewImage(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("pictureId")String pictureId) throws IOException {
+    	long picId = Long.parseLong(pictureId);
+    	
+    	String JPG="image/jpeg;charset=UTF-8";  
+    	
+    	for(Image image : picture_list) {
+    		if(image.getId() == picId) {
+    			byte[] data = image.getPicture();
+    			OutputStream outputStream = response.getOutputStream();  
+    			response.setContentType(JPG);  
+                outputStream.write(data);  
+                outputStream.flush();   
+                outputStream.close();  
+                break;
+    		}
+    	}
+	}
+    
 
+    /**
+     * 返回  width_height
+     * @param pictureId
+     * @return
+     */
+    @RequestMapping("/getPictureSize/{pictureId}")  
+    @ResponseBody  
+    public String getPictureSize(@PathVariable("pictureId")String pictureId) {
+    	long picId = Long.parseLong(pictureId);
+    	int width = 0;
+    	int height = 0;
+    	for(Image image : picture_list) {
+    		if(image.getId() == picId) {
+    			width = image.getWidth();
+    			height = image.getHeight();
+                break;
+    		}
+    	}
+    	return width+"_"+height;
+    }
+	
+    /**
+     * 返回项目要求
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/getRequirement")  
+    @ResponseBody 
+    public String get_requirement(HttpServletRequest request, HttpServletResponse response) {
+    	String tProjectId = request.getParameter("ProjectId");
+    	long trueProjectId = Long.parseLong(tProjectId);
+		Project project = pjservice.getAProject(trueProjectId);
+		
+		String req = project.getTagRequirement();
+		return req;
+    }
+    
+    @RequestMapping("/getOptions")  
+    @ResponseBody 
+    public String get_options(HttpServletRequest request, HttpServletResponse response) {
+    	String pjId = request.getParameter("projectId");
+    	long projectId = Long.parseLong(pjId);
+		Project pj = pjservice.getAProject(projectId);
+		String res = "";
+		List<TextNode> list = pjservice.getProjectTextNode(projectId);//一textnode对应一个class
+		
+		int classNum = list.size();
+		
+		for(int i=0;i<classNum;i++) {
+			
+			String classi = list.get(i).getName()+":";
+			List<String> selections = list.get(i).getAttributions();
+			
+			for(int j=0;j<selections.size();j++) {
+				String sel_j = selections.get(j);
+				String[] sel_j_split = sel_j.split(":");
+				String selectionj = sel_j_split[0]+"_"+sel_j_split[1];
+				classi += selectionj;
+				if(j != selections.size()-1) {
+					classi += ",";
+				}
+			}
+			
+			res += classi;
+			if(i != classNum-1) {
+				res += "!";
+			}
+		}
+		return res;
+    }
+    
+   
 }

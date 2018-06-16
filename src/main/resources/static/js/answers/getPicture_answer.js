@@ -146,11 +146,11 @@ function submit_tag(){
  * 设置要求区
  */
 function set_requirement(){
-    var inviteCode = getCookie("inviteCode");
+    var projectId = getCookie("projectId");
     $.ajax({
         url:  "/answer/getRequirement",
         type: "get",
-        data:{"inviteCode" : inviteCode},
+        data:{"projectId" : projectId},
         success: function(data){
             $("#requirementArea").append(data);
         }
