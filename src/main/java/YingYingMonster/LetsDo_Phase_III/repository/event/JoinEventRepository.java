@@ -12,15 +12,11 @@ import java.util.List;
 public interface JoinEventRepository extends JpaRepository<JoinEvent, Long> {
     public JoinEvent findByWorkerIdAndProjectId(long workerId, long projectId);
 
-//    @Query("select j.projectId from JoinEvent j where j.workerId=?1")
     public List<JoinEvent> findByWorkerId(long workerId);
 
-    public List<JoinEvent> findByWorkerIdAndActiveTrue(long workerId);
+    public List<JoinEvent> findByWorkerIdAndwAndWorkState(long workerId, String workerState);
 
-//    @Query("select j.workerId from JoinEvent j where j.projectId=?1")
     public List<JoinEvent> findByProjectId(long projectId);
-
-    public List<JoinEvent> findByProjectIdAndActiveTrue(long projectId);
 
     public List<JoinEvent> findByDateBetween(Date start, Date end);
 
