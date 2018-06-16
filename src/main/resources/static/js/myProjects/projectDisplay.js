@@ -5,8 +5,11 @@
 function loadProjects(){
 	var userId = getCookie("userId");
 	$.ajax({
-		url: "/myProjects/getList/"+userId,
+		url: "/myProjects/getList",
 		type: "get",
+		data: {
+			"userId" : userId,
+		},
 		success: function(data){
 			
 			var list = data.split(",");
@@ -19,43 +22,43 @@ function loadProjects(){
 				return;
 			}
 			for(let i=0 ; i<len ; i++){
-				var number = list[i].length%10;
-				var ids = list[i].split("_");
+
 				//pjid_pjname_pubid_description
-				var pubid = ids[2];
-				var pjid = ids[0];
-				var description = ids[3];
-				var pjname =  ids[1];
-				
-				//var	finish = "<img id='"+pubid+"_"+pjid+"' src='/pic/projects/push.png' class='pushicon'  onClick='terminate_project(this)'/>";//是否已完成
-				
-				
-				var txt = " <div class='single-member effect-3'  id='"+pubid+"_"+pjid+"'>"+
-		            	"<div class='member-image'>"+
-		                	"<img src='/pic/projects/0"+number+".png' alt='Member'>"+
-		                "</div>"+
-		                "<div class='member-info'>"+
-		                	"<h3>"+pjname+"</h3>"+
-		                    "<h5>"+description+"</h5>"+
-		                    "<p> 发布人："+pubid+"</p>"+
-		                    "<div class='social-touch' onClick='chooseProject(this)' id='"+pubid+"_"+pjid+"' >"+
-					             "<img class='pjicons' src='/pic/projects/work.png'></img>"+
-					             "查看详情"+
-		                    "</div>"+
-					        "<h5> 结束项目   "+
-                    "<img id='"+pubid+"_"+pjid+"' src='/pic/projects/push.png' class='pushicon'  onClick='terminate_project(this)'/>"+
-                    "</h5>"+ "</div>"+
-                    "</div>";
+				add_pj(list[i]);
 
-				//	txt = txt+finish;
-
-			//	txt = txt+"</h5>"+ "</div>"+
-		                 //    "</div>";
-				
-				$("#projects").append(txt);
 			}
 		}
 	});
+}
+
+function add_pj(pj_data){
+	var ids = pj_data.split("_");
+    var pubid = ids[2];
+    var pjid = ids[0];
+    var description = ids[3];
+    var pjname =  ids[1];
+
+    //var	finish = "<img id='"+pubid+"_"+pjid+"' src='/pic/projects/push.png' class='pushicon'  onClick='terminate_project(this)'/>";//是否已完成
+
+
+    var txt = " <div class='single-member effect-3'  id='"+pubid+"_"+pjid+"'>"+
+        "<div class='member-image'>"+
+        "<img src='/myProjects/getProjectOverview/"+pjid+"'  alt='Member'>"+
+        "</div>"+
+        "<div class='member-info'>"+
+        "<h3>"+pjname+"</h3>"+
+        "<h5>"+description+"</h5>"+
+        "<p> 发布人："+pubid+"</p>"+
+        "<div class='social-touch' onClick='chooseProject(this)' id='"+pubid+"_"+pjid+"' >"+
+        "<img class='pjicons' src='/pic/market/more.png'/>"+
+        "查看详情"+
+        "</div>"+
+        "<h5> 结束项目   "+
+        "<img id='"+pubid+"_"+pjid+"' src='/pic/projects/push.png' class='pushicon'  onClick='terminate_project(this)'/>"+
+        "</h5>"+ "</div>"+
+        "</div>";
+
+    $("#projects").append(txt);
 }
 
 function chooseProject(that){
@@ -113,7 +116,7 @@ function terminate_project(that){
 		data: {
 			"userId" : userId,
 			"projectId" : projectId,
-		}
+		},
 		success: function(){
             toastr.success("已退出该项目！");
             setTimeout("window.location.reload()",2500);//等待2.5秒后刷新界面

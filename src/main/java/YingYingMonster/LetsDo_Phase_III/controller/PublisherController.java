@@ -2,6 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.controller;
 
 import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.service.LabelService;
+import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,8 @@ public class PublisherController {
     private PublisherService publisherService;
     @Autowired
     private LabelService labelService;
+    @Autowired
+    private ProjectService projectService;
 
     //发布者界面
     @GetMapping("/publish")
@@ -118,6 +121,10 @@ public class PublisherController {
     public String publishTestPage(){
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();
+        String userId=(String)session.getAttribute("userId");
+        if(userId==null){
+            return "redirect:/user/login";
+        }
         if(session.getAttribute("testSet")!=null){
             return "publisher/publishTest";
         } else {
@@ -139,6 +146,36 @@ public class PublisherController {
         }else{
             return "fail";
         }
+    }
+
+    @GetMapping("/editTagTree")
+    public String tagTreePage(){
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String userId=(String)session.getAttribute("userId");
+        if(userId==null){
+            return "redirect:/user/login";
+        }
+        return "publisher/uploadTagTree";
+    }
+
+    @PostMapping("/editTagTree")
+    @ResponseBody
+    public String tagTree(@RequestParam String projectId){
+        Project project=projectService.getAProject(Long.parseLong(projectId));
+        String tagTree=project.getTagTree();
+        if(tagTree==null){
+            return projectService.getInitialTextNodeTree();
+        }else{
+            return tagTree;
+        }
+    }
+
+    @PostMapping("/uploadTagTree")
+    @ResponseBody
+    public String uploadTagTree(@RequestParam String projectId,@RequestParam String tagTree){
+        projectService.setProjectCustomTextNode(Long.parseLong(projectId),tagTree);
+        return "上传成功";
     }
 
     //请求提交记录界面

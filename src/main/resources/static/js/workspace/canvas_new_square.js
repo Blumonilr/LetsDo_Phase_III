@@ -10,9 +10,14 @@ var red_tip = [];
 var yellow_tip = [];
 var blue_tip = [];
 var green_tip = [];
+var red_tip_class = "";
+var yellow_tip_class = "";
+var blue_tip_class = "";
+var green_tip_class = "";
 var global_mark_ptr;
 var current_color = -1;//0-3下标
 var place_holder = "--------";
+var place_holder_class = "- - - - -";
 
 var global_color_selected = -1;//被选中的矩形的颜色
 var global_obj_num_selected = -1;//被选中的矩形在相应颜色里的下标
@@ -44,18 +49,18 @@ function produce_an_obj(x1,y1,x2,y2){
     if(Math.abs(x1-x2) <= 4 || Math.abs(y1-y2) <=4){return;}//太小
 
     var points = [[x1,y1],[x2,y2]];//点集，放到对应颜色里去
-    var str = "名称_牛_羊_猪,年龄_幼_壮_老";//共用的，但是不一定会用到
-    var strs = str.split(",");
+    // var str = "名称_牛_羊_猪,年龄_幼_壮_老";//共用的，但是不一定会用到
+    // var strs = str.split(",");
 
     if(current_color === 0){
         if(red_obj_list.length === 0){
             //之前没有这种颜色的矩形
             //显示输入
             //用来记录用户输入 title1_c1,title2_c2,c不生成，只要title1_,title2_
-            for(let i=0;i<strs.length;i++){
-                var input = strs[i].split("_")[0]+"_";
-                red_tip.push(input);
-            }
+            // for(let i=0;i<strs.length;i++){
+            //     var input = strs[i].split("_")[0]+"_";
+            //     red_tip.push(input);
+            // }
             show_a_new_tip(current_color);
         }
         red_obj_list.push(points);
@@ -65,10 +70,10 @@ function produce_an_obj(x1,y1,x2,y2){
         if(yellow_obj_list.length === 0){
             //之前没有这种颜色的矩形
             //显示输入
-            for(let i=0;i<strs.length;i++){
-                var input = strs[i].split("_")[0]+"_";
-                yellow_tip.push(input);
-            }
+            // for(let i=0;i<strs.length;i++){
+            //     var input = strs[i].split("_")[0]+"_";
+            //     yellow_tip.push(input);
+            // }
             show_a_new_tip(current_color);
         }
         yellow_obj_list.push(points);
@@ -77,10 +82,10 @@ function produce_an_obj(x1,y1,x2,y2){
         if(blue_obj_list.length === 0){
             //之前没有这种颜色的矩形
             //显示输入
-            for(let i=0;i<strs.length;i++){
-                var input = strs[i].split("_")[0]+"_";
-                blue_tip.push(input);
-            }
+            // for(let i=0;i<strs.length;i++){
+            //     var input = strs[i].split("_")[0]+"_";
+            //     blue_tip.push(input);
+            // }
             show_a_new_tip(current_color);
         }
         blue_obj_list.push(points);
@@ -89,15 +94,14 @@ function produce_an_obj(x1,y1,x2,y2){
         if(green_obj_list.length === 0){
             //之前没有这种颜色的矩形
             //显示输入
-            for(let i=0;i<strs.length;i++){
-                var input = strs[i].split("_")[0]+"_";
-                green_tip.push(input);
-            }
+            // for(let i=0;i<strs.length;i++){
+            //     var input = strs[i].split("_")[0]+"_";
+            //     green_tip.push(input);
+            // }
             show_a_new_tip(current_color);
         }
         green_obj_list.push(points);
     }
-
 
     supervise_total_points++;
 
@@ -156,29 +160,106 @@ function print_an_color_obj(color_num){
  * @param num第几个，tip_list
  */
 function show_a_new_tip(color_num){
-    
-    //新显示某种颜色的tip
-	 //格式: name1_opt1_opt2_opt3,name2_opt1_opt2
-    var str = "名称_牛_羊_猪,年龄_幼_壮_老";
-    var title_list = str.split(",");
-    var len = title_list.length;
+
     var final_txt = " <div class='obj_tips' style='background-color: rgba("+color_r_list[color_num]+","+color_g_list[color_num]+","+color_b_list[color_num]+",0.4)' id='obj_"+color_num+"'>";
-    for(let i=0;i<len;i++){//id是 obj_num
-        var opts = title_list[i].split("_");
-        var sub_len = opts.length;
-        var obj_txt = opts[0]+": <select id='select_"+color_num+"_"+opts[0]+"'>" +
-            "  <option value='"+place_holder+"'>"+place_holder+"</option>";//首栏默认值
-        for(let j=1;j<sub_len;j++){
-            var opt_txt = "  <option value='"+opts[j]+"'>"+opts[j]+"</option>";
-            obj_txt = obj_txt + opt_txt;
-        }
-        obj_txt = obj_txt + " </select>\n" +
-            "<br>";
-        final_txt = final_txt + obj_txt;
-    }
-    var btn2 = "<input type='button' id='delete_"+color_num+"' onclick='delete_one_color(this)' value='删除'>";
-    final_txt = final_txt + btn2 + " </div>";
+    var class_option_txt = get_class_option_txt(color_num);
+    final_txt = final_txt + class_option_txt;
+    final_txt = final_txt + "<div id='obj_selections_div_"+color_num+"'>...</div>";
+
+    var btn = "<input type='button' id='delete_"+color_num+"' onclick='delete_one_color(this)' value='删除'>";
+    final_txt = final_txt + btn + " </div>";
     $("#tipInput").append(final_txt);
+}
+
+function append_selections(color_num,class_name){
+    var str = get_selections_of_a_class(class_name);
+    if(str === ""){//相当于重写文字标签
+        $("#obj_selections_div_"+color_num).empty();
+        if(color_num === 0){//red
+            // red_tip = str;
+            red_tip_class = "";
+        }
+        else if(color_num === 1){//yellow
+            // yellow_tip = str;
+            yellow_tip_class = "";
+        }
+        else if(color_num === 2){//blue
+            // blue_tip = str;
+            blue_tip_class = "";
+        }
+        else if(color_num === 3){//green
+            // green_tip = str;
+            green_tip_class = "";
+        }
+    }
+
+    else{
+        var title_list = str.split(",");
+        var len = title_list.length;
+
+        if(color_num === 0){//red
+            // red_tip = str;
+            red_tip_class = class_name;
+        }
+        else if(color_num === 1){//yellow
+            // yellow_tip = str;
+            yellow_tip_class = class_name;
+        }
+        else if(color_num === 2){//blue
+            // blue_tip = str;
+            blue_tip_class = class_name;
+        }
+        else if(color_num === 3){//green
+            // green_tip = str;
+            green_tip_class = class_name;
+        }
+
+        var selection_txt = "";
+        for(let i=0;i<len;i++){//id是 obj_num
+            var opts = title_list[i].split("_");
+            var sub_len = opts.length;
+            var obj_txt = opts[0]+": <select id='select_"+color_num+"_"+opts[0]+"'>" +
+                "  <option value='"+place_holder+"'>"+place_holder+"</option>";//首栏默认值
+            for(let j=1;j<sub_len;j++){
+                var opt_txt = "  <option value='"+opts[j]+"'>"+opts[j]+"</option>";
+                obj_txt = obj_txt + opt_txt;
+            }
+            obj_txt = obj_txt + " </select>\n" +
+                "<br>";
+            selection_txt = selection_txt + obj_txt;
+        }
+        $("#obj_selections_div_"+color_num).empty();
+        $("div#obj_selections_div_"+color_num).append(selection_txt);
+    }
+}
+
+
+/**
+ * 为了主方法短一点而拿出来的方法
+ */
+function get_class_option_txt(color_num){
+    var txt1 = "对象种类:  "+"<select id='class_option_"+color_num +"' onchange='choose_class(this)'>"  + "  <option value='"+place_holder_class+"'>"+place_holder_class+"</option>";//首栏默认值
+    var class_num = class_name_list.length;
+    for(let i=0;i<class_num;i++){
+        var opt_txt = "  <option value='"+class_name_list[i]+"'>"+class_name_list[i]+"</option>";
+        txt1 += opt_txt;
+    }
+
+    txt1 = txt1 + " </select>\n" +
+        "<br>";
+
+    return txt1;
+}
+
+/**
+ * 用户选择了class
+ * @param that
+ */
+function choose_class(that){
+    var color_num = that.id.split("_")[2];
+    color_num = parseInt(color_num);
+    var class_name = $("#"+that.id).val();
+    append_selections(color_num,class_name);
 }
 
 /**
@@ -190,21 +271,25 @@ function delete_one_color(that){
     if(color_num === "0"){
         red_obj_list = [];
         red_tip = [];
+        red_tip_class = "";
         $("#tipInput").children("#obj_0").remove();//删除输入框
     }
     else if(color_num === "1"){
         yellow_obj_list = [];
         yellow_tip = [];
+        yellow_tip_class = "";
         $("#tipInput").children("#obj_1").remove();//删除输入框
     }
     else if(color_num === "2"){
         blue_obj_list = [];
         blue_tip = [];
+        blue_tip_class = "";
         $("#tipInput").children("#obj_2").remove();//删除输入框
     }
     else if(color_num === "3"){
         green_obj_list = [];
         green_tip = [];
+        green_tip_class = "";
         $("#tipInput").children("#obj_3").remove();//删除输入框
     }
 
@@ -492,6 +577,7 @@ function delete_selected_square(){
         if(red_obj_list.length === 0){
             $("#tipInput").children("#obj_0").remove();//删除输入框
             red_tip = [];
+            red_tip_class = "";
         }
     }
     if(global_color_selected === 1){
@@ -499,6 +585,7 @@ function delete_selected_square(){
         if(yellow_obj_list.length === 0){
             $("#tipInput").children("#obj_1").remove();//删除输入框
             yellow_tip = [];
+            yellow_tip_class = "";
         }
     }
     if(global_color_selected === 2){
@@ -506,6 +593,7 @@ function delete_selected_square(){
         if(blue_obj_list.length === 0){
             $("#tipInput").children("#obj_2").remove();//删除输入框
             blue_tip = [];
+            blue_tip_class = "";
         }
     }
     if(global_color_selected === 3){
@@ -513,6 +601,7 @@ function delete_selected_square(){
         if(green_obj_list.length === 0){
             $("#tipInput").children("#obj_3").remove();//删除输入框
             green_tip = [];
+            green_tip_class = "";
         }
     }
     global_obj_num_selected = -1;
@@ -568,6 +657,11 @@ function get_xml_string(){
     //object
     if(red_tip !== []){//red begin
         //red
+
+        var obj_class = "            <category>\n"+
+            "            "+red_tip_class+"\n"+
+            "            </category>\n"
+
         var tags = "            <tags>\n";
         for(let j=0;j<red_tip.length;j++){
             var tag = "                <tag>\n"+
@@ -592,7 +686,7 @@ function get_xml_string(){
                          "                <y2>"+y2+"</y2>\n"+
                          "            </points>\n";
 
-            var obj = "        <object>\n"+points+tags+
+            var obj = "        <object>\n"+points+obj_class+tags+
                       "        </object>\n";
 
             s_objs = s_objs + obj;
@@ -601,6 +695,10 @@ function get_xml_string(){
 
     if(yellow_tip !== []){//yellow begin
         //yellow
+
+        var obj_class = "            <category>\n"+
+            "            "+yellow_tip_class+"\n"+
+            "            </category>\n"
         var tags = "            <tags>\n";
         for(let j=0;j<yellow_tip.length;j++){
             var tag = "                <tag>\n"+
@@ -625,7 +723,7 @@ function get_xml_string(){
                 "                <y2>"+y2+"</y2>\n"+
                 "            </points>\n";
 
-            var obj = "        <object>\n"+points+tags+
+            var obj = "        <object>\n"+points+obj_class+tags+
                 "        </object>\n";
 
             s_objs = s_objs + obj;
@@ -634,6 +732,10 @@ function get_xml_string(){
 
     if(blue_tip !== []){//blue begin
         //blue
+
+        var obj_class = "            <category>\n"+
+            "            "+blue_tip_class+"\n"+
+            "            </category>\n"
         var tags = "            <tags>\n";
         for(let j=0;j<blue_tip.length;j++){
             var tag = "                <tag>\n"+
@@ -658,7 +760,7 @@ function get_xml_string(){
                 "                <y2>"+y2+"</y2>\n"+
                 "            </points>\n";
 
-            var obj = "        <object>\n"+points+tags+
+            var obj = "        <object>\n"+points+obj_class+tags+
                 "        </object>\n";
 
             s_objs = s_objs + obj;
@@ -667,6 +769,9 @@ function get_xml_string(){
 
     if(green_tip !== []){//green begin
         //green
+
+        var obj_class = "            <category>"+
+            "            "+green_tip_class+"</category>\n"
         var tags = "            <tags>\n";
         for(let j=0;j<green_tip.length;j++){
             var tag = "                <tag>\n"+
@@ -691,7 +796,7 @@ function get_xml_string(){
                 "                <y2>"+y2+"</y2>\n"+
                 "            </points>\n";
 
-            var obj = "        <object>\n"+points+tags+
+            var obj = "        <object>\n"+points+obj_class+tags+
                 "        </object>\n";
 
             s_objs = s_objs + obj;
@@ -717,7 +822,9 @@ function get_xml_string(){
 
     //supervise   end
 
-    var final_s = s1 + s2 + s3 + s4 + s5 + supervise_str + s_objs;
+    var final_s = "<root>\n"+
+                 s1 + s2 + s3 + s4 + s5 + supervise_str + s_objs+
+                   "\n</root>";
     return final_s;
 
 }
@@ -726,12 +833,18 @@ function get_xml_string(){
  * 将用户输入放入tiplist里，若有未完成返回false
  */
 function auto_submit_tips(){
-    var str = "名称_牛_羊_猪,年龄_幼_壮_老";
-    var strs = str.split(",");
+    var str;
+    var strs;
 
+    if(red_tip_class === "" && yellow_tip_class === "" && blue_tip_class === "" && green_tip_class === ""){
+        return false;
+    }
 
-    if(red_tip !== []){
+    if(red_tip_class !== ""){
         //red
+        str = get_selections_of_a_class(red_tip_class);
+        strs = str.split(",");
+        alert("RED: AUTO : "+strs);
         var result_list = [];
         for(let i=0;i<strs.length;i++){
             var title = strs[i].split("_")[0];
@@ -753,8 +866,10 @@ function auto_submit_tips(){
         //red end
     }
 
-    if(yellow_tip !== []){
+    if(yellow_tip_class !== ""){
         //yellow
+        str = get_selections_of_a_class(yellow_tip_class);
+        strs = str.split(",");
         var result_list = [];
         for(let i=0;i<strs.length;i++){
             var title = strs[i].split("_")[0];
@@ -767,10 +882,7 @@ function auto_submit_tips(){
                 var result = title+"_"+tip;
                 result_list.push(result);
             }
-            
-            
         }
-
         yellow_tip = [];
         for(let j=0;j<result_list.length;j++){
             yellow_tip.push(result_list[j]);
@@ -778,8 +890,10 @@ function auto_submit_tips(){
         //yellow end
     }
 
-    if(blue_tip !== []){
+    if(blue_tip_class !== ""){
         //blue
+        str = get_selections_of_a_class(blue_tip_class);
+        strs = str.split(",");
         var result_list = [];
         for(let i=0;i<strs.length;i++){
             var title = strs[i].split("_")[0];
@@ -802,8 +916,10 @@ function auto_submit_tips(){
     }
 
 
-    if(green_tip !== []){
+    if(green_tip_class !== ""){
         //green
+        str = get_selections_of_a_class(green_tip_class);
+        strs = str.split(",");
         var result_list = [];
         for(let i=0;i<strs.length;i++){
             var title = strs[i].split("_")[0];
@@ -840,6 +956,10 @@ function prepare_for_next_picture(){
     yellow_tip = [];
     blue_tip = [];
     green_tip = [];
+    red_tip_class = "";
+    yellow_tip_class = "";
+    blue_tip_class = "";
+    green_tip_class = "";
     global_color_selected = -1;//被选中的矩形的颜色
     global_obj_num_selected = -1;//被选中的矩形在相应颜色里的下标
 

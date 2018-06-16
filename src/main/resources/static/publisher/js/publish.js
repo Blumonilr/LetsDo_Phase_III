@@ -11,13 +11,6 @@ var fileselect = $id("fileselect"),
 window.onload=function () {
     document.getElementById("userId").innerHTML=getCookie("userId")+"&nbsp;";
     $("#profile").attr("href","/user/userDetail/"+getCookie("userId"));
-    var tagOpt={
-        inputclass: 'input-large',
-        select2: {
-            tags: [],
-            tokenSeparators: [","]
-        }
-    };
     $.ajax({
         url:"/publisherPage/getLabels",
         type:"POST",
@@ -26,8 +19,14 @@ window.onload=function () {
         processData: false,
         contentType: false,
         success:function(res){
-            tagOpt.select2.tags=res.split(",");
-            $('#tags').editable(tagOpt);
+            var data=res.split(",");
+            $('#tags').select2(
+                {
+                    data:data,
+                    tags:true,
+                    placeholder: "至少添加一个标签"
+                }
+            );
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown+"\n"+"发生了预料之外的错误，请稍后再试或联系开发人员");
@@ -51,7 +50,15 @@ function uploadDataSet() {
     var levelLimit=$("#levelLimit").text();
     var testAccuracy=$("#testAccuracy").text();
     var money=$("#payment").text();
-    var tags=$('#tags').text();
+    var tags=$('#tags').select2("data");
+    var tagResult="";
+    for(var i=0;i<tags.length;i++){
+        if(i==tags.length-1){
+            tagResult+=tags[i].text;
+        }else{
+            tagResult+=tags[i].text+",";
+        }
+    }
 
     var formData = new FormData();
     formData.append("file",fileResult);

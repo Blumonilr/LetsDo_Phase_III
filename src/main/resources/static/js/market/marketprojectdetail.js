@@ -1,55 +1,59 @@
 /**
  * 
  */
-var type;
-var requirement;
-var begin_time;
-var end_time;
-var people_in;
-var payment;
-var lowest_level;
-
 
 function get_info(){
-    var publisherId = getCookie("publisherId");
+
     var projectId = getCookie("projectId");
-    var userId = getCookie("userId");
 
     $.ajax({
-        url: "/market/getdetail/"+publisherId+"/"+projectId,
+        url: "/market/getdetail",
         type: "get",
+        data: {
+            "projectId" : projectId,
+        },
         success: function(data){
-           // type+"_"+start_time+"_"+end_time+"_"+lowest_level+"_"+payment"_"+people_in+"_"+requirement+;
-            var datas = data.split("_");
-            type = datas[0];
-            begin_time = datas[1];
-            end_time = datas[2];
-            lowest_level = datas[3];
-            payment = datas[4];
-            people_in = datas[5];
-            requirement = datas[6];
-
-            set_info();
+           // type_disc+"_"+start_time+"_"+end_time+"_"+lowest_level+"_"+payment+"_"+people_in+"_"+requirement+"_"+type+"_+pubid
+            if(data===""){
+                toastr.error("Oooops..  好像出了一点问题，请稍后重试");
+            }
+            else {
+                set_info(data);
+            }
         }
     });
 }
 
 function fork(){
-    var publisherId = getCookie("publisherId");
     var projectId = getCookie("projectId");
     var userId = getCookie("userId");
     $.ajax({
-        url: "/market/fork/"+userId+"/"+publisherId+"/"+projectId,
+        url: "/market/join",
         type: "get",
+        data: {
+            "projectId" : projectId,
+            "userId" : userId,
+        },
         success: function(data){
+
             toastr.info(data);//需要保留和替换
         }
     });
 }
 
-function set_info(){
-    var publisherId = getCookie("publisherId");
+function set_info(data){
+
     var projectId = getCookie("projectId");
+    var datas = data.split("_");
+    var type_disc = datas[0];
+    var begin_time = datas[1];
+    var end_time = datas[2];
+    var lowest_level = datas[3];
+    var payment = datas[4];
+    var people_in = datas[5];
+    var requirement = datas[6];
+    var type = datas[7];
+    var publisherId = datas[8];
 
     var txt1;
     var txt2;
@@ -57,15 +61,17 @@ function set_info(){
 
     txt1 = "<p>发布者: "+publisherId+"</p><br>"+
            "<p> 项目名: "+projectId+"</p><br>"+
+            "<p>等级要求: "+lowest_level+"</p><br>"+
            "<p> 报酬: "+payment+"</p><br>"+
-           "<p>开始时间: "+begin_time+"</p><br>"+
-           "<p>结束时间: "+end_time+"</p><br>";
+           "<p> 标注类型: "+type_disc+"</p><br>";
 
-    txt2 = "<p>等级要求: "+lowest_level+"</p><br>"+
-           "<p>标注要求:"+"</p><br>"+
+
+    txt2 = "<p>标注要求:"+"</p><br>"+
            "<p>"+requirement+"</p><br>";
 
-    txt3 = "<p>当前参与人数: "+people_in+"</p><br>";
+    txt3 = "<p>开始时间: "+begin_time+"</p><br>"+
+                "<p>结束时间: "+end_time+"</p><br>"+
+          "<p>当前参与人数: "+people_in+"</p><br>";
 
 
     $("#first_info").append(txt1);

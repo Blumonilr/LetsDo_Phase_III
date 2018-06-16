@@ -10,8 +10,6 @@ import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.role.UserRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
-import YingYingMonster.LetsDo_Phase_III.service.UserService;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

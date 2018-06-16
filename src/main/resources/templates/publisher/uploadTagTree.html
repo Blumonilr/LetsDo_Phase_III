@@ -1,0 +1,385 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自定义文字标签</title>
+	<!-- Bootstrap Styles-->
+    <link href="/publisher/css/bootstrap3.3.4.css" rel="stylesheet" />
+     <!-- FontAwesome Styles-->
+    <link href="/publisher/css/font-awesome.css" rel="stylesheet" />
+        <!-- Custom Styles-->
+    <link href="/publisher/css/custom-styles.css" rel="stylesheet" />
+     <!-- Google Fonts-->
+   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+    <link rel="stylesheet" href="/css/zTreeStyle/tagTree.css" type="text/css">
+    <link rel="stylesheet" href="/css/zTreeStyle/zTreeStyle.css" type="text/css">
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href=""><strong>YYM CrowedSource</strong></a>
+
+                <div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Doe</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Today</em>
+                                    </span>
+                                </div>
+                                <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem Ipsum has been the industry's standard dummy text ever since the...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-messages -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-tasks">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 1</strong>
+                                        <span class="pull-right text-muted">60% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                            <span class="sr-only">60% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 2</strong>
+                                        <span class="pull-right text-muted">28% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100" style="width: 28%">
+                                            <span class="sr-only">28% Complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 3</strong>
+                                        <span class="pull-right text-muted">60% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                            <span class="sr-only">60% Complete (warning)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 4</strong>
+                                        <span class="pull-right text-muted">85% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+                                            <span class="sr-only">85% Complete (danger)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Tasks</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-tasks -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 min</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i><span id="userId" style="color: #ffe4b5">username&nbsp;</span><i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> 个人信息</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> 设置</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a href="/"><i class="fa fa-dashboard"></i> 主页</a>
+                    </li>
+                    <li>
+                        <a class="active-menu" href="#"><i class="fa fa-desktop"></i> 发布</a>
+                    </li>
+                    <li>
+                        <a href="/project/publisherProjects"><i class="fa fa-bar-chart-o"></i> 项目</a>
+                    </li>
+                    <li>
+                        <a href="/project/publisher/projectDetail"><i class="fa fa-qrcode"></i> 进度</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-table"></i> 标签</a>
+                    </li>
+                    <!--<li>-->
+                    <!--<a href="#"><i class="fa fa-sitemap"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>-->
+                    <!--<ul class="nav nav-second-level">-->
+                    <!--<li>-->
+                    <!--<a href="#">Second Level Link</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<a href="#">Second Level Link</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<a href="#">Second Level Link<span class="fa arrow"></span></a>-->
+                    <!--<ul class="nav nav-third-level">-->
+                    <!--<li>-->
+                    <!--<a href="#">Third Level Link</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<a href="#">Third Level Link</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                    <!--<a href="#">Third Level Link</a>-->
+                    <!--</li>-->
+
+                    <!--</ul>-->
+
+                    <!--</li>-->
+                    <!--</ul>-->
+                    <!--</li>-->
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div class="header">
+                <h1 class="page-header">
+                    自定义你项目中的文字标签
+                </h1>
+            </div>
+            <div style="text-align:center;background: #8d8888">
+                <hr style="height: 2px" />
+            </div>
+            <div id="page-inner">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-6">
+                            <div class="zTreeDemoBackground center-block">
+                                <ul id="treeDemo" class="ztree"></ul>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="row" style="margin-top: 210px;margin-bottom: 210px;">
+                                <div class="col-md-12">
+                                    <button type="button" onclick="resetTree()" class="btn btn-lg btn-primary">
+                                        重置
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" onclick="upload()" class="btn btn-lg btn-success">
+                                        提交
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--下面放横版的图片预览-->
+                    <!--貌似暂时不用做查看图片标注情况的-->
+                </div>
+            </div>
+             <!-- /. PAGE INNER  -->
+            </div>
+         <!-- /. PAGE WRAPPER  -->
+        </div>
+
+    <style type="text/css">
+        .rMenu {position:absolute; visibility:hidden; top:0; background-color: #555;text-align: left;padding: 2px;}
+        .rmenu{
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+            list-style: none outside none;
+            background-color: #DFDFDF;
+        }
+    </style>
+    <div id="rMenu" class="rMenu">
+        <ul class="rmenu">
+            <li id="m_add" onclick="addTreeNode();">增加节点</li>
+            <li id="m_modify" onclick="modifyTreeNode();">修改节点</li>
+            <li id="m_del" onclick="removeTreeNode();">删除节点</li>
+            <li id="m_reset" onclick="resetTree();">恢复zTree</li>
+        </ul>
+    </div>
+     <!-- /. WRAPPER  -->
+    <!-- jQuery Js -->
+    <script src="/publisher/js/jquery-1.10.2.js"></script>
+    <!-- Bootstrap Js -->
+    <script src="/publisher/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript" src="/js/ztree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/js/ztree/jquery.ztree.exedit.js"></script>
+    <!-- Metis Menu Js -->
+    <script src="/publisher/js/jquery.metisMenu.js"></script>
+
+    <script src="/js/util/cookie.js"></script>
+    <!-- Custom Js -->
+    <script type="text/javascript" src="/js/ztree/custom-scripts.js"></script>
+
+
+</body>
+</html>

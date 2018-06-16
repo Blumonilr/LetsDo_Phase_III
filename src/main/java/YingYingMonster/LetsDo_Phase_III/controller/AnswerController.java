@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
+import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
 import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
+import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.TestProjectService;
 
 @Controller
@@ -30,6 +34,9 @@ public class AnswerController {
 	
 	@Autowired
 	TestProjectService service;
+	
+	@Autowired
+	ProjectService pjservice;
 	
 	/**
 	 * 根据拿到的内测码找project的trueProjectId+"_"+publisherId+"_"+type+"_"+testProjectId
@@ -196,6 +203,50 @@ public class AnswerController {
 		
 		String req = testProject.getProject().getTagRequirement();
 		return req;
+    }
+    
+    
+    /**
+     * 
+     * @param request
+     * @param response
+     * @return  class1!class2!...!classn
+     *          classx:   classname:selection1,selection2,...,selectionn
+     *          selectionx:   selectiontitle_opt1_opt2_..._optn
+     *          猪:肥瘦_肥_瘦,大小_大_小!牛:性别_雄_雌,种类_耕牛_奶牛    
+     */
+    @RequestMapping("/getOptions")  
+    @ResponseBody 
+    public String get_options(HttpServletRequest request, HttpServletResponse response) {
+    	String pjId = request.getParameter("projectId");
+    	long projectId = Long.parseLong(pjId);
+		Project pj = pjservice.getAProject(projectId);
+		String res = "";
+		List<TextNode> list = pjservice.getProjectTextNode(projectId);//一textnode对应一个class
+		
+		int classNum = list.size();
+		
+		for(int i=0;i<classNum;i++) {
+			
+			String classi = list.get(i).getName()+":";
+			List<String> selections = list.get(i).getAttributions();
+			
+			for(int j=0;j<selections.size();j++) {
+				String sel_j = selections.get(j);
+				String[] sel_j_split = sel_j.split(":");
+				String selectionj = sel_j_split[0]+"_"+sel_j_split[1];
+				classi += selectionj;
+				if(j != selections.size()-1) {
+					classi += ",";
+				}
+			}
+			
+			res += classi;
+			if(i != classNum-1) {
+				res += "!";
+			}
+		}
+		return res;
     }
 	
 }

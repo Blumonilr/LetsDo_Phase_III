@@ -6,6 +6,7 @@ import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
+import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
 
 public interface WorkerService {
 
@@ -55,6 +56,8 @@ public interface WorkerService {
 
 	public List<Image> getAPageOfImage(long projectId, int pageId);
 
+	public List<Image> getAllImages(long projectId);
+
 	/**
 	 * 查看已经做过的Tag
 	 * @param workerId
@@ -63,5 +66,28 @@ public interface WorkerService {
 	 */
 	public List<Tag> viewTags(long workerId, long projectId);
 
+	/**
+	 * 等待考试或考试中返回a	
+	 * 正在工作 b
+	 * 结束  c
+	 * @param workerId
+	 * @param projectId
+	 */
+	public String  getWorkingState(long workerId, long projectId);
 	
+	/**
+	 * 返回TestProject对象
+	 * @param projectId
+	 * @return
+	 */
+	public TestProject joinTest(long projectId);
+
+	/**
+	 * 告知服务器考试结束，请求计算分数
+	 * @param projectId
+	 * @param workerId
+	 */
+	public void finishTest(long workerId,long projectId);
+
+	public int getTestResult(long workerId, long projectId);
 }

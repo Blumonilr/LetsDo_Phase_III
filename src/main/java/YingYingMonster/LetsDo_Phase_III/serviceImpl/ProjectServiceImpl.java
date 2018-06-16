@@ -148,14 +148,14 @@ public class ProjectServiceImpl implements ProjectService  {
     @Override
     public void setProjectCustomTextNode(long projectId,String xmlFile) {
         Project project=projectRepository.findById(projectId);
-        project.setXmlFile(xmlFile);
+        project.setTagTree(xmlFile);
         projectRepository.saveAndFlush(project);
     }
 
     @Override
     public List<TextNode> getProjectTextNode(long projectId) {
         Project prj=projectRepository.findById(projectId);
-        JSONArray jsonArray = JSONArray.fromObject(prj.getXmlFile());
+        JSONArray jsonArray = JSONArray.fromObject(prj.getTagTree());
         List<TextNode> nodes=new ArrayList<>();
         for (Object o : jsonArray) {
             JSONObject jsonObject2 = JSONObject.fromObject(o);

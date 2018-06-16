@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
+import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,5 +39,10 @@ public class Test_ProjectServiceImpl {
         System.out.println(projectService.getInitialTextNodeTree());
     }
 
+    @Test
+    public void testGetNode(){
+        List<TextNode> list=projectService.getProjectTextNode(10);
+        int a=0;
+    }
 
 }
