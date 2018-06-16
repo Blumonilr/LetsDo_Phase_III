@@ -15,10 +15,10 @@ class SquareParser(xml.sax.ContentHandler):
 		self.times=[]
 		self.clicks=[]
 		self.deletes=[]
-		self.coordinate=[]  #两层，记录单个worker的坐标
+		self.coordinate=[]  #两层，记录单个worker的坐标，每个点的结构：[x,y,|dx|,|dy|]
 		self.allPoints=[]      #三层列表，记录每个worker的每个方框的坐标
-		self.size=[]       #2层，记录每个worker的每个方框的大小
-		self.allSizes=[]    #3
+		# self.size=[]       #2层，记录每个worker的每个方框的大小
+		# self.allSizes=[]    #3
 		self.tempCategory=[]#1,
 		self.categories=[]  #2,
 		self.tags=[]        #2
@@ -41,8 +41,8 @@ class SquareParser(xml.sax.ContentHandler):
 		if name=='root':
 			self.allPoints.append(self.coordinate)
 			self.coordinate=[]
-			self.allSizes.append(self.size)
-			self.size=[]
+			# self.allSizes.append(self.size)
+			# self.size=[]
 			self.allTags.append(self.tags)
 			self.tags=[]
 			self.categories.append(self.tempCategory)
@@ -88,8 +88,8 @@ class SquareParser(xml.sax.ContentHandler):
 				self.y1=self.y1+dy
 			else:
 				dy=-dy
-			self.size.append([dx,dy])
-			self.coordinate.append([self.x1,self.y1])
+			# self.size.append([dx,dy])
+			self.coordinate.append([self.x1,self.y1,dx,dy])
 		elif self.currentTag=='category':
 			self.tempCategory.append(content)
 		elif self.currentTag=='title':
@@ -211,14 +211,12 @@ def parseArea(path):
 if __name__=='__main__':
 	parser=xml.sax.make_parser()
 	parser.setFeature(xml.sax.handler.feature_namespaces,0)
-	handler=AreaParser()
+	handler=SquareParser()
 	parser.setContentHandler(handler)
 
-	f=open('area.xml','r',encoding='UTF-8')
-	parser.parse('area.xml')
+	parser.parse('square.xml')
 	# print(handler.allTags)
 	# print(handler.allSizes)
-	# print(handler.allPoints)
+	print(handler.allPoints)
 	# print(handler.categories)
 	# print(handler.allColors)
-	# print(f.read())

@@ -116,6 +116,7 @@ public class WorkerServiceImpl implements WorkerService {
 		} else {
 			if (!joinEvent.isActive()) {
 				joinEvent.setActive(true);
+				joinEvent.setDate(new Date());
 				joinEventRepository.saveAndFlush(joinEvent);
 			}
 		}
@@ -153,8 +154,33 @@ public class WorkerServiceImpl implements WorkerService {
 	}
 
 	@Override
+	public List<Image> getAllImages(long projectId) {
+		return null;
+	}
+
+	@Override
 	public List<Tag> viewTags(long workerId, long projectId) {
 		return tagRepository.findByWorkerIdAndProjectId(workerId, projectId);
+	}
+
+	@Override
+	public String getWorkingState(long workerId, long projectId) {
+		return null;
+	}
+
+	@Override
+	public TestProject joinTest(long projectId) {
+		return projectService.getAProject(projectId).getTestProject();
+	}
+
+	@Override
+	public void finishTest(long workerId, long projectId) {
+
+	}
+
+	@Override
+	public int getTestResult(long workerId, long projectId) {
+		return 0;
 	}
 
 

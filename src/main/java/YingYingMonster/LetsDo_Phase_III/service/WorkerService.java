@@ -56,6 +56,8 @@ public interface WorkerService {
 
 	public List<Image> getAPageOfImage(long projectId, int pageId);
 
+	public List<Image> getAllImages(long projectId);
+
 	/**
 	 * 查看已经做过的Tag
 	 * @param workerId
@@ -79,4 +81,13 @@ public interface WorkerService {
 	 * @return
 	 */
 	public TestProject joinTest(long projectId);
+
+	/**
+	 * 告知服务器考试结束，请求计算分数
+	 * @param projectId
+	 * @param workerId
+	 */
+	public void finishTest(long workerId,long projectId);
+
+	public int getTestResult(long workerId, long projectId);
 }
