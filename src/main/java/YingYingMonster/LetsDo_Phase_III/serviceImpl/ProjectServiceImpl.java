@@ -49,10 +49,12 @@ public class ProjectServiceImpl implements ProjectService  {
     }
 
     @Override
-    public List<Project> viewAllProjects(List<String> list) {
+    public List<Project> viewAllOpenedProjects(List<String> list) {
         //list is sorted list of user's attributes...
-        List<Project> projects = projectRepository.findAll();
-//        Set<Project> res = new HashSet<>();
+        List<Project> projects = projectRepository.findAll().stream()
+                .filter(x -> x.getProjectState() == ProjectState.open)
+                .collect(Collectors.toList());
+
         List<Project> res = new ArrayList<>();
         for (String s : list) {
             for (Project project : projects) {

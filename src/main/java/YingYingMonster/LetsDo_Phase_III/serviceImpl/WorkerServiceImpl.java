@@ -64,7 +64,7 @@ public class WorkerServiceImpl implements WorkerService {
 //			System.out.println(s);
 //		}
 //		System.out.println("label size : "+labelNames.size());
-		return projectService.viewAllProjects(labelNames);
+		return projectService.viewAllOpenedProjects(labelNames);
 	}
 
 	@Override
@@ -175,14 +175,14 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public void finishTest(long workerId, long projectId) {
-		joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TESTFINISHED);
+		joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TEST_FINISHED);
 		//后台开始计算分数...并设置相应的状态
 		double score = Math.random() * 100;
 		joinEventRepository.setTestScore(workerId, projectId, score);
 		if (score >= projectService.getAProject(projectId).getTestAccuracy()) {
-			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TESTPASSED);
+			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TEST_PASSED);
 		}else{
-			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TESTNOTPASSED);
+			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TEST_NOT_PASSED);
 		}
 	}
 
