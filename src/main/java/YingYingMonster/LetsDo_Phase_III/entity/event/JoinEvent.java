@@ -10,6 +10,9 @@ import java.util.Date;
 @Table(name = "join_events")
 public class JoinEvent {
 
+    public static final String TESTFINISHED="test finished",TESTNOTFINISHED="test not finished"
+            ,TESTPASSED="test passed",TESTNOTPASSED="test not passed",WORKING="working";
+
     @Id @GeneratedValue private long id;
 
     private long workerId,projectId;
@@ -18,7 +21,9 @@ public class JoinEvent {
 
     private boolean active;//工人是否还在参与项目
 
-    private boolean passTest=false;
+    private String workState=TESTNOTFINISHED;
+
+    private double testScore;
 
     public JoinEvent() {
     }
@@ -30,17 +35,24 @@ public class JoinEvent {
         this.active = active;
     }
 
-    public boolean isActive() {
+    public double getTestScore() {
+        return testScore;
+    }
 
+    public void setTestScore(double testScore) {
+        this.testScore = testScore;
+    }
+
+    public boolean isActive() {
         return active;
     }
 
-    public boolean isPassTest() {
-        return passTest;
+    public String getWorkState() {
+        return workState;
     }
 
-    public void setPassTest(boolean passTest) {
-        this.passTest = passTest;
+    public void setWorkState(String workState) {
+        this.workState = workState;
     }
 
     public void setActive(boolean active) {
