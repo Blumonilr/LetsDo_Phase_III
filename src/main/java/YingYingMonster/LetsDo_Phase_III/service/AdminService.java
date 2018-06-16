@@ -59,4 +59,6 @@ public interface AdminService {
 	public List<Worker> workerLabelAccuracyRank(String labelName);
 
 	public List<Worker> workerLabelNumRank(String labelName);
+
+	public List<Worker> workerAccuracyRank();
 }

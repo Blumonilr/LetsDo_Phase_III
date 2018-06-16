@@ -208,4 +208,25 @@ public class AdminServiceImpl implements AdminService{
 		});
 		return rank;
 	}
+
+	@Override
+	public List<Worker> workerAccuracyRank() {
+		List<Worker> rank=findByWorkerName("");
+		rank.sort(new Comparator<Worker>() {
+			@Override
+			public int compare(Worker o1, Worker o2) {
+				List<Ability> a1=findWorkerAbility(o1.getId());
+				List<Ability> a2=findWorkerAbility(o2.getId());
+				double accuracy1=a1.stream().mapToDouble(x->x.getAccuracy()).summaryStatistics().getAverage();
+				double accuracy2=a2.stream().mapToDouble(x->x.getAccuracy()).summaryStatistics().getAverage();
+				if (accuracy1>accuracy2)
+					return 1;
+				else if (accuracy1==accuracy2)
+					return 0;
+				else
+					return -1;
+			}
+		});
+		return rank;
+	}
 }
