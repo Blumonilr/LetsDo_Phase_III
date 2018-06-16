@@ -57,6 +57,11 @@ public class ProjectServiceImpl implements ProjectService  {
                 }
             }
         }
+        for (Project project : projects) {
+            if (!res.contains(project)) {
+                res.add(project);
+            }
+        }
         return res.stream().distinct().collect(Collectors.toList());
     }
 

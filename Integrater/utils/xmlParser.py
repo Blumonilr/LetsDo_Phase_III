@@ -145,7 +145,8 @@ class AreaParser(xml.sax.ContentHandler):
 			self.tags=[]
 			self.categories.append(self.tempCategory)
 			self.tempCategory=[]
-			self.allTags.append(self.tags)
+			if len(self.tags)>0:
+				self.allTags.append(self.tags)
 			self.tags=[]
 
 		self.currentTag=''
@@ -172,13 +173,13 @@ class AreaParser(xml.sax.ContentHandler):
 			self.deletes.append(int(content,10))
 		elif self.currentTag=='R':
 			self.r=int(content)
-			print('r = ',self.r)
+			# print('r = ',self.r)
 		elif self.currentTag=='G':
 			self.g=int(content)
-			print('g = ',self.g)
+			# print('g = ',self.g)
 		elif self.currentTag=='B':
 			self.b=int(content)
-			print('b = ',self.b)
+			# print('b = ',self.b)
 			rgb=int(self.b+(self.g<<8)+(self.r<<16))
 			self.color.append(rgb)
 		elif self.currentTag=='category':
@@ -190,15 +191,34 @@ class AreaParser(xml.sax.ContentHandler):
 			self.tags.append([self.title,self.value])
 
 
+def parseSquare(path):
+	parser = xml.sax.make_parser()
+	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+	handler=SquareParser()
+	parser.setContentHandler(handler)
+	parser.parse(path)
+	return handler
+
+def parseArea(path):
+	parser = xml.sax.make_parser()
+	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+	handler = AreaParser()
+	parser.setContentHandler(handler)
+	parser.parse(path)
+	return handler
+
+
 if __name__=='__main__':
 	parser=xml.sax.make_parser()
 	parser.setFeature(xml.sax.handler.feature_namespaces,0)
 	handler=AreaParser()
 	parser.setContentHandler(handler)
 
+	f=open('area.xml','r',encoding='UTF-8')
 	parser.parse('area.xml')
 	# print(handler.allTags)
 	# print(handler.allSizes)
 	# print(handler.allPoints)
-	# print(handler.categories)       #small bugs
-	print(handler.allColors)
+	# print(handler.categories)
+	# print(handler.allColors)
+	# print(f.read())

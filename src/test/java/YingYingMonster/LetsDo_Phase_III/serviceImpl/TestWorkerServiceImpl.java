@@ -19,6 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class TestWorkerServiceImpl {
@@ -107,6 +109,12 @@ public class TestWorkerServiceImpl {
 //		teardown();
 	}
 	
-	
+	@Test public void test_discover_projects1(){
+//		Worker worker = new Worker("neo", "pw", "email", "intro", 0, 0, 0, 0, 0);
+//		worker = (Worker) userService.register(worker);
+		List<Project> projects = wkService.discoverProjects(49);
+		assertNotNull(projects);
+		System.out.println(projects.size());
+	}
 
 }

@@ -68,7 +68,7 @@ class Image(Base):
 
 # initialize connection
 def setup_db():
-	engine=create_engine('mysql+mysqlconnector://root:31415926@localhost:3306/letsdo')
+	engine=create_engine('mysql+mysqlconnector://root:31415926@localhost:3306/letsdo',echo=True)
 	DBSession=sessionmaker(bind=engine)
 	return DBSession()
 
@@ -103,15 +103,15 @@ if __name__=='__main__':
 	# user=User(id=100,dtype='WK',email='email',intro='intro',name='name',pw='pw',money=0,exp=0,level=0,passed_tag_num=0,tag_num=0)
 	# label=Label(id=199,name='label')
 	# ability=Ability(id=299,accuracy=0.92,bias=121,user_id=100,label_id=199)
-	image=Image(id=1,project_id=1,height=100,width=100,current_num=2,min_num=2,max_num=5,is_finished=False,
-	            is_test=True)
-	tag1=Tag(id=1,image_id=1,project_id=1,worker_id=2,is_result=False)
-	tag2=Tag(id=2,image_id=1,project_id=1,worker_id=2,is_result=False)
-
-	session.add(image)
-	session.add(tag1)
-	session.add(tag2)
-	session.commit()
+	# image=Image(id=1,project_id=1,height=100,width=100,current_num=2,min_num=2,max_num=5,is_finished=False,
+	#             is_test=True)
+	# tag1=Tag(id=1,image_id=1,project_id=1,worker_id=2,is_result=False)
+	# tag2=Tag(id=2,image_id=1,project_id=1,worker_id=2,is_result=False)
+	#
+	# session.add(image)
+	# session.add(tag1)
+	# session.add(tag2)
+	# session.commit()
 
 	res=image_need_integrate(1)
 	print(res)
