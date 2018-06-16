@@ -102,21 +102,21 @@ public class TestDataDAOImpl {
 	}
 	
 //	@Test
-	public void testadmin(){
-		try {
-			List<Project> list=admin.viewProjectDone();
-			for(Project pro:list){
-				System.out.println(pro.getProjectId());
-			}
-		} catch (FileNotFoundException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
-	}
+//	public void testadmin(){
+//		try {
+//			List<Project> list=admin.viewProjectDone();
+//			for(Project pro:list){
+//				System.out.println(pro.getProjectId());
+//			}
+//		} catch (FileNotFoundException e) {
+//			// TODO 自动生成的 catch 块
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			// TODO 自动生成的 catch 块
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO 自动生成的 catch 块
+//			e.printStackTrace();
+//		}
+//	}
 }
