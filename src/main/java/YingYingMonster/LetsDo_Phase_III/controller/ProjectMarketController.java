@@ -156,7 +156,6 @@ public class ProjectMarketController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,11 +59,11 @@ public class MyProjectsController {
     @ResponseBody
     public String getList(HttpServletRequest request, HttpServletResponse response) {
     	String uid = request.getParameter("userId");
-    	long userId = Long.parseLong(uId);
+    	long userId = Long.parseLong(uid);
     	String key = request.getParameter("key");//模糊查找
     	
     	String res = "";
-    	List<Project> list = service.viewMyProjects(userId,key);
+    	List<Project> list = service.viewMyActiveProjects(userId,key);
 //    	//pjid_pjname_pubid_type
     	int len = list.size();
     	for(int i=0;i<len;i++) {
@@ -83,6 +84,33 @@ public class MyProjectsController {
     	return res;
     }
 
+    /**
+	 * 获得project的缩略图
+	 * @param request
+	 * @param response
+	 * @param prtId
+	 * @throws IOException
+	 */
+	 @RequestMapping("/getProjectOverview/{projectId}")  
+	 @ResponseBody  
+	 public void setProjectOverviewPicture(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("projectId")String prtId) throws IOException {
+		long projectId = Long.parseLong(prtId);
+		byte[] data ;
+		try {
+			data = pjservice.getProjectOverview(projectId);
+			String JPG="image/jpeg;charset=UTF-8"; 
+			OutputStream outputStream = response.getOutputStream();  
+			response.setContentType(JPG);  
+	        outputStream.write(data);  
+	        outputStream.flush();   
+	        outputStream.close();  
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
     
     /**
      * 这个方法是projectdetail界面使返回详细信息
@@ -92,16 +120,31 @@ public class MyProjectsController {
      */
     @GetMapping("/getProjectDetail")
     @ResponseBody
-    public String getProjectDetail() {
+    public String getProjectDetail(HttpServletRequest request, HttpServletResponse response) {
+    	String uid = request.getParameter("userId");
+    	long userId = Long.parseLong(uid);
+    	String pjid = request.getParameter("projectId");
+    	long projectId = Long.parseLong(pjid);
     	
-    	String condition = "b";//调用方法
-    	String type = "area";
-    	String progress = "60";
-    	String requirement = "这里是项目要求";
-    	/**
-    	 * condition_type_progress_requirement
-    	 */
-    	String res = condition+"_"+type+"_"+progress+"_"+requirement;
+    	Project pj = service.getAProject(projectId);
+    	
+    	String condition = "b";//service.getWorkingState(userId, projectId);// "b";//调用方法
+    	
+    	String type = "";
+    	String type_disc = "";
+    	if(pj.getType() == MarkMode.AREA) {
+    		type = "area";
+    		type_disc = "区域标注";
+    	}
+    	else {
+    		type = "square";
+    		type_disc = "矩形标注";
+    	}
+    	
+    	String requirement = pj.getTagRequirement();
+    	
+    	
+    	String res = condition+"_"+type+"_"+requirement+"_"+type_disc;
     	
     	return res;
     }
@@ -123,43 +166,4 @@ public class MyProjectsController {
     	
     	service.quitProject(userId, projectId);
     }
-    
-    
-    /**
-     * 为文字性要求的标记要求服务  area mark
-     * @param publisherId
-     * @param projectId
-     * @return
-     */
-    @GetMapping("/getProjectRequirement/{publisherId}/{projectId}")
-    @ResponseBody
-    public String getProjectRequirement(@PathVariable("publisherId")String publisherId,
-    		@PathVariable("projectId")String projectId) {
-    	
-//        Project project = service.getAProject(publisherId, projectId);
-//        TagRequirement requirement = project.getTagRequirement();
-//        
-//        String req = requirement.getRequirement(); /*markMode是tags的时候，requirement为tag列表，tag之间以逗号隔开，其他模式都为具体要求*/
-//     
-//    	return req ;
-    	return "";
-    }
-    
-    
-    @GetMapping("/getProjectOverview/{projectId}")
-    @ResponseBody
-    public String getProjectOverviewPicture(@PathVariable("projectId")String projectId) {
-//    	long pjId = Long.parseLong(projectId);
-//    	String url;
-//		try {
-//			url = pjservice.getProjectOverview(pjId);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			return "";
-//		}
-//    	return url;
-    	return "";
-    }
-    
 }

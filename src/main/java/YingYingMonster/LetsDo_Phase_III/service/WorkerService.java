@@ -6,6 +6,7 @@ import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
+import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
 
 public interface WorkerService {
 
@@ -71,4 +72,11 @@ public interface WorkerService {
 	 * @param projectId
 	 */
 	public String  getWorkingState(long workerId, long projectId);
+	
+	/**
+	 * 返回TestProject对象
+	 * @param projectId
+	 * @return
+	 */
+	public TestProject joinTest(long projectId);
 }

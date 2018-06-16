@@ -8,9 +8,8 @@
 
 var condition = "a";//(a/b/c)
 var requirement;
-var progress;
 var type = "area";//(square/area)
-
+var type_disc;
 
 function get_my_project_detail(){
    var pubid = getCookie("publisherId");
@@ -18,19 +17,19 @@ function get_my_project_detail(){
     var userId = getCookie("userId");
 
     $.ajax({
-        url: "/myProjects/getProjectDetail/"+pubid+"/"+pjid,
+        url: "/myProjects/getProjectDetail",
         type: "get",
         data: {
             "userId": userId,
+            "projectId" : pjid,
         },
         success: function(data){
-            //格式：condition_type_progress_requirement
-            alert(data);
+            //格式： condition+"_"+type+"_"+requirement+"_"+type_disc;
             var datas = data.split("_");
             condition = datas[0];
             type = datas[1];
-            progress = datas[2];
-            requirement = datas[3];
+            requirement = datas[2];
+            type_disc = datas[3];
 
             set_exam();
             set_working();
@@ -66,7 +65,7 @@ function  set_working(){
         b_info = "尚未开始\n先去考试吧～";
     }
     else if(condition === "b"){//进行中
-        b_info = "工作进行中\n进度: "+progress+" %";
+        b_info = "工作进行中\n";
         b_href = "<a href='../../workspace/"+type+"'> 去工作 </a>";
 
     }
@@ -102,7 +101,7 @@ function set_pay(){
 function set_accordion() {
     var pubid = getCookie("publisherId");
     var pjid = getCookie("projectId");
-    var first_txt = pjid+"<br>\n项目发布者:" + pubid;
+    var first_txt = "<br>\n项目发布者:" + pubid;
     var second_txt = requirement;
     var third_txt = "yingyingmonster";
 
