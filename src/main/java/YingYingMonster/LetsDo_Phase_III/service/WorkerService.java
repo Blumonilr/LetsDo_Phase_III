@@ -30,6 +30,10 @@ public interface WorkerService {
 
 	public List<Project> viewMyActiveProjects(long workerId, String key);
 
+	public List<Project> viewMyWorkingProject(long workerId);
+	public List<Project> viewMyWorkFinishedProject(long workerId);
+	public List<Project> viewMyNotStartedProject(long workerId);
+
 	/**
 	 * 查看worker的join记录
 	 * @param workerId

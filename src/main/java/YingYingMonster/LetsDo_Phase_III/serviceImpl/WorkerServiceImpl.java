@@ -85,9 +85,30 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public List<Project> viewMyActiveProjects(long workerId, String key) {
 		String k = key == null ? "" : key;
-		return joinEventRepository.findByWorkerIdAndActiveTrue(workerId).stream()
-				.map(x -> projectService.getAProject(x.getProjectId()))
+		return joinEventRepository.findByWorkerIdAndwAndWorkState(workerId,JoinEvent.WORKING)
+				.stream().map(x -> projectService.getAProject(x.getProjectId()))
 				.filter(x->(x.getProjectName().contains(k)||x.getTagRequirement().contains(k)))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Project> viewMyWorkingProject(long workerId) {
+		return joinEventRepository.findByWorkerIdAndwAndWorkState(workerId, JoinEvent.WORKING)
+				.stream().map(x -> projectService.getAProject(x.getProjectId()))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Project> viewMyWorkFinishedProject(long workerId) {
+		return joinEventRepository.findByWorkerIdAndwAndWorkState(workerId, JoinEvent.WORK_Finished)
+				.stream().map(x -> projectService.getAProject(x.getProjectId()))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Project> viewMyNotStartedProject(long workerId) {
+		return joinEventRepository.findByWorkerIdAndwAndWorkState(workerId, JoinEvent.TEST_FINISHED)
+				.stream().map(x -> projectService.getAProject(x.getProjectId()))
 				.collect(Collectors.toList());
 	}
 
@@ -111,11 +132,11 @@ public class WorkerServiceImpl implements WorkerService {
 
 		JoinEvent joinEvent = joinEventRepository.findByWorkerIdAndProjectId(workerId, projectId);
 		if (joinEvent == null) {
-			joinEvent = new JoinEvent(workerId, projectId, new Date(), true);
+			joinEvent = new JoinEvent(workerId, projectId, new Date());
 			joinEventRepository.saveAndFlush(joinEvent);
 		} else {
-			if (!joinEvent.isActive()) {
-				joinEvent.setActive(true);
+			if (!joinEvent.getWorkState().equals(JoinEvent.WORKING)) {
+				joinEvent.setWorkState(JoinEvent.WORKING);
 				joinEvent.setDate(new Date());
 				joinEventRepository.saveAndFlush(joinEvent);
 			}
@@ -126,7 +147,7 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public void quitProject(long workerId, long projectId) {
 		JoinEvent joinEvent = joinEventRepository.findByWorkerIdAndProjectId(workerId, projectId);
-		joinEvent.setActive(false);
+		joinEvent.setWorkState(JoinEvent.WORK_Finished);
 		joinEventRepository.saveAndFlush(joinEvent);
 	}
 
@@ -180,7 +201,7 @@ public class WorkerServiceImpl implements WorkerService {
 		double score = Math.random() * 100;
 		joinEventRepository.setTestScore(workerId, projectId, score);
 		if (score >= projectService.getAProject(projectId).getTestAccuracy()) {
-			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TEST_PASSED);
+			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.WORKING);
 		}else{
 			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TEST_NOT_PASSED);
 		}

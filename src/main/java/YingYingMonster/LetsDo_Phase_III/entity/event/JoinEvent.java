@@ -11,15 +11,14 @@ import java.util.Date;
 public class JoinEvent {
 
     public static final String TEST_FINISHED="test finished",TEST_NOT_FINISHED="test not finished"
-            ,TEST_PASSED="test passed",TEST_NOT_PASSED="test not passed",WORKING="working";
+            ,TEST_NOT_PASSED="test not passed",WORKING="working",
+            WORK_Finished="work finished";
 
     @Id @GeneratedValue private long id;
 
     private long workerId,projectId;
 
     private Date date;
-
-    private boolean active;//工人是否还在参与项目
 
     private String workState=TEST_NOT_FINISHED;
 
@@ -28,11 +27,10 @@ public class JoinEvent {
     public JoinEvent() {
     }
 
-    public JoinEvent(long workerId, long projectId, Date date, boolean active) {
+    public JoinEvent(long workerId, long projectId, Date date) {
         this.workerId = workerId;
         this.projectId = projectId;
         this.date = date;
-        this.active = active;
     }
 
     public double getTestScore() {
@@ -43,20 +41,12 @@ public class JoinEvent {
         this.testScore = testScore;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
     public String getWorkState() {
         return workState;
     }
 
     public void setWorkState(String workState) {
         this.workState = workState;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public Date getDate() {
