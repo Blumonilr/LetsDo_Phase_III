@@ -63,8 +63,7 @@ public class WorkerServiceImpl implements WorkerService {
 //		for (String s : labelNames) {
 //			System.out.println(s);
 //		}
-		System.out.println(labelNames);
-		
+//		System.out.println("label size : "+labelNames.size());
 		return projectService.viewAllProjects(labelNames);
 	}
 
