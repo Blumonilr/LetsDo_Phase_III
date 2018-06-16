@@ -63,5 +63,12 @@ public interface WorkerService {
 	 */
 	public List<Tag> viewTags(long workerId, long projectId);
 
-	
+	/**
+	 * 等待考试或考试中返回a	
+	 * 正在工作 b
+	 * 结束  c
+	 * @param workerId
+	 * @param projectId
+	 */
+	public String  getWorkingState(long workerId, long projectId);
 }

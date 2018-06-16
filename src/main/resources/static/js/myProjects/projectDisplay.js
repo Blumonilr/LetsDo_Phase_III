@@ -113,7 +113,7 @@ function terminate_project(that){
 		data: {
 			"userId" : userId,
 			"projectId" : projectId,
-		}
+		},
 		success: function(){
             toastr.success("已退出该项目！");
             setTimeout("window.location.reload()",2500);//等待2.5秒后刷新界面

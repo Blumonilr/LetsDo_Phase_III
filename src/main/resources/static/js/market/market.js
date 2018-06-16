@@ -32,7 +32,7 @@ function addProject(pjName,type_disc,minLevel,endTime,projectId){
 
 	var txt = " <div class='single-member effect-2'>"+
 		            	"<div class='member-image'>"+
-		                	"<img src='/market/getProjectOverview"+projectId+"' alt='Member'>"+
+		                	"<img src='/market/getProjectOverview/"+projectId+"' alt='Member'>"+
 		                "</div>"+
 		                "<div class='member-info'>"+
 		                	"<h3>"+pjName+"</h3>"+

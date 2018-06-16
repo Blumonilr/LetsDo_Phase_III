@@ -124,8 +124,9 @@ public class ProjectMarketController {
 		int payment = pj.getMoney();
 		String requirement = pj.getTagRequirement();
 		int people_in = pj.getCurrWorkerNum();//当前参与人数
+		long pubId = pj.getPublisherId();
 		
-		res = type_disc+"_"+start_time+"_"+end_time+"_"+lowest_level+"_"+payment+"_"+people_in+"_"+requirement+"_"+type;
+		res = type_disc+"_"+start_time+"_"+end_time+"_"+lowest_level+"_"+payment+"_"+people_in+"_"+requirement+"_"+type+"_"+pubId;
 		
 		return res;
 	}
@@ -159,41 +160,30 @@ public class ProjectMarketController {
 	}
 	
 	/**
-	 * fork一个项目
-	 * @param userId
-	 * @param publisherId
-	 * @param projectId
-	 * @return  成功1  失败0
+	 * join一个项目
 	 */
-	@GetMapping("/fork/{userId}/{publisherId}/{projectId}")
+	@GetMapping("/join")
 	@ResponseBody
-	public String fork(@PathVariable("userId")String userId,
-			@PathVariable("publisherId")String publisherId,
-			@PathVariable("projectId")String projectId) {
-	//	int res = service.forkProject(userId, publisherId, projectId);
+	public String fork(HttpServletRequest request, HttpServletResponse response) {
+		String userId = request.getParameter("userId");
+		long uid = Long.parseLong(userId);
+		String projectId = request.getParameter("projectId");
+		long pjid = Long.parseLong(projectId);
+		int res = service.joinProject(uid,pjid);
 		String info = "";
-//		if(res==0) {
-//			info = "恭喜您获取成功，快去工作吧~";
-//		}
-//		else if(res==-1) {
-//			info = "发生数据错误，请稍后重试";
-//		}
-//		else if(res==-2) {
-//			info = "用户不存在";
-//		}
-//		else if(res==-3) {
-//			info = "您已经选取过该项目啦，不能重复选取哦";
-//		}
-//		else if(res==-4) {
-//			info = "项目已取消或不存在";
-//		}
-//		else if(res==-5) {
-//			info = "啊哦，项目人数已满，下次要快一点啊";
-//		}
-//		else if(res==-6) {
-//			info = "啊哦，您的等级不足，快快努力打怪升级吧~";
-//		}
-		return info;
+		if(res == 0) {
+			info = "恭喜您已成功加入这个项目!";
+		}
+		else if(res == -1) {
+			info = "很遗憾您的等级经验不足，以后再来吧～";
+		}
+		else if(res == -2) {
+			info = "额，您已经被禁止参加这个项目，换一个试试吧";
+		}
+		else {
+			//没有这种情况
+		}
+        return info;	
 	}
 	
 }

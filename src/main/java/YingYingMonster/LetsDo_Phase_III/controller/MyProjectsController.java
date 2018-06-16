@@ -54,10 +54,10 @@ public class MyProjectsController {
      * @param userId
      * @return 返回已参加项目列表
      */
-    @GetMapping("/getList/{userId}")
+    @GetMapping("/getList")
     @ResponseBody
-    public String getList(@PathVariable("userId")String uId,
-    		HttpServletRequest request, HttpServletResponse response) {
+    public String getList(HttpServletRequest request, HttpServletResponse response) {
+    	String uid = request.getParameter("userId");
     	long userId = Long.parseLong(uId);
     	String key = request.getParameter("key");//模糊查找
     	
@@ -82,33 +82,7 @@ public class MyProjectsController {
     	}
     	return res;
     }
-    
-    @GetMapping("/getProject/{publisherId}/{projectId}")
-    @ResponseBody//这个方法是projectdisplay界面在用，返回的是比较简单的信息
-    public String getProject(@PathVariable("publisherId")String publisherId,
-    		@PathVariable("projectId")String projectId) {
-    	
-//    	String description = "";
-//        Project project = service.getAProject(publisherId, projectId);
-//        TagRequirement requirement = project.getTagRequirement();
-//        String type = "";
-//        switch(requirement.getMarkMode()) {
-//			case SQUARE:
-//        	type="square";
-//        	description = "框选"+'\n';
-//        	break;
-//        case AREA:
-//        	type="area";
-//        	description = "区域覆盖标注"+'\n';
-//        	break;
-//        }
-//        
-//        String req = requirement.getRequirement(); /*markMode是tags的时候，requirement为tag列表，tag之间以逗号隔开，其他模式都为具体要求*/
-//        System.out.println("requirement: "+req);
-//    	return type+":"+req ;
-    	return "";
-    }
-    
+
     
     /**
      * 这个方法是projectdetail界面使返回详细信息
@@ -116,10 +90,10 @@ public class MyProjectsController {
      * @param projectId
      * @return
      */
-    @GetMapping("/getProjectDetail/{publisherId}/{projectId}")
+    @GetMapping("/getProjectDetail")
     @ResponseBody
-    public String getProjectDetail(@PathVariable("publisherId")String publisherId,
-    		@PathVariable("projectId")String projectId) {
+    public String getProjectDetail() {
+    	
     	String condition = "b";//调用方法
     	String type = "area";
     	String progress = "60";

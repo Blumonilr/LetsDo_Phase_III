@@ -12,7 +12,7 @@ var progress;
 var type = "area";//(square/area)
 
 
-function get_info(){
+function get_my_project_detail(){
    var pubid = getCookie("publisherId");
    var pjid = getCookie("projectId");
     var userId = getCookie("userId");
