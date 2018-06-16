@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.entity.role;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Ability;
+import YingYingMonster.LetsDo_Phase_III.entity.event.LogEvent;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,6 +24,9 @@ public abstract class User {
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Ability> abilities;
+
+	@OneToOne(fetch = FetchType.EAGER,mappedBy = "user",cascade = CascadeType.ALL)
+	private LogEvent logEvent;
 
 	public List<Ability> getAbilities() {
 		return abilities;
@@ -79,5 +83,13 @@ public abstract class User {
 	public long getId() {
 		return id;
 	}
-
+	public LogEvent getLogEvent() {
+		return logEvent;
+	}
+	public void setLogEvent(LogEvent logEvent) {
+		this.logEvent = logEvent;
+	}
+	public void checkLogin(){
+		this.getLogEvent().checkLogin();
+	}
 }

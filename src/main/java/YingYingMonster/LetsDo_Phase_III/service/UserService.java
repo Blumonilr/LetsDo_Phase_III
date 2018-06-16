@@ -4,7 +4,10 @@ import java.util.List;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Ability;
 import YingYingMonster.LetsDo_Phase_III.entity.Label;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
+import org.hibernate.jdbc.Work;
 
 import javax.transaction.Transactional;
 
@@ -48,6 +51,10 @@ public interface UserService {
 	public List<Label> getUserLabels(long userId);
 
 	public List<Ability> getUserAbilities(long userId);
+
+	public List<Worker> findWorkerByNameLike(String name);
+
+	public List<Publisher> findPublisherByNameLike(String name);
 
 	@Transactional(rollbackOn = Exception.class)
 	public void deleteUserById(long id);

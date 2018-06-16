@@ -21,6 +21,8 @@ public class Ability {
 
     private double accuracy;
 
+    private int labelHistoryNum;
+
     private int bias;//偏好程度，以参加项目的次数计算
 
     public long getId() {
@@ -68,5 +70,13 @@ public class Ability {
         bias = 1;
         this.user = user;
         this.label = label;
+    }
+
+    public int getLabelHistoryNum() {
+        return labelHistoryNum;
+    }
+
+    public void setLabelHistoryNum(int labelHistoryNum) {
+        this.labelHistoryNum = labelHistoryNum;
     }
 }

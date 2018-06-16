@@ -2,12 +2,18 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Ability;
 import YingYingMonster.LetsDo_Phase_III.entity.Label;
+import YingYingMonster.LetsDo_Phase_III.entity.event.LogEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
+import YingYingMonster.LetsDo_Phase_III.repository.role.PublisherRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.role.UserRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.role.WorkerRepository;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -16,7 +22,10 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
-
+    @Autowired
+    WorkerRepository workerRepository;
+    @Autowired
+    PublisherRepository publisherRepository;
 
     @Override
     @Deprecated
@@ -26,13 +35,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(User user) {
-
+        user.setLogEvent(new LogEvent(user,0,null));
         return userRepository.saveAndFlush(user);
     }
 
     @Override
     public User login(long id, String pw) {
-        return userRepository.findByIdAndPw(id, pw);
+        User u=userRepository.findByIdAndPw(id, pw);
+        if (u!=null) {
+            u.checkLogin();
+            userRepository.saveAndFlush(u);
+        }
+        return u;
     }
 
     @Override
@@ -69,6 +83,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Ability> getUserAbilities(long userId) {
         return userRepository.findById(userId).getAbilities();
+    }
+
+    @Override
+    public List<Worker> findWorkerByNameLike(String name) {
+        return workerRepository.findByNameLike(name);
+    }
+
+    @Override
+    public List<Publisher> findPublisherByNameLike(String name) {
+        return publisherRepository.findByNameLike(name);
     }
 
     @Override
