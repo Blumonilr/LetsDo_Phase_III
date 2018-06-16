@@ -3,10 +3,14 @@ package YingYingMonster.LetsDo_Phase_III.service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
+import YingYingMonster.LetsDo_Phase_III.entity.Ability;
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
-import YingYingMonster.LetsDo_Phase_III.model.Project;
-import YingYingMonster.LetsDo_Phase_III.model.User;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
+
 
 public interface AdminService {
 
@@ -22,14 +26,37 @@ public interface AdminService {
 	 */
 	public List<JoinEvent> viewAllJoinEvents(String workerName, String projectName);
 
-	@Deprecated
-	public int viewUserNum() throws FileNotFoundException, ClassNotFoundException, IOException;
-	@Deprecated
-	public int viewProjectNum() throws FileNotFoundException, ClassNotFoundException, IOException;
-	@Deprecated
-	public List<User> viewUsers() throws FileNotFoundException, ClassNotFoundException, IOException;
-	@Deprecated
-	public List<Project> viewProjectOnDuty() throws FileNotFoundException, ClassNotFoundException, IOException;
-	@Deprecated
-	public List<Project> viewProjectDone() throws FileNotFoundException, ClassNotFoundException, IOException;
+	public int viewUserNum();
+
+	public List<Project> viewDoingProject();
+
+	public List<Project> viewDoneProject();
+
+	public List<Worker> viewAllWorkers();
+
+	public Worker finByWorkerId(long workerId);
+
+	public List<Worker> findByWorkerName(String key);
+
+	public int workInProjectNum(long workerId);
+
+	public Ability findWorkerAbilityInOneField(long workerId,String labelName);
+
+	public List<Ability> findWorkerAbility(long workerId);
+
+	public int workerActiveTime(long workerId);
+
+	public List<Publisher> viewAllPublishers();
+
+	public Publisher findByPublisherId(long publisherId);
+
+	public List<Publisher> findByPublisherName(String key);
+
+	public int publishProjectNum(long publisherId);
+
+	public Map<Project,Double> viewAllProjectProgress();
+
+	public List<Worker> workerLabelAccuracyRank(String labelName);
+
+	public List<Worker> workerLabelNumRank(String labelName);
 }

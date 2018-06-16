@@ -106,6 +106,11 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public List<Image> findProjectAllImage(long projectId) {
+        return imageRepository.findByProjectId(projectId);
+    }
+
+    @Override
     public Tag calculateResult(long imageId) {
         return null;
     }

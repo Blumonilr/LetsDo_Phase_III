@@ -46,15 +46,10 @@ public class adminController {
         int userNum= 0;
         int projectNum= 0;
         int onlineUser=0;
-        try {
-            userNum = adminService.viewUserNum();
-            projectNum = adminService.viewProjectNum();
-            onlineUser=0;//方法没了,先写死掉
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        userNum = adminService.viewUserNum();
+        projectNum = adminService.viewAllProjects().size();
+        onlineUser=0;//方法没了,先写死掉
+
         return "{\"userNum\":\""+Integer.toString(userNum)+"\","+"\"projectNum\":\""+Integer.toString(projectNum)+"\","+"\"onlineUser\":\""+Integer.toString(onlineUser)+"\"}";
     }
 }

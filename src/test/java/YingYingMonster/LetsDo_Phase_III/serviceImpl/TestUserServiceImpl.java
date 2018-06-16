@@ -44,7 +44,7 @@ public class TestUserServiceImpl {
 
     @Test
     public void test_login() {
-        User user = userService.login(77, "pw");
+        User user = userService.login(14, "pw");
         assertEquals(true, user instanceof Worker );
 
         User user1 = userService.login(770, "pw");
@@ -61,7 +61,24 @@ public class TestUserServiceImpl {
 
     @Test
     public void test_findByName(){
-        List<User> list = userService.findUsersByName("pub");
+        List<User> list = userService.findUsersByName("");
         assertEquals(2, list.size());
+
+    }
+
+    @Test
+    public void test_findWorker(){
+        Worker wk=new Worker("wk", "pw", "email", "intro",
+                1000, 0, 0, 0, 0);
+        Publisher pub=new Publisher("wk", "pw", "email", "intro",
+                1000);
+        userService.register(wk);
+        userService.register(pub);
+        assertEquals(1,userService.findPublisherByNameLike("wk").size());
+    }
+
+    @Test
+    public void test_workerActive(){
+       assertEquals(1,userService.getUser(14).getLogEvent().getConstantDays());
     }
 }
