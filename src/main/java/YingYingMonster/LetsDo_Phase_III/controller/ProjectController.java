@@ -192,9 +192,9 @@ public class ProjectController {
     @ResponseBody
     public String release(@RequestParam String projectId){
         Project project=projectService.getAProject(Long.parseLong(projectId));
-        if(project.getTestProject()!=null){
+        if(project.getTestProject()==null){
             return "未上传测试集";
-        }else if(project.getTagTree()!=null){
+        }else if(project.getTagTree()==null){
             return "未设定文字标签";
         }else{
             publisherService.openProject(Long.parseLong(projectId));
