@@ -1,9 +1,12 @@
-import sys
+import os
 import xml
-
+import numpy as np
+from matplotlib.path import Path
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 import utils.DBHandler as db
 import utils.xmlParser as xp
-import os
+import utils.cluster as clu
 
 '''
 生成image对象的答案
@@ -16,7 +19,9 @@ def generateAnswer(imageId,markmode):
 	if (image.current_num>=image.min_numv) and not image.is_finished:
 		if(markmode==0):
 			# square
-			getSquareModeData(imageId)
+			handler=getSquareModeData(imageId)
+			generateSquareModeAnswer(handler)
+
 		elif markmode==1:
 			# area
 			getAreaModeData(imageId)
@@ -66,8 +71,55 @@ def getAreaModeData(imageId):
 	# 	,handler.categories,[handler.times,handler.clicks,handler.deletes]
 	return handler
 
+def generateSquareModeAnswer(handler):
+	points=handler.allPoints
+	width=handler.pictureWidth
+	height=handler.pictureHeight
+	coordinates=clu.preprocess_data(points)
+
+	centers=[]
+	try:
+		centers=clu.cal_rec(coordinates=coordinates)
+		generateTag(centers,width,height)
+
+	except Exception:
+		pass
+
+	# 目前只能实现单目标的答案整合
+	pass
+
+def generateTag(points,width,height):
+	fig=plt.figure()
+	ax=fig.add_subplot(111)
+	for x in points:
+		verts=[(x[0],height-x[1]),
+		       (x[0]+x[2],height-x[1]),
+		       (x[0]+x[2],height-x[1]-x[3]),
+		       (x[0],height-x[1]-x[3]),
+		       (x[0],height-x[1])]
+		codes=[Path.MOVETO,
+		       Path.LINETO,
+		       Path.LINETO,
+		       Path.LINETO,
+		       Path.CLOSEPOLY]
+		route=Path(verts,codes)
+		patch=patches.PathPatch(route,lw=2)
+		ax.add_patch(patch)
+	ax.set_xlim(0,width)
+	ax.set_ylim(0,height)
+	plt.show()
+	pass
+
 if __name__=='__main__':
-	handler=getSquareModeData(1)
-	print(handler.projectId)
+	coordinates=[[[0,0,5,10],[6,7,8,13]],[[0,1,6,7],[6,6,7,15]],[[1,0,9,8],[5,7,7,16]]\
+		,[[0,-1,4,10],[7,7,9,12]],[[-1,0,7,9],[6,8,10,10]],[[2,3,100,100],[9,10,100,100]]]
+	# sizes=[[[5,10],[8,13]],[[6,7],[7,15]],[[9,8],[7,16]],[[4,10],[9,12]],[[7,9],[10,10]],[[100,100],[100,100]]]
+	# coordinates=[[[139, 71, 127, 71], [145, 233, 152, 233], [446, 123, 108, 123]]]
+	coordinates=clu.preprocess_data(coordinates)
+	# sizes=clu.preprocess_data(sizes)
+	#
+	coordinates,user_accuracy=clu.cal_rec(coordinates)
+	print(coordinates)
+	generateTag(coordinates,30,30)
 
 	pass

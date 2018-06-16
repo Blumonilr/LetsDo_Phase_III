@@ -18,6 +18,8 @@ public class JoinEvent {
 
     private boolean active;//工人是否还在参与项目
 
+    private boolean passTest=false;
+
     public JoinEvent() {
     }
 
@@ -31,6 +33,14 @@ public class JoinEvent {
     public boolean isActive() {
 
         return active;
+    }
+
+    public boolean isPassTest() {
+        return passTest;
+    }
+
+    public void setPassTest(boolean passTest) {
+        this.passTest = passTest;
     }
 
     public void setActive(boolean active) {
