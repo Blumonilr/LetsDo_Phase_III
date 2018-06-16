@@ -320,21 +320,21 @@
                     </div>
                 </div>
                 <div id="content">
-                    <div class="single-member effect-4">
-                        <div class="member-info">
-                            <h3>ProjectName</h3>
-                            <h5>Publisher</h5>
-                        </div>
-                        <div class="member-image">
-                            <img src="/publisher/img/member_270x210.jpg" alt="Member">
-                        </div>
-                        <div class="more-info">
-                            <p>Description要做一下长度检测，防止把按钮顶没了</p>
-                            <div>
-                                <a onclick="window.location.href='这里填链接，是字符串'" class="button" style="cursor: pointer;">More</a>
-                            </div>
-                        </div>
-                    </div>
+                    <!--<div class="single-member effect-4">-->
+                        <!--<div class="member-info">-->
+                            <!--<h3>ProjectName</h3>-->
+                            <!--<h5>Publisher</h5>-->
+                        <!--</div>-->
+                        <!--<div class="member-image">-->
+                            <!--<img src="/publisher/img/member_270x210.jpg" alt="Member">-->
+                        <!--</div>-->
+                        <!--<div class="more-info">-->
+                            <!--<p>Description要做一下长度检测，防止把按钮顶没了</p>-->
+                            <!--<div>-->
+                                <!--<a onclick="window.location.href='这里填链接，是字符串'" class="button" style="cursor: pointer;">More</a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
             </div>
              <!-- /. PAGE INNER  -->
@@ -348,9 +348,6 @@
 
     <!-- Metis Menu Js -->
     <script src="/publisher/js/jquery.metisMenu.js"></script>
-    <!-- Morris Chart Js -->
-    <script src="/publisher/js/morris/raphael-2.1.0.min.js"></script>
-    <script src="/publisher/js/morris/morris.js"></script>
 
     <!-- Custom Js -->
     <script src="/publisher/js/custom-scripts.js"></script>
@@ -403,7 +400,7 @@
             for(var i = 0;i < len;){
                 var sep=arr[i].split('_');//sep[0]是项目名，sep[1]是发布者Id，sep[2]是项目描述,sep[3]是项目id,sep[4]是缩略图路径
                 if(strlen(sep[2])>110)
-                    sep[2]=sep[2].substring(0,55)+"...";
+                    sep[2]=sep[2].trim().replace(/\s+/g, ' ').substring(0,80)+"...";
                 $("#content").append("<div class=\"single-member effect-4\">\n" +
                     "                        <div class=\"member-info\">\n" +
                     "                            <h3>"+sep[0]+"</h3>\n" +
@@ -432,6 +429,9 @@
             var realLength = 0, len = str.length, charCode = -1;
             for (var i = 0; i < len; i++) {
                 charCode = str.charCodeAt(i);
+                if(charCode==32){
+                    continue;
+                }
                 if (charCode >= 0 && charCode <= 128)
                     realLength += 1;
                 else
