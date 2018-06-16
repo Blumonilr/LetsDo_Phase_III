@@ -89,5 +89,5 @@ public interface WorkerService {
 	 */
 	public void finishTest(long workerId,long projectId);
 
-	public int getTestResult(long workerId, long projectId);
+	public double getTestResult(long workerId, long projectId);
 }

@@ -155,7 +155,7 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public List<Image> getAllImages(long projectId) {
-		return null;
+		return imageRepository.findByProjectId(projectId);
 	}
 
 	@Override
@@ -165,7 +165,7 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public String getWorkingState(long workerId, long projectId) {
-		return null;
+		return joinEventRepository.findByWorkerIdAndProjectId(workerId, projectId).getWorkState();
 	}
 
 	@Override
@@ -175,12 +175,20 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public void finishTest(long workerId, long projectId) {
-
+		joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TESTFINISHED);
+		//后台开始计算分数...并设置相应的状态
+		double score = Math.random() * 100;
+		joinEventRepository.setTestScore(workerId, projectId, score);
+		if (score >= projectService.getAProject(projectId).getTestAccuracy()) {
+			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TESTPASSED);
+		}else{
+			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TESTNOTPASSED);
+		}
 	}
 
 	@Override
-	public int getTestResult(long workerId, long projectId) {
-		return 0;
+	public double getTestResult(long workerId, long projectId) {
+		return joinEventRepository.findByWorkerIdAndProjectId(workerId, projectId).getTestScore();
 	}
 
 
