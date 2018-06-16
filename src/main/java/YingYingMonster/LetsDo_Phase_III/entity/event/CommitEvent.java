@@ -8,6 +8,10 @@ import java.util.Date;
 @Entity
 @Table(name = "commits")
 public class CommitEvent {
+
+    //表示提交的状态：审核中，通过，被拒绝
+    public static final String EVALUATING="evaluating",PASSED="passed", REJECTED = "rejected";
+
     @Id @GeneratedValue private long id;
 
     private long workerid;
@@ -15,9 +19,8 @@ public class CommitEvent {
     private long tagid;
     private long imageid;
     private Date commitTime;
-    @Enumerated(EnumType.STRING)
-    private CommitResult commitResult;
-
+    private double accuracy;
+    private String commitMsg = EVALUATING;
 
     public long getImageid() {
         return imageid;
@@ -76,13 +79,19 @@ public class CommitEvent {
         this.commitTime = commitTime;
     }
 
-    public CommitResult getCommitResult() {
-
-        return commitResult;
+    public double getAccuracy() {
+        return accuracy;
     }
 
-    public void setCommitResult(CommitResult commitResult) {
-        this.commitResult = commitResult;
+    public void setAccuracy(double accuracy) {
+        this.accuracy = accuracy;
     }
 
+    public String getCommitMsg() {
+        return commitMsg;
+    }
+
+    public void setCommitMsg(String commitMsg) {
+        this.commitMsg = commitMsg;
+    }
 }
