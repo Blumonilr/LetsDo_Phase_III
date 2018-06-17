@@ -86,8 +86,8 @@ public class TestProjectServiceImpl implements TestProjectService {
     }
 
     @Override
-    public List<Tag> viewAnswer(long testProjectId, int page,int pageSize) {
-        return tagRepository.findByProjectId(testProjectId, PageRequest.of(page, pageSize));
+    public List<Tag> viewAnswers(long testProjectId) {
+        return null;
     }
 
     @Override
