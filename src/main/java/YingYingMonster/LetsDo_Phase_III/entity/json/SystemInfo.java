@@ -1,6 +1,10 @@
 package YingYingMonster.LetsDo_Phase_III.entity.json;
 
+import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
+
+import java.util.List;
 
 public class SystemInfo {
     private int publisherNum;
@@ -8,10 +12,14 @@ public class SystemInfo {
     private int historyProjectNum;
     private int ongoingProjectNum;
     private String[][] workerTop100;
+    private List<Worker> workerList;
+    private List<Publisher> publisherList;
 
     public SystemInfo(AdminService adminService) {
-        this.publisherNum = adminService.viewAllPublishers().size();
-        this.workerNum = adminService.viewAllWorkers().size();
+        this.workerList=adminService.viewAllWorkers();
+        this.publisherList=adminService.viewAllPublishers();
+        this.publisherNum = this.publisherList.size();
+        this.workerNum = this.workerList.size();
         this.historyProjectNum = adminService.viewDoneProject().size();
         this.ongoingProjectNum = adminService.viewDoingProject().size();
     }
@@ -54,5 +62,21 @@ public class SystemInfo {
 
     public void setWorkerTop100(String[][] workerTop100) {
         this.workerTop100 = workerTop100;
+    }
+
+    public List<Worker> getWorkerList() {
+        return workerList;
+    }
+
+    public void setWorkerList(List<Worker> workerList) {
+        this.workerList = workerList;
+    }
+
+    public List<Publisher> getPublisherList() {
+        return publisherList;
+    }
+
+    public void setPublisherList(List<Publisher> publisherList) {
+        this.publisherList = publisherList;
     }
 }
