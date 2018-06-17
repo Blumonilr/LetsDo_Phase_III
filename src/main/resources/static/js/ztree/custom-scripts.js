@@ -152,8 +152,8 @@ function addTreeNode() {
     hideRMenu();
     var newNode = { name:"新建标签"};
     var node;
-    if (zTree.getSelectedNodes()[0].level==2){
-        alert("最多创建三层标签树！")
+    if (zTree.getSelectedNodes()[0].level==3){
+        alert("最多创建四层标签树！")
         return;
     }
     if (zTree.getSelectedNodes()[0]) {
