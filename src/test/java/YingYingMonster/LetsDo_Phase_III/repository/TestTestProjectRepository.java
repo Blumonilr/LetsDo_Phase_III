@@ -1,8 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.repository;
 
-import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
-import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

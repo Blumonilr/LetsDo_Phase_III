@@ -43,13 +43,12 @@ public class adminController {
     @PostMapping("/systemDetail")
     @ResponseBody
     public String systemInfo(){
-        int userNum= 0;
-        int projectNum= 0;
-        int onlineUser=0;
-        userNum = adminService.viewUserNum();
-        projectNum = adminService.viewAllProjects().size();
-        onlineUser=0;//方法没了,先写死掉
+        StringBuilder sb=new StringBuilder("{");
+        sb.append("\"publisherNum\":\""+adminService.viewAllPublishers().size()+"\",");
+        sb.append("\"workerNum\":\""+adminService.viewAllWorkers().size()+"\",");
+        sb.append("\"publisherNum\":\""+adminService.viewAllPublishers().size()+"\",");
+        sb.append("\"publisherNum\":\""+adminService.viewAllPublishers().size()+"\",");
 
-        return "{\"userNum\":\""+Integer.toString(userNum)+"\","+"\"projectNum\":\""+Integer.toString(projectNum)+"\","+"\"onlineUser\":\""+Integer.toString(onlineUser)+"\"}";
+        return sb.toString();
     }
 }
