@@ -1,14 +1,12 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
-import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "test_projects")
 public class TestProject {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
 
     private MarkMode markMode;

@@ -25,12 +25,15 @@ public class JoinEvent {
     private double testScore;
 
     public JoinEvent() {
+        workState = TEST_NOT_FINISHED;
     }
 
     public JoinEvent(long workerId, long projectId, Date date) {
+
         this.workerId = workerId;
         this.projectId = projectId;
         this.date = date;
+        workState = TEST_NOT_FINISHED;
     }
 
     public double getTestScore() {

@@ -12,4 +12,9 @@ public class AppConfig {
 	public String string(){
 		return System.getProperty("user.home").replaceAll("\\\\", "/")+"/database";
 	}
+
+//	@Bean
+//	public csHandler csHandler(){
+//		return new csHandler();
+//	};
 }

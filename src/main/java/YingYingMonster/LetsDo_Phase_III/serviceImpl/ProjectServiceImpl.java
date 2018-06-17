@@ -2,8 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
-import YingYingMonster.LetsDo_Phase_III.entity.role.User;
-import YingYingMonster.LetsDo_Phase_III.model.JsonOb;
+import YingYingMonster.LetsDo_Phase_III.entity.json.TagTreeNode;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TextNodeRepository;
@@ -161,19 +160,19 @@ public class ProjectServiceImpl implements ProjectService  {
         List<TextNode> nodes=new ArrayList<>();
         for (Object o : jsonArray) {
             JSONObject jsonObject2 = JSONObject.fromObject(o);
-            JsonOb ob = (JsonOb) JSONObject.toBean(jsonObject2,JsonOb.class);
-            List<JsonOb> children = ob.getChildren();
+            TagTreeNode ob = (TagTreeNode) JSONObject.toBean(jsonObject2,TagTreeNode.class);
+            List<TagTreeNode> children = ob.getChildren();
             if (children != null) {
                 JSONArray array = JSONArray.fromObject(children);
                 for (Object oc : array) {
                     JSONObject jsonObject3 = JSONObject.fromObject(oc);
-                    JsonOb obc = (JsonOb) JSONObject.toBean(jsonObject3, JsonOb.class);
+                    TagTreeNode obc = (TagTreeNode) JSONObject.toBean(jsonObject3, TagTreeNode.class);
                     List<String> attributions=new ArrayList<>();
                     if(obc.getChildren()!=null){
                         JSONArray attri=JSONArray.fromObject(obc.getChildren());
                         for(Object oa:attri){
                             JSONObject jsonObject4 = JSONObject.fromObject(oa);
-                            JsonOb oba = (JsonOb) JSONObject.toBean(jsonObject4, JsonOb.class);
+                            TagTreeNode oba = (TagTreeNode) JSONObject.toBean(jsonObject4, TagTreeNode.class);
                             StringBuilder builder=new StringBuilder();
                             builder.append(oba.getName()+":");
                             if(oba.getChildren()!=null){
@@ -181,7 +180,7 @@ public class ProjectServiceImpl implements ProjectService  {
                                 for(int i=0;i<choices.size();i++){
                                     Object ch=choices.get(i);
                                     JSONObject jsonObject5=JSONObject.fromObject(ch);
-                                    JsonOb obch=(JsonOb)JSONObject.toBean(jsonObject5,JsonOb.class);
+                                    TagTreeNode obch=(TagTreeNode)JSONObject.toBean(jsonObject5,TagTreeNode.class);
                                     builder.append(obch.getName());
                                     if (i!=choices.size()-1){
                                         builder.append("_");

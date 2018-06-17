@@ -133,6 +133,7 @@ public class WorkerServiceImpl implements WorkerService {
 		JoinEvent joinEvent = joinEventRepository.findByWorkerIdAndProjectId(workerId, projectId);
 		if (joinEvent == null) {
 			joinEvent = new JoinEvent(workerId, projectId, new Date());
+			joinEvent.setWorkState(JoinEvent.TEST_NOT_FINISHED);
 			joinEventRepository.saveAndFlush(joinEvent);
 		} else {
 			if (!joinEvent.getWorkState().equals(JoinEvent.WORKING)) {

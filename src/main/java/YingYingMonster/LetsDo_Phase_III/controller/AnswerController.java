@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
 import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
-import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
+import YingYingMonster.LetsDo_Phase_III.entity.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;

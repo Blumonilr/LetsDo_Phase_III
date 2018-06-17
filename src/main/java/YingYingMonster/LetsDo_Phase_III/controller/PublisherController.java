@@ -1,6 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
-import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
+import YingYingMonster.LetsDo_Phase_III.entity.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.service.LabelService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller

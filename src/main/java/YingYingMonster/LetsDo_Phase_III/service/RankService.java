@@ -1,10 +1,11 @@
 package YingYingMonster.LetsDo_Phase_III.service;
 
+import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-import YingYingMonster.LetsDo_Phase_III.model.User;
 
 public interface RankService {
 

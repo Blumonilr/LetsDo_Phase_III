@@ -1,6 +1,5 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
-import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 
 import javax.persistence.*;
@@ -10,7 +9,7 @@ import java.util.List;
 @Table(name="projects")
 public class Project {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
 
     private MarkMode type;
