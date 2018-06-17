@@ -22,7 +22,7 @@ import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 public class MyProjectsController {
 
 	@Autowired
-	private WorkerService service;
+	private WorkerService wkservice;
 	@Autowired
 	private ProjectService pjservice;
 	
@@ -57,7 +57,7 @@ public class MyProjectsController {
     	String key = request.getParameter("key");//模糊查找
     	
     	String res = "";
-    	List<Project> list = service.viewMyActiveProjects(userId,key);
+    	List<Project> list = wkservice.viewMyActiveProjects(userId,key);
 //    	//pjid_pjname_pubid_type
     	int len = list.size();
     	for(int i=0;i<len;i++) {
@@ -121,11 +121,11 @@ public class MyProjectsController {
     	String pjid = request.getParameter("projectId");
     	long projectId = Long.parseLong(pjid);
     	
-    	Project pj = service.getAProject(projectId);
+    	Project pj = wkservice.getAProject(projectId);
     	
     	String condition = "";
     	
-    	String workingState = service.getWorkingState(userId, projectId);
+    	String workingState = wkservice.getWorkingState(userId, projectId);
     	System.out.println("WORKING STATE: "+workingState);
     	if(workingState.equals(JoinEvent.WORKING)) {//工作中
     		condition = "b";
@@ -154,7 +154,7 @@ public class MyProjectsController {
     	}
     	
     	String requirement = pj.getTagRequirement();
-    	double examScore = service.getTestResult(userId, projectId);
+    	double examScore = wkservice.getTestResult(userId, projectId);
     	
     	String res = condition+"_"+type+"_"+requirement+"_"+type_disc+"_"+examScore;
     	System.out.println("DETAIL: "+res);
@@ -176,6 +176,6 @@ public class MyProjectsController {
     	long userId = Long.parseLong(uid);
     	long projectId = Long.parseLong(pjid);
     	
-    	service.quitProject(userId, projectId);
+    	wkservice.quitProject(userId, projectId);
     }
 }
