@@ -33,7 +33,7 @@ public class AnswerController {
 	ArrayList<Image> picture_list = new ArrayList<Image>();//暂存
 	
 	@Autowired
-	TestProjectService service;
+	TestProjectService testpjservice;
 	
 	@Autowired
 	ProjectService pjservice;
@@ -46,7 +46,7 @@ public class AnswerController {
 	@ResponseBody
 	public String getProject(HttpServletRequest request, HttpServletResponse response) {
 		String inviteCode = request.getParameter("numId");
-		TestProject testProject = service.getTestProjectByInviteCode(inviteCode);
+		TestProject testProject = testpjservice.getTestProjectByInviteCode(inviteCode);
 		if(testProject != null) {
 			long testProjectId = testProject.getId();
 			MarkMode mode = testProject.getMarkMode();
@@ -58,8 +58,8 @@ public class AnswerController {
 				type = "square";
 			}
 			
-			long trueProjectId = service.getTrueProjectId(testProjectId);
-			long publisherId = service.getProjectPublisherId(testProjectId);
+			long trueProjectId = testpjservice.getTrueProjectId(testProjectId);
+			long publisherId = testpjservice.getProjectPublisherId(testProjectId);
 			
 			String res = trueProjectId+"_"+publisherId+"_"+type+"_"+testProjectId;
 			return res;
@@ -115,7 +115,7 @@ public class AnswerController {
     	
     	Tag tag = new Tag(uid,picid,pjid,mb,xml,false);
     	
-    	service.uploadAnswer(uid,tag);
+    	testpjservice.uploadAnswer(uid,tag);
     	
 	}
 	
@@ -127,11 +127,11 @@ public class AnswerController {
 	public String getSomeImages(HttpServletRequest request, HttpServletResponse response) {
 		String res = "";
 	
-		String projectId = request.getParameter("projectId");
+		String testProjectId = request.getParameter("testProjectId");
 		
-    	long pjid = Long.parseLong(projectId);
+    	long testpjid = Long.parseLong(testProjectId);
     	
-    	picture_list = (ArrayList<Image>) service.getAPageOfImages(0, pjid);//pageNum参数不给出，给0
+    	picture_list = (ArrayList<Image>) testpjservice.getAPageOfImages(0, testpjid);//pageNum参数不给出，给0
 		int len = picture_list.size();
 		for(int i=0;i<len;i++) {
 			res += picture_list.get(i).getId();
@@ -140,6 +140,7 @@ public class AnswerController {
 			}
 		}
 		
+		System.out.println("ANSWER: GET SOME IMAGES: "+res);
 		return res;//如果没有了，返回""
 	}
 	

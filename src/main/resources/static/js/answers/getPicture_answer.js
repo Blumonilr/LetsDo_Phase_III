@@ -27,12 +27,12 @@ function getNewPicture(){
  *获得一组图片
  */
 function get_a_list_of_pictures(){
-    var projectId = getCookie("projectId");
+    var testProjectId = getCookie("testProjectId");
     $.ajax({
         url:  "/answer/getsomeimages",
         type: "get",
         async:false, //同步
-        data:{"projectId" : projectId},
+        data:{"projectId" : testProjectId},
         success: function (data) {
             var list = data.split("_");
             var len = list.length;
