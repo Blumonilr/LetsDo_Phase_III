@@ -1,5 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,8 +193,8 @@ public class ProjectController {
     @ResponseBody
     public String release(@RequestParam String projectId){
         Project project=projectService.getAProject(Long.parseLong(projectId));
-        if(project.getTestProject()==null){
-            return "未上传测试集";
+        if(project.getTestProject()!=null&&project.getProjectState()!=ProjectState.ready){
+            return "未添加测试集答案";
         }else if(project.getTagTree()==null){
             return "未设定文字标签";
         }else{
