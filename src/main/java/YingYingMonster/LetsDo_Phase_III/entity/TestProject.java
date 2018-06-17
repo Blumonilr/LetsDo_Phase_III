@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "test_projects")
 public class TestProject {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
 
     private MarkMode markMode;

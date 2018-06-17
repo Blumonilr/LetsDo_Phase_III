@@ -21,6 +21,8 @@ public interface TestProjectService {
      */
     public List<Image> getAPageOfImages(int pageId, long testProjectId);
 
+    public List<Image> getAllTestImages(int testProjectId);
+
     /**
      * 上传/修改答案
      * @param workerId

@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name="projects")
 public class Project {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
 
     private MarkMode type;

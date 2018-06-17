@@ -42,10 +42,12 @@ public class TestProjectServiceImpl implements TestProjectService {
         Project project = projectRepository.findById(projectId);
         testProject.setMarkMode(project.getType());
 
-        int picNum = imageService.saveImages(multipartFile, projectId,true);
+        testProject.setProject(project);
+        testProject = testProjectRepository.saveAndFlush(testProject);
+
+        int picNum = imageService.saveImages(multipartFile, testProject.getId(),true);
         testProject.setPicNum(picNum);
         testProject.setInviteCode(generateUUID());
-        testProject.setProject(project);
         testProject = testProjectRepository.saveAndFlush(testProject);
         projectRepository.updateTestProject(projectId, testProject);
 
@@ -73,6 +75,11 @@ public class TestProjectServiceImpl implements TestProjectService {
     }
 
     @Override
+    public List<Image> getAllTestImages(int testProjectId) {
+        return imageRepository.findByProjectId(testProjectId);
+    }
+
+    @Override
     public Tag uploadAnswer(long workerId,Tag tag) {
         long imageId = tag.getImageId();
         imageRepository.updateIsFinished(imageId, true);
@@ -87,7 +94,11 @@ public class TestProjectServiceImpl implements TestProjectService {
 
     @Override
     public List<Tag> viewAnswers(long testProjectId) {
-        return null;
+        /**
+         * 上传测试集的时候已经把testproject的id放到image对象了，因此tag对象也拥有testproject的id
+         * testproject id 与project id不会重复
+         */
+        return tagRepository.findByProjectId(testProjectId);
     }
 
     @Override
