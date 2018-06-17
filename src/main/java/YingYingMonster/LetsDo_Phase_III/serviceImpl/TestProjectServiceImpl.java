@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.*;
 import YingYingMonster.LetsDo_Phase_III.service.ImageService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
@@ -102,22 +103,28 @@ public class TestProjectServiceImpl implements TestProjectService {
 
     @Override
     public String viewTagRequirement(long testProjectId) {
-        return testProjectRepository.findById(testProjectId).get().getProject().getTagRequirement();
+        return testProjectRepository.findById(testProjectId).getProject().getTagRequirement();
+    }
+
+    @Override
+    public void finishMakingAnswer(long testProjectId) {
+        Project project = testProjectRepository.findById(testProjectId).getProject();
+        projectRepository.updateProjectState(project.getId(), ProjectState.ready);
     }
 
     @Override
     public List<TextNode> getTextLabel(long testProjectId) {
-        Project pr=testProjectRepository.findById(testProjectId).get().getProject();
+        Project pr=testProjectRepository.findById(testProjectId).getProject();
         return projectService.getProjectTextNode(pr.getId());
     }
 
     @Override
     public long getProjectPublisherId(long testProjectId) {
-        return testProjectRepository.findById(testProjectId).get().getProject().getPublisherId();
+        return testProjectRepository.findById(testProjectId).getProject().getPublisherId();
     }
 
     @Override
     public long getTrueProjectId(long testProjectId) {
-        return testProjectRepository.findById(testProjectId).get().getProject().getId();
+        return testProjectRepository.findById(testProjectId).getProject().getId();
     }
 }

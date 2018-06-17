@@ -3,7 +3,7 @@ package YingYingMonster.LetsDo_Phase_III.model;
 import java.security.PrivateKey;
 
 public enum ProjectState {
-    setup("setup"), initialize("initialize"), open("open"), closed("closed");
+    setup("setup"), initialize("initialize"), ready("ready"),open("open"), closed("closed");
 
     private String val;
 
