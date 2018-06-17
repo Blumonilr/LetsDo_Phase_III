@@ -29,12 +29,12 @@ public class TestTestProjectRepository {
     }
 
     @Test public void test_update(){
- //       TestProject testProject = testProjectRepository.findById((long) 2).get();
- //       assertEquals(null, testProject.getInviteCode());
- //       testProject.setInviteCode("haha");
- //       testProjectRepository.updateInviteCode(2,"haha");
-//        testProject = testProjectRepository.findById((long) 2).get();
- //       assertEquals("haha", testProject.getInviteCode());
+        TestProject testProject = testProjectRepository.findById((long) 2);
+        assertEquals(null, testProject.getInviteCode());
+        testProject.setInviteCode("haha");
+        testProjectRepository.updateInviteCode(2,"haha");
+        testProject = testProjectRepository.findById((long) 2);
+        assertEquals("haha", testProject.getInviteCode());
         
     }
 

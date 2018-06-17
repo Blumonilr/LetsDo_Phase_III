@@ -73,7 +73,7 @@ function  set_working(){
     }
     else if(condition === "b"){//进行中
         b_info = "工作进行中\n";
-        b_href = "<a href='../../workspace/"+type+"'> 去工作 </a>";
+        b_href = "<a href='../../workspace/make/"+type+"'> 去工作 </a>";
 
     }
     else if(condition === "c"){//已结束
@@ -110,21 +110,31 @@ function set_accordion() {
     var pjid = getCookie("projectId");
     var first_txt = "<br>\n项目发布者:" + pubid;
     var second_txt = requirement;
-    var third_txt = "yingyingmonster";
+
 
     $("#first_accordion").append(first_txt);
     $("#second_accordion").append(second_txt);
-    $("#third_accordion").append(third_txt);
+
 }
 
-function getProjectOverviewPicture(){
-    var projectId = getCookie("projectId");
-    $.ajax({
-        url: "/myProjects/getProjectOverview/"+projectId,
-        type: "get",
-        success: function(data){
-            alert(data);
-        }
-    });
 
+function terminate_project(){
+    //结束项目
+    var confirmRes = confirm("一定要退出该项目吗？");
+    if(confirmRes){
+        var userId = getCookie("userId");
+        var projectId = getCookie("projectId");
+        $.ajax({
+            url: "/myProjects/terminateProject",
+            type: "get",
+            data: {
+                "userId" : userId,
+                "projectId" : projectId,
+            },
+            success: function(){
+                toastr.success("已退出该项目！");
+                setTimeout("window.history.back()",2500);//等待2.5秒后刷新界面
+            }
+        });
+    }
 }

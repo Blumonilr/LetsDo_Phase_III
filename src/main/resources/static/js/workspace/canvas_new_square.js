@@ -323,31 +323,27 @@ Mark.prototype.init = function(){//初始化
     self.ctx.lineWidth = line_width;
     
     this.colors.addEventListener('click', function(event){//工具栏点击事件
-        $(".tools").css("border-style","hidden");
-        if(event.target.id === "red"){
-            self.type = "line";
-            $("#red").css("border-style","inset");
-            $("#red").css("border-width","medium");
+        $(".color_pickers").css("border-style","hidden");
+        if(event.target.id === "color_red"){
+            $("#color_red").css("border-style","inset");
+            $("#color_red").css("border-width","medium");
             current_color = 0;
         }
-        else if(event.target.id === "yellow"){
-            self.type = "point";
-            $("#yellow").css("border-style","inset");
-            $("#yellow").css("border-width","medium");
+        else if(event.target.id === "color_yellow"){
+            $("#color_yellow").css("border-style","inset");
+            $("#color_yellow").css("border-width","medium");
             current_color = 1;
 
         }
-        else if(event.target.id === "blue"){
-            self.type = "point";
-            $("#blue").css("border-style","inset");
-            $("#blue").css("border-width","medium");
+        else if(event.target.id === "color_blue"){
+            $("#color_blue").css("border-style","inset");
+            $("#color_blue").css("border-width","medium");
             current_color = 2;
 
         }
-        else if(event.target.id === "green"){
-            self.type = "point";
-            $("#green").css("border-style","inset");
-            $("#green").css("border-width","medium");
+        else if(event.target.id === "color_green"){
+            $("#color_green").css("border-style","inset");
+            $("#color_green").css("border-width","medium");
             current_color = 3;
         }
     }, false);
@@ -658,16 +654,12 @@ function get_xml_string(){
     if(red_tip !== []){//red begin
         //red
 
-        var obj_class = "            <category>\n"+
-            "            "+red_tip_class+"\n"+
-            "            </category>\n"
+        var obj_class = "            <category>"+red_tip_class+ "</category>\n";
 
         var tags = "            <tags>\n";
         for(let j=0;j<red_tip.length;j++){
-            var tag = "                <tag>\n"+
-                "                    <title>"+red_tip[j].split("_")[0]+"</title>\n"+
-                "                    <value>"+red_tip[j].split("_")[1]+"</value>\n"+
-                "                </tag>\n";
+            var tag = "                <tag title=\""+red_tip[j].split("_")[0]+"\">"+red_tip[j].split("_")[1]+"</tag>\n";
+
             tags = tags +tag;
         }
         tags = tags + "            </tags>\n";
@@ -679,12 +671,7 @@ function get_xml_string(){
             var x2 = temp_points[1][0];
             var y2 = temp_points[1][1];
 
-            var points = "            <points>\n"+
-                         "                <x1>"+x1+"</x1>\n"+
-                         "                <y1>"+y1+"</y1>\n"+
-                         "                <x2>"+x2+"</x2>\n"+
-                         "                <y2>"+y2+"</y2>\n"+
-                         "            </points>\n";
+            var points = "            <points x1=\""+x1+"\" y1=\""+y1+"\" x2=\""+x2+"\" y2=\""+y2+"\" />\n";
 
             var obj = "        <object>\n"+points+obj_class+tags+
                       "        </object>\n";
@@ -693,139 +680,113 @@ function get_xml_string(){
         }
     }//red end
 
-    if(yellow_tip !== []){//yellow begin
+    if(yellow_tip !== []) {//yellow begin
         //yellow
 
-        var obj_class = "            <category>\n"+
-            "            "+yellow_tip_class+"\n"+
-            "            </category>\n"
+        var obj_class = "            <category>" + yellow_tip_class + "</category>\n"
         var tags = "            <tags>\n";
-        for(let j=0;j<yellow_tip.length;j++){
-            var tag = "                <tag>\n"+
-                "                    <title>"+yellow_tip[j].split("_")[0]+"</title>\n"+
-                "                    <value>"+yellow_tip[j].split("_")[1]+"</value>\n"+
-                "                </tag>\n";
-            tags = tags +tag;
+        for (let j = 0; j < yellow_tip.length; j++) {
+            var tag = "                <tag title=\"" + yellow_tip[j].split("_")[0] + "\">" + yellow_tip[j].split("_")[1] + "</tag>\n";
+            tags = tags + tag;
         }
         tags = tags + "            </tags>\n";
 
-        for(let i=0;i<yellow_obj_list.length;i++){
+        for (let i = 0; i < yellow_obj_list.length; i++) {
             var temp_points = yellow_obj_list[i];
             var x1 = temp_points[0][0];
             var y1 = temp_points[0][1];
             var x2 = temp_points[1][0];
             var y2 = temp_points[1][1];
 
-            var points = "            <points>\n"+
-                "                <x1>"+x1+"</x1>\n"+
-                "                <y1>"+y1+"</y1>\n"+
-                "                <x2>"+x2+"</x2>\n"+
-                "                <y2>"+y2+"</y2>\n"+
-                "            </points>\n";
+            var points = "            <points x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + "\" />\n";
 
-            var obj = "        <object>\n"+points+obj_class+tags+
+            var obj = "        <object>\n" + points + obj_class + tags +
                 "        </object>\n";
 
             s_objs = s_objs + obj;
-        }
-    }//yellow end
 
-    if(blue_tip !== []){//blue begin
-        //blue
+        }//yellow end
 
-        var obj_class = "            <category>\n"+
-            "            "+blue_tip_class+"\n"+
-            "            </category>\n"
-        var tags = "            <tags>\n";
-        for(let j=0;j<blue_tip.length;j++){
-            var tag = "                <tag>\n"+
-                "                    <title>"+blue_tip[j].split("_")[0]+"</title>\n"+
-                "                    <value>"+blue_tip[j].split("_")[1]+"</value>\n"+
-                "                </tag>\n";
-            tags = tags +tag;
-        }
-        tags = tags + "            </tags>\n";
+        if (blue_tip !== []) {//blue begin
+            //blue
 
-        for(let i=0;i<blue_obj_list.length;i++){
-            var temp_points = red_obj_list[i];
-            var x1 = temp_points[0][0];
-            var y1 = temp_points[0][1];
-            var x2 = temp_points[1][0];
-            var y2 = temp_points[1][1];
+            var obj_class = "            <category>" + blue_tip_class + "</category>\n"
+            var tags = "            <tags>\n";
+            for (let j = 0; j < blue_tip.length; j++) {
+                var tag = "                <tag title=\"" + blue_tip[j].split("_")[0] + "\">" + blue_tip[j].split("_")[1] + "</tag>\n";
 
-            var points = "            <points>\n"+
-                "                <x1>"+x1+"</x1>\n"+
-                "                <y1>"+y1+"</y1>\n"+
-                "                <x2>"+x2+"</x2>\n"+
-                "                <y2>"+y2+"</y2>\n"+
-                "            </points>\n";
+                tags = tags + tag;
+            }
+            tags = tags + "            </tags>\n";
 
-            var obj = "        <object>\n"+points+obj_class+tags+
-                "        </object>\n";
+            for (let i = 0; i < blue_obj_list.length; i++) {
+                var temp_points = blue_obj_list[i];
+                var x1 = temp_points[0][0];
+                var y1 = temp_points[0][1];
+                var x2 = temp_points[1][0];
+                var y2 = temp_points[1][1];
 
-            s_objs = s_objs + obj;
-        }
-    }//blue end
+                var points = "            <points x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + "\" />\n";
 
-    if(green_tip !== []){//green begin
-        //green
+                var obj = "        <object>\n" + points + obj_class + tags +
+                    "        </object>\n";
 
-        var obj_class = "            <category>"+
-            "            "+green_tip_class+"</category>\n"
-        var tags = "            <tags>\n";
-        for(let j=0;j<green_tip.length;j++){
-            var tag = "                <tag>\n"+
-                "                    <title>"+green_tip[j].split("_")[0]+"</title>\n"+
-                "                    <value>"+green_tip[j].split("_")[1]+"</value>\n"+
-                "                </tag>\n";
-            tags = tags +tag;
-        }
-        tags = tags + "            </tags>\n";
+                s_objs = s_objs + obj;
+            }
+        }//blue end
 
-        for(let i=0;i<green_obj_list.length;i++){
-            var temp_points = red_obj_list[i];
-            var x1 = temp_points[0][0];
-            var y1 = temp_points[0][1];
-            var x2 = temp_points[1][0];
-            var y2 = temp_points[1][1];
+        if (green_tip !== []) {//green begin
+            //green
 
-            var points = "            <points>\n"+
-                "                <x1>"+x1+"</x1>\n"+
-                "                <y1>"+y1+"</y1>\n"+
-                "                <x2>"+x2+"</x2>\n"+
-                "                <y2>"+y2+"</y2>\n"+
-                "            </points>\n";
+            var obj_class = "            <category>" + green_tip_class + "</category>\n"
+            var tags = "            <tags>\n";
+            for (let j = 0; j < green_tip.length; j++) {
+                var tag = "                <tag title=\"" + green_tip[j].split("_")[0] + "\">" + green_tip[j].split("_")[1] + "</tag>\n";
 
-            var obj = "        <object>\n"+points+obj_class+tags+
-                "        </object>\n";
+                tags = tags + tag;
+            }
+            tags = tags + "            </tags>\n";
 
-            s_objs = s_objs + obj;
-        }
-    }//green end
+            for (let i = 0; i < green_obj_list.length; i++) {
+                var temp_points = green_obj_list[i];
+                var x1 = temp_points[0][0];
+                var y1 = temp_points[0][1];
+                var x2 = temp_points[1][0];
+                var y2 = temp_points[1][1];
+
+                var points = "            <points x1=\"" + x1 + "\" y1=\"" + y1 + "\" x2=\"" + x2 + "\" y2=\"" + y2 + "\" />\n";
+
+                var obj = "        <object>\n" + points + obj_class + tags +
+                    "        </object>\n";
+
+                s_objs = s_objs + obj;
+            }
+        }//green end
 
 
-    //object
-    s_objs = s_objs + "</objects>";
+        //object
+        s_objs = s_objs + "</objects>";
 
 
-    //supervise  begin
-    var date = new Date();
-    supervise_end_time = date.getTime();
-    var work_time = (supervise_end_time - supervise_start_time) / 1000;//秒数
-    var supervise_str = "<supervise>\n"+
-        "    <time>"+work_time+"</time>\n"+
-        "    <click>"+supervise_click_time+"</click>\n"+
-        "    <delete>"+supervise_delete_time+"</delete>\n"+
-        "    <points>"+supervise_total_points+"</points>\n"+
-        "</supervise>\n";
+        //supervise  begin
+        var date = new Date();
+        supervise_end_time = date.getTime();
+        var work_time = (supervise_end_time - supervise_start_time) / 1000;//秒数
+        var supervise_str = "<supervise>\n" +
+            "    <time>" + work_time + "</time>\n" +
+            "    <click>" + supervise_click_time + "</click>\n" +
+            "    <delete>" + supervise_delete_time + "</delete>\n" +
+            "    <points>" + supervise_total_points + "</points>\n" +
+            "</supervise>\n";
 
 
-    //supervise   end
+        //supervise   end
 
-    var final_s = "<root>\n"+
-                 s1 + s2 + s3 + s4 + s5 + supervise_str + s_objs+
-                   "\n</root>";
-    return final_s;
+        var final_s = "<root>\n" +
+            s1 + s2 + s3 + s4 + s5 + supervise_str + s_objs +
+            "\n</root>";
+        return final_s;
+    }
 
 }
 
@@ -972,4 +933,5 @@ function prepare_for_next_picture(){
 
     $("#tipInput").empty();
     clear_all();
+
 }

@@ -2,7 +2,6 @@ package YingYingMonster.LetsDo_Phase_III.aspect;
 
 
 import YingYingMonster.LetsDo_Phase_III.csHandler;
-import YingYingMonster.LetsDo_Phase_III.daoImpl.CSVHandler;
 import YingYingMonster.LetsDo_Phase_III.entity.*;
 import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
@@ -115,6 +114,8 @@ public aspect WorkerAspect {
 
         Project project = projectService.getAProject(tag.getProjectId());
         try {
+            System.out.println("java tries to connect to python");
+
             cshandler.post("http://localhost:5000/postImage",Long.toString(tag.getImageId())+"_"+project.getType());
         } catch (Exception e) {
             e.printStackTrace();

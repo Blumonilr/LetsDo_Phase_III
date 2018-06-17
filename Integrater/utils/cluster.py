@@ -1,4 +1,4 @@
-#coding:utf-8
+
 from operator import itemgetter
 
 import numpy as np
@@ -67,11 +67,15 @@ def cal_rec(coordinates,min_samples_=3):
 		map every element of it to int
 		'''
 		center_coordinates=(lambda x:[ [round(j) for j in i] for i in x])(center_coordinates)
-		return center_coordinates,cal_accuracy(coordinates,center_coordinates)
+		return center_coordinates
 
 	pass
 
-def cal_accuracy(user_ans,results):
+def cal_rect_accuracy(user_ans,results):
+	# print('ans : ',user_ans)
+	# print('res : ',results)
+
+
 	data=np.array(results)
 	idex=np.lexsort([data[:,0]])
 	sorted_data=data[idex,:]
@@ -114,4 +118,4 @@ def preprocess_data(points):
 	pass
 
 if __name__=='__main__':
-	cal_accuracy([[100,100,200,200]],[[105,100,200,200]])
+	cal_rect_accuracy([[100,100,200,200]],[[105,100,200,200]])

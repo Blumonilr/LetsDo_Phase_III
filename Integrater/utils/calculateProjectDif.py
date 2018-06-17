@@ -1,4 +1,4 @@
-#coding=utf-8
+
 import DBHandler
 import numpy
 import math

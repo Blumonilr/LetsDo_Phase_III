@@ -1,4 +1,4 @@
-#coding=utf-8
+
 import os
 import xml
 import numpy as np
@@ -31,6 +31,11 @@ def work(imageId,markmode):
 		try:
 			# generate answer
 			res_centers,res_labels=generateResult(handler,markmode)
+			if markmode==0:
+
+				pass
+			elif markmode==1:
+				pass
 
 			# calculate accuracy and update the db
 			# modify CommitEvent
@@ -49,16 +54,11 @@ def getAnswerFromTags(imageId):
 	session=db.setup_db()
 	tags=session.query(db.Tag).filter(db.Tag.image_id==imageId).all()
 
-	parser = xml.sax.make_parser()
-	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
-	handler = xp.XmlParser()
-	parser.setContentHandler(handler)
+	handler=xp.XMLParser()
 
 	for tag in tags:
 		xml_string = tag.xml_file
-		with open(path, 'w+', encoding='UTF-8') as f:
-			f.write(xml_string)
-		parser.parse(path)
+		handler.parse(xml_string)
 
 	session.close()
 	return handler
@@ -82,11 +82,38 @@ def generateResult(handler,markmode):
 	pass
 
 def generateTextLabel(labels):
-	print(labels)
-	pass
+	# remove [] in the labels
+	while [] in labels:
+		labels.remove([])
+	# print(labels)
+	names=[]
+	values=[]
+	for x in labels:
+		for y in x:
+			names.append(y[0])
+			values.append(y[1])
+	names=list(set(names))
+	values=list(set(values))
 
-def calculateAccuracy():
-	pass
+	# print(names)
+	# print(values)
+
+	new_labels=[]
+	for x in labels:
+		nx=[]
+		for y in x:
+			nx.append([names.index(y[0]),values.index(y[1])])
+		new_labels.append(nx)
+
+	# print(new_labels)
+
+	center=clu.cal_rec(clu.preprocess_data(new_labels))
+	# print(center)
+	res=[]
+	for x in center:
+		res.append([names[int(x[0])],values[int(x[1])]])
+	print(res)
+	return res
 
 
 path=os.getcwd()+'\\tmp.xml'
@@ -131,19 +158,19 @@ def generateTag(points,width,height):
 	pass
 
 if __name__=='__main__':
-	coordinates=[[[0,0,5,10],[6,7,8,13]],[[0,1,6,7],[6,6,7,15]],[[1,0,9,8],[5,7,7,16]]\
-		,[[0,-1,4,10],[7,7,9,12]],[[-1,0,7,9],[6,8,10,10]],[[2,3,100,100],[9,10,100,100]]]
-	coordinates=clu.preprocess_data(coordinates)
-	coordinates,user_accuracy=clu.cal_rec(coordinates)
-	print(coordinates)
-	generateTag(coordinates,30,30)
+	# coordinates=[[[0,0,5,10],[6,7,8,13]],[[0,1,6,7],[6,6,7,15]],[[1,0,9,8],[5,7,7,16]]\
+	# 	,[[0,-1,4,10],[7,7,9,12]],[[-1,0,7,9],[6,8,10,10]],[[2,3,100,100],[9,10,100,100]]]
+	# coordinates=clu.preprocess_data(coordinates)
+	# coordinates,user_accuracy=clu.cal_rec(coordinates)
+	# print(coordinates)
+	# generateTag(coordinates,30,30)
 
-	# parser = xml.sax.make_parser()
-	# parser.setFeature(xml.sax.handler.feature_namespaces, 0)
-	# handler = xp.XmlParser()
-	# parser.setContentHandler(handler)
-	# parser.parse('area.xml')
-	#
-	# generateTextLabel(handler.allTags)
+
+	t=[[['性别', '雌'], ['种类', '耕牛'], ['肥瘦', '肥'], ['大小', '大']],\
+	   [['性别', '雄'], ['种类', '母猪'], ['肥瘦', '肥'], ['大小', '大']], \
+	   [['性别', '雄'], ['种类', '耕牛'], ['肥瘦', '瘦'], ['大小', '大']], \
+	   [['性别', '雄'], ['种类', '耕牛'], ['肥瘦', '肥'], ['大小', '小']]]
+
+	generateTextLabel(t)
 
 	pass

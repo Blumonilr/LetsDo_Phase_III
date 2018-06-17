@@ -89,7 +89,7 @@ public class ExamController {
 		}
 		else if(type.equals("square")) {
 			//按要求覆盖指定区域
-			return "answers/exam_square";
+			return "exam/exam_square";
 		}	
 		else {
 			//default

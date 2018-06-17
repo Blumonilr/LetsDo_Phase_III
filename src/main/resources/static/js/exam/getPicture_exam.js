@@ -17,7 +17,7 @@ function getNewPicture(){
     var userId = getCookie("userId");
     if(picture_id_list.length === 0){
         //做完了
-        toastr.success("考试已结束，成绩计算中....")
+        toastr.success("考试已结束，成绩计算中....");
         $.ajax({
             url:  "/exam/getTestScore",
             type: "get",
@@ -25,7 +25,8 @@ function getNewPicture(){
                 "projectId" : projectId,
                 "userId" : userId,},
             success: function (data) {
-               alert(data);
+            	toastr.success("得分: "+data);
+                setTimeout("history.back()",3000);//等待3秒后返回上一界面
             }
         });
         //调用方法看考试分数

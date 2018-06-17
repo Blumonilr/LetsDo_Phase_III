@@ -23,7 +23,7 @@ import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 
 
 @Controller
-@RequestMapping("/workspace")
+@RequestMapping("/workspace_abandon")
 public class WorkSpaceController {
 	
 	@Autowired

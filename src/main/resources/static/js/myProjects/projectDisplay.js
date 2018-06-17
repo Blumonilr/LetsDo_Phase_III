@@ -2,13 +2,17 @@
  * 展示worker正在进行的项目
  */
 
-function loadProjects(){
+function loadProjects(workingState){
+
+    $("#projects").empty();//清空
+
 	var userId = getCookie("userId");
 	$.ajax({
 		url: "/myProjects/getList",
 		type: "get",
 		data: {
 			"userId" : userId,
+			"workingState" : workingState,
 		},
 		success: function(data){
 			
@@ -53,9 +57,7 @@ function add_pj(pj_data){
         "<img class='pjicons' src='/pic/market/more.png'/>"+
         "查看详情"+
         "</div>"+
-        "<h5> 结束项目   "+
-        "<img id='"+pubid+"_"+pjid+"' src='/pic/projects/push.png' class='pushicon'  onClick='terminate_project(this)'/>"+
-        "</h5>"+ "</div>"+
+        "</div>"+
         "</div>";
 
     $("#projects").append(txt);
@@ -71,55 +73,21 @@ function chooseProject(that){
     window.location.href= "/myProjects/projects/detail";
 }
 
-//抛弃
-function viewDone(that){
-	//进入已经完成的图片界面
-	var id = that.id;
-	var ids = id.split("_");//pubid_pjid
-	var userId = getCookie("userId");
-	
-	$.ajax({
-		url: "/myProjects/getProject/"+ids[0]+"/"+ids[1],
-		type: "get",
-		success: function(data){
-			//alert(data);
-			//alert(data);
-			setCookie("projectId", ids[1]);
-			setCookie("publisherId", ids[0]);
-			
-			var datas = data.split(":");//type:requirement
-			setCookie("projectType",datas[0]);
-			if(datas[0]==="tips"){
-				setCookie("tipList", datas[1]);
-			}
-			else{
-				setCookie("tipList", "");
-				setCookie("projectRequirement",data[1]);
-			}
-			
-		}
-	});
-	
-	window.location.href = "/workspace/viewDone/"+userId+"/"+ids[1]+"/"+ids[0];
+function display_projects(){
+	var type = $("#project_state").val();
+	var workingState = "";
+	if(type === "考试中"){
+		workingState = "notStarted";
+	}
+	else if(type === "工作中"){
+        workingState = "working";
+	}
+	else if(type === "已结束"){
+        workingState = "finished";
+	}
+    else if(type === "所有项目"){
+        workingState = "all";
+    }
+	loadProjects(workingState);
 }
 
-//DONE
-function terminate_project(that){
-	//提交项目
-	var id = that.id;
-	var ids = id.split("_");//pubid_pjid
-	var userId = getCookie("userId");
-	var projectId = ids[1];
-	$.ajax({
-		url: "/myProjects/terminateProject",
-		type: "get",
-		data: {
-			"userId" : userId,
-			"projectId" : projectId,
-		},
-		success: function(){
-            toastr.success("已退出该项目！");
-            setTimeout("window.location.reload()",2500);//等待2.5秒后刷新界面
-		}
-	});
-}

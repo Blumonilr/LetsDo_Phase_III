@@ -2,21 +2,6 @@
  * 为区域标注提供加载requirement和提交标记的服务
  */
 
-var requirement_hide = false;
-
-function set_requirement(){
-	//加载要求
-	var projectId = getCookie("projectId");
-	var publisherId = getCookie("publisherId");
-	$.ajax({
-		url:  "/myProjects/getProjectRequirement/"+publisherId+"/"+projectId,
-		type: "get",
-		success: function(data){
-			$("#requirementArea").append(data);
-		}
-	});
-}
-
 function submit_tag(){
 	//提交标签
 	//这种标记只有图片没有标签
@@ -127,20 +112,5 @@ function preImage(url , callback){
 	}
 	img.onload = function(){
 		callback.call(img);
-	}
-}
-
-/**
- * 显示要求
- */
-function hide_show_requirement(){
-
-	if(requirement_hide){
-        $("#requirementArea").show();
-        requirement_hide = false;
-	}
-	else{
-        $("#requirementArea").hide();
-        requirement_hide = true;
 	}
 }
