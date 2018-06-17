@@ -132,10 +132,16 @@ public class MyProjectsController {
     	String condition = "";
     	
     	String workingState = service.getWorkingState(userId, projectId);
-    	if(workingState.equals(JoinEvent.TEST_PASSED) || workingState.equals(JoinEvent.WORKING)) {//工作中
+    	if(workingState.equals(JoinEvent.WORKING)) {//工作中
     		condition = "b";
     	}
-    	else if(workingState.equals(JoinEvent.TEST_NOT_FINISHED)) {
+    	else if(workingState.equals(JoinEvent.WORK_Finished)) {//工作结束
+    		condition = "c";
+    	}
+    	else if(workingState.equals(JoinEvent.TEST_FINISHED)) {//等待评判
+    		condition = "ax";
+    	}
+    	else {//还没考试或者考试没通过
     		condition = "a";
     	}
     	
@@ -154,7 +160,7 @@ public class MyProjectsController {
     	double examScore = service.getTestResult(userId, projectId);
     	
     	String res = condition+"_"+type+"_"+requirement+"_"+type_disc+"_"+examScore;
-    	
+    	System.out.println("DETAIL: "+res);
     	return res;
     }
     

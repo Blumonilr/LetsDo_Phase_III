@@ -6,9 +6,9 @@
  * 3.跳转考试界面或工作界面
  */
 
-var condition = "a";//(a/b/c)
+var condition;//(a/b/c)
 var requirement;
-var type = "area";//(square/area)
+var type ;//(square/area)
 var type_disc;
 var score;
 
@@ -51,6 +51,10 @@ function set_exam(){
         a_href = "<a href='../../exam/make/"+type+"'> 去考试 </a>";
     }
 
+    else if(condition === "ax"){
+        a_info = "考试已完成，请耐心等待后台评判";
+    }
+
     else{
         a_info = "考试已结束\n考试得分: "+score;
 
@@ -64,7 +68,7 @@ function  set_working(){
     var b_info = "";
     var b_href = "";
 
-    if(condition === "a"){//考试进行中
+    if(condition === "a" || condition === "ax"){//考试进行中
         b_info = "尚未开始\n先去考试吧～";
     }
     else if(condition === "b"){//进行中
@@ -84,7 +88,7 @@ function set_pay(){
     var c_info = "";
     var c_href = "";
 
-    if(condition === "a"){//考试进行中
+    if(condition === "a"|| condition === "ax"){//考试进行中
         c_info = "尚未开始";
         c_href = "<a href='#'> 我的钱包 </a>";
     }
