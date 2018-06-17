@@ -122,6 +122,11 @@ public class ProjectServiceImpl implements ProjectService  {
     @Override
     public Project openProject(long projectId) {
         Project prtemp = projectRepository.findById(projectId);
+        if (prtemp.getProjectState() != ProjectState.setup
+                && prtemp.getProjectState() != ProjectState.ready) {
+            throw new IllegalStateException("project state not satisfied for publishment :"
+                    + prtemp.getProjectState());
+        }
         prtemp.setProjectState(ProjectState.open);
         return projectRepository.saveAndFlush(prtemp);
     }
