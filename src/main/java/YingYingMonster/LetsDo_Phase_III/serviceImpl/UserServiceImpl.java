@@ -13,6 +13,7 @@ import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(User user) {
         user.setLogEvent(new LogEvent(user,0,null));
+        user.setRegisterDate(Calendar.getInstance());
         return userRepository.saveAndFlush(user);
     }
 

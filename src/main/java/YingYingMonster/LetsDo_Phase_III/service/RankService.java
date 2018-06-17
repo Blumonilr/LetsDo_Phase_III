@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.service;
 
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,7 +17,7 @@ public interface RankService {
 	 * @throws ClassNotFoundException 
 	 * @throws FileNotFoundException 
 	 */
-	List<User>rankByExp() throws FileNotFoundException, ClassNotFoundException, IOException;
+	List<Worker>rankByExp();
 	
 	/**
 	 * 根据准确率给Worker排序
@@ -25,5 +26,5 @@ public interface RankService {
 	 * @throws ClassNotFoundException 
 	 * @throws FileNotFoundException 
 	 */
-	List<User>rankByAccuracy() throws FileNotFoundException, ClassNotFoundException, IOException;
+	List<Worker> rankByAccuracy(String labelName);
 }

@@ -12,5 +12,7 @@ def index():
 def postImage():
     str=request.get_data()
     image_id=str.split("_")[0]
-    markMode=str.split("_")[1]
-    return "hello"
+    markMode=int(str.split("_")[1])
+
+    return "right"
+
