@@ -32,6 +32,31 @@ public abstract class User {
 		return abilities;
 	}
 
+	public String getStringAbilities(){
+		ArrayList list=new ArrayList();
+		for (Ability a : abilities) {
+			list.add(a.getLabel());
+		}
+		String result=String.join(",",list);
+		return result;
+	}
+
+	/**\
+	 * 返回总准确率
+	 * @return
+	 */
+	public double getAccuracy(){
+		double sum=0;
+		double accuracy=0;
+		for (Ability a : abilities) {
+			sum+=a.getLabelHistoryNum();
+		}
+		for (Ability a : abilities) {
+			accuracy+=a.getAccuracy()*a.getLabelHistoryNum()/sum;
+		}
+		return accuracy;
+	}
+
 	public void setAbilities(List<Ability> abilities) {
 		this.abilities = abilities;
 	}
