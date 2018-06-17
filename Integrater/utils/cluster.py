@@ -72,7 +72,7 @@ def cal_accuracy(user_ans,results):
 	print(type(user_ans))
 	print(results)
 	print(type(results))
-	
+
 	pass
 
 

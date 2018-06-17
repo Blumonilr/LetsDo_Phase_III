@@ -8,6 +8,30 @@ import utils.DBHandler as db
 import utils.xmlParser as xp
 import utils.cluster as clu
 
+
+def work(imageId,markmode):
+	session=db.setup_db()
+	image=session.query(db.Image).filter(db.Image.id==imageId).one()
+
+	if image.is_finished:
+		# get the answer
+		tag=session.query(db.Tag).filter(db.Tag.image_id==imageId and db.Tag.is_result==True).one()
+		# calculate accuracy and update the db
+
+		pass
+	else:
+		try:
+			# generate answer
+
+			# calculate accuracy and update the db
+			pass
+		except Exception:
+			pass
+		pass
+
+
+
+
 '''
 生成image对象的答案
 imageId : long
