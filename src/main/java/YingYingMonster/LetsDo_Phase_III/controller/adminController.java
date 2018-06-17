@@ -4,6 +4,7 @@ import YingYingMonster.LetsDo_Phase_III.entity.json.SystemInfo;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,7 +49,7 @@ public class adminController {
     @PostMapping("/systemDetail")
     @ResponseBody
     public String systemInfo(){
-        Gson gson=new Gson();
+        Gson gson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         SystemInfo systemInfo=new SystemInfo(adminService);
         List<Worker> list=adminService.workerAccuracyRank();
         int length=list.size()>=100?100:list.size();

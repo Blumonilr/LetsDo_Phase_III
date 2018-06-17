@@ -39,7 +39,7 @@ public class TestUserServiceImpl {
 
         assertEquals("wk", worker1.getName());
         assertEquals("pub", publisher1.getName());
-        assertEquals("ad", administrator1.getName());
+        assertEquals("管理员", administrator1.getName());
     }
 
     @Test

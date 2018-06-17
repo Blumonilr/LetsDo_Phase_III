@@ -3,17 +3,18 @@ package YingYingMonster.LetsDo_Phase_III.entity.json;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
+import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
 public class SystemInfo {
-    private int publisherNum;
-    private int workerNum;
-    private int historyProjectNum;
-    private int ongoingProjectNum;
-    private String[][] workerTop100;
-    private List<Worker> workerList;
-    private List<Publisher> publisherList;
+    @Expose private int publisherNum;
+    @Expose private int workerNum;
+    @Expose private int historyProjectNum;
+    @Expose private int ongoingProjectNum;
+    @Expose private String[][] workerTop100;
+    @Expose private List<Worker> workerList;
+    @Expose private List<Publisher> publisherList;
 
     public SystemInfo(AdminService adminService) {
         this.workerList=adminService.viewAllWorkers();

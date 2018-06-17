@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 
@@ -9,18 +10,22 @@ import javax.persistence.*;
 public class Ability {
     @Id
     @GeneratedValue
+    @Expose
     private long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Expose
     @ManyToOne
     @JoinColumn(name = "label_id")
     private Label label;
 
+    @Expose
     private double accuracy;
 
+    @Expose
     private int labelHistoryNum;
 
     private int bias;//偏好程度，以参加项目的次数计算
