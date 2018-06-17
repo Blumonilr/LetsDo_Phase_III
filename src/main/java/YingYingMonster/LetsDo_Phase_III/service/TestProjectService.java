@@ -36,6 +36,8 @@ public interface TestProjectService {
 
     public String viewTagRequirement(long testProjectId);
 
+    public void finishMakingAnswer(long testProjectId);
+
     /**
      *
      * @param testProjectId
