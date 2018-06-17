@@ -57,7 +57,7 @@ public class MyProjectsController {
     	String key = request.getParameter("key");//模糊查找
     	
     	String res = "";
-    	List<Project> list = wkservice.viewMyActiveProjects(userId,key);
+    	List<Project> list = wkservice.viewMyProjects(userId,key);
 //    	//pjid_pjname_pubid_type
     	int len = list.size();
     	for(int i=0;i<len;i++) {

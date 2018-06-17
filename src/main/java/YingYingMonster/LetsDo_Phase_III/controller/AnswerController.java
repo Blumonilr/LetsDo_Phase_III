@@ -252,5 +252,17 @@ public class AnswerController {
 		}
 		return res;
     }
+    
+    /**
+     * 完成答案制作
+     */
+    @RequestMapping("/finishmake")  
+    @ResponseBody 
+    public void finishMaking(HttpServletRequest request, HttpServletResponse response) {
+    	String testProjectId = request.getParameter("testProjectId");
+		
+    	long testpjid = Long.parseLong(testProjectId);
+    }
+
 	
 }
