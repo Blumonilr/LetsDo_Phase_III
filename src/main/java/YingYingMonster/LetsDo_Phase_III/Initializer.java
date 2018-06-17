@@ -13,15 +13,13 @@ import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
 import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TextNodeRepository;
 import org.springframework.context.ApplicationContext;
-import YingYingMonster.LetsDo_Phase_III.dao.MockDB;
-import YingYingMonster.LetsDo_Phase_III.daoImpl.CSVHandler;
 
 public class Initializer {
 
 	private ApplicationContext context=SpringUtils.getApplicationContext();
 	private String root=context.getBean(String.class);
-	private MockDB db=context.getBean(MockDB.class);
-	private CSVHandler handler=context.getBean(CSVHandler.class);
+//	private MockDB db=context.getBean(MockDB.class);
+//	private CSVHandler handler=context.getBean(CSVHandler.class);
 	private TextNodeRepository tr=context.getBean(TextNodeRepository.class);
 	private LabelRepository lr=context.getBean(LabelRepository.class);
 	
@@ -77,7 +75,7 @@ public class Initializer {
 			if(res){
 				List<String[]>list=new ArrayList<String[]>();
 				list.add(new String[]{"publisherId","projectId","start","end","state"});
-				handler.writeCSV(list, date.getPath());
+//				handler.writeCSV(list, date.getPath());
 			}
 		}
 		
@@ -105,7 +103,7 @@ public class Initializer {
 					 String[]tokens=line.split(" ");
 					 String tableName=tokens[2];
 					 System.out.println("creating table : "+tableName);
-					 db.createTable(tableName);
+//					 db.createTable(tableName);
 				 }
 			}
 			br.close();

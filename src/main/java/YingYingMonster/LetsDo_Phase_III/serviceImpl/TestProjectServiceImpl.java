@@ -70,10 +70,9 @@ public class TestProjectServiceImpl implements TestProjectService {
      * 查看下一页未完成的测试集图片
      */
     public List<Image> getAPageOfImages(int pageId, long testProjectId) {
-        return imageRepository.findByProjectIdAndIsFinishedFalseAndIsTestTrue(testProjectId,
-                PageRequest.of(pageId, 5)).stream().collect(Collectors.toList());
+        return imageRepository.findByProjectIdAndIsFinishedFalseAndIsTestTrue(testProjectId);
     }
-
+    
     @Override
     public List<Image> getAllTestImages(int testProjectId) {
         return imageRepository.findByProjectId(testProjectId);
