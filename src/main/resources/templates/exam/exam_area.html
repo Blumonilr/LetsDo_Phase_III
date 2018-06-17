@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>c嘤嘤怪众包</title>
+    <title>嘤嘤怪众包</title>
     <!-- Bootstrap Styles-->
     <link th:href="@{/assets/css/bootstrap.css}" rel="stylesheet" />
     <!-- FontAwesome Styles-->
@@ -59,6 +59,7 @@
             var mark = new Mark();
             mark.init();//初始化画笔
 
+            get_all_pictures();//获得所有考试图片
             set_requirement();//
             getNewPicture();//getPicture.js
             get_options();//获得标签选项
@@ -340,11 +341,16 @@
             </div>
             <!--上传标志结束-->
 
+            <div id="exam_progress_area" >
+
+            </div>
+
             <div id="requirementArea">
                 <!--标注要求开始-->
 
             </div>
             <!--标注要求结束-->
+
 
             <!--我们的操作区结束 -->
 

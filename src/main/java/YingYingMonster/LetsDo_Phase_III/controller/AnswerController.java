@@ -198,11 +198,14 @@ public class AnswerController {
     @RequestMapping("/getRequirement")  
     @ResponseBody 
     public String get_requirement(HttpServletRequest request, HttpServletResponse response) {
-    	String inviteCode = request.getParameter("inviteCode");
-		TestProject testProject = service.getTestProjectByInviteCode(inviteCode);
+//    
+    	String tProjectId = request.getParameter("projectId");
+    	long trueProjectId = Long.parseLong(tProjectId);
+		Project project = pjservice.getAProject(trueProjectId);
 		
-		String req = testProject.getProject().getTagRequirement();
+		String req = project.getTagRequirement();
 		return req;
+		
     }
     
     

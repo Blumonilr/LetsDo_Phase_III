@@ -1,8 +1,8 @@
 #coding=utf-8
-from sqlalchemy import Column,BIGINT,BLOB,TEXT,VARCHAR,INT,FLOAT,BOOLEAN,ForeignKey,create_engine,DATETIME
+from sqlalchemy import Column, BIGINT, BLOB, TEXT, VARCHAR, INT, FLOAT, BOOLEAN, ForeignKey, create_engine
 from sqlalchemy.dialects.mysql import DATETIME
-from sqlalchemy.orm import sessionmaker,relationship
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, relationship
 
 Base=declarative_base()
 

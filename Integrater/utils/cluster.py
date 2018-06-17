@@ -1,3 +1,6 @@
+#coding:utf-8
+from operator import itemgetter
+
 import numpy as np
 from sklearn.cluster import DBSCAN
 from sklearn.cluster import KMeans
@@ -19,6 +22,7 @@ def cal_rec(coordinates,min_samples_=3):
 		clusters = DBSCAN(eps=1, min_samples=min_samples_).fit_predict(
 			coordinates[:,[0,1]])  # cluster id for each point, -1 if eliminated
 		n_clusters_ = len(set(clusters)) - (1 if -1 in clusters else 0)  # n clusters
+
 
 		'''
 		计算每个目标的平均大小
@@ -51,7 +55,7 @@ def cal_rec(coordinates,min_samples_=3):
 		# print(n_clusters_)
 		# print(clusters)
 		# print(filtered_coordinates)
-		# print(filtered_coordinates)
+
 		plt.scatter(filtered_coordinates[:, 0], filtered_coordinates[:, 1])
 
 		#   use KMeans to cluster
@@ -68,11 +72,33 @@ def cal_rec(coordinates,min_samples_=3):
 	pass
 
 def cal_accuracy(user_ans,results):
-	print(user_ans)
-	print(type(user_ans))
-	print(results)
-	print(type(results))
-
+	data=np.array(results)
+	idex=np.lexsort([data[:,0]])
+	sorted_data=data[idex,:]
+	print(sorted_data)
+	accuracy=[]
+	for i in range(0,len(user_ans)):
+		x1=user_ans[i][0]
+		y1=user_ans[i][1]
+		x2=user_ans[i][0]+user_ans[i][2]
+		y2=user_ans[i][1]-user_ans[i][3]
+		m1=sorted_data[i][0]
+		n1=sorted_data[i][1]
+		m2=sorted_data[i][0]+sorted_data[i][2]
+		n2=sorted_data[i][1]-sorted_data[i][3]
+		r1=(x1 if x1>m1 else m1)
+		e1=(y1 if y1<n1 else n1)
+		r2=(x2 if x2<m2 else m2)
+		e2=(y2 if y2>n2 else n2)
+		area0=sorted_data[i][2]*sorted_data[i][3]
+		area2=(r2-r1)*(e1-e2)
+		area1 = user_ans[i][2] * user_ans[i][3]-area2
+		# if area1-area2>0.5*area0 or area0==0:
+		# 	re=0
+		# else:
+		re=(((area2-area1*0.1)*1.0/area0) if ((area2-area1)*1.0/area0)>0 else 0)
+		accuracy.append(re)
+	return np.array(accuracy).sum()/len(accuracy)
 	pass
 
 
@@ -90,3 +116,5 @@ def preprocess_data(points):
 	return coordinates
 	pass
 
+if __name__=='__main__':
+	cal_accuracy([[100,100,200,200]],[[105,100,200,200]])
