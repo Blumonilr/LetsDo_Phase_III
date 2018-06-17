@@ -365,10 +365,7 @@ function get_xml_string(){
                 var tag_list = tip_list[i];
                 var tags = "            <tags>\n";
                 for(let j=0;j<tag_list.length;j++){
-                    var tag = "                <tag>\n"+
-                        "                    <title>"+tag_list[j].split("_")[0]+"</title>\n"+
-                        "                    <value>"+tag_list[j].split("_")[1]+"</value>\n"+
-                        "                </tag>\n";
+                    var tag = "                <tag title=\""+tag_list[j].split("_")[0]+"\">"+tag_list[j].split("_")[1]+"</tag>\n";
                     tags = tags +tag;
                 }
 

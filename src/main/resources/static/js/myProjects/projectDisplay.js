@@ -2,13 +2,17 @@
  * 展示worker正在进行的项目
  */
 
-function loadProjects(){
+function loadProjects(workingState){
+
+    $("#projects").empty();//清空
+
 	var userId = getCookie("userId");
 	$.ajax({
 		url: "/myProjects/getList",
 		type: "get",
 		data: {
 			"userId" : userId,
+			"workingState" : workingState,
 		},
 		success: function(data){
 			
@@ -69,4 +73,21 @@ function chooseProject(that){
     window.location.href= "/myProjects/projects/detail";
 }
 
+function display_projects(){
+	var type = $("#project_state").val();
+	var workingState = "";
+	if(type === "考试中"){
+		workingState = "notStarted";
+	}
+	else if(type === "工作中"){
+        workingState = "working";
+	}
+	else if(type === "已结束"){
+        workingState = "finished";
+	}
+    else if(type === "所有项目"){
+        workingState = "all";
+    }
+	loadProjects(workingState);
+}
 

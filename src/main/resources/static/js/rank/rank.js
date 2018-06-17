@@ -6,7 +6,7 @@ function loadWorkers(){
 	//以后会实现别的rank方法
 }
 
-function rankBy(that){
+function rankBy(){
 	var way = $("#rankByWhat").val();
 //	alert(way);
 	if(way==="exp"){

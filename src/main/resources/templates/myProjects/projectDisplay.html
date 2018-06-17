@@ -57,7 +57,7 @@
  <script>
  //界面初始化时调用获得已完成图片id列表的方法，获得id后循环调用增加组件的方法实现图片的展示
 	window.onload = function(){
-	 loadProjects();
+	 loadProjects("working");
 		document.getElementById("homehref").href = "/user/userDetail/"+getCookie("userId");
  }
  </script>
@@ -281,7 +281,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -308,11 +308,6 @@
                         <a href="/rank"><i class="fa fa-bar-chart-o"></i>嘤嘤上榜</a>
                     </li>
 
-
-                    
-                    <li>
-                        <a href="empty.html"><i class="fa fa-fw fa-file"></i> Empty Page</a>
-                    </li>
                 </ul>
 
             </div>
@@ -326,9 +321,12 @@
                             我的项目 <small>yingyingMonster为您加油</small>
                         </h1>
 						<ol class="breadcrumb">
-					  <li><a href="#">Home</a></li>
-					  <li><a href="#">Dashboard</a></li>
-					  <li class="active">Data</li>
+					  筛选项目类型: <select id="project_state"  onchange="display_projects()">
+                            <option value="工作中">  工作中  </option>
+                            <option value="所有项目">  所有项目  </option>
+                          <option value="考试中">  考试中  </option>
+                          <option value="已结束">  已结束  </option>
+                      </select>
 					</ol> 
 									
 		</div>
