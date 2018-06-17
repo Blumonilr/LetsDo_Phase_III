@@ -51,7 +51,7 @@ function confirm(){
     setCookie("publisherId",publisherId);
     setCookie("inviteCode", invite_code);
     setCookie("testProjectId", testProjectId);
-    setCookie("ProjectType", type);
+    setCookie("projectType", type);
 
     toastr.success("即将进入项目 "+trueProjectId+" 的答案制定");
     setTimeout(2000);

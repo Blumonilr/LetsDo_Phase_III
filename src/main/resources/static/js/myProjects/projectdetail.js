@@ -48,7 +48,7 @@ function set_exam(){
     var a_href = "";
     if(condition === "a"){//考试进行中
         a_info = "考试进行中";
-        a_href = "<a href='../../exam/make/"+type+"'> 去考试 </a>";
+        a_href = "<a href='../../exam/entrance' > 去考试 </a>";
     }
 
     else if(condition === "ax"){

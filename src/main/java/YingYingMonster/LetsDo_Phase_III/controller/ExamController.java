@@ -42,6 +42,15 @@ public class ExamController {
 	ProjectService pjservice;
 	
 	/**
+	 * 返回进入考试的界面
+	 * @return
+	 */
+	@GetMapping("/entrance")
+	public String getExamEntrance() {
+		return "exam/exam_entrance";
+	}
+	
+	/**
 	 * 根据拿到的内测码找project的trueProjectId+"_"+publisherId+"_"+type+"_"+testProjectId
 	 * @return id 若没有，返回""
 	 */
@@ -62,10 +71,10 @@ public class ExamController {
 				type = "square";
 			}
 			
-			long trueProjectId = testpjservice.getTrueProjectId(testProjectId);
+			//long trueProjectId = testpjservice.getTrueProjectId(testProjectId);
 			long publisherId = testpjservice.getProjectPublisherId(testProjectId);
 			
-			String res = trueProjectId+"_"+publisherId+"_"+type+"_"+testProjectId;
+			String res = publisherId+"_"+type+"_"+testProjectId;
 			return res;
 		}
 		else {
@@ -118,7 +127,7 @@ public class ExamController {
     	
     	Tag tag = new Tag(uid,picid,pjid,mb,xml,false);
     	
-    	//wkservice.uploadAnswer(uid,tag);
+    	wkservice.uploadTag(tag);
     	
 	}
 	
@@ -130,11 +139,11 @@ public class ExamController {
 	public String getSomeImages(HttpServletRequest request, HttpServletResponse response) {
 		String res = "";
 	
-		String projectId = request.getParameter("projectId");
+		String projectId = request.getParameter("testProjectId");
 		
-    	long pjid = Long.parseLong(projectId);
+    	long testpjid = Long.parseLong(projectId);
     	
-    	picture_list = (ArrayList<Image>) wkservice.getAllImages(pjid);
+    	picture_list = (ArrayList<Image>) wkservice.getAllImages(testpjid);
 		int len = picture_list.size();
 		for(int i=0;i<len;i++) {
 			res += picture_list.get(i).getId();
@@ -143,6 +152,7 @@ public class ExamController {
 			}
 		}
 		
+		System.out.println("GET ALL EXAM PIC: "+res);
 		return res;//如果没有了，返回""
 	}
 	
@@ -202,7 +212,7 @@ public class ExamController {
     @RequestMapping("/getRequirement")  
     @ResponseBody 
     public String get_requirement(HttpServletRequest request, HttpServletResponse response) {
-    	String tProjectId = request.getParameter("ProjectId");
+    	String tProjectId = request.getParameter("projectId");
     	long trueProjectId = Long.parseLong(tProjectId);
 		Project project = pjservice.getAProject(trueProjectId);
 		
@@ -242,6 +252,24 @@ public class ExamController {
 			}
 		}
 		return res;
+    }
+    
+    /**
+     * 返回项目要求
+     * @return
+     */
+    @RequestMapping("/getTestScore")  
+    @ResponseBody 
+    public String getTestScore(HttpServletRequest request, HttpServletResponse response) {
+    	String tProjectId = request.getParameter("projectId");
+    	long trueProjectId = Long.parseLong(tProjectId);
+    	String uId = request.getParameter("userId");
+    	long userId = Long.parseLong(uId);
+		
+    	wkservice.finishTest(userId, trueProjectId);//告诉后端考试完成
+    	double score = wkservice.getTestResult(userId, trueProjectId);//用true ProjectId拿结果
+    	
+    	return score+"";
     }
     
     

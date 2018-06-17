@@ -77,7 +77,8 @@ public class MyProjectsController {
     		else if(project.getType() == MarkMode.SQUARE) {
     			description = "方框框选项目";
     		}
-    		res += tip;
+    		res = res + tip+"_"+description;
+    		
     		if(i != len-1) {
     			res += ",";
     		}
@@ -132,6 +133,7 @@ public class MyProjectsController {
     	String condition = "";
     	
     	String workingState = service.getWorkingState(userId, projectId);
+    	System.out.println("WORKING STATE: "+workingState);
     	if(workingState.equals(JoinEvent.WORKING)) {//工作中
     		condition = "b";
     	}
@@ -144,6 +146,8 @@ public class MyProjectsController {
     	else {//还没考试或者考试没通过
     		condition = "a";
     	}
+    	
+    	condition = "a";//暂时！！！！！
     	
     	String type = "";
     	String type_disc = "";

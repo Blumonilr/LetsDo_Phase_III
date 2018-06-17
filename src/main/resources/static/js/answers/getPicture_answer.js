@@ -94,8 +94,6 @@ function setCssBackground(pictureId){
 
     var url = "/answer/getNewPicture/"+pictureId;
     $("#penal").css("background-image", "url('"+url+"')");
-
-
 }
 
 /**
@@ -103,9 +101,9 @@ function setCssBackground(pictureId){
  */
 function submit_tag(){
 
-    var type = getCookie("PojectType");
+    var type = getCookie("projectType");
     var userId = getCookie("userId");
-    var projectId = getCookie("testProjectId");//testProject
+    var testProjectId = getCookie("testProjectId");//testProject
 
     var pictureId = getCookie("pictureId");
     var xml = get_xml_string();
@@ -130,7 +128,7 @@ function submit_tag(){
                 'xml' : xml,
                 'userId': userId,
                 'pictureId': pictureId,
-                'projectId': projectId
+                'projectId': testProjectId
             },
             success: function(){
                 toastr.success("提交成功!");
