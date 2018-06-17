@@ -1,6 +1,8 @@
 package YingYingMonster.LetsDo_Phase_III.aspect;
 
 
+import YingYingMonster.LetsDo_Phase_III.csHandler;
+import YingYingMonster.LetsDo_Phase_III.daoImpl.CSVHandler;
 import YingYingMonster.LetsDo_Phase_III.entity.*;
 import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
@@ -32,7 +34,8 @@ public aspect WorkerAspect {
     ProjectService projectService;
     @Autowired
     LabelRepository labelRepository;
-
+    @Autowired
+    csHandler cshandler;
 
 
     @Pointcut(value = "execution(* YingYingMonster.LetsDo_Phase_III.service." +
@@ -109,5 +112,14 @@ public aspect WorkerAspect {
         Worker worker = (Worker) userRepository.findById(tag.getWorkerId());
         worker.setTagNum(worker.getTagNum() + 1);
         userRepository.saveAndFlush(worker);
+
+        Project project = projectService.getAProject(tag.getProjectId());
+        try {
+            cshandler.post("http://localhost:5000/postImage",Long.toString(tag.getImageId())+"_"+project.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+
 }

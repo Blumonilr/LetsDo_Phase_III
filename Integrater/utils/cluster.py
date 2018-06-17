@@ -51,7 +51,7 @@ def cal_rec(coordinates,min_samples_=3):
 		# print(n_clusters_)
 		# print(clusters)
 		# print(filtered_coordinates)
-
+		# print(filtered_coordinates)
 		plt.scatter(filtered_coordinates[:, 0], filtered_coordinates[:, 1])
 
 		#   use KMeans to cluster
