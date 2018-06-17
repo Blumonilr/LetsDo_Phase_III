@@ -1,4 +1,4 @@
-#coding=utf-8
+
 from sqlalchemy import Column, BIGINT, BLOB, TEXT, VARCHAR, INT, FLOAT, BOOLEAN, ForeignKey, create_engine
 from sqlalchemy.dialects.mysql import DATETIME
 from sqlalchemy.ext.declarative import declarative_base

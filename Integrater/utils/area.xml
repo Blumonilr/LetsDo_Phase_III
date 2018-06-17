@@ -22,14 +22,8 @@
             </color>
             <category>牛</category>
             <tags>
-                <tag>
-                    <title>性别</title>
-                    <value>雄</value>
-                </tag>
-                <tag>
-                    <title>种类</title>
-                    <value>耕牛</value>
-                </tag>
+                <tag title="性别">雄</tag>
+                <tag title="种类">耕牛</tag>
             </tags>
         </object>
         <object>
@@ -40,14 +34,8 @@
             </color>
             <category>猪</category>
             <tags>
-                <tag>
-                    <title>肥瘦</title>
-                    <value>肥</value>
-                </tag>
-                <tag>
-                    <title>大小</title>
-                    <value>大</value>
-                </tag>
+                <tag title="肥瘦">肥</tag>
+                <tag title="大小">大</tag>
             </tags>
         </object>
     </objects>
