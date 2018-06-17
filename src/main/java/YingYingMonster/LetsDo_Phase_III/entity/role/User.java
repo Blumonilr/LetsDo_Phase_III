@@ -5,6 +5,8 @@ import YingYingMonster.LetsDo_Phase_III.entity.event.LogEvent;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,6 +30,8 @@ public abstract class User {
 	@OneToOne(fetch = FetchType.EAGER,mappedBy = "user",cascade = CascadeType.ALL)
 	private LogEvent logEvent;
 
+	private Calendar registerDate;
+
 	public List<Ability> getAbilities() {
 		return abilities;
 	}
@@ -44,6 +48,7 @@ public abstract class User {
 		this.intro = intro;
 		this.money = money;
 		abilities = new ArrayList<>();
+		registerDate=Calendar.getInstance();
 	}
 
 	public User() {
@@ -91,5 +96,13 @@ public abstract class User {
 	}
 	public void checkLogin(){
 		this.getLogEvent().checkLogin();
+	}
+
+	public Calendar getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Calendar registerDate) {
+		this.registerDate = registerDate;
 	}
 }
