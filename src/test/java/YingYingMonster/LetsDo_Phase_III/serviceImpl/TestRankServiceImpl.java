@@ -53,8 +53,8 @@ public class TestRankServiceImpl {
 	public void rankByExp() throws FileNotFoundException, ClassNotFoundException, IOException {
 		rksv.rankByExp().stream().forEach(x->System.out.println(x.getId()));
 		
-		List<User>list=rksv.rankByExp();
-		for(User u:list)
+		List<Worker>list=rksv.rankByExp();
+		for(Worker u:list)
 			System.out.println(u.getId());
 	}
 

@@ -398,7 +398,7 @@
             var arr = projectList.split("+");
             var len = arr.length;
             for(var i = 0;i < len;){
-                var sep=arr[i].split('_');//sep[0]是项目名，sep[1]是发布者Id，sep[2]是项目描述,sep[3]是项目id,sep[4]是缩略图路径
+                var sep=arr[i].split('_');//sep[0]是项目名，sep[1]是发布者Id，sep[2]是项目类型,sep[3]是项目结束时间,sep[4]是项目id,sep[5]是缩略图路径
                 if(strlen(sep[2])>110)
                     sep[2]=sep[2].trim().replace(/\s+/g, ' ').substring(0,80)+"...";
                 $("#content").append("<div class=\"single-member effect-4\">\n" +
@@ -407,12 +407,13 @@
                     "                            <h5>"+sep[1]+"</h5>\n" +
                     "                        </div>\n" +
                     "                        <div class=\"member-image\">\n" +
-                    "                            <img src=\""+sep[4]+"\" alt=\"Member\">\n" +
+                    "                            <img src=\""+sep[5]+"\" alt=\"Member\">\n" +
                     "                        </div>\n" +
                     "                        <div class=\"more-info\">\n" +
-                    "                            <p>"+sep[2]+"</p>\n" +
+                    "                            <h4>项目类型:"+(sep[2]==="SQUARE"?"框选标注":"区域标注")+"</h4>\n" +
+                    "                            <h4>结束时间:"+sep[3]+"</h4></br>\n" +
                     "                            <div>\n" +
-                    "                                <a onclick=\"window.location.href='/project/publisher/projectDetail',setCookie('projectId','"+sep[3]+"','1'),setCookie('publisherId','"+sep[1]+"','1');\" class=\"button\" style=\"cursor: pointer;\">项目详情</a>\n" +
+                    "                                <a onclick=\"window.location.href='/project/publisher/projectDetail',setCookie('projectId','"+sep[4]+"','1'),setCookie('publisherId','"+sep[1]+"','1');\" class=\"button\" style=\"cursor: pointer;\">项目详情</a>\n" +
                     "                            </div>\n" +
                     "                        </div>\n" +
                     "                    </div>");

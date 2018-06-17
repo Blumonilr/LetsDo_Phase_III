@@ -1,5 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.service;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
@@ -59,8 +60,7 @@ public interface PublisherService {
 	@Deprecated
 	public List<String[]> viewPushEvents(String publisherId,String projectId);//查看某个项目的提交记录
 
-    @Deprecated
-	public byte[] downloadTags(String publisherId,String projectId);//下载所有标注
+	public byte[] downloadTags(long projectId) throws Exception;//下载所有标注
 
     @Deprecated
 	public double viewProjectProgress(String publisherId,String projectId);

@@ -102,6 +102,25 @@ function release(){
     });
 }
 
+function download(){
+    $.ajax({
+        url: "/project/release",
+        type: "post",
+        dataType:"text",
+        data:{"projectId":getCookie("projectId")},
+        success : function(re){
+            if(re==="success"){
+                $.ajax.get("/publisherPage/download?"+getCookie("projectId"));
+            }else {
+                alert("项目未完成")
+            }
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
+        },
+    });
+}
+
 $(function () {
     initFunction();
 

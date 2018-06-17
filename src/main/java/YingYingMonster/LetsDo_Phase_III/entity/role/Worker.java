@@ -28,7 +28,6 @@ public class Worker extends User {
 	}
 
 	public int getLevel() {
-
 		return level;
 	}
 

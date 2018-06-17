@@ -228,4 +228,15 @@ public class AdminServiceImpl implements AdminService{
 		});
 		return rank;
 	}
+
+	@Override
+	public int registerNum(Calendar date) {
+		List<User> users=userService.findUsersByName("");
+		int num=0;
+		for (User u:users){
+			if (u.getRegisterDate().get(Calendar.YEAR)==date.get(Calendar.YEAR)&&u.getRegisterDate().get(Calendar.MONTH)==date.get(Calendar.MONTH))
+				num++;
+		}
+		return num;
+	}
 }

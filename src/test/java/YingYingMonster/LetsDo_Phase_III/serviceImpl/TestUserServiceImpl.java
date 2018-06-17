@@ -26,7 +26,7 @@ public class TestUserServiceImpl {
                 1000, 0, 0, 0, 0);
         Publisher publisher = new Publisher("pub", "pw", "email",
                 "intro", 200000);
-        Administrator administrator = new Administrator("ad", "pw", "email",
+        Administrator administrator = new Administrator("管理员", "admin", "email",
                 "intro", 0);
 
         long id1 = userService.register(worker).getId();

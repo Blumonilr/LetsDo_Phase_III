@@ -3,21 +3,22 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>你的项目</title>
-    <title>你的项目</title>
+    <title>监测系统</title>
     <!-- Bootstrap Styles-->
     <link href="/publisher/css/bootstrap3.3.4.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
     <link href="/publisher/css/font-awesome.css" rel="stylesheet" />
     <!-- Custom Styles-->
     <link href="/publisher/css/custom-styles.css" rel="stylesheet" />
-    <!-- Google Fonts-->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+     <!-- Google Fonts-->
+   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
-    <!--项目列表用到的引用-->
-    <link rel="stylesheet" type="text/css" href="/publisher/css/style.css">
-    <!-- jQuery Js -->
-    <script src="/publisher/js/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/admin/tab.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/admin/tachyons.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/admin/datatables.css"/>
+
     <script src="/js/util/cookie.js"></script>
 </head>
 <body>
@@ -38,118 +39,7 @@
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-messages">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Doe</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Today</em>
-                                    </span>
-                                </div>
-                                <div>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem Ipsum has been the industry's standard dummy text ever since an kwilnw...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem Ipsum has been the industry's standard dummy text ever since the...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>Read All Messages</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-messages -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 min</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small">12 min</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small">4 min</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small">4 min</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small">4 min</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Alerts</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-alerts -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-user fa-fw"></i><span id="userId" style="color: #ffe4b5">username&nbsp;</span><i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i><span id="username" style="color: #ffe4b5">username&nbsp;</span><i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -157,7 +47,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -170,236 +60,199 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li>
-                        <a class="active-menu" href="#"><i class="fa fa-bar-chart-o"></i> System INFO</a>
+                        <a class="active-menu" href="#"><i class="fa fa-bar-chart-o"></i> 系统信息</a>
                     </li>
-                    <!--<li>-->
-                    <!--<a href="#"><i class="fa fa-sitemap"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>-->
-                    <!--<ul class="nav nav-second-level">-->
-                    <!--<li>-->
-                    <!--<a href="#">Second Level Link</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                    <!--<a href="#">Second Level Link</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                    <!--<a href="#">Second Level Link<span class="fa arrow"></span></a>-->
-                    <!--<ul class="nav nav-third-level">-->
-                    <!--<li>-->
-                    <!--<a href="#">Third Level Link</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                    <!--<a href="#">Third Level Link</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                    <!--<a href="#">Third Level Link</a>-->
-                    <!--</li>-->
-
-                    <!--</ul>-->
-
-                    <!--</li>-->
-                    <!--</ul>-->
-                    <!--</li>-->
                 </ul>
-
             </div>
-
         </nav>
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
             <div class="header">
                 <h1 class="page-header">
-                    Hello, Administrator <small>Monitoring System.</small>
+                    系统状态监测 <small>Monitoring System.</small>
                 </h1>
             </div>
-            <div style="text-align:center;background: #8d8888">
-                <hr style="height: 2px" />
-            </div>
-            <div id="page-inner">
-                <div class="container-fluid">
-                    <div class="row" style="margin: 10px -2px 10px -2px">
-                        <div class="col-md-12">
-                            <table>
-                                <tr>
-                                    <td><span style="font-size: 20px">用户数:</span>&nbsp;<span id="userNum">100</span></td>
-                                </tr>
-                                <br/>
-                                <tr>
-                                    <td><span style="font-size: 20px">项目总数:</span><span id="projectNum">25</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span style="font-size: 20px">在线活跃人数:</span><span id="onlineUser">25</span></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <br/>
-                <div class="container-fluid">
-                    <div class="row" style="margin: 10px -2px 10px -2px">
-                        <div class="col-md-12">
-                            <h2>进行中项目</h2>
-                            <div id="content1">
-                                <div class="single-member effect-4">
-                                    <div class="member-info">
-                                        <h3>ProjectName</h3>
-                                        <h5>Publisher</h5>
-                                    </div>
-                                    <div class="member-image">
-                                        <img src="/publisher/img/member_270x210.jpg" alt="Member">
-                                    </div>
-                                    <div class="more-info">
-                                        <p>Description要做一下长度检测，防止把按钮顶没了</p>
-                                        <div>
-                                            <a onclick="window.location.href='这里填链接，是字符串'" class="button" style="cursor: pointer;">More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="container-fluid">
-                    <div class="row" style="margin: 10px -2px 10px -2px">
-                        <div class="col-md-12">
-                            <h2>已完成项目</h2>
-                            <div id="content2">
+            <div id="page-inner" class="container">
+                <ul id="tabs" class="fl w-100 bb">
+                    <li><a href="#" name="#tab1">概览</a></li>
+                    <li><a href="#" name="#tab2">用户管理</a></li>
+                    <li><a href="#" name="#tab3">系统信息</a></li>
+                    <li><a href="#" name="#tab4">项目信息</a></li>
+                </ul>
 
-                                <div class="single-member effect-4">
-                                    <div class="member-info">
-                                        <h3>ProjectName</h3>
-                                        <h5>Publisher</h5>
-                                    </div>
-                                    <div class="member-image">
-                                        <img src="/publisher/img/member_270x210.jpg" alt="Member">
-                                    </div>
-                                    <div class="more-info">
-                                        <p>Description要做一下长度检测，防止把按钮顶没了</p>
-                                        <div>
-                                            <a onclick="window.location.href='这里填链接，是字符串'" class="button" style="cursor: pointer;">More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <div id="content" class="fl w-100 mt3">
+                    <div id="tab1">
+                        <div class="fl w-70"><!--排行榜-->
+                            <h1>工作者Top100</h1>
+                            <table id="workerTop100" class="display w-100"></table>
+                        </div>
+                        <div class="fl w-30 pl4"><!--数据概览-->
+                            <h1>系统概况</h1>
+                            <h3 class="db pb2">用户数量</h3>
+                            <dl class="fl dib w-50 bb">
+                                <dt class="db f7 mt2 pt2">发布者</dt>
+                                <dd class="b f3 f2-ns mb2 mt2"><a href="#" id="publisherNum">998</a></dd>
+                            </dl>
+                            <dl class="fl dib w-50 bb">
+                                <dt class="db f7 mt2 pt2">工作者</dt>
+                                <dd class="b f3 f2-ns mb2 mt2"><a id="workerNum">21474836</a></dd>
+                            </dl>
+                            <dl class="fl dib w-50 bb">
+                                <dt class="db f7 mt2 pt2">历史项目总数</dt>
+                                <dd class="b f3 f2-ns mb2 mt2"><a id="historyProjectNum">998</a></dd>
+                            </dl>
+                            <dl class="fl dib w-50 bb">
+                                <dt class="db f7 mt2 pt2">当前项目总数</dt>
+                                <dd class="b f3 f2-ns mb2 mt2"><a id="ongoingProjectNum">21474836</a></dd>
+                            </dl>
                         </div>
                     </div>
+                    <div id="tab2">
+                        <div class="fl w-100 bb pb4 mb5">
+                            <h1>发布者</h1>
+                            <table id="publishers" class="display w-100"></table>
+                        </div>
+                        <div class="fl w-100 bb pb4 mb5">
+                            <h1>工作者</h1>
+                            <table id="workers" class="display w-100"></table>
+                        </div>
+                    </div>
+                    <div id="tab3">...</div>
+                    <div id="tab4">...</div>
                 </div>
+
+                <!--<br/>-->
+                <!--<div class="container-fluid">-->
+                    <!--<div class="row" style="margin: 10px -2px 10px -2px">-->
+                        <!--<div class="col-md-12">-->
+                            <!--<div id="content1">-->
+                                <!--<h2>进行中项目</h2>-->
+                                <!--<div class="single-member effect-4">-->
+                                    <!--<div class="member-info">-->
+                                        <!--<h3>ProjectName</h3>-->
+                                        <!--<h5>Publisher</h5>-->
+                                    <!--</div>-->
+                                    <!--<div class="member-image">-->
+                                        <!--<img src="assets/img/member_270x210.jpg" alt="Member">-->
+                                    <!--</div>-->
+                                    <!--<div class="more-info">-->
+                                        <!--<p>Description要做一下长度检测，防止把按钮顶没了</p>-->
+                                        <!--<div>-->
+                                            <!--<a onclick="window.location.href='这里填链接，是字符串'" class="button" style="cursor: pointer;">More</a>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="container-fluid">-->
+                    <!--<div class="row" style="margin: 10px -2px 10px -2px">-->
+                        <!--<div class="col-md-12">-->
+                            <!--<div id="content2">-->
+                                <!--<h2>已完成项目</h2>-->
+                                <!--<div class="single-member effect-4">-->
+                                    <!--<div class="member-info">-->
+                                        <!--<h3>ProjectName</h3>-->
+                                        <!--<h5>Publisher</h5>-->
+                                    <!--</div>-->
+                                    <!--<div class="member-image">-->
+                                        <!--<img src="assets/img/member_270x210.jpg" alt="Member">-->
+                                    <!--</div>-->
+                                    <!--<div class="more-info">-->
+                                        <!--<p>Description要做一下长度检测，防止把按钮顶没了</p>-->
+                                        <!--<div>-->
+                                            <!--<a onclick="window.location.href='这里填链接，是字符串'" class="button" style="cursor: pointer;">More</a>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
              <!-- /. PAGE INNER  -->
             </div>
          <!-- /. PAGE WRAPPER  -->
         </div>
      <!-- /. WRAPPER  -->
-
+    <!-- jQuery Js -->
+    <script src="/publisher/js/jquery-1.10.2.js"></script>
     <!-- Bootstrap Js -->
     <script src="/publisher/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Js -->
     <script src="/publisher/js/jquery.metisMenu.js"></script>
-    <!-- Morris Chart Js -->
-    <script src="/publisher/js/morris/raphael-2.1.0.min.js"></script>
-    <script src="/publisher/js/morris/morris.js"></script>
+
+    <script type="text/javascript" src="/js/admin/datatables.js"></script>
 
     <!-- Custom Js -->
-    <script src="/publisher/js/custom-scripts.js"></script>
+    <script src="/js/admin/custom-scripts.js"></script>
 
-    <script>
-        function loadProject(){
-            var id = getCookie("userId");
-            $.ajax({
-                url: "/admin/systemDetail",
-                type: "post",
-                dataType:"text",
-                success : function(data){
-                    var project=JSON.parse(data);
-                    $("#userNum").text(project.userNum);
-                    $("#projectNum").text(project.projectNum);
-                    $("#onlineUser").text(project.onlineUser);
-                },
-                error : function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
-                },
-            });
-            $.ajax({
-                url: "/project/onGoingProjects",
-                type: "post",
-                // data:{
-                //     "userId":id,
-                //     "keyword":""
-                // },
-                success : function(data){
-                    adjustPage(data,"content1")
-                },
-                error : function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
-                },
-            });
-            $.ajax({
-                url: "/project/doneProjects",
-                type: "post",
-                // data:{
-                //     "userId":id,
-                //     "keyword":""
-                // },
-                success : function(data){
-                    adjustPage(data,"content2")
-                },
-                error : function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
-                },
-            });
-        }
+    <!--转移一下就行-->
+    <!--<script>-->
+        <!--function loadProject(){-->
+            <!--var id = getCookie("userId");-->
+            <!--$.ajax({-->
+                <!--url: "/project/publisherProjects",-->
+                <!--type: "post",-->
+                <!--data:{-->
+                    <!--"userId":id,-->
+                    <!--"keyword":""-->
+                <!--},-->
+                <!--success : function(data){-->
+                    <!--adjustPage(data)-->
+                <!--},-->
+                <!--error : function(XMLHttpRequest, textStatus, errorThrown) {-->
+                    <!--alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);-->
+                <!--},-->
+            <!--});-->
+        <!--}-->
 
-        function adjustPage(projectList,contentName) {
-            $("#"+contentName).empty();
-            if(projectList==="")
-                return;
-            var arr = projectList.split("/");
-            var len = arr.length;
-            for(var i = 0;i < len;){
-                var sep=arr[i].split('_');//sep[0]是项目名，sep[1]是发布者Id，sep[2]是项目描述
-                if(strlen(sep[2])>110)
-                    sep[2]=sep[2].substring(0,55)+"...";
-                $("#"+contentName).append("<div class=\"single-member effect-4\">\n" +
-                    "                        <div class=\"member-info\">\n" +
-                    "                            <h3>"+sep[0]+"</h3>\n" +
-                    "                            <h5>"+sep[1]+"</h5>\n" +
-                    "                        </div>\n" +
-                    "                        <div class=\"member-image\">\n" +
-                    "                            <img src=\""+"/publisher/img/member_270x210.jpg"+"\" alt=\"Member\">\n" +
-                    "                        </div>\n" +
-                    "                        <div class=\"more-info\">\n" +
-                    "                            <p>"+sep[2]+"</p>\n" +
-                    "                            <div>\n" +
-                    "                                <a onclick=\"window.location.href='/project/publisher/adminDetail',setCookie('projectId','"+sep[0]+"','1'),setCookie('publisherId','"+sep[1]+"','1');\" class=\"button\" target=\"_blank\" style=\"cursor: pointer;\">项目详情</a>\n" +
-                    "                            </div>\n" +
-                    "                        </div>\n" +
-                    "                    </div>");
-                i++;
-                if(i==len){
-                    break;
-                }
-            }
-        }
+        <!--function search(){-->
+            <!--var id = getCookie("userId");-->
+            <!--$("#content").empty();-->
+            <!--var key=$("#search").val();-->
+            <!--$.ajax({-->
+                <!--url: "/project/publisherProjects",-->
+                <!--type: "post",-->
+                <!--data:{-->
+                    <!--"userId":id,-->
+                    <!--"keyword":key-->
+                <!--},-->
+                <!--success : function(data){-->
+                    <!--adjustPage(data)-->
+                <!--},-->
+                <!--error : function(XMLHttpRequest, textStatus, errorThrown) {-->
+                    <!--alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);-->
+                <!--},-->
+            <!--});-->
+        <!--}-->
 
-        function strlen(str) {
-            ///<summary>获得字符串实际长度，中文2，英文1</summary>
-            ///<param name="str">要获得长度的字符串</param>
-            var realLength = 0, len = str.length, charCode = -1;
-            for (var i = 0; i < len; i++) {
-                charCode = str.charCodeAt(i);
-                if (charCode >= 0 && charCode <= 128)
-                    realLength += 1;
-                else
-                    realLength += 2;
-            }
-            return realLength;
-        };
 
-        window.onload=function () {
-            document.getElementById("userId").innerHTML=getCookie("userId")+"&nbsp;";
-            loadProject();
-        }
-    </script>
+        <!--function link(projectName){-->
+            <!--return "/publisher/"+projectName;-->
+        <!--}-->
+
+        <!--function strlen(str) {-->
+            <!--///<summary>获得字符串实际长度，中文2，英文1</summary>-->
+            <!--///<param name="str">要获得长度的字符串</param>-->
+            <!--var realLength = 0, len = str.length, charCode = -1;-->
+            <!--for (var i = 0; i < len; i++) {-->
+                <!--charCode = str.charCodeAt(i);-->
+                <!--if (charCode >= 0 && charCode <= 128)-->
+                    <!--realLength += 1;-->
+                <!--else-->
+                    <!--realLength += 2;-->
+            <!--}-->
+            <!--return realLength;-->
+        <!--};-->
+
+        <!--window.onload=function () {-->
+            <!--document.getElementById("userId").innerHTML=getCookie("userId");-->
+            <!--//loadProject();-->
+        <!--}-->
+    <!--</script>-->
 
 </body>
 </html>

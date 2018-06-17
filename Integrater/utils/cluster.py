@@ -97,9 +97,6 @@ def cal_rect_accuracy(user_ans,results):
 		area0=sorted_data[i][2]*sorted_data[i][3]
 		area2=(r2-r1)*(e1-e2)
 		area1 = user_ans[i][2] * user_ans[i][3]-area2
-		# if area1-area2>0.5*area0 or area0==0:
-		# 	re=0
-		# else:
 		re=(((area2-area1*0.1)*1.0/area0) if ((area2-area1)*1.0/area0)>0 else 0)
 		accuracy.append(re)
 	return np.array(accuracy).sum()/len(accuracy)

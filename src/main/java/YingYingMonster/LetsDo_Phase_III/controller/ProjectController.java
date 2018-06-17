@@ -59,9 +59,9 @@ public class ProjectController {
         String result = "";
         for (int i = 0; i < temp.size(); i++) {
             if (i == temp.size() - 1) {
-                result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getTagRequirement() + "_" + temp.get(i).getId() + "_" + "/project/projectOverview/" + temp.get(i).getId();
+                result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getType() + "_" +temp.get(i).getEndDate()+"_"+ temp.get(i).getId() + "_" + "/project/projectOverview/" + temp.get(i).getId();
             } else
-                result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getTagRequirement() + "_" + temp.get(i).getId() + "_" + "/project/projectOverview/" + temp.get(i).getId() + "+";
+                result += temp.get(i).getProjectName() + "_" + userService.getUser(temp.get(i).getPublisherId()).getName() + "_" + temp.get(i).getType() + "_" +temp.get(i).getEndDate()+"_"+ temp.get(i).getId() + "_" + "/project/projectOverview/" + temp.get(i).getId() + "+";
         }
         return result;
     }

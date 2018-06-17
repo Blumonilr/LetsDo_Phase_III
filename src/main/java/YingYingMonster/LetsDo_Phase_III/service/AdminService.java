@@ -2,6 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -61,4 +62,6 @@ public interface AdminService {
 	public List<Worker> workerLabelNumRank(String labelName);
 
 	public List<Worker> workerAccuracyRank();
+
+	public int registerNum(Calendar date);
 }
