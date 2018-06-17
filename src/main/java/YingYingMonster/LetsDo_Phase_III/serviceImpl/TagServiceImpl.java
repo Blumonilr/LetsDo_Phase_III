@@ -19,7 +19,7 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public List<Tag> getProjectTags(long projectId) {
-		return tgr.findByProjectId(projectId,PageRequest.of(0,5));
+		return tgr.findByProjectId(projectId);
 	}
 
 	@Override

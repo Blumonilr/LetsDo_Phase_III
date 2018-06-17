@@ -15,4 +15,7 @@ public interface TestProjectRepository extends JpaRepository<TestProject, Long> 
     @Transactional(rollbackOn = Exception.class)
     @Query("update TestProject t set t.inviteCode=?2 where t.id=?1 ")
     public void updateInviteCode(long id, String code);
+
+    public TestProject findById(long testProjectId);
+
 }

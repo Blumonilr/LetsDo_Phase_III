@@ -1,4 +1,4 @@
-package YingYingMonster.LetsDo_Phase_III.model;
+package YingYingMonster.LetsDo_Phase_III.entity;
 
 import java.io.Serializable;
 

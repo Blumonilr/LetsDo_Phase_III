@@ -14,3 +14,4 @@ def postImage():
     image_id=str.split("_")[0]
     markMode=int(str.split("_")[1])
     return "right"
+

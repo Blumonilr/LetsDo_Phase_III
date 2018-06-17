@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static YingYingMonster.LetsDo_Phase_III.model.MarkMode.SQUARE;
+import static YingYingMonster.LetsDo_Phase_III.entity.MarkMode.SQUARE;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

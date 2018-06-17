@@ -21,7 +21,7 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
 
     public Page<Image> findByProjectIdAndIsFinishedTrueAndIsTestFalse(long projectId, Pageable pageable);
 
-    public Page<Image> findByProjectIdAndIsFinishedFalseAndIsTestTrue(long projectId, Pageable pageable);
+    public List<Image> findByProjectIdAndIsFinishedFalseAndIsTestTrue(long projectId);
 
     public Page<Image> findByProjectIdAndIsFinishedTrueAndIsTestTrue(long projectId, Pageable pageable);
 

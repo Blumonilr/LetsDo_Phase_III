@@ -64,7 +64,7 @@ public class WorkerServiceImpl implements WorkerService {
 //			System.out.println(s);
 //		}
 //		System.out.println("label size : "+labelNames.size());
-		return projectService.viewAllProjects(labelNames);
+		return projectService.viewAllOpenedProjects(labelNames);
 	}
 
 	@Override
@@ -85,9 +85,30 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public List<Project> viewMyActiveProjects(long workerId, String key) {
 		String k = key == null ? "" : key;
-		return joinEventRepository.findByWorkerIdAndActiveTrue(workerId).stream()
-				.map(x -> projectService.getAProject(x.getProjectId()))
+		return joinEventRepository.findByWorkerIdAndWorkState(workerId,JoinEvent.WORKING)
+				.stream().map(x -> projectService.getAProject(x.getProjectId()))
 				.filter(x->(x.getProjectName().contains(k)||x.getTagRequirement().contains(k)))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Project> viewMyWorkingProject(long workerId) {
+		return joinEventRepository.findByWorkerIdAndWorkState(workerId, JoinEvent.WORKING)
+				.stream().map(x -> projectService.getAProject(x.getProjectId()))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Project> viewMyWorkFinishedProject(long workerId) {
+		return joinEventRepository.findByWorkerIdAndWorkState(workerId, JoinEvent.WORK_Finished)
+				.stream().map(x -> projectService.getAProject(x.getProjectId()))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Project> viewMyNotStartedProject(long workerId) {
+		return joinEventRepository.findByWorkerIdAndWorkState(workerId, JoinEvent.TEST_FINISHED)
+				.stream().map(x -> projectService.getAProject(x.getProjectId()))
 				.collect(Collectors.toList());
 	}
 
@@ -111,11 +132,14 @@ public class WorkerServiceImpl implements WorkerService {
 
 		JoinEvent joinEvent = joinEventRepository.findByWorkerIdAndProjectId(workerId, projectId);
 		if (joinEvent == null) {
-			joinEvent = new JoinEvent(workerId, projectId, new Date(), true);
+			System.out.println("从未参加过这个项目");
+			joinEvent = new JoinEvent(workerId, projectId, new Date());
+			joinEvent.setWorkState(JoinEvent.TEST_NOT_FINISHED);
 			joinEventRepository.saveAndFlush(joinEvent);
 		} else {
-			if (!joinEvent.isActive()) {
-				joinEvent.setActive(true);
+			System.out.println("以前参加过这个项目");
+			if (!joinEvent.getWorkState().equals(JoinEvent.WORKING)) {
+				joinEvent.setWorkState(JoinEvent.TEST_NOT_FINISHED);
 				joinEvent.setDate(new Date());
 				joinEventRepository.saveAndFlush(joinEvent);
 			}
@@ -126,7 +150,7 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public void quitProject(long workerId, long projectId) {
 		JoinEvent joinEvent = joinEventRepository.findByWorkerIdAndProjectId(workerId, projectId);
-		joinEvent.setActive(false);
+		joinEvent.setWorkState(JoinEvent.WORK_Finished);
 		joinEventRepository.saveAndFlush(joinEvent);
 	}
 
@@ -155,7 +179,7 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public List<Image> getAllImages(long projectId) {
-		return null;
+		return imageRepository.findByProjectId(projectId);
 	}
 
 	@Override
@@ -165,7 +189,7 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public String getWorkingState(long workerId, long projectId) {
-		return null;
+		return joinEventRepository.findByWorkerIdAndProjectId(workerId, projectId).getWorkState();
 	}
 
 	@Override
@@ -175,12 +199,20 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public void finishTest(long workerId, long projectId) {
-
+		joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TEST_FINISHED);
+		//后台开始计算分数...并设置相应的状态
+		double score = Math.random() * 100;
+		joinEventRepository.setTestScore(workerId, projectId, score);
+		if (score >= projectService.getAProject(projectId).getTestAccuracy()) {
+			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.WORKING);
+		}else{
+			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TEST_NOT_PASSED);
+		}
 	}
 
 	@Override
-	public int getTestResult(long workerId, long projectId) {
-		return 0;
+	public double getTestResult(long workerId, long projectId) {
+		return joinEventRepository.findByWorkerIdAndProjectId(workerId, projectId).getTestScore();
 	}
 
 

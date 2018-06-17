@@ -1,10 +1,10 @@
-package YingYingMonster.LetsDo_Phase_III.model;
+package YingYingMonster.LetsDo_Phase_III.entity.json;
 
 import java.util.List;
 
-public class JsonOb {
+public class TagTreeNode {
     private String name;
-    private List<JsonOb> children;
+    private List<TagTreeNode> children;
     private String parentTId;
     private String tId;
 
@@ -17,11 +17,11 @@ public class JsonOb {
         this.name = name;
     }
 
-    public List<JsonOb> getChildren() {
+    public List<TagTreeNode> getChildren() {
         return children;
     }
 
-    public void setChildren(List<JsonOb> children) {
+    public void setChildren(List<TagTreeNode> children) {
         this.children = children;
     }
 

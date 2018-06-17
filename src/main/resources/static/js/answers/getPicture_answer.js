@@ -27,12 +27,12 @@ function getNewPicture(){
  *获得一组图片
  */
 function get_a_list_of_pictures(){
-    var projectId = getCookie("projectId");
+    var testProjectId = getCookie("testProjectId");
     $.ajax({
         url:  "/answer/getsomeimages",
         type: "get",
         async:false, //同步
-        data:{"projectId" : projectId},
+        data:{"testProjectId" : testProjectId},
         success: function (data) {
             var list = data.split("_");
             var len = list.length;
@@ -94,8 +94,6 @@ function setCssBackground(pictureId){
 
     var url = "/answer/getNewPicture/"+pictureId;
     $("#penal").css("background-image", "url('"+url+"')");
-
-
 }
 
 /**
@@ -103,9 +101,9 @@ function setCssBackground(pictureId){
  */
 function submit_tag(){
 
-    var type = getCookie("PojectType");
+    var type = getCookie("projectType");
     var userId = getCookie("userId");
-    var projectId = getCookie("testProjectId");//testProject
+    var testProjectId = getCookie("testProjectId");//testProject
 
     var pictureId = getCookie("pictureId");
     var xml = get_xml_string();
@@ -130,7 +128,7 @@ function submit_tag(){
                 'xml' : xml,
                 'userId': userId,
                 'pictureId': pictureId,
-                'projectId': projectId
+                'projectId': testProjectId
             },
             success: function(){
                 toastr.success("提交成功!");
@@ -146,11 +144,11 @@ function submit_tag(){
  * 设置要求区
  */
 function set_requirement(){
-    var inviteCode = getCookie("inviteCode");
+    var projectId = getCookie("projectId");
     $.ajax({
         url:  "/answer/getRequirement",
         type: "get",
-        data:{"inviteCode" : inviteCode},
+        data:{"projectId" : projectId},
         success: function(data){
             $("#requirementArea").append(data);
         }

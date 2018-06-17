@@ -3,7 +3,7 @@ import xml.sax
 from numpy import long
 
 
-class SquareParser(xml.sax.ContentHandler):
+class XmlParser(xml.sax.ContentHandler):
 	def __init__(self):
 		self.projectId=0
 		self.publisherId=0
@@ -17,13 +17,16 @@ class SquareParser(xml.sax.ContentHandler):
 		self.deletes=[]
 		self.coordinate=[]  #两层，记录单个worker的坐标，每个点的结构：[x,y,|dx|,|dy|]
 		self.allPoints=[]      #三层列表，记录每个worker的每个方框的坐标
-		# self.size=[]       #2层，记录每个worker的每个方框的大小
-		# self.allSizes=[]    #3
 		self.tempCategory=[]#1,
 		self.categories=[]  #2,
 		self.tags=[]        #2
 		self.allTags=[]     #3
+		self.color = []  # 1,int(r,g,b)
+		self.allColors = []  # 2
 
+		self.r = 0
+		self.g = 0
+		self.b = 0
 		self.x1=0
 		self.y1=0
 		self.x2=0
@@ -35,15 +38,19 @@ class SquareParser(xml.sax.ContentHandler):
 
 	def startElement(self, name, attrs):
 		self.currentTag=name
+		if name=='root':
+			print("wuwu : ",self.allTags)
 		pass
 
 	def endElement(self, name):
 		if name=='root':
+			self.allColors.append(self.color)
+			self.color = []
 			self.allPoints.append(self.coordinate)
 			self.coordinate=[]
-			# self.allSizes.append(self.size)
-			# self.size=[]
-			self.allTags.append(self.tags)
+			if self.tags!=[]:
+				print("haha : ",self.tags)
+				self.allTags.append(self.tags)
 			self.tags=[]
 			self.categories.append(self.tempCategory)
 			self.tempCategory=[]
@@ -97,6 +104,17 @@ class SquareParser(xml.sax.ContentHandler):
 		elif self.currentTag=='value':
 			self.value=content
 			self.tags.append([self.title,self.value])
+		elif self.currentTag=='R':
+			self.r=int(content)
+			# print('r = ',self.r)
+		elif self.currentTag=='G':
+			self.g=int(content)
+			# print('g = ',self.g)
+		elif self.currentTag=='B':
+			self.b=int(content)
+			# print('b = ',self.b)
+			rgb=int(self.b+(self.g<<8)+(self.r<<16))
+			self.color.append(rgb)
 
 
 
@@ -191,32 +209,15 @@ class AreaParser(xml.sax.ContentHandler):
 			self.tags.append([self.title,self.value])
 
 
-def parseSquare(path):
-	parser = xml.sax.make_parser()
-	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
-	handler=SquareParser()
-	parser.setContentHandler(handler)
-	parser.parse(path)
-	return handler
-
-def parseArea(path):
-	parser = xml.sax.make_parser()
-	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
-	handler = AreaParser()
-	parser.setContentHandler(handler)
-	parser.parse(path)
-	return handler
-
-
 if __name__=='__main__':
 	parser=xml.sax.make_parser()
 	parser.setFeature(xml.sax.handler.feature_namespaces,0)
-	handler=SquareParser()
+	handler=XmlParser()
 	parser.setContentHandler(handler)
 
-	parser.parse('square.xml')
+	parser.parse('area.xml')
 	# print(handler.allTags)
 	# print(handler.allSizes)
-	print(handler.allPoints)
+	print(handler.allColors)
 	# print(handler.categories)
 	# print(handler.allColors)

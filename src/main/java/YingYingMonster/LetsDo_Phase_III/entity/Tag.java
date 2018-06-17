@@ -1,7 +1,5 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
-import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
-
 import javax.persistence.*;
 
 @Entity

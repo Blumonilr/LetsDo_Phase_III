@@ -10,41 +10,46 @@ import java.util.Date;
 @Table(name = "join_events")
 public class JoinEvent {
 
+    public static final String TEST_FINISHED="test finished",TEST_NOT_FINISHED="test not finished"
+            ,TEST_NOT_PASSED="test not passed",WORKING="working",
+            WORK_Finished="work finished";
+
     @Id @GeneratedValue private long id;
 
     private long workerId,projectId;
 
     private Date date;
 
-    private boolean active;//工人是否还在参与项目
+    private String workState=TEST_NOT_FINISHED;
 
-    private boolean passTest=false;
+    private double testScore;
 
     public JoinEvent() {
+        workState = TEST_NOT_FINISHED;
     }
 
-    public JoinEvent(long workerId, long projectId, Date date, boolean active) {
+    public JoinEvent(long workerId, long projectId, Date date) {
+
         this.workerId = workerId;
         this.projectId = projectId;
         this.date = date;
-        this.active = active;
+        workState = TEST_NOT_FINISHED;
     }
 
-    public boolean isActive() {
-
-        return active;
+    public double getTestScore() {
+        return testScore;
     }
 
-    public boolean isPassTest() {
-        return passTest;
+    public void setTestScore(double testScore) {
+        this.testScore = testScore;
     }
 
-    public void setPassTest(boolean passTest) {
-        this.passTest = passTest;
+    public String getWorkState() {
+        return workState;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setWorkState(String workState) {
+        this.workState = workState;
     }
 
     public Date getDate() {

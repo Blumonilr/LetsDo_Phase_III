@@ -9,56 +9,49 @@ import utils.DBHandler as db
 import utils.xmlParser as xp
 import utils.cluster as clu
 
-'''
-生成image对象的答案
-imageId : long
-markmode : int 
-'''
-def generateAnswer(imageId,markmode):
+
+def work(imageId,markmode):
 	session=db.setup_db()
 	image=session.query(db.Image).filter(db.Image.id==imageId).one()
-	if (image.current_num>=image.min_numv) and not image.is_finished:
-		if(markmode==0):
-			# square
-			handler=getSquareModeData(imageId)
-			generateSquareModeAnswer(handler)
 
-		elif markmode==1:
-			# area
-			getAreaModeData(imageId)
+	# get workers' answers
+	handler=getAnswerFromTags(imageId)
 
+	if image.is_finished:
+		# get the answer
+		tag=session.query(db.Tag).filter(db.Tag.image_id==imageId and db.Tag.is_result==True).one()
+		# calculate accuracy and update the db
+		print('already has result , calculate accuracy')
+		print('update db')
+
+		pass
+	else:
+		print('calculate the result , calculate accuracy')
+		print('update db')
+		try:
+			# generate answer
+			res_centers,res_labels=generateResult(handler,markmode)
+
+			# calculate accuracy and update the db
+			# modify CommitEvent
+			# modify Ability
+			# set Image to finished
+			# set Tag to isResult
+			pass
+		except Exception:
+			pass
+		pass
 
 	session.close()
 
-path=os.getcwd()+'\\tmp.xml'
 
-def getSquareModeData(imageId):
+def getAnswerFromTags(imageId):
 	session=db.setup_db()
-	tags = session.query(db.Tag).filter(db.Tag.image_id == imageId).all()
+	tags=session.query(db.Tag).filter(db.Tag.image_id==imageId).all()
 
 	parser = xml.sax.make_parser()
 	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
-	handler = xp.SquareParser()
-	parser.setContentHandler(handler)
-
-	for tag in tags:
-		xml_string=tag.xml_file
-		with open(path,'w+',encoding='UTF-8') as f:
-			f.write(xml_string)
-		parser.parse(path)
-	session.close()
-	# return [handler.projectId,handler.publisherId,handler.pictureId,[handler.pictureWidth,\
-	#     handler.pictureHeight]],handler.allPoints,handler.allSizes,handler.allTags,handler.userId\
-	# 	,handler.categories,[handler.times,handler.clicks,handler.deletes]
-	return handler
-
-def getAreaModeData(imageId):
-	session = db.setup_db()
-	tags = session.query(db.Tag).filter(db.Tag.image_id == imageId).all()
-
-	parser = xml.sax.make_parser()
-	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
-	handler = xp.AreaParser()
+	handler = xp.XmlParser()
 	parser.setContentHandler(handler)
 
 	for tag in tags:
@@ -66,11 +59,37 @@ def getAreaModeData(imageId):
 		with open(path, 'w+', encoding='UTF-8') as f:
 			f.write(xml_string)
 		parser.parse(path)
+
 	session.close()
-	# return [handler.projectId,handler.publisherId,handler.pictureId,[handler.pictureWidth,\
-	#     handler.pictureHeight]],handler.allPoints,handler.allSizes,handler.allTags,handler.userId\
-	# 	,handler.categories,[handler.times,handler.clicks,handler.deletes]
 	return handler
+
+def generateResult(handler,markmode):
+	res_centers=[]
+	res_labels=[]
+
+	if markmode==0:
+		# square
+		points=handler.allPoints
+		res_centers=clu.cal_rec(clu.preprocess_data(points))
+		res_labels=generateTextLabel(handler.allTags)
+		pass
+	elif markmode==1:
+		# area
+		res_centers=[]
+		res_labels=generateTextLabel(handler.allTags)
+		pass
+	return res_centers,res_labels
+	pass
+
+def generateTextLabel(labels):
+	print(labels)
+	pass
+
+def calculateAccuracy():
+	pass
+
+
+path=os.getcwd()+'\\tmp.xml'
 
 def generateSquareModeAnswer(handler):
 	points=handler.allPoints
@@ -114,13 +133,17 @@ def generateTag(points,width,height):
 if __name__=='__main__':
 	coordinates=[[[0,0,5,10],[6,7,8,13]],[[0,1,6,7],[6,6,7,15]],[[1,0,9,8],[5,7,7,16]]\
 		,[[0,-1,4,10],[7,7,9,12]],[[-1,0,7,9],[6,8,10,10]],[[2,3,100,100],[9,10,100,100]]]
-	# sizes=[[[5,10],[8,13]],[[6,7],[7,15]],[[9,8],[7,16]],[[4,10],[9,12]],[[7,9],[10,10]],[[100,100],[100,100]]]
-	# coordinates=[[[139, 71, 127, 71], [145, 233, 152, 233], [446, 123, 108, 123]]]
 	coordinates=clu.preprocess_data(coordinates)
-	# sizes=clu.preprocess_data(sizes)
-	#
 	coordinates,user_accuracy=clu.cal_rec(coordinates)
 	print(coordinates)
 	generateTag(coordinates,30,30)
+
+	# parser = xml.sax.make_parser()
+	# parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+	# handler = xp.XmlParser()
+	# parser.setContentHandler(handler)
+	# parser.parse('area.xml')
+	#
+	# generateTextLabel(handler.allTags)
 
 	pass

@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.*;
 import YingYingMonster.LetsDo_Phase_III.service.ImageService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
@@ -42,10 +43,12 @@ public class TestProjectServiceImpl implements TestProjectService {
         Project project = projectRepository.findById(projectId);
         testProject.setMarkMode(project.getType());
 
-        int picNum = imageService.saveImages(multipartFile, projectId,true);
+        testProject.setProject(project);
+        testProject = testProjectRepository.saveAndFlush(testProject);
+
+        int picNum = imageService.saveImages(multipartFile, testProject.getId(),true);
         testProject.setPicNum(picNum);
         testProject.setInviteCode(generateUUID());
-        testProject.setProject(project);
         testProject = testProjectRepository.saveAndFlush(testProject);
         projectRepository.updateTestProject(projectId, testProject);
 
@@ -68,8 +71,12 @@ public class TestProjectServiceImpl implements TestProjectService {
      * 查看下一页未完成的测试集图片
      */
     public List<Image> getAPageOfImages(int pageId, long testProjectId) {
-        return imageRepository.findByProjectIdAndIsFinishedFalseAndIsTestTrue(testProjectId,
-                PageRequest.of(pageId, 5)).stream().collect(Collectors.toList());
+        return imageRepository.findByProjectIdAndIsFinishedFalseAndIsTestTrue(testProjectId);
+    }
+    
+    @Override
+    public List<Image> getAllTestImages(int testProjectId) {
+        return imageRepository.findByProjectId(testProjectId);
     }
 
     @Override
@@ -86,28 +93,38 @@ public class TestProjectServiceImpl implements TestProjectService {
     }
 
     @Override
-    public List<Tag> viewAnswer(long testProjectId, int page,int pageSize) {
-        return tagRepository.findByProjectId(testProjectId, PageRequest.of(page, pageSize));
+    public List<Tag> viewAnswers(long testProjectId) {
+        /**
+         * 上传测试集的时候已经把testproject的id放到image对象了，因此tag对象也拥有testproject的id
+         * testproject id 与project id不会重复
+         */
+        return tagRepository.findByProjectId(testProjectId);
     }
 
     @Override
     public String viewTagRequirement(long testProjectId) {
-        return testProjectRepository.findById(testProjectId).get().getProject().getTagRequirement();
+        return testProjectRepository.findById(testProjectId).getProject().getTagRequirement();
+    }
+
+    @Override
+    public void finishMakingAnswer(long testProjectId) {
+        Project project = testProjectRepository.findById(testProjectId).getProject();
+        projectRepository.updateProjectState(project.getId(), ProjectState.ready);
     }
 
     @Override
     public List<TextNode> getTextLabel(long testProjectId) {
-        Project pr=testProjectRepository.findById(testProjectId).get().getProject();
+        Project pr=testProjectRepository.findById(testProjectId).getProject();
         return projectService.getProjectTextNode(pr.getId());
     }
 
     @Override
     public long getProjectPublisherId(long testProjectId) {
-        return testProjectRepository.findById(testProjectId).get().getProject().getPublisherId();
+        return testProjectRepository.findById(testProjectId).getProject().getPublisherId();
     }
 
     @Override
     public long getTrueProjectId(long testProjectId) {
-        return testProjectRepository.findById(testProjectId).get().getProject().getId();
+        return testProjectRepository.findById(testProjectId).getProject().getId();
     }
 }

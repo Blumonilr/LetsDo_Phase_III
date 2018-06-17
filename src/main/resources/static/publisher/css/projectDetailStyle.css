@@ -282,7 +282,7 @@ input,textarea,select
 	#header
 	{
 		position: relative;
-		background: #2a2f27 url(../img/banner.jpg) no-repeat;
+		background: #FFFFFF no-repeat;
 		background-size: cover;
 	}
 

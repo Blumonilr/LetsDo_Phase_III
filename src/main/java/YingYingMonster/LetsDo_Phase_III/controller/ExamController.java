@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import YingYingMonster.LetsDo_Phase_III.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,22 +17,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
-import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
-import YingYingMonster.LetsDo_Phase_III.entity.MarkMode;
-import YingYingMonster.LetsDo_Phase_III.entity.Image;
-import YingYingMonster.LetsDo_Phase_III.entity.Project;
-import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.TestProjectService;
+import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 
 @Controller
-@RequestMapping("/answer")
-public class AnswerController {
-	
+@RequestMapping("/exam")
+public class ExamController {
 	ArrayList<Image> picture_list = new ArrayList<Image>();//暂存
-	
+
+	@Autowired
+	WorkerService wkservice;
+
 	@Autowired
 	TestProjectService testpjservice;
 	
@@ -39,14 +36,24 @@ public class AnswerController {
 	ProjectService pjservice;
 	
 	/**
+	 * 返回进入考试的界面
+	 * @return
+	 */
+	@GetMapping("/entrance")
+	public String getExamEntrance() {
+		return "exam/exam_entrance";
+	}
+	
+	/**
 	 * 根据拿到的内测码找project的trueProjectId+"_"+publisherId+"_"+type+"_"+testProjectId
 	 * @return id 若没有，返回""
 	 */
-	@GetMapping("/getProject")
+	@GetMapping("/getExam")
 	@ResponseBody
-	public String getProject(HttpServletRequest request, HttpServletResponse response) {
-		String inviteCode = request.getParameter("numId");
-		TestProject testProject = testpjservice.getTestProjectByInviteCode(inviteCode);
+	public String getExamProject(HttpServletRequest request, HttpServletResponse response) {
+		String pjid = request.getParameter("projectId");
+		long projectId = Long.parseLong(pjid);
+		TestProject testProject = wkservice.joinTest(projectId);
 		if(testProject != null) {
 			long testProjectId = testProject.getId();
 			MarkMode mode = testProject.getMarkMode();
@@ -58,10 +65,10 @@ public class AnswerController {
 				type = "square";
 			}
 			
-			long trueProjectId = testpjservice.getTrueProjectId(testProjectId);
+			//long trueProjectId = testpjservice.getTrueProjectId(testProjectId);
 			long publisherId = testpjservice.getProjectPublisherId(testProjectId);
 			
-			String res = trueProjectId+"_"+publisherId+"_"+type+"_"+testProjectId;
+			String res = publisherId+"_"+type+"_"+testProjectId;
 			return res;
 		}
 		else {
@@ -70,7 +77,7 @@ public class AnswerController {
 	}
 	
 	/**
-	 * 返回制作答案对界面
+	 * 返回制作答案的界面
 	 * @param type
 	 * @return
 	 */
@@ -78,11 +85,11 @@ public class AnswerController {
 	public String getWorkSpace(@PathVariable("workType")String type) {
 		if(type.equals("area")) {
 			//填写标签，包括整体标注
-			return "answers/answer_area";
+			return "exam/exam_area";
 		}
 		else if(type.equals("square")) {
 			//按要求覆盖指定区域
-			return "answers/answer_square";
+			return "answers/exam_square";
 		}	
 		else {
 			//default
@@ -90,7 +97,6 @@ public class AnswerController {
 		}
 	}
 	
-
 	/**DONE
 	 * 上传一个tag
 	 * @param request
@@ -115,23 +121,23 @@ public class AnswerController {
     	
     	Tag tag = new Tag(uid,picid,pjid,mb,xml,false);
     	
-    	testpjservice.uploadAnswer(uid,tag);
+    	wkservice.uploadTag(tag);
     	
 	}
 	
 	/*
-	 * 返回一些图片的id，下划线分割
+	 * 返回所有考试图片的id
 	 */
 	@ResponseBody
-	@GetMapping("/getsomeimages")
+	@GetMapping("/getAllExamPic")
 	public String getSomeImages(HttpServletRequest request, HttpServletResponse response) {
 		String res = "";
 	
-		String testProjectId = request.getParameter("testProjectId");
+		String projectId = request.getParameter("testProjectId");
 		
-    	long testpjid = Long.parseLong(testProjectId);
+    	long testpjid = Long.parseLong(projectId);
     	
-    	picture_list = (ArrayList<Image>) testpjservice.getAPageOfImages(0, testpjid);//pageNum参数不给出，给0
+    	picture_list = (ArrayList<Image>) wkservice.getAllImages(testpjid);
 		int len = picture_list.size();
 		for(int i=0;i<len;i++) {
 			res += picture_list.get(i).getId();
@@ -140,11 +146,11 @@ public class AnswerController {
 			}
 		}
 		
-		System.out.println("ANSWER: GET SOME IMAGES: "+res);
+		System.out.println("GET ALL EXAM PIC: "+res);
 		return res;//如果没有了，返回""
 	}
 	
-   /**
+	 /**
    	* 把一张等待完成的图片放到url里
  * @throws IOException 
    	*/
@@ -169,6 +175,7 @@ public class AnswerController {
     	}
 	}
     
+
     /**
      * 返回  width_height
      * @param pictureId
@@ -199,26 +206,14 @@ public class AnswerController {
     @RequestMapping("/getRequirement")  
     @ResponseBody 
     public String get_requirement(HttpServletRequest request, HttpServletResponse response) {
-//    
     	String tProjectId = request.getParameter("projectId");
     	long trueProjectId = Long.parseLong(tProjectId);
 		Project project = pjservice.getAProject(trueProjectId);
 		
 		String req = project.getTagRequirement();
 		return req;
-		
     }
     
-    
-    /**
-     * 
-     * @param request
-     * @param response
-     * @return  class1!class2!...!classn
-     *          classx:   classname:selection1,selection2,...,selectionn
-     *          selectionx:   selectiontitle_opt1_opt2_..._optn
-     *          猪:肥瘦_肥_瘦,大小_大_小!牛:性别_雄_雌,种类_耕牛_奶牛    
-     */
     @RequestMapping("/getOptions")  
     @ResponseBody 
     public String get_options(HttpServletRequest request, HttpServletResponse response) {
@@ -252,5 +247,24 @@ public class AnswerController {
 		}
 		return res;
     }
-	
+    
+    /**
+     * 返回项目要求
+     * @return
+     */
+    @RequestMapping("/getTestScore")  
+    @ResponseBody 
+    public String getTestScore(HttpServletRequest request, HttpServletResponse response) {
+    	String tProjectId = request.getParameter("projectId");
+    	long trueProjectId = Long.parseLong(tProjectId);
+    	String uId = request.getParameter("userId");
+    	long userId = Long.parseLong(uId);
+		
+    	wkservice.finishTest(userId, trueProjectId);//告诉后端考试完成
+    	double score = wkservice.getTestResult(userId, trueProjectId);//用true ProjectId拿结果
+    	
+    	return score+"";
+    }
+    
+    
 }

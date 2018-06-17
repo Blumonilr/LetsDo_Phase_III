@@ -21,6 +21,8 @@ public interface TestProjectService {
      */
     public List<Image> getAPageOfImages(int pageId, long testProjectId);
 
+    public List<Image> getAllTestImages(int testProjectId);
+
     /**
      * 上传/修改答案
      * @param workerId
@@ -30,16 +32,11 @@ public interface TestProjectService {
 
     public TestProject getTestProjectByInviteCode(String inviteCode);
 
-    /**
-     * 分页查找项目已经做好的答案
-     * @param testProjectId
-     * @param page
-     * @param pageSize
-     * @return
-     */
-    public List<Tag> viewAnswer(long testProjectId, int page,int pageSize);
+    public List<Tag> viewAnswers(long testProjectId);
 
     public String viewTagRequirement(long testProjectId);
+
+    public void finishMakingAnswer(long testProjectId);
 
     /**
      *

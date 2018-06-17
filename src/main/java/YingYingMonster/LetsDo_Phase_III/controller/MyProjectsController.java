@@ -2,24 +2,18 @@ package YingYingMonster.LetsDo_Phase_III.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
-import YingYingMonster.LetsDo_Phase_III.model.MarkMode;
-import YingYingMonster.LetsDo_Phase_III.model.TagRequirement;
+import YingYingMonster.LetsDo_Phase_III.entity.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 
@@ -28,7 +22,7 @@ import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 public class MyProjectsController {
 
 	@Autowired
-	private WorkerService service;
+	private WorkerService wkservice;
 	@Autowired
 	private ProjectService pjservice;
 	
@@ -63,7 +57,7 @@ public class MyProjectsController {
     	String key = request.getParameter("key");//模糊查找
     	
     	String res = "";
-    	List<Project> list = service.viewMyActiveProjects(userId,key);
+    	List<Project> list = wkservice.viewMyActiveProjects(userId,key);
 //    	//pjid_pjname_pubid_type
     	int len = list.size();
     	for(int i=0;i<len;i++) {
@@ -76,7 +70,8 @@ public class MyProjectsController {
     		else if(project.getType() == MarkMode.SQUARE) {
     			description = "方框框选项目";
     		}
-    		res += tip;
+    		res = res + tip+"_"+description;
+    		
     		if(i != len-1) {
     			res += ",";
     		}
@@ -126,9 +121,26 @@ public class MyProjectsController {
     	String pjid = request.getParameter("projectId");
     	long projectId = Long.parseLong(pjid);
     	
-    	Project pj = service.getAProject(projectId);
+    	Project pj = wkservice.getAProject(projectId);
     	
-    	String condition = "b";//service.getWorkingState(userId, projectId);// "b";//调用方法
+    	String condition = "";
+    	
+    	String workingState = wkservice.getWorkingState(userId, projectId);
+    	System.out.println("WORKING STATE: "+workingState);
+    	if(workingState.equals(JoinEvent.WORKING)) {//工作中
+    		condition = "b";
+    	}
+    	else if(workingState.equals(JoinEvent.WORK_Finished)) {//工作结束
+    		condition = "c";
+    	}
+    	else if(workingState.equals(JoinEvent.TEST_FINISHED)) {//等待评判
+    		condition = "ax";
+    	}
+    	else {//还没考试或者考试没通过
+    		condition = "a";
+    	}
+    	
+    	//condition = "a";//暂时！！！！！
     	
     	String type = "";
     	String type_disc = "";
@@ -142,10 +154,10 @@ public class MyProjectsController {
     	}
     	
     	String requirement = pj.getTagRequirement();
+    	double examScore = wkservice.getTestResult(userId, projectId);
     	
-    	
-    	String res = condition+"_"+type+"_"+requirement+"_"+type_disc;
-    	
+    	String res = condition+"_"+type+"_"+requirement+"_"+type_disc+"_"+examScore;
+    	System.out.println("DETAIL: "+res);
     	return res;
     }
     
@@ -164,6 +176,6 @@ public class MyProjectsController {
     	long userId = Long.parseLong(uid);
     	long projectId = Long.parseLong(pjid);
     	
-    	service.quitProject(userId, projectId);
+    	wkservice.quitProject(userId, projectId);
     }
 }
