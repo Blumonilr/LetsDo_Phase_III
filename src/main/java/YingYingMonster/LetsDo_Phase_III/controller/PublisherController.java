@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
 import YingYingMonster.LetsDo_Phase_III.entity.MarkMode;
+import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.service.LabelService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import YingYingMonster.LetsDo_Phase_III.entity.*;
 import YingYingMonster.LetsDo_Phase_III.service.PublisherService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -175,6 +178,37 @@ public class PublisherController {
     public String uploadTagTree(@RequestParam String projectId,@RequestParam String tagTree){
         projectService.setProjectCustomTextNode(Long.parseLong(projectId),tagTree);
         return "上传成功";
+    }
+
+    @PostMapping("/downloadCheck")
+    @ResponseBody
+    public String downloadCheck(@RequestParam String projectId){
+        Project project=publisherService.getAProject(Long.parseLong(projectId));
+        if(project.getProjectState()!=ProjectState.closed){
+            return "project not finished";
+        }else {
+            return "success";
+        }
+    }
+
+    @GetMapping("/download")
+    public void downloadResult(@RequestParam String projectId) throws Exception{
+        HttpServletResponse response=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        Project project=publisherService.getAProject(Long.parseLong(projectId));
+        if(project.getProjectState()!=ProjectState.closed){
+            return ;
+        }
+        //设置响应头，控制浏览器下载该文件
+        response.setHeader("content-disposition", "attachment;filename=" + project.getProjectName()+"结果集");
+        //创建输出流
+        OutputStream outputStream = response.getOutputStream();
+        //创建缓冲区
+        byte file[] = publisherService.downloadTags(Long.parseLong(projectId));
+        //输出缓冲区的内容到浏览器，实现文件下载
+        outputStream.write(file);
+        outputStream.flush();
+        //关闭输出流
+        outputStream.close();
     }
 
     //请求提交记录界面
