@@ -99,8 +99,8 @@ function addHoverDom(treeId, treeNode) {
     var btn = $("#addBtn_"+treeNode.tId);
     if (btn) btn.bind("click", function(){
         var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-        if (treeNode.level==2){
-            alert("最多创建三层标签树！")
+        if (treeNode.level==3){
+            alert("最多创建四层标签树！");
             return;
         }
         var newNode=zTree.addNodes(treeNode, {name:"新建标签"});
@@ -152,7 +152,7 @@ function addTreeNode() {
     hideRMenu();
     var newNode = { name:"新建标签"};
     var node;
-    if (zTree.getSelectedNodes()[0].level==3){
+    if (zTree.getSelectedNodes()[0]&&zTree.getSelectedNodes()[0].level==3){
         alert("最多创建四层标签树！")
         return;
     }
