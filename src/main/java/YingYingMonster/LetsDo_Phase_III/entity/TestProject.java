@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "test_projects")
 public class TestProject {
 
-    @Id @GeneratedValue(strategy = GenerationType.TABLE)
+    @Id @GeneratedValue
     private long id;
 
     private MarkMode markMode;

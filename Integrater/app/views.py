@@ -1,5 +1,4 @@
 from flask import request
-import requests
 
 from app import app
 
@@ -11,5 +10,7 @@ def index():
 
 @app.route("/postImage", methods=['POST' ])
 def postImage():
-    image_id=request.get_data()
+    str=request.get_data()
+    image_id=str.split("_")[0]
+    markMode=str.split("_")[1]
     return "hello"
