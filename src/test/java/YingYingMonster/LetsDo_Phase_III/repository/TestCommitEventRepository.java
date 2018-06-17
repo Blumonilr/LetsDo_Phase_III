@@ -30,9 +30,9 @@ public class TestCommitEventRepository {
                 125, 5, new Date(118, 5, 5));
 
 
-        commitEvent1.setCommitResult(CommitResult.passed);
+//        commitEvent1.setCommitResult(CommitResult.passed);
 //        commitEvent2.setCommitResult(CommitResult.passed);
-        commitEvent3.setCommitResult(CommitResult.rejected);
+//        commitEvent3.setCommitResult(CommitResult.rejected);
 
         repository.saveAndFlush(commitEvent1);
         repository.saveAndFlush(commitEvent2);
@@ -42,9 +42,9 @@ public class TestCommitEventRepository {
 
     @Test
     public void test_findByCommitResult(){
-        List<CommitEvent> list0 = repository.findByCommitResult(CommitResult.passed);
-        List<CommitEvent> list1 = repository.findByCommitResult(CommitResult.rejected);
-        List<CommitEvent> list2 = repository.findByCommitResult(null);
+        List<CommitEvent> list0 = repository.findByCommitMsg(CommitEvent.EVALUATING);
+        List<CommitEvent> list1 = repository.findByCommitMsg(CommitEvent.PASSED);
+        List<CommitEvent> list2 = repository.findByCommitMsg(null);
 
         assertEquals(1, list0.size());
         assertEquals(1, list1.size());

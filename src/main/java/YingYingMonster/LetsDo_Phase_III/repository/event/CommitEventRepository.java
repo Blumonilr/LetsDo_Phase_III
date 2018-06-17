@@ -23,9 +23,6 @@ public interface CommitEventRepository extends JpaRepository<CommitEvent, Long> 
 
     public List<CommitEvent> findByImageid(long imageid);
 
-    @Deprecated
-    public List<CommitEvent> findByCommitResult(CommitResult commitResult);
-
     public List<CommitEvent> findByCommitMsg(String commitMsg);
 
     public List<CommitEvent> findByWorkeridAndProjectidAndImageid(long workerid, long projectid, long imageid);
