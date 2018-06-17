@@ -200,8 +200,8 @@ public class AnswerController {
     @ResponseBody 
     public String get_requirement(HttpServletRequest request, HttpServletResponse response) {
 //    
-    	String tProjectId = request.getParameter("projectId");
-    	long trueProjectId = Long.parseLong(tProjectId);
+    	String trProjectId = request.getParameter("projectId");
+    	long trueProjectId = Long.parseLong(trProjectId);
 		Project project = pjservice.getAProject(trueProjectId);
 		
 		String req = project.getTagRequirement();
@@ -262,6 +262,8 @@ public class AnswerController {
     	String testProjectId = request.getParameter("testProjectId");
 		
     	long testpjid = Long.parseLong(testProjectId);
+    	
+    	testpjservice.finishMakingAnswer(testpjid);
     }
 
 	

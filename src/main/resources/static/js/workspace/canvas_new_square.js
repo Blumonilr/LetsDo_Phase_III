@@ -658,9 +658,8 @@ function get_xml_string(){
     if(red_tip !== []){//red begin
         //red
 
-        var obj_class = "            <category>\n"+
-            "            "+red_tip_class+"\n"+
-            "            </category>\n"
+        var obj_class = "            <category>"+red_tip_class+"\n"+
+            "</category>\n"
 
         var tags = "            <tags>\n";
         for(let j=0;j<red_tip.length;j++){
@@ -696,9 +695,7 @@ function get_xml_string(){
     if(yellow_tip !== []){//yellow begin
         //yellow
 
-        var obj_class = "            <category>\n"+
-            "            "+yellow_tip_class+"\n"+
-            "            </category>\n"
+        var obj_class = "            <category>"+yellow_tip_class+"</category>\n"
         var tags = "            <tags>\n";
         for(let j=0;j<yellow_tip.length;j++){
             var tag = "                <tag>\n"+
@@ -733,9 +730,7 @@ function get_xml_string(){
     if(blue_tip !== []){//blue begin
         //blue
 
-        var obj_class = "            <category>\n"+
-            "            "+blue_tip_class+"\n"+
-            "            </category>\n"
+        var obj_class = "            <category>"+blue_tip_class+"</category>\n"
         var tags = "            <tags>\n";
         for(let j=0;j<blue_tip.length;j++){
             var tag = "                <tag>\n"+
@@ -747,7 +742,7 @@ function get_xml_string(){
         tags = tags + "            </tags>\n";
 
         for(let i=0;i<blue_obj_list.length;i++){
-            var temp_points = red_obj_list[i];
+            var temp_points = blue_obj_list[i];
             var x1 = temp_points[0][0];
             var y1 = temp_points[0][1];
             var x2 = temp_points[1][0];
@@ -770,8 +765,7 @@ function get_xml_string(){
     if(green_tip !== []){//green begin
         //green
 
-        var obj_class = "            <category>"+
-            "            "+green_tip_class+"</category>\n"
+        var obj_class = "            <category>"+green_tip_class+"</category>\n"
         var tags = "            <tags>\n";
         for(let j=0;j<green_tip.length;j++){
             var tag = "                <tag>\n"+
@@ -783,7 +777,7 @@ function get_xml_string(){
         tags = tags + "            </tags>\n";
 
         for(let i=0;i<green_obj_list.length;i++){
-            var temp_points = red_obj_list[i];
+            var temp_points = green_obj_list[i];
             var x1 = temp_points[0][0];
             var y1 = temp_points[0][1];
             var x2 = temp_points[1][0];

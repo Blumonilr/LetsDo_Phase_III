@@ -360,8 +360,7 @@ function get_xml_string(){
                     "                <G>"+color_g_list[i]+"</G>\n" +
                     "                <B>"+color_b_list[i]+"</B>\n" +
                     "            </color>\n";
-                var obj_class = "            <category>"+
-                                tip_class_list[i]+"</category>\n"
+                var obj_class = "            <category>"+ tip_class_list[i]+"</category>\n"
 
                 var tag_list = tip_list[i];
                 var tags = "            <tags>\n";

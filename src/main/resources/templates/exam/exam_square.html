@@ -45,7 +45,7 @@
 
     <!-- 自己的js文件 -->
     <script type="text/javascript" th:src="@{/js/workspace/canvas_new_square.js}"></script>
-    <script type="text/javascript" th:src="@{/js/answers/getPicture_answer.js}"></script>
+    <script type="text/javascript" th:src="@{/js/exam/getPicture_exam.js}"></script>
     <script type="text/javascript" th:src="@{/js/util/cookie.js}"></script>
     <script type="text/javascript" th:src="@{/js/workspace/toolsEffect.js}"></script>
     <script type="text/javascript" th:src="@{/toastr/toastr.js}"></script>
@@ -59,7 +59,8 @@
             var mark = new Mark();
             mark.init();//初始化画笔
 
-            set_requirement();//area.js
+            get_all_pictures();//获得所有考试图片
+            set_requirement();//
             getNewPicture();//getPicture.js
             get_options();//获得标签选项
         };
@@ -298,7 +299,7 @@
     <div id="page-wrapper"  style="margin-left: 0px;">
         <div class="header">
             <h1 class="page-header">
-                答案范式指定 <small>yingyingMonster---专业的众包平台</small>
+                考试中 <small>yingyingMonster为您加油</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#">Home</a></li>
@@ -339,6 +340,10 @@
 
             </div>
             <!--上传标志结束-->
+
+            <div id="exam_progress_area" >
+
+            </div>
 
             <div id="requirementArea">
                 <!--标注要求开始-->
