@@ -140,7 +140,7 @@ public class MyProjectsController {
     		condition = "a";
     	}
     	
-    	condition = "a";//暂时！！！！！
+    	//condition = "a";//暂时！！！！！
     	
     	String type = "";
     	String type_disc = "";

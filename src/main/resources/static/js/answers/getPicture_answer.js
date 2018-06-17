@@ -32,7 +32,7 @@ function get_a_list_of_pictures(){
         url:  "/answer/getsomeimages",
         type: "get",
         async:false, //同步
-        data:{"projectId" : testProjectId},
+        data:{"testProjectId" : testProjectId},
         success: function (data) {
             var list = data.split("_");
             var len = list.length;
