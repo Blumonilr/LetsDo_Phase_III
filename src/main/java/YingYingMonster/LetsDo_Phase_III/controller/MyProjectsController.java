@@ -38,11 +38,8 @@ public class MyProjectsController {
     
     @GetMapping("/projects/detail")
     public String getProjectDetailPage() {
-    	
-    	
-    	
+    
     	return "myProjects/projectdetail";
-    	
     }
     
     /**  DONE

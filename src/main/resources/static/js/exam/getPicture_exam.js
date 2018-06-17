@@ -26,6 +26,7 @@ function getNewPicture(){
                 "userId" : userId,},
             success: function (data) {
             	toastr.success("得分: "+data);
+                setTimeout("history.back()",3000);//等待3秒后返回上一界面
             }
         });
         //调用方法看考试分数

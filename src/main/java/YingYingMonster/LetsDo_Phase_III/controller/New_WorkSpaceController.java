@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
+import YingYingMonster.LetsDo_Phase_III.entity.TextNode;
+import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 
 
@@ -29,7 +31,10 @@ import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
 public class New_WorkSpaceController {
 	
 	@Autowired
-	private WorkerService service;
+	private WorkerService wkservice;
+	
+	@Autowired
+	ProjectService pjservice;
 	
 	ArrayList<Image> picture_list = new ArrayList<Image>();//暂存
 	
@@ -65,7 +70,7 @@ public class New_WorkSpaceController {
 		
     	long pjid = Long.parseLong(projectId);
     	
-    	picture_list = (ArrayList<Image>) service.getAPageOfImage(pjid,0);//pageNum参数不给出，给0
+    	picture_list = (ArrayList<Image>) wkservice.getAPageOfImage(pjid,0);//pageNum参数不给出，给0
 		int len = picture_list.size();
 		for(int i=0;i<len;i++) {
 			res += picture_list.get(i).getId();
@@ -147,7 +152,7 @@ public class New_WorkSpaceController {
     	
     	Tag tag = new Tag(uid,picid,pjid,mb,xml,false);
     	
-    	service.uploadTag(tag);
+    	wkservice.uploadTag(tag);
     	
 	}
 	
@@ -162,11 +167,54 @@ public class New_WorkSpaceController {
     public String get_requirement(HttpServletRequest request, HttpServletResponse response) {
     	String pjId = request.getParameter("projectId");
     	long projectId = Long.parseLong(pjId);
-		Project project = service.getAProject(projectId);
+		Project project = wkservice.getAProject(projectId);
 		
 		String req = project.getTagRequirement();
 		return req;
     }
 	
+    
+    /**
+     * 
+     * @param request
+     * @param response
+     * @return  class1!class2!...!classn
+     *          classx:   classname:selection1,selection2,...,selectionn
+     *          selectionx:   selectiontitle_opt1_opt2_..._optn
+     *          猪:肥瘦_肥_瘦,大小_大_小!牛:性别_雄_雌,种类_耕牛_奶牛    
+     */
+    @RequestMapping("/getOptions")  
+    @ResponseBody 
+    public String get_options(HttpServletRequest request, HttpServletResponse response) {
+    	String pjId = request.getParameter("projectId");
+    	long projectId = Long.parseLong(pjId);
+		Project pj = pjservice.getAProject(projectId);
+		String res = "";
+		List<TextNode> list = pjservice.getProjectTextNode(projectId);//一textnode对应一个class
+		
+		int classNum = list.size();
+		
+		for(int i=0;i<classNum;i++) {
+			
+			String classi = list.get(i).getName()+":";
+			List<String> selections = list.get(i).getAttributions();
+			
+			for(int j=0;j<selections.size();j++) {
+				String sel_j = selections.get(j);
+				String[] sel_j_split = sel_j.split(":");
+				String selectionj = sel_j_split[0]+"_"+sel_j_split[1];
+				classi += selectionj;
+				if(j != selections.size()-1) {
+					classi += ",";
+				}
+			}
+			
+			res += classi;
+			if(i != classNum-1) {
+				res += "!";
+			}
+		}
+		return res;
+    }
 }
 
