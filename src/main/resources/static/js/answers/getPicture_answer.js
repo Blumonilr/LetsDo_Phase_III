@@ -36,7 +36,7 @@ function get_a_list_of_pictures(){
         success: function (data) {
             var list = data.split("_");
             var len = list.length;
-            if(len !== 0){
+            if(data !== ""){
                 picture_id_list = [];
                 for(let i=0;i<len;i++){
                     set_picture_url(list[i]);
@@ -45,8 +45,18 @@ function get_a_list_of_pictures(){
             }
             else {
                 //没有图片了
-                toastr.info("已完成所有的答案制订！")
-                setTimeout("history.back()",3000);//等待3秒后返回上一界面
+                toastr.info("已完成所有的答案制订！");
+
+                $.ajax({//告诉后端答案做完了
+                    url:  "/answer/finishmake",
+                    type: "get",
+                    data:{"testProjectId" : testProjectId},
+                    async:false, //同步
+                    success: function () {
+                        toastr.info("恭喜，答案制订完成！");
+                        setTimeout("history.back()",3000);//等待3秒后返回上一界面
+                    }
+                });
             }
         }
     });

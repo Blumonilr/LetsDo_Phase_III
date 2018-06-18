@@ -1,4 +1,4 @@
-#coding=utf-8
+
 import os
 import xml
 import numpy as np
@@ -16,6 +16,8 @@ def work(imageId,markmode):
 
 	# get workers' answers
 	handler=getAnswerFromTags(imageId)
+	usr_ans_rects=handler.allPoints
+	usr_ans_tags=handler.allTags
 
 	if image.is_finished:
 		# get the answer
@@ -30,7 +32,30 @@ def work(imageId,markmode):
 		print('update db')
 		try:
 			# generate answer
-			res_centers,res_labels=generateResult(handler,markmode)
+			res_centers,res_labels,label_accuracy=generateResult(handler,markmode)
+			if markmode==0:
+				print(res_centers)
+				print(res_labels)
+				accuracy=[]
+				for ans in usr_ans_rects:
+					tmp=clu.cal_rect_accuracy(ans,res_centers)
+					accuracy.append(tmp)
+
+				# update commit event & user ability
+
+				#generate tag object
+				max_rect_accuracy=0.0
+				ptr=-1
+				for i in range(len(accuracy)):
+					if accuracy[i]>max_rect_accuracy:
+						max_rect_accuracy=accuracy[i]
+						ptr=i
+
+				res_tag=db.Tag()
+
+				pass
+			elif markmode==1:
+				pass
 
 			# calculate accuracy and update the db
 			# modify CommitEvent
@@ -39,6 +64,8 @@ def work(imageId,markmode):
 			# set Tag to isResult
 			pass
 		except Exception:
+			print('generate failed')
+
 			pass
 		pass
 
@@ -49,16 +76,11 @@ def getAnswerFromTags(imageId):
 	session=db.setup_db()
 	tags=session.query(db.Tag).filter(db.Tag.image_id==imageId).all()
 
-	parser = xml.sax.make_parser()
-	parser.setFeature(xml.sax.handler.feature_namespaces, 0)
-	handler = xp.XmlParser()
-	parser.setContentHandler(handler)
+	handler=xp.XMLParser()
 
 	for tag in tags:
 		xml_string = tag.xml_file
-		with open(path, 'w+', encoding='UTF-8') as f:
-			f.write(xml_string)
-		parser.parse(path)
+		handler.parse(xml_string)
 
 	session.close()
 	return handler
@@ -66,27 +88,54 @@ def getAnswerFromTags(imageId):
 def generateResult(handler,markmode):
 	res_centers=[]
 	res_labels=[]
+	label_accuracy=[]
 
 	if markmode==0:
 		# square
 		points=handler.allPoints
 		res_centers=clu.cal_rec(clu.preprocess_data(points))
-		res_labels=generateTextLabel(handler.allTags)
+		res_labels,label_accuracy=generateTextLabel(handler.allTags)
 		pass
 	elif markmode==1:
 		# area
 		res_centers=[]
-		res_labels=generateTextLabel(handler.allTags)
+		res_labels,label_accuracy=generateTextLabel(handler.allTags)
 		pass
-	return res_centers,res_labels
-	pass
+	return res_centers,res_labels,label_accuracy
 
 def generateTextLabel(labels):
-	print(labels)
-	pass
+	# remove [] in the labels
+	while [] in labels:
+		labels.remove([])
+	# print(labels)
+	names=[]
+	values=[]
+	for x in labels:
+		for y in x:
+			names.append(y[0])
+			values.append(y[1])
+	names=list(set(names))
+	values=list(set(values))
 
-def calculateAccuracy():
-	pass
+	new_labels=[]
+	for x in labels:
+		nx=[]
+		for y in x:
+			nx.append([names.index(y[0]),values.index(y[1])])
+		new_labels.append(nx)
+
+	center=clu.cal_rec(clu.preprocess_data(new_labels))
+
+	res=[]
+	for x in center:
+		res.append([names[int(x[0])],values[int(x[1])]])
+
+	# calculate accuracy
+	accuracy=[]
+	for x in new_labels:
+		accuracy.append(clu.cal_label_accuracy(x,res))
+
+	return res,accuracy
 
 
 path=os.getcwd()+'\\tmp.xml'
@@ -131,19 +180,19 @@ def generateTag(points,width,height):
 	pass
 
 if __name__=='__main__':
-	coordinates=[[[0,0,5,10],[6,7,8,13]],[[0,1,6,7],[6,6,7,15]],[[1,0,9,8],[5,7,7,16]]\
-		,[[0,-1,4,10],[7,7,9,12]],[[-1,0,7,9],[6,8,10,10]],[[2,3,100,100],[9,10,100,100]]]
-	coordinates=clu.preprocess_data(coordinates)
-	coordinates,user_accuracy=clu.cal_rec(coordinates)
-	print(coordinates)
-	generateTag(coordinates,30,30)
+	# coordinates=[[[0,0,5,10],[6,7,8,13]],[[0,1,6,7],[6,6,7,15]],[[1,0,9,8],[5,7,7,16]]\
+	# 	,[[0,-1,4,10],[7,7,9,12]],[[-1,0,7,9],[6,8,10,10]],[[2,3,100,100],[9,10,100,100]]]
+	# coordinates=clu.preprocess_data(coordinates)
+	# coordinates,user_accuracy=clu.cal_rec(coordinates)
+	# print(coordinates)
+	# generateTag(coordinates,30,30)
 
-	# parser = xml.sax.make_parser()
-	# parser.setFeature(xml.sax.handler.feature_namespaces, 0)
-	# handler = xp.XmlParser()
-	# parser.setContentHandler(handler)
-	# parser.parse('area.xml')
-	#
-	# generateTextLabel(handler.allTags)
+
+	t=[[['性别', '雌'], ['种类', '耕牛'], ['肥瘦', '肥'], ['大小', '大']],\
+	   [['性别', '雄'], ['种类', '母猪'], ['肥瘦', '肥'], ['大小', '大']], \
+	   [['性别', '雄'], ['种类', '耕牛'], ['肥瘦', '瘦'], ['大小', '大']], \
+	   [['性别', '雄'], ['种类', '耕牛'], ['肥瘦', '肥'], ['大小', '小']]]
+
+	generateTextLabel(t)
 
 	pass

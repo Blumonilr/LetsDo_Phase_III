@@ -22,7 +22,7 @@ public class TestTestProjectServiceImpl {
     TestProjectRepository testProjectRepository;
 
     @Test public void test_getAPage(){
-//        TestProject testProject = testProjectRepository.findById((long) 2).get();
+        TestProject testProject = testProjectRepository.findById((long) 2);
         //       List<Image> list = testProjectService.getAPageOfImages(testProject.getProject().getId());
 //        assertEquals(3, list.size());
 //        for (Image image : list) {

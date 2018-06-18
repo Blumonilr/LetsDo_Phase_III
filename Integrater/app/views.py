@@ -1,5 +1,5 @@
 from flask import request
-
+from service import AnswerService as controller
 from app import app
 
 
@@ -7,12 +7,17 @@ from app import app
 def index():
     return "hello"
 
+@app.route("/hello")
+def test():
+    controller.work(10,0)
+    return "hello world"
+
 
 @app.route("/postImage", methods=['POST' ])
 def postImage():
     str=request.get_data()
     image_id=str.split("_")[0]
-    markMode=int(str.split("_")[1])
+    markMode=str.split("_")[1]
+    controller.work(image_id,markMode)
 
-    return "right"
-
+    return "hello"

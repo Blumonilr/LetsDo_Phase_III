@@ -38,11 +38,8 @@ public class MyProjectsController {
     
     @GetMapping("/projects/detail")
     public String getProjectDetailPage() {
-    	
-    	
-    	
+    
     	return "myProjects/projectdetail";
-    	
     }
     
     /**  DONE
@@ -53,11 +50,28 @@ public class MyProjectsController {
     @ResponseBody
     public String getList(HttpServletRequest request, HttpServletResponse response) {
     	String uid = request.getParameter("userId");
+    	String workingState = request.getParameter("workingState");
     	long userId = Long.parseLong(uid);
     	String key = request.getParameter("key");//模糊查找
     	
     	String res = "";
-    	List<Project> list = wkservice.viewMyActiveProjects(userId,key);
+    	
+    	
+    	List<Project> list;
+    	if(workingState.equals("finished")) {//已结束
+    		list = wkservice.viewMyWorkFinishedProject(userId);
+    	}
+    	else if(workingState.equals("notStarted")) {//未开始
+    		list = wkservice.viewMyNotStartedProject(userId);
+    	}
+    	else if(workingState.equals("working")){//进行中
+    		list = wkservice.viewMyWorkingProject(userId);
+    	}
+    	else {//全部
+    		list = wkservice.viewMyProjects(userId,"");
+    	}
+    	
+    	
 //    	//pjid_pjname_pubid_type
     	int len = list.size();
     	for(int i=0;i<len;i++) {

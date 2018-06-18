@@ -1,32 +1,22 @@
 @charset "UTF-8";
 .tools {
-    width:40px;
-    height:40px;
+	width:40px;
+	height:40px;
 	transition-duration: 0.2s;
 	-webkit-transition-duration: 0.2s;
 	background-color:#EFA874;
 	border-color:#323131;
 }
 
-.toolsHover{ 
+.toolsHover{
 	width:40px;
-    height:40px;
-    transition-duration: 0.2s;
+	height:40px;
+	transition-duration: 0.2s;
 	-webkit-transition-duration: 0.2s;
 }
 
 .tools:hover{
 	background-color:#E8D26D;
-}
-
-#pencilSize{
-	width: 120px;
-	color: #121010
-}
-
-#rubberSize{
-	width: 120px;
-	color: #121010
 }
 
 
