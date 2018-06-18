@@ -1,10 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,7 +114,9 @@ public class Initializer {
 
 	public void initTextNodeTree(File file){
 		try {
-			BufferedReader br=new BufferedReader(new FileReader(file));
+			InputStreamReader insReader = new InputStreamReader(
+					new FileInputStream(file), "UTF-8");
+			BufferedReader br=new BufferedReader(insReader);
 			String line=null;
 			String currentFather=null;
 			while((line=br.readLine())!=null){

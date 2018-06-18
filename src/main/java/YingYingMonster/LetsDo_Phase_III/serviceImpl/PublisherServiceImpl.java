@@ -130,7 +130,9 @@ public class PublisherServiceImpl implements PublisherService {
 		while((len = fis.read(b)) != -1) {
 			bos.write(b, 0, len);
 		}
-		return bos.toByteArray();
+		byte[] results=bos.toByteArray();
+		bos.close();
+		return results;
 	}
 
 	@Override

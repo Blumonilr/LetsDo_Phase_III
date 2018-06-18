@@ -4,6 +4,7 @@ import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
+import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TagRepository;
@@ -48,8 +49,11 @@ public class TestPublisherServiceImpl {
 
     @Test
     public void testDownload() throws Exception {
-        Project pj=new Project(MarkMode.SQUARE,1,"test",5,2,"2018-7-19",null,0,0.7,100,null);
-        long projectId=projectRepository.saveAndFlush(pj).getId();
+        Project pj=projectRepository.findById(92);
+        pj.setProjectState(ProjectState.closed);
+        projectRepository.saveAndFlush(pj);
+        System.out.println(pj.getProjectState());
+        long projectId=pj.getId();
         FileInputStream fis=new FileInputStream(new File("C:/Users/TF/Desktop/文件/QQ图片20180503142107.jpg"));
         ByteArrayOutputStream bos=new ByteArrayOutputStream(1024);
         byte[] b = new byte[1024*1024];
@@ -59,7 +63,7 @@ public class TestPublisherServiceImpl {
         }
         Image i1=new Image(projectId,bos.toByteArray(),2,5,2,true,false);
         long imageId=imageRepository.saveAndFlush(i1).getId();
-        Tag t1=new Tag(1,imageId,projectId,bos.toByteArray(),"<!--   Copyright w3school.com.cn  -->\n" +
+        Tag t1=new Tag(8,imageId,projectId,bos.toByteArray(),"<!--   Copyright w3school.com.cn  -->\n" +
                 "<note>\n" +
                 "<to>George</to>\n" +
                 "<from>John</from>\n" +

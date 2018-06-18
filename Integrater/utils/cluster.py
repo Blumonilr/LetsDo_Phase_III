@@ -102,6 +102,11 @@ def cal_rect_accuracy(user_ans,results):
 
 
 def cal_label_accuracy(usr_ans,res):
+	num=0
+	for i in range(0,len(usr_ans)):
+		if usr_ans[i][1]==res[i][1]:
+			num=num+1
+	return num*1.0/len(usr_ans)
 	pass
 
 
@@ -120,4 +125,4 @@ def preprocess_data(points):
 	pass
 
 if __name__=='__main__':
-	cal_rect_accuracy([[100,100,200,200]],[[105,100,200,200]])
+	cal_label_accuracy([[1,1],[2,3]],[[1,1],[2,3]])

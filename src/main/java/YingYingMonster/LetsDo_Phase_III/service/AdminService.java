@@ -2,6 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -64,4 +65,10 @@ public interface AdminService {
 	public List<Worker> workerAccuracyRank();
 
 	public int registerNum(Calendar date);
+
+	public List<Project> projectStart(Calendar date) throws ParseException;
+
+	public List<Project> projectDone(Calendar date) throws ParseException;
+
+	public Map<Integer,Integer> commitTime();
 }
