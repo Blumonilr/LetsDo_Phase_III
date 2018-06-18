@@ -45,7 +45,7 @@ public abstract class User {
 	public String getStringAbilities(){
 		ArrayList list=new ArrayList();
 		for (Ability a : abilities) {
-			list.add(a.getLabel());
+			list.add(a.getLabel().getName());
 		}
 		String result=String.join(",",list);
 		return result;
