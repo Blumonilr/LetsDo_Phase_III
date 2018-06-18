@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.entity;
 
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,32 +11,44 @@ import java.util.List;
 public class Project {
     @Id
     @GeneratedValue
+    @Expose
     private long id;
 
+    @Expose
     private MarkMode type;
 
+    @Expose
     @Enumerated(EnumType.STRING)
     private ProjectState projectState;
 
+    @Expose
     private long publisherId;
 
-    private String projectName;//发布者id，项目id
+    @Expose
+    private String projectName;
 
+    @Expose
     private int currWorkerNum,picNum;//当前人数，图片数
 
+    @Expose
     private int maxNumPerPic,minNumPerPic;
 
+    @Expose
     private String startDate,endDate;//yyyy-MM-dd
 
     @Column(length=10*1024)
     private String tagRequirement;//改成String
 
+    @Expose
     private int workerMinLevel;//worker最低等级
 
+    @Expose
     private double testAccuracy;//测试通过的准确率
 
+    @Expose
     private int money;//任务赏金
 
+    @Expose
     @ElementCollection(targetClass = String.class,fetch = FetchType.EAGER)
     List<String> labels;
 

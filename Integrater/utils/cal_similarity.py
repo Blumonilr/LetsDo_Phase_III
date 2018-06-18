@@ -2,14 +2,15 @@ import cv2
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity as cs
 from matplotlib import pyplot as plt
+
 def cal_similarity(tag1,tag2,width,height):
-    img1=np.array(tag1.data).reshape(width,height)
+    img1=cv2.imdecode(np.fromstring(tag1.data,np.uint8),0)
     image1=cv2.resize(img1,(64,64),interpolation=cv2.INTER_AREA)
     greyimg1 = []
     for i in range(0, image1.shape[0]):
         for j in range(0, image1.shape[1]):
             greyimg1.append(image1[i, j])
-    img2=np.array(tag2.data).reshape(width,height)
+    img2=cv2.imdecode(np.fromstring(tag2.data,np.uint8),0)
     image2 = cv2.resize(img2, (64, 64), interpolation=cv2.INTER_AREA)
     greyimg2 = []
     for i in range(0, image2.shape[0]):

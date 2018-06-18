@@ -4,10 +4,12 @@ import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
+import YingYingMonster.LetsDo_Phase_III.entity.event.PublishEvent;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TestProjectRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.event.PublishEventRepository;
 import YingYingMonster.LetsDo_Phase_III.service.*;
 import de.innosystec.unrar.Archive;
 import de.innosystec.unrar.exception.RarException;
@@ -19,6 +21,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,10 +56,22 @@ public class PublisherServiceImpl implements PublisherService {
 	@Autowired
 	ImageService imageService;
 
+	@Autowired
+	PublishEventRepository publishEventRepository;
+
+	protected Logger logger = LoggerFactory.getLogger(getClass());
+
 	@Override
 	public Project createProject(Project project, MultipartFile dataSet) {
-		return projectService.addProject(project, dataSet);
+		Project project1 = projectService.addProject(project, dataSet);
+//		recordPublishEvent(project1);
+		return project1;
 	}
+
+//	private void recordPublishEvent(Project project) {
+//		PublishEvent publishEvent = new PublishEvent(project.getPublisherId(), project.getId(), new Date(), null);
+//		publishEventRepository.saveAndFlush(publishEvent);
+//	}
 
     @Override
     public boolean validateProjectName(long publisherId, String projectName) {
@@ -69,8 +85,16 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public TestProject addTestProject(long projectId,  MultipartFile multipartFile) {
-		return testProjectService.addTestProject(projectId, multipartFile);
+		TestProject testProject = testProjectService.addTestProject(projectId, multipartFile);
+//		updatePublishEvent(testProject);
+		return testProject;
     }
+
+//	private void updatePublishEvent(TestProject testProject) {
+//		PublishEvent publishEvent = publishEventRepository.findByProjectId(testProject.getProject().getId());
+//		publishEvent.setInviteCode(testProject.getInviteCode());
+//		publishEventRepository.saveAndFlush(publishEvent);
+//	}
 
 	@Override
 	public Project openProject(long id) {

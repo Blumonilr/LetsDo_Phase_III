@@ -1,13 +1,13 @@
 
-import DBHandler
+import utils.DBHandler as db
 import numpy
 import math
 
 def calculateProjectDif(project_id):
-    test_images=DBHandler.get_test_project_images(project_id)
+    test_images=db.get_test_project_images(project_id)
     dif=[]
     for image in test_images:
-        commits=DBHandler.get_image_commit(image.id)
+        commits=db.get_image_commit(image.id)
         accuracies=[]
         for commit in commits:
             accuracies.append(commit.accuracy);

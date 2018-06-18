@@ -5,6 +5,7 @@ import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
 import com.google.gson.annotations.Expose;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class SystemInfo {
     @Expose private String[][] projectInfo;
 
 
-    public SystemInfo(AdminService adminService) {
+    public SystemInfo(AdminService adminService) throws ParseException {
         this.adminService=adminService;
         this.workerList=adminService.viewAllWorkers();
         this.publisherList=adminService.viewAllPublishers();
@@ -41,20 +42,22 @@ public class SystemInfo {
         setProjectInfo();
     }
 
-    private void setProjectInfo(){
-        projectInfo =new String[13][3];
+    private void setProjectInfo() throws ParseException {
+        projectInfo =new String[13][4];
         projectInfo[0][0]="月份";
-        projectInfo[0][1]="当月注册人数";
-        projectInfo[0][2]="当月总人数";
+        projectInfo[0][1]="新建项目";
+        projectInfo[0][2]="结束项目";
+        projectInfo[0][3]="总项目数";
         Calendar temp=Calendar.getInstance();
         temp.set(Calendar.DAY_OF_MONTH, 1);  //设置日期
-        int currentNum=adminService.viewWorkerNum();
+        int currentNum=adminService.viewAllProjects().size();
         for(int i=12;i>0;i--) {
             projectInfo[i][0] = (temp.get(Calendar.MONTH) + 1) + "月";
-            int monthNum = adminService.registerWorkerNum(temp);
-            projectInfo[i][1] = Integer.toString(monthNum);
-            projectInfo[i][2] = Integer.toString(currentNum);
-            currentNum -= monthNum;
+            int monthNewNum = adminService.projectStart(temp).size();
+            projectInfo[i][1] = Integer.toString(monthNewNum);
+            projectInfo[i][2] = Integer.toString(adminService.projectDone(temp).size());
+            projectInfo[i][3] = Integer.toString(currentNum);
+            currentNum -= monthNewNum;
             temp.add(Calendar.MONTH, -1);
         }
     }

@@ -1,8 +1,10 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.*;
+import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ImageService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.TestProjectService;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -36,6 +39,9 @@ public class TestProjectServiceImpl implements TestProjectService {
 
     @Autowired
     ProjectService projectService;
+
+    @Autowired
+    CommitEventRepository commitEventRepository;
 
     @Override
     public TestProject addTestProject(long projectId, MultipartFile multipartFile) {
@@ -84,8 +90,16 @@ public class TestProjectServiceImpl implements TestProjectService {
         long imageId = tag.getImageId();
         imageRepository.updateIsFinished(imageId, true);
         tag.setResult(true);
-        return tagRepository.saveAndFlush(tag);
+        tag = tagRepository.saveAndFlush(tag);
+//        recordCommitEvent(tag);
+        return tag;
     }
+
+//    private void recordCommitEvent(Tag tag) {
+//        CommitEvent commitEvent = new CommitEvent(tag.getWorkerId(), tag.getProjectId(), tag.getId(),
+//                tag.getImageId(), new Date());
+//        commitEventRepository.saveAndFlush(commitEvent);
+//    }
 
     @Override
     public TestProject getTestProjectByInviteCode(String inviteCode) {

@@ -39,7 +39,7 @@
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                        <i class="fa fa-user fa-fw"></i><span id="username" style="color: #ffe4b5">username&nbsp;</span><i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i><span id="userId" style="color: #ffe4b5">username&nbsp;</span><i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -47,7 +47,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -79,14 +79,15 @@
                     <li><a href="#" name="#tab3">系统信息</a></li>
                     <li><a href="#" name="#tab4">项目信息</a></li>
                 </ul>
-
                 <div id="content" class="fl w-100 mt3">
                     <div id="tab1">
-                        <div class="fl w-70"><!--排行榜-->
+                        <div class="fl w-70">
+                            <!--排行榜-->
                             <h1>工作者Top100</h1>
                             <table id="workerTop100" class="display w-100"></table>
                         </div>
-                        <div class="fl w-30 pl5"><!--数据概览-->
+                        <div class="fl w-30 pl5">
+                            <!--数据概览-->
                             <h1>系统概况</h1>
                             <h3 class="db pb2">用户数量</h3>
                             <dl class="fl dib w-50 bb">
@@ -121,7 +122,6 @@
                         <ul class="nav nav-tabs fl w-100">
                             <li class="active"><a href="#customerDiv" data-toggle="tab">注册人数统计</a></li>
                             <li><a href="#projectsDiv" data-toggle="tab">项目数量统计</a></li>
-                            <li><a href="#identifier" data-toggle="tab">extention</a></li>
                         </ul>
                         <div id="myTabContent" class="tab-content fl">
                             <div class="tab-pane fade in active fl w-100" id="customerDiv">
@@ -134,16 +134,44 @@
                                     <div id="publisherRegChart" class="fl" style="width: 1200px;height:774px;"></div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="projectsDiv">
-                                <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
-                                    TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
+                            <div class="tab-pane fade fl w-100" id="projectsDiv">
+                                <div class="fl w-100 bb pb4 mb5">
+                                    <h1>项目数量</h1>
+                                    <div id="projectInfoChart" class="fl" style="width: 1200px;height:774px;"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div id="tab4">
-                        blank
+                        <ul class="nav nav-tabs fl w-100">
+                            <li class="active"><a href="#projectInfoDiv" data-toggle="tab">项目信息统计</a></li>
+                            <li><a href="#projectsListDiv" data-toggle="tab">项目列表</a></li>
+                        </ul>
+                        <div id="extraTabContent" class="tab-content fl">
+                            <div class="tab-pane fade in active fl w-100" id="projectInfoDiv">
+                                <div class="fl w-100 bb pb4 mb5">
+                                    <h1>项目类型统计</h1>
+                                    <div id="projectTypeChart" class="fl" style="width: 1200px;height:774px;"></div>
+                                </div>
+                                <div class="fl w-100 bb pb4 mb5">
+                                    <h1>项目领域统计</h1>
+                                    <div id="projectLabelChart" class="fl" style="width: 1200px;height:774px;"></div>
+                                </div>
+                                <div class="fl w-100 bb pb4 mb5">
+                                    <h1>项目报酬统计</h1>
+                                    <div id="projectPaymentChart" class="fl" style="width: 1200px;height:774px;"></div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade fl w-100" id="projectsListDiv">
+                                <div class="fl w-100 bb pb4 mb5">
+                                    <h1>项目列表</h1>
+                                    <table id="projectList" class="display w-100"></table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
                 <!--<br/>-->
                 <!--<div class="container-fluid">-->
@@ -210,7 +238,7 @@
 
     <script  src="/js/admin/datatables.js"></script>
 
-    <script src="/js/admin/echarts.js"></script>
+    <script src="/js/util/echarts.js"></script>
 
 
     <!-- Custom Js -->
