@@ -38,8 +38,8 @@ class User(Base):
 
 class Label(Base):
 	__tablename__='labels'
-	id=Column(BIGINT,primary_key=True,nullable=False)
-	name=Column(VARCHAR(255),nullable=True)
+	name=Column(VARCHAR(255),nullable=True,primary_key=True)
+
 	# 	one  -> many
 	# 	label -> ability
 	abilities=relationship("Ability",backref="label")
@@ -49,9 +49,9 @@ class Ability(Base):
 	id = Column(BIGINT, primary_key=True, nullable=False)
 	accuracy=Column(FLOAT,nullable=False)
 	bias=Column(INT,nullable=False)
-
+	label_history_num=Column(INT,nullable=False)
 	user_id=Column(BIGINT,ForeignKey('users.id'))
-	label_id=Column(BIGINT,ForeignKey('labels.id'))
+	label_name=Column(BIGINT,ForeignKey('labels.name'))
 
 class Image(Base):
 	__tablename__='images'
@@ -69,7 +69,8 @@ class Image(Base):
 class CommitEvent(Base):
 	__tablename__='commits'
 	id=Column(BIGINT,primary_key=True,nullable=False)
-	commit_result=Column(VARCHAR(25),nullable=True)
+	accuracy=Column(FLOAT)
+	commit_msg=Column(VARCHAR(25),nullable=True)
 	commit_time=Column(DATETIME,nullable=True)
 	imageid=Column(BIGINT,nullable=False)
 	projectid=Column(BIGINT,nullable=False)
@@ -82,6 +83,18 @@ class TestProject(Base):
 	invite_code=Column(VARCHAR(255),nullable=True)
 	mark_node=Column(INT,nullable=True)
 	pic_num=Column(INT,nullable=False)
+
+class Project(Base):
+	__tablename__='projects'
+	id=Column(BIGINT,primary_key=True)
+	project_name=Column(VARCHAR)
+
+class Project_Label(Base):
+	__tablename__='project_labels'
+	project_id=Column(BIGINT,primary_key=True)
+	labels=Column(VARCHAR,primary_key=True)
+
+
 
 # initialize connection
 def setup_db():
@@ -127,8 +140,8 @@ close:      session.close()
 '''
 if __name__=='__main__':
 	session=setup_db()
-	# user=User(id=100,dtype='WK',email='email',intro='intro',name='name',pw='pw',money=0,exp=0,level=0,passed_tag_num=0,tag_num=0)
-	# label=Label(id=199,name='label')
+	# user=User(id=300,dtype='WK',email='email',intro='intro',name='name',pw='pw',money=0,exp=0,level=0,passed_tag_num=0,tag_num=0)
+	# label=Label(name='label')
 	# ability=Ability(id=299,accuracy=0.92,bias=121,user_id=100,label_id=199)
 	# image=Image(id=1,project_id=1,height=100,width=100,current_num=2,min_num=2,max_num=5,is_finished=False,
 	#             is_test=True)
@@ -140,12 +153,24 @@ if __name__=='__main__':
 	# session.add(tag2)
 	# session.commit()
 
-	res=image_need_integrate(1)
-	print(res)
+	# session.add(user)
+	# session.commit()
 
-	res=get_image_tags(1)
-	print(type(res))
-	print(res)
+	# res=image_need_integrate(1)
+	# print(res)
+	#
+	# res=get_image_tags(1)
+	# print(type(res))
+	# print(res)
+
+	# project=session.query(Project).filter(Project.project_name=='test1').one()
+	# print(project.id)
+	# pls=session.query(Project_Label).filter(Project_Label.project_id==3).all()
+	# for pl in pls:
+	# 	print(pl.labels)
+	# 	print(type(pl.labels))
+	# 	print(type(pl))
+
 
 
 

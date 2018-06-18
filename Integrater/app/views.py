@@ -9,7 +9,7 @@ def index():
 
 @app.route("/hello")
 def test():
-    controller.work(4,0)
+    controller.work(10,0)
     return "hello world"
 
 

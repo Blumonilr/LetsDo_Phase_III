@@ -112,7 +112,6 @@ public aspect WorkerAspect {
         worker.setTagNum(worker.getTagNum() + 1);
         userRepository.saveAndFlush(worker);
 
-        Project project = projectService.getAProject(tag.getProjectId());
         try {
             System.out.println("java tries to connect to python");
 

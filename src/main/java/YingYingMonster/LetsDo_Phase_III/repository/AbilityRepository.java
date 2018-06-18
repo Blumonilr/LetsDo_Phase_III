@@ -15,4 +15,6 @@ public interface AbilityRepository extends JpaRepository<Ability, Long> {
     public Ability findById(long id);
 
     public List<Ability> findByLabel(Label label);
+
+    public Ability findByLabelAndUser(Label label,User user);
 }

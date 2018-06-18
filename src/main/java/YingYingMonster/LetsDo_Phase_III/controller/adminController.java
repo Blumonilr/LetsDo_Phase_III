@@ -1,7 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
 import YingYingMonster.LetsDo_Phase_III.entity.json.SystemInfo;
-import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,9 +17,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -51,22 +47,7 @@ public class adminController {
     public String systemInfo(){
         Gson gson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         SystemInfo systemInfo=new SystemInfo(adminService);
-        List<Worker> list=adminService.workerAccuracyRank();
-        int length=list.size()>=100?100:list.size();
-        systemInfo.setWorkerTop100(new String[length][6]);
-        toArray(list,systemInfo.getWorkerTop100(),length);
         return gson.toJson(systemInfo);
     }
 
-    private void toArray(List<Worker> list,String[][] top100,int length){
-        for(int i=0;i<length;i++){
-            Worker worker=list.get(i);
-            top100[i][0]=Integer.toString(i);
-            top100[i][1]=worker.getName();
-            top100[i][2]=worker.getStringAbilities();
-            top100[i][3]=Double.toString(worker.getAccuracy());
-            top100[i][4]=Integer.toString(adminService.workInProjectNum(worker.getId()));
-            top100[i][5]=Integer.toString(adminService.workInProjectNum(worker.getId()));
-        }
-    }
 }

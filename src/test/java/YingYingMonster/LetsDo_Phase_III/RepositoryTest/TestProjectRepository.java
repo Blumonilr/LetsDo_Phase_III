@@ -25,10 +25,8 @@ public class TestProjectRepository {
 
     @Test
     public void test1(){
-        Label l1=lr.findByName("动物").get(0);
-        Label l2=lr.findByName("植物").get(0);
         List<String> list=new ArrayList<>();
-        list.add(l1.getName());list.add(l2.getName());
+        list.add("动物");list.add("植物");
         Project p1=new Project(SQUARE,1,"test1",0,10,"2018-07-07","null",0,0.8,10,list);
         pr.saveAndFlush(p1);
         Project p2=new Project(SQUARE,1,"test1",0,10,"2018-07-08","null",0,0.8,10,list);
@@ -71,7 +69,7 @@ public class TestProjectRepository {
     @Test
     public void test6(){
         Project p=pr.findById(19);
-        Label l1=lr.findById(9);
+        Label l1=lr.findByName("人类");
         p.addLabel(l1);
         pr.saveAndFlush(p);
     }

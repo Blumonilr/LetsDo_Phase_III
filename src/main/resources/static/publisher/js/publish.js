@@ -71,7 +71,7 @@ function uploadDataSet() {
     formData.append("levelLimit",levelLimit);
     formData.append("testAccuracy",testAccuracy);
     formData.append("money",money);
-    formData.append("tags",tags);
+    formData.append("tags",tagResult);
 
     $.ajax({
         url:"/publisherPage/publish",
