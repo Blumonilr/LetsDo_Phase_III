@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.service.RankService;
 
 @Controller
@@ -38,37 +40,31 @@ public class RankController {
     public String getList() {
     	String res = "";
     	
-//		try {
-//			ArrayList<User> list = (ArrayList<User>) rankService.rankByExp();
-//			int len = list.size();
-//	    	for(int i=0 ; i<len ; i++) {
-//	    		Worker w = (Worker) list.get(i);
-//	    		String name = w.getName();
-//	    		String exp = w.getExp()+"";
-//	    		String money = w.getMoney()+"";
-//	    		String level = w.getLevel()+"";
-//	    		String info = w.getIntro();
-//	    		String accu = w.getAccuracy()+"";
-//
-//	    		String tip = name+"_"+level+"_"+money+"_"+exp+"_"+info+"_"+accu;
-//	    		res = res + tip;
-//
-//	    		if(i != len-1) {
-//	    			res = res + ",";
-//	    		}
-//	    	}
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			ArrayList<Worker> list = (ArrayList<Worker>) rankService.rankByExp();
+			int len = list.size();
+	    	for(int i=0 ; i<len ; i++) {
+	    		Worker w = list.get(i);
+	    		String name = w.getName();
+	    		String exp = w.getExp()+"";
+	    		String money = w.getMoney()+"";
+	    		String level = w.getLevel()+"";
+	    		String info = w.getIntro();
+	    		String accu = w.getAccuracy()+"";
+
+	    		String tip = name+"_"+level+"_"+money+"_"+exp+"_"+info+"_"+accu;
+	    		res = res + tip;
+
+	    		if(i != len-1) {
+	    			res = res + ",";
+	    		}
+	    	}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
     	
-    	
+  
     	return res;
     }
     
@@ -77,37 +73,30 @@ public class RankController {
     public String getListByAccuracy(){
             String res = "";
 
-//			ArrayList<User> list;
-//			try {
-//				list = (ArrayList<User>) rankService.rankByAccuracy();
-//				int len = list.size();
-//		    	for(int i=0 ; i<len ; i++) {
-//		    		Worker w = (Worker) list.get(i);
-//		    		String name = w.getName();
-//		    		String exp = w.getExp()+"";
-//		    		String money = w.getMoney()+"";
-//		    		String level = w.getLevel()+"";
-//		    		String info = w.getIntro();
-//		    		String accu = w.getAccuracy()+"";
-//
-//		    		String tip = name+"_"+level+"_"+money+"_"+exp+"_"+info+"_"+accu;
-//		    		res = res + tip;
-//
-//		    		if(i != len-1) {
-//		    			res = res + ",";
-//		    		}
-//		    	}
-//			} catch (FileNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (ClassNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-			
+			ArrayList<Worker> list;
+			try {
+				list = (ArrayList<Worker>) rankService.rankByAccuracy("");
+				int len = list.size();
+		    	for(int i=0 ; i<len ; i++) {
+		    		Worker w = (Worker) list.get(i);
+		    		String name = w.getName();
+		    		String exp = w.getExp()+"";
+		    		String money = w.getMoney()+"";
+		    		String level = w.getLevel()+"";
+		    		String info = w.getIntro();
+		    		String accu = w.getAccuracy()+"";
+
+		    		String tip = name+"_"+level+"_"+money+"_"+exp+"_"+info+"_"+accu;
+		    		res = res + tip;
+
+		    		if(i != len-1) {
+		    			res = res + ",";
+		    		}
+		    	}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
 	    	
 	    	return res;
     }

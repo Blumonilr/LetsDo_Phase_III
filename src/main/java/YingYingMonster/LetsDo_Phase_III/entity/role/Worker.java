@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.entity.role;
 
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -9,8 +10,11 @@ import javax.persistence.Entity;
 @DiscriminatorValue("WK")
 public class Worker extends User {
 
+	@Expose
 	private int level,exp;
+	@Expose
 	private static final int GAP=100;
+	@Expose
 	private int tagNum,passedTagNum;
 
 	public Worker() {

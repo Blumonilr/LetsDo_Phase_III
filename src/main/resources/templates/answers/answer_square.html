@@ -312,17 +312,16 @@
 
             <!--我们的操作区开始  -->
 
-            <input  id="hide_show_requirement" type="button" onclick="hide_show_requirement()" value="要求" />
-            <input  id="delete_square" type="button" onclick="delete_selected_square()" value="删除" />
+            <img alt="要求" id="requirement_icon" src="/pic/tools/requirement.png" onclick="hide_show_requirement()" />
+            <img alt="删除" id="delete_icon" src="/pic/tools/delete.png" onclick="delete_selected_square()" />
 
             <canvas id="penal"></canvas>
             <div id = "colors" >
                 <!-- 工具栏开始 -->
-                <input type="button" id="red" value="红色" /> <br>
-                <input type="button" id="yellow" value="黄色" /> <br>
-                <input type="button" id="blue" value="蓝色" /> <br>
-                <input type="button" id="green" value="绿色" />
-
+                <img alt="红色" id="color_red" src="/pic/tools/color.png" class="color_pickers" />
+                <img alt="黄色" id="color_yellow" src="/pic/tools/color.png" class="color_pickers" />
+                <img alt="蓝色" id="color_blue" src="/pic/tools/color.png" class="color_pickers" />
+                <img alt="绿色" id="color_green" src="/pic/tools/color.png" class="color_pickers" />
                 <br>
             </div>
             <!-- 工具栏结束 -->
@@ -333,12 +332,7 @@
             </div>
             <!-- tipInput结束 -->
 
-            <!--上传标志开始-->
-            <div  id="submitArea">
-                <input type="button" value="提交" onclick="submit_tag()" />
-
-            </div>
-            <!--上传标志结束-->
+            <img alt="提交" id="submit_icon" src="/pic/tools/submit.png" onclick="submit_tag()" />
 
             <div id="requirementArea">
                 <!--标注要求开始-->

@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -217,6 +216,40 @@ public class WorkerServiceImpl implements WorkerService {
 	@Override
 	public double getTestResult(long workerId, long projectId) {
 		return joinEventRepository.findByWorkerIdAndProjectId(workerId, projectId).getTestScore();
+	}
+
+	@Override
+	public List<Project> viewWorkerMonthProject(long workerId,Calendar date) {
+		List<JoinEvent> joins=joinEventRepository.findByWorkerId(workerId);
+		List<Project> pjs=new ArrayList<>();
+		for (JoinEvent j:joins) {
+			Calendar month = Calendar.getInstance();
+			month.setTime(j.getDate());
+			if (month.get(Calendar.YEAR)==date.get(Calendar.YEAR)&&month.get(Calendar.MONTH)==date.get(Calendar.MONTH)){
+				pjs.add(projectService.getAProject(j.getProjectId()));
+			}
+		}
+		return pjs;
+	}
+
+	@Override
+	public Map<String, Integer> viewWorkerMonthLabel(long workerId, Calendar date) {
+		Map<String,Integer> labels=new HashMap<>();
+		List<JoinEvent> joins=joinEventRepository.findByWorkerId(workerId);
+		for (JoinEvent j:joins) {
+			Calendar month = Calendar.getInstance();
+			month.setTime(j.getDate());
+			if (month.get(Calendar.YEAR)==date.get(Calendar.YEAR)&&month.get(Calendar.MONTH)==date.get(Calendar.MONTH)){
+				List<String> label=projectService.getAProject(j.getProjectId()).getLabels();
+				for (String l:label){
+					if (labels.containsKey(l))
+						labels.put(l,labels.get(l).intValue()+1);
+					else
+						labels.put(l,1);
+				}
+			}
+		}
+		return labels;
 	}
 
 

@@ -2,16 +2,20 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Ability;
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
+import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.PublishEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.role.UserRepository;
@@ -22,6 +26,7 @@ import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
+import org.w3c.dom.ls.LSInput;
 
 @Component
 public class AdminServiceImpl implements AdminService{
@@ -32,6 +37,9 @@ public class AdminServiceImpl implements AdminService{
 
 	@Autowired
 	PublishEventRepository publishEventRepository;
+
+	@Autowired
+	CommitEventRepository commitEventRepository;
 
 	@Autowired
 	UserService userService;
@@ -45,6 +53,7 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired
 	AbilityRepository abilityRepository;
 
+	SimpleDateFormat fromat=new SimpleDateFormat("yyyy-MM-dd");
 
 	@Override
 	public List<Project> viewAllProjects() {
@@ -238,5 +247,46 @@ public class AdminServiceImpl implements AdminService{
 				num++;
 		}
 		return num;
+	}
+
+	@Override
+	public List<Project> projectStart(Calendar date) throws ParseException {
+		List<Project> projects=viewAllProjects();
+		List<Project> re=new ArrayList<>();
+		for (Project p:projects){
+			Calendar time=Calendar.getInstance();
+			time.setTime(fromat.parse(p.getStartDate()));
+			if (time.get(Calendar.YEAR)==date.get(Calendar.YEAR)&&time.get(Calendar.MONTH)==date.get(Calendar.MONTH))
+				re.add(p);
+		}
+		return re;
+	}
+
+	@Override
+	public List<Project> projectDone(Calendar date) throws ParseException {
+		List<Project> projects=viewDoneProject();
+		List<Project> re=new ArrayList<>();
+		for (Project p:projects){
+			Calendar time=Calendar.getInstance();
+			time.setTime(fromat.parse(p.getEndDate()));
+			if (time.get(Calendar.YEAR)==date.get(Calendar.YEAR)&&time.get(Calendar.MONTH)==date.get(Calendar.MONTH))
+				re.add(p);
+		}
+		return re;
+	}
+
+	@Override
+	public Map<Integer, Integer> commitTime() {
+		List<CommitEvent> commits=commitEventRepository.findAll();
+		Map<Integer,Integer> map=new HashMap<>();
+		for (CommitEvent c:commits){
+			Calendar time=Calendar.getInstance();
+			time.setTime(c.getCommitTime());
+			if (map.containsKey(time.get(Calendar.HOUR_OF_DAY)))
+				map.put(time.get(Calendar.HOUR_OF_DAY),map.get(time.get(Calendar.HOUR_OF_DAY)).intValue()+1);
+			else
+				map.put(time.get(Calendar.HOUR_OF_DAY),1);
+		}
+		return map;
 	}
 }

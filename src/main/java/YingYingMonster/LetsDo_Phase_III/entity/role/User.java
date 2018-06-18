@@ -2,6 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.entity.role;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Ability;
 import YingYingMonster.LetsDo_Phase_III.entity.event.LogEvent;
+import com.google.gson.annotations.Expose;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,17 +20,22 @@ import java.util.List;
 @Table(name="users")
 public abstract class User {
 
-	@Id @GeneratedValue private long id;
-	
+	@Id @GeneratedValue @Expose
+	private long id;
+
+	@Expose
 	private String name,pw,email,intro;
+	@Expose
 	private long money;
 
+	@Expose
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Ability> abilities;
 
 	@OneToOne(fetch = FetchType.EAGER,mappedBy = "user",cascade = CascadeType.ALL)
 	private LogEvent logEvent;
 
+	@Expose
 	private Calendar registerDate;
 
 	public List<Ability> getAbilities() {

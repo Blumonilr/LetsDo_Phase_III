@@ -32,14 +32,14 @@ public class TestUserServiceImpl {
         long id1 = userService.register(worker).getId();
         long id2 = userService.register(publisher).getId();
         long id3 = userService.register(administrator).getId();
-
+        System.out.println(id3);
         Worker worker1 = (Worker) userService.getUser(id1);
         Publisher publisher1 = ((Publisher) userService.getUser(id2));
         Administrator administrator1 = (Administrator) userService.getUser(id3);
 
         assertEquals("wk", worker1.getName());
         assertEquals("pub", publisher1.getName());
-        assertEquals("ad", administrator1.getName());
+        assertEquals("管理员", administrator1.getName());
     }
 
     @Test

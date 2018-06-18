@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -75,14 +76,11 @@ public class PublisherController {
         int payment = Integer.parseInt(money);
 
         String[] tagList=tags.split(",");
-        List<String> labelList=new ArrayList<>();
-        for(int i=0;i<labelList.size();i++){
-            labelList.add(tagList[i]);
-        }
+        List<String> labelList=new ArrayList<>(Arrays.asList(tagList));
 
         Project project = new Project(type, Long.parseLong(publisherId), projectName,
                 Integer.parseInt(maxNumPerPic), Integer.parseInt(minNumPerPic), endDate, tagRequirement, Integer.parseInt(levelLimit),
-                Double.parseDouble(testAccuracy), payment,new ArrayList<>(labelList));
+                Double.parseDouble(testAccuracy), payment,labelList);
 
         project = publisherService.createProject(project, dataSet);
         if (project.getId() != 0) {

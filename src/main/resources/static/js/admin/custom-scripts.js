@@ -140,7 +140,7 @@ function initTables() {
     ];
 
     var optionTop={
-        data: dataSet,
+        data: systemInfo.workerTop100,
         language: {
             "lengthMenu": "每页显示 _MENU_ 条记录",
             "zeroRecords": "无条目 - sorry",
@@ -166,11 +166,6 @@ function initTables() {
             {
                 title: "昵称",
                 orderable:false
-                // ,
-                // render: function(data, type, row, meta) {
-                //     //渲染 把数据源中的标题和url组成超链接
-                //     return '<a href="' + data + '" target="_blank">' + row.title + '</a>';
-                // }
             },
             {
                 title: "擅长领域",
@@ -220,12 +215,11 @@ function initTables() {
             {
                 title: "昵称",
                 data:"name",
-                orderable:false
-                // ,
-                // render: function(data, type, row, meta) {
-                //     //渲染 把数据源中的标题和url组成超链接
-                //     return '<a href="' + data + '" target="_blank">' + row.title + '</a>';
-                // }
+                orderable:false,
+                render: function(data, type, row, meta) {
+                    //渲染 把数据源中的标题和url组成超链接
+                    return '<a href="#" target="_blank">' + data + '</a>';
+                }
             },
             {
                 title: "等级",
@@ -234,11 +228,11 @@ function initTables() {
             {
                 title: "标注总数",
                 data:"tagNum"
-            },
-            {
-                title: "邮箱",
-                data:"email"
             }
+            // {
+            //     title: "邮箱",
+            //     data:"email"
+            // }
         ]
     };
     var optionPublisher={
@@ -264,17 +258,17 @@ function initTables() {
         columns: [
             {
                 title: "昵称",
-                orderable:false
-                // ,
-                // render: function(data, type, row, meta) {
-                //     //渲染 把数据源中的标题和url组成超链接
-                //     return '<a href="' + data + '" target="_blank">' + row.title + '</a>';
-                // }
+                orderable:false,
+                data:"name",
+                render: function(data, type, row, meta) {
+                    //渲染 把数据源中的标题和url组成超链接
+                    return '<a href="#" target="_blank">' + data + '</a>';
+                }
             },
-            {
-                title: "邮箱",
-                data:"email"
-            },
+            // {
+            //     title: "邮箱",
+            //     data:"email"
+            // },
             {
                 title: "余额",
                 data:"money"
@@ -325,5 +319,6 @@ $(document).ready(function () {
     initFunction();
     initTabs();
     initTables();
+    initOverview();
 });
 
