@@ -2,8 +2,45 @@
 
 function display_graphs(){
     display_first();
+    display_second();
 }
 
+
+function display_second(){
+    var myChart = echarts.init(document.getElementById("second_graph"));
+    var userId = getCookie("userId");
+
+    var x_map = ['一月','二月','三月','四月','五月','六月'];
+    var all_datas = [1,2,1,3,1];
+
+    $.ajax({
+        url: "/user/pjnumbers/"+userId,
+        type: "get",
+        async:false, //同步
+        success: function (data) {
+            //temp
+            var num = parseInt(data);
+            all_datas.push(num);
+        }
+    });
+
+    var option = {
+        xAxis: {
+            type: 'category',
+            data: x_map,
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: all_datas,
+            type: 'line',
+            smooth: true
+        }]
+    };
+
+    myChart.setOption(option);
+}
 
 function display_first(){
     var myChart = echarts.init(document.getElementById("first_graph"));
@@ -26,7 +63,7 @@ function display_first(){
     });
 
     var option = {
-        backgroundColor: '#FFF0F5',
+        backgroundColor: '#FDF5E6',
         visualMap: {
             show: false,
             min: 80,
@@ -45,20 +82,20 @@ function display_first(){
                 label: {
                     normal: {
                         textStyle: {
-                            color: 'rgba(255, 150, 180, 0.3)'
+                            color: 'rgba(128, 128, 128, 0.5)'
                         }
                     }
                 },
                 labelLine: {
                     normal: {
                         lineStyle: {
-                            color: 'rgba(255, 150, 180, 0.8)'
+                            color: 'rgba(128, 128, 128, 0.7)'
                         }
                     }
                 },
                 itemStyle: {
                     normal: {
-                        color: '#87CEFA',
+                        color: '#FFA500',
                         shadowBlur: 200,
                         shadowColor: 'rgba(0, 0, 0, 0.5)'
                     }

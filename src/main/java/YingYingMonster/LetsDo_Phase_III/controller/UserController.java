@@ -1,5 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
@@ -15,6 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -217,5 +219,26 @@ public class UserController {
     	  }  
     	res = res.substring(0,res.length()-1);
     	return res;
+    }
+    
+    @GetMapping("/pjnumbers/{userId}")
+    @ResponseBody
+    public String getpjnumbers(@PathVariable("userId") String userId) {
+    	String res = "";//name_val,
+    	String month = "";
+    	String data = "";
+    	Calendar cld = Calendar.getInstance();
+    
+//    	int cm = cld.get(Calendar.MONTH);
+//    	
+//    	for(int i=0;i<cm;i++) {
+//    		
+//    	}
+    	
+    	List<Project> list = wkservice.viewWorkerMonthProject(Long.parseLong(userId), cld);
+    
+    	int len = list.size();
+    	
+    	return len+"";
     }
 }
