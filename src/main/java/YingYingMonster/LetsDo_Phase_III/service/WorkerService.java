@@ -1,6 +1,8 @@
 package YingYingMonster.LetsDo_Phase_III.service;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
@@ -94,4 +96,8 @@ public interface WorkerService {
 	public void finishTest(long workerId,long projectId);
 
 	public double getTestResult(long workerId, long projectId);
+
+	public List<Project> viewWorkerMonthProject(long workerId,Calendar date);
+
+	public Map<String,Integer> viewWorkerMonthLabel(long workerId,Calendar date);
 }
