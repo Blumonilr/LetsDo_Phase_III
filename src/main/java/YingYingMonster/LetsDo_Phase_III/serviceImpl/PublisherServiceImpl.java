@@ -131,7 +131,7 @@ public class PublisherServiceImpl implements PublisherService {
 			bos.write(b, 0, len);
 		}
 		byte[] results=bos.toByteArray();
-
+		bos.close();
 		return results;
 	}
 
