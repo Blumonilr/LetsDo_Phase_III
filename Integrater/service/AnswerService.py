@@ -5,11 +5,10 @@ import numpy as np
 from matplotlib.path import Path
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-
-import Integrater.utils.DBHandler as db
-import Integrater.utils.xmlParser as xp
-import Integrater.utils.cluster as clu
-import Integrater.utils.cal_similarity as cs
+import utils.DBHandler as db
+import utils.xmlParser as xp
+import utils.cluster as clu
+import utils.cal_similarity as cs
 
 
 def work(imageId,markmode):

@@ -54,6 +54,7 @@ public class WorkAspect {
         CommitEvent commitEvent = new CommitEvent(tag.getWorkerId(), tag.getProjectId(), tag.getId(),
                 tag.getImageId(), new Date());
         commitEventRepository.saveAndFlush(commitEvent);
+        notifyPy(tag);
         logger.info("work aspect end");
     }
 
@@ -108,7 +109,12 @@ public class WorkAspect {
         worker.setTagNum(worker.getTagNum() + 1);
         userRepository.saveAndFlush(worker);
 
+        notifyPy(tag);
 
+        logger.info("work aspect end");
+    }
+
+    private void notifyPy(Tag tag) {
         Project project = projectService.getAProject(tag.getProjectId());
         try {
             System.out.println("java tries to connect to python");
@@ -117,6 +123,5 @@ public class WorkAspect {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        logger.info("work aspect end");
     }
 }

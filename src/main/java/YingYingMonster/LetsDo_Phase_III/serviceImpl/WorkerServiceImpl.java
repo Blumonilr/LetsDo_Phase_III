@@ -216,7 +216,11 @@ public class WorkerServiceImpl implements WorkerService {
 	public void finishTest(long workerId, long projectId) {
 		joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TEST_FINISHED);
 		//后台开始计算分数...并设置相应的状态
-		double score = Math.random() * 100;
+		double score = Math.random() * 20+80;
+
+		//read accuracy from commit event
+		
+
 		joinEventRepository.setTestScore(workerId, projectId, score);
 		if (score >= projectService.getAProject(projectId).getTestAccuracy()) {
 			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.WORKING);
