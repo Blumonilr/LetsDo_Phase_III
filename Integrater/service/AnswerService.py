@@ -16,6 +16,9 @@ def work(imageId,markmode):
 
 	# get workers' answers
 	handler=getAnswerFromTags(imageId)
+	usr_ans_rects=handler.allPoints
+	usr_ans_tags=handler.allTags
+
 
 	if image.is_finished:
 		# get the answer
@@ -32,6 +35,8 @@ def work(imageId,markmode):
 			# generate answer
 			res_centers,res_labels=generateResult(handler,markmode)
 			if markmode==0:
+				print(res_centers)
+				print(res_labels)
 
 				pass
 			elif markmode==1:
@@ -44,6 +49,8 @@ def work(imageId,markmode):
 			# set Tag to isResult
 			pass
 		except Exception:
+			print('generate failed')
+			
 			pass
 		pass
 
@@ -95,9 +102,6 @@ def generateTextLabel(labels):
 	names=list(set(names))
 	values=list(set(values))
 
-	# print(names)
-	# print(values)
-
 	new_labels=[]
 	for x in labels:
 		nx=[]
@@ -105,14 +109,12 @@ def generateTextLabel(labels):
 			nx.append([names.index(y[0]),values.index(y[1])])
 		new_labels.append(nx)
 
-	# print(new_labels)
-
 	center=clu.cal_rec(clu.preprocess_data(new_labels))
-	# print(center)
+
 	res=[]
 	for x in center:
 		res.append([names[int(x[0])],values[int(x[1])]])
-	print(res)
+
 	return res
 
 

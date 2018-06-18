@@ -85,7 +85,7 @@ class TestProject(Base):
 
 # initialize connection
 def setup_db():
-	engine=create_engine('mysql+mysqlconnector://root:123456789@localhost:3306/letsdo',echo=True)
+	engine=create_engine('mysql+mysqlconnector://root:31415926@localhost:3306/letsdo',echo=True)
 	DBSession=sessionmaker(bind=engine)
 	return DBSession()
 
