@@ -5,6 +5,7 @@ import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
 import com.google.gson.annotations.Expose;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class SystemInfo {
@@ -15,6 +16,7 @@ public class SystemInfo {
     @Expose private String[][] workerTop100;
     @Expose private List<Worker> workerList;
     @Expose private List<Publisher> publisherList;
+    @Expose private String[][] customerNum;
 
     public SystemInfo(AdminService adminService) {
         this.workerList=adminService.viewAllWorkers();
@@ -24,10 +26,26 @@ public class SystemInfo {
         this.historyProjectNum = adminService.viewDoneProject().size();
         this.ongoingProjectNum = adminService.viewDoingProject().size();
 
+        //workerTop100
         List<Worker> list=adminService.workerAccuracyRank();
         int length=list.size()>=100?100:list.size();
         this.workerTop100=new String[length][6];
         toArray(adminService,list,this.workerTop100,length);
+
+        //用户人数图表
+        customerNum=new String[12][3];
+        Calendar temp=Calendar.getInstance();
+        temp.set(Calendar.DAY_OF_MONTH, 1);  //设置日期
+//        temp.add(Calendar.MONTH,-1);
+        int currentNum=this.publisherNum+this.workerNum;
+        for(int i=11;i>=0;i++) {
+            customerNum[i][0] = (temp.get(Calendar.MONTH) + 1) + "月";
+            int monthNum = adminService.registerNum(temp);
+            customerNum[i][1] = Integer.toString(monthNum);
+            customerNum[i][2] = Integer.toString(currentNum);
+            currentNum -= monthNum;
+            temp.add(Calendar.MONTH, -1);
+        }
     }
 
     private void toArray(AdminService adminService,List<Worker> list,String[][] top100,int length){
