@@ -2,6 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -263,8 +264,19 @@ public class ExamController {
     	wkservice.finishTest(userId, trueProjectId);//告诉后端考试完成
     	double score = wkservice.getTestResult(userId, trueProjectId);//用true ProjectId拿结果
     	
-    	return score+"";
+    	Project trueProject = pjservice.getAProject(trueProjectId);
+    	double standard = trueProject.getTestAccuracy();
+    	String res = "";
+    	DecimalFormat df = new DecimalFormat("#.00");
+    	if(score<0) {//结果没出来
+    		return "0";
+    	}
+    	else if(score >= standard) {//考试通过
+    		
+    		return "1_"+df.format(score)+"_"+standard;
+    	}
+    	else {//考试未通过
+    		return "2_"+df.format(score)+"_"+standard;
+    	}	
     }
-    
-    
 }

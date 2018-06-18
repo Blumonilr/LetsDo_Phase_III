@@ -4,6 +4,8 @@ import YingYingMonster.LetsDo_Phase_III.entity.MarkMode;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.service.LabelService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,8 @@ public class PublisherController {
     private LabelService labelService;
     @Autowired
     private ProjectService projectService;
+
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     //发布者界面
     @GetMapping("/publish")
@@ -82,7 +86,12 @@ public class PublisherController {
                 Integer.parseInt(maxNumPerPic), Integer.parseInt(minNumPerPic), endDate, tagRequirement, Integer.parseInt(levelLimit),
                 Double.parseDouble(testAccuracy), payment,labelList);
 
+        logger.info("方法开始");
         project = publisherService.createProject(project, dataSet);
+        logger.info("方法执行结束");
+        logger.info("project object={}", project);
+
+
         if (project.getId() != 0) {
             return "success+"+project.getId();
         } else {
