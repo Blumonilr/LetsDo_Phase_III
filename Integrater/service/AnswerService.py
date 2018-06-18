@@ -5,6 +5,8 @@ import numpy as np
 from matplotlib.path import Path
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from sqlalchemy import update
+
 import utils.DBHandler as db
 import utils.xmlParser as xp
 import utils.cluster as clu
@@ -15,7 +17,7 @@ def work(imageId,markmode):
 	image=session.query(db.Image).filter(db.Image.id==imageId).one()
 
 	# get workers' answers
-	handler=getAnswerFromTags(imageId)
+	handler,userIds=getAnswerFromTags(imageId)
 	usr_ans_rects=handler.allPoints
 	usr_ans_tags=handler.allTags
 
@@ -34,14 +36,16 @@ def work(imageId,markmode):
 			# generate answer
 			res_centers,res_labels,label_accuracy=generateResult(handler,markmode)
 			if markmode==0:
-				print(res_centers)
-				print(res_labels)
+
 				accuracy=[]
 				for ans in usr_ans_rects:
 					tmp=clu.cal_rect_accuracy(ans,res_centers)
 					accuracy.append(tmp)
 
 				# update commit event & user ability
+				for i in range(len(accuracy)):
+					accuracy[i]=0.8*accuracy[i]+0.2*label_accuracy[i]
+				updateAccuracyAndAbility(imageId,userIds,accuracy)
 
 				#generate tag object
 				max_rect_accuracy=0.0
@@ -50,8 +54,9 @@ def work(imageId,markmode):
 					if accuracy[i]>max_rect_accuracy:
 						max_rect_accuracy=accuracy[i]
 						ptr=i
-
-				res_tag=db.Tag()
+				if ptr!=-1:
+					session.query(db.Tag).filter(db.tag.worker_id==userIds[ptr])\
+						.update({db.tag.is_result:True})
 
 				pass
 			elif markmode==1:
@@ -72,18 +77,53 @@ def work(imageId,markmode):
 	session.close()
 
 
+def updateAccuracyAndAbility(imageId,userIds,accuracy):
+	session=db.setup_db()
+	commits=session.query(db.CommitEvent).filter(db.CommitEvent.imageid==imageId).all()
+	for commit in commits:
+		for i in range(len(userIds)):
+			if commit.workerid==userIds[i]:
+				# commit.accuracy=accuracy[i]
+				session.query(db.CommitEvent)\
+					.filter(db.CommitEvent.imageid==imageId and db.CommitEvent.workerid==userIds[i])\
+					.update({db.CommitEvent.accuracy:accuracy[i]})
+
+	'''根据projectId获得项目对象的label
+	转化为string列表
+	'''
+	projectId=session.query(db.Image).filter(db.Image.id==imageId).one().project_id
+	labels=session.query(db.Project_Label).filter(db.Project_Label.project_id==projectId).all()
+	labels=[x.labels for x in labels]
+
+	for i in range(len(userIds)):
+		abilities=session.query(db.Ability).filter(db.Ability.user_id ==userIds[i]
+	                                           and db.Ability.label_name in labels).all()
+		for ability in abilities:
+			for label in labels:
+				if ability.label_name==label:
+					total=ability.label_history_num*ability.accuracy+accuracy[i]
+					count=ability.label_history_num+1
+					total=total/ability.label_history_num
+					session.query(db.Ability).filter(db.Ability.user_id==userIds[i]
+						and db.Ability.label_name==label).update({db.Ability.accuracy:total,
+					                                              db.Ability.label_history_num:count})
+
+	session.close()
+
 def getAnswerFromTags(imageId):
 	session=db.setup_db()
 	tags=session.query(db.Tag).filter(db.Tag.image_id==imageId).all()
+	userIds=[]
 
 	handler=xp.XMLParser()
 
 	for tag in tags:
 		xml_string = tag.xml_file
 		handler.parse(xml_string)
+		userIds.append(tag.worker_id)
 
 	session.close()
-	return handler
+	return handler,userIds
 
 def generateResult(handler,markmode):
 	res_centers=[]
