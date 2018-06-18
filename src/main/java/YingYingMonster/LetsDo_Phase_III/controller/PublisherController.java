@@ -84,9 +84,9 @@ public class PublisherController {
 
         project = publisherService.createProject(project, dataSet);
         if (project.getId() != 0) {
-            return "success";
+            return "success+"+project.getId();
         } else {
-            return "fail";
+            return "fail+fail";
         }
     }
 

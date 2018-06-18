@@ -17,6 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 
 @Controller
 @RequestMapping("/admin")
@@ -44,7 +45,7 @@ public class adminController {
     //系统信息
     @PostMapping("/systemDetail")
     @ResponseBody
-    public String systemInfo(){
+    public String systemInfo() throws ParseException {
         Gson gson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         SystemInfo systemInfo=new SystemInfo(adminService);
         return gson.toJson(systemInfo);

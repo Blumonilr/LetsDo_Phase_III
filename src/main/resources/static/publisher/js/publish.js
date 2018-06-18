@@ -82,14 +82,15 @@ function uploadDataSet() {
         processData: false,
         contentType: false,
         success:function(res){
-            if(res==="success"){
+            var flag=res.split("+")[0];
+            if(flag==="success"){
                 alert("上传成功");
+                setCookie('projectId',res.split("+")[1],'1');
+                setCookie('publisherId',getCookie("userId"),'1')
+                window.location.href="/project/publisher/projectDetail";
             }
-            if(res==="fail"){
+            if(flag==="fail"){
                 alert("上传失败，数据库出错");
-            }
-            if(res==="repetitive"){
-                alert("上传失败，该项目名已被使用");
             }
             console.log(res);
         },

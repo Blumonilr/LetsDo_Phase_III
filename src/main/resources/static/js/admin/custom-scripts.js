@@ -24,6 +24,8 @@ function initFunction() {
             $('#page-wrapper').animate({'margin-left' : '0px'});
         }
     });
+
+    document.getElementById("userId").innerHTML=getCookie("userId")+"&nbsp;";
 }
 
 /*-----------------------------Tabs--------------------------------*/
@@ -267,6 +269,8 @@ function initCharts() {
     // 基于准备好的dom，初始化echarts实例
     var workerRegChart = echarts.init(document.getElementById('workerRegChart'),"light");
     var publisherRegChart = echarts.init(document.getElementById('publisherRegChart'),"light");
+    var projectInfoChart = echarts.init(document.getElementById('projectInfoChart'),"light");
+
 
 
 // 指定图表的配置项和数据
@@ -316,9 +320,55 @@ function initCharts() {
 
 // 使用刚指定的配置项和数据显示图表。
     workerRegChart.setOption(workerNumOption);
-    workerNumOption.dataset.source=systemInfo.publisherRegNum
+    workerNumOption.dataset.source=systemInfo.publisherRegNum;
     publisherRegChart.setOption(workerNumOption);
 
+    var projectInfoOption = {
+        tooltip: {
+            trigger: 'axis'
+        },
+        dataset:{
+            source:systemInfo.projectInfo
+        },
+        legend: {},
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: [
+            {
+                type: 'value',
+                name: '新项目数',
+            },
+            {
+                type: 'value',
+                name: '总项目数'
+            }
+        ],
+        series: [
+            {
+                type: 'bar',
+                stack: '总量',
+                yAxisIndex:0
+            },
+            {
+                type: 'bar',
+                stack: '总量',
+                yAxisIndex:0
+            },
+            {
+                type: 'line',
+                yAxisIndex:1
+            }
+        ]
+    };
+
+    projectInfoChart.setOption(projectInfoOption);
 }
 
 /*-----------------------------init--------------------------------*/
