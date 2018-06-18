@@ -229,8 +229,7 @@ function get_selections_of_a_class(class_name){
  */
 function set_exam_progress(){
     var finished_num = total_picture_num - picture_id_list.length;
-    var txt = "<h5>考试进度: </h5>"+
-              "<p>"+finished_num+"/"+total_picture_num+"</p>";
+    var txt = "<p>考试进度"+finished_num+"/"+total_picture_num+"</p>";
     $("div#exam_progress_area").empty();
     $("div#exam_progress_area").append(txt);
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cssmoban</title>
+    <title>嘤嘤怪众包</title>
     <!-- Bootstrap Styles-->
     <link th:href="@{/assets/css/bootstrap.css}" rel="stylesheet" />
     <!-- FontAwesome Styles-->
@@ -311,21 +311,17 @@
 
         </div>
         <div id="page-inner">
-
-
             <!--我们的操作区开始  -->
-
-            <input  id="hide_show_requirement" type="button" onclick="hide_show_requirement()" value="要求" />
-
+          <img alt="要求" id="requirement_icon" src="/pic/tools/requirement.png" onclick="hide_show_requirement()" />
             <canvas id="penal"></canvas>
             <div id = "tools" >
                 <!-- 工具栏开始 -->
-                <img alt="画点" id="point" src="/pic/tools/pencil.png" class="tools" onMouseMove="hoverIn('point')" onMouseOut="hoverOut('point')">
-                <img alt="画点" class="toolsHover" src="/pic/tools/pencil_hover.png" hidden="hidden" id="pointHover"/><br>
-                <img alt="画线" id="line" src="/pic/tools/line.png" class="tools" onMouseMove="hoverIn('line')" onMouseOut="hoverOut('line')">
-                <img alt="画线" class="toolsHover" src="/pic/tools/line_hover.png" hidden="hidden" id="lineHover"/><br>
-                <img alt="清空" id = "draw_back" src="/pic/tools/clear.png" onClick="draw_back()" class="tools" onMouseMove="hoverIn('draw_back')" onMouseOut="hoverOut('draw_back')">
-                <img alt="清空" class="toolsHover" src="/pic/tools/clear_hover.png" hidden="hidden" id="draw_backHover"/><br>
+                <img alt="画点" id="point" src="/pic/tools/pencil.png" class="tools" />
+               
+                <img alt="画线" id="line" src="/pic/tools/line.png" class="tools"/>
+                
+                <img alt="清空" id = "draw_back" src="/pic/tools/clear.png" onClick="draw_back()" class="tools" />
+               
                 <br>
             </div>
             <!-- 工具栏结束 -->
@@ -337,19 +333,10 @@
             <!-- tipInput结束 -->
 
             <!--上传标志开始-->
-            <div  id="submitArea">
-                <input type="button" value="提交" onclick="submit_tag()" />
-
-            </div>
+             <img alt="提交" id="submit_icon" src="/pic/tools/submit.png" onclick="submit_tag()" />
             <!--上传标志结束-->
 
-            <!--展示项目进度开始-->
-            <div class="progress">
-                <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: 20%;">
-                    <div class="progress-value">0%</div>
-                </div>
-            </div>
-            <!--展示项目进度结束-->
+            
 			<div id="requirementArea">
 	<!--标注要求开始-->
      	
