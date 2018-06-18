@@ -19,10 +19,9 @@ def cal_rec(coordinates,min_samples_=3):
 	else:
 		#   first of all, remove the unusual points using DBSCA
 		plt.scatter(coordinates[:, 0], coordinates[:, 1])
-		clusters = DBSCAN(eps=20, min_samples=min_samples_).fit_predict(
+		clusters = DBSCAN(eps=50, min_samples=min_samples_).fit_predict(
 			coordinates[:,[0,1]])  # cluster id for each point, -1 if eliminated
 		n_clusters_ = len(set(clusters)) - (1 if -1 in clusters else 0)  # n clusters
-
 		'''
 		计算每个目标的平均大小
 		后来发现KMeans就可以做这件事……
@@ -54,7 +53,6 @@ def cal_rec(coordinates,min_samples_=3):
 		# print(clusters)
 		#print(filtered_coordinates)
 		plt.scatter(filtered_coordinates[:, 0], filtered_coordinates[:, 1])
-
 		#   use KMeans to cluster
 		center_coordinates = KMeans(n_clusters=n_clusters_).fit(filtered_coordinates).cluster_centers_
 		# plt.scatter(center_coordinates[:, 0], center_coordinates[:, 1])
