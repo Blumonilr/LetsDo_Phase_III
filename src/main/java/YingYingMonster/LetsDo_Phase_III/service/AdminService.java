@@ -28,7 +28,9 @@ public interface AdminService {
 	 */
 	public List<JoinEvent> viewAllJoinEvents(String workerName, String projectName);
 
-	public int viewUserNum();
+	public int viewWorkerNum();
+
+	public int viewPublisherNum();
 
 	public List<Project> viewDoingProject();
 

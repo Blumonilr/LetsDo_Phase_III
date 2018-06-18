@@ -75,9 +75,16 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int viewUserNum(){
-		return userService.findUsersByName("").size();
+	public int viewWorkerNum() {
+		return userService.findWorkerByNameLike("").size();
 	}
+
+	@Override
+	public int viewPublisherNum() {
+		return userService.findPublisherByNameLike("").size();
+	}
+
+
 
 
 	@Override
