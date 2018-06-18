@@ -93,9 +93,9 @@ public class PublisherController {
 
 
         if (project.getId() != 0) {
-            return "success";
+            return "success+"+project.getId();
         } else {
-            return "fail";
+            return "fail+fail";
         }
     }
 

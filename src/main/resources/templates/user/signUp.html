@@ -12,24 +12,36 @@
 
     <link href="/css/login/bootstrap.min.css" rel="stylesheet">
 
+      <link rel="stylesheet" type="text/css" href="/css/admin/tachyons.min.css">
+
   </head>
   <body>
 
-    <div class="container-fluid" style="margin-top: 50px">
-	<div class="row">
-		<div class="col-md-6">
-			<button type="button" onclick="worker()" class="btn btn-warning">
-				worker
-			</button>
-		</div>
-		<div class="col-md-6">
-			<button type="button" onclick="publisher()" class="btn btn-primary">
-				publisher
-			</button>
-		</div>
-	</div>
-</div>
+  <div class="container-fluid ma0 pa0" style="position:relative;">
+      <img src="/images/sample.jpg" class="blur">
+      <div class="row" style="margin-top: 20rem">
+          <div class="fl w-50 br pa7 tc">
+              <button type="button" onclick="worker()" class="btn btn-lg btn-warning">worker</button>
+          </div>
+          <div class="fl w-50 pa7 tc">
+              <button type="button" onclick="publisher()" class="btn btn-lg btn-primary">publisher</button>
+          </div>
+      </div>
+  </div>
+<style>
+    .blur{
+        filter:blur(50px);
+        -webkit-filter:blur(50px);
+        -moz-filter:blur(50px);
+        -ms-filter:blur(50px);
+        -o-filter:blur(50px);
+    }
 
+    img{
+        position:absolute;
+        z-index:-1;
+    }
+</style>
     <script src="/js/login/jquery.min.js"></script>
     <script src="/js/login/bootstrap.min.js"></script>
     <script>
