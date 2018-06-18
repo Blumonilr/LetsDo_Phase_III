@@ -112,15 +112,6 @@ public aspect WorkerAspect {
         worker.setTagNum(worker.getTagNum() + 1);
         userRepository.saveAndFlush(worker);
 
-
-
-        Project project = projectService.getAProject(tag.getProjectId());
-        for(String l:project.getLabels){
-            Ability ability=abilityRepository.findByLabelAndUser(labelRepository.findByName(l),worker);
-            ability.setLabelHistoryNum(ability.getLabelHistoryNum()+1);
-            abilityRepository.saveAndFlush(ability);
-        }
-
         try {
             System.out.println("java tries to connect to python");
 
