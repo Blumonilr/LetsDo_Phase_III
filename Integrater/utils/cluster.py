@@ -13,10 +13,11 @@ returns an array of classified cluster's coordinates
 '''
 
 
-def cal_rec(coordinates,min_samples_=3):
+def cal_rec(coordinates,min_samples_=2):
 	if type(coordinates) != np.ndarray:
 		print("coordinates' type is not a ndarray!")
 	else:
+
 		#   first of all, remove the unusual points using DBSCA
 		plt.scatter(coordinates[:, 0], coordinates[:, 1])
 		clusters = DBSCAN(eps=1, min_samples=min_samples_).fit_predict(
@@ -54,14 +55,14 @@ def cal_rec(coordinates,min_samples_=3):
 
 		# print(n_clusters_)
 		# print(clusters)
-		# print(filtered_coordinates)
+		#print(filtered_coordinates)
 
 		plt.scatter(filtered_coordinates[:, 0], filtered_coordinates[:, 1])
 
 		#   use KMeans to cluster
 		center_coordinates = KMeans(n_clusters=n_clusters_).fit(filtered_coordinates).cluster_centers_
-		plt.scatter(center_coordinates[:, 0], center_coordinates[:, 1])
-		plt.show()
+		# plt.scatter(center_coordinates[:, 0], center_coordinates[:, 1])
+		# plt.show()
 		'''
 		center_coordinates is a n*4 ndarray
 		map every element of it to int
@@ -121,6 +122,7 @@ def preprocess_data(points):
 			coordinates.append(square)
 	# coordinates = np.ndarray(shape=(len(coordinates), 2), buffer=np.array(coordinates))
 	coordinates=np.array(coordinates)
+
 	return coordinates
 	pass
 

@@ -8,7 +8,9 @@ var requirement_hide = false;
 
 var class_name_list = ["猪","牛"];
 
-var selection_str_list = ["肥瘦_肥_瘦,大小_大_小","性别_雄_雌,种类_耕牛_奶牛"];
+var selection_str_list = [];
+
+var total_num = 0;
 
 function getNewPicture(){
 
@@ -215,4 +217,9 @@ function get_selections_of_a_class(class_name){
         }
     }
     return "";//没有找到返回""
+}
+
+
+function set_progress(){
+  
 }

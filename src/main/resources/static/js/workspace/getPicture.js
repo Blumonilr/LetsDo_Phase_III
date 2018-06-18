@@ -4,24 +4,37 @@
 
 var picture_id_list = [];
 
-var class_name_list = ["猪","牛"];
+var class_name_list = [];
 
-var selection_str_list = ["肥瘦_肥_瘦,大小_大_小","性别_雄_雌,种类_耕牛_奶牛"];
+var selection_str_list = [];
 
 var requirement_hide = false;
+
+var page_num = 0;
+
+var current_page_num = 0;
 
 
 function getNewPicture(){
 
-    if(picture_id_list.length === 0){
-        //没有缓存的了
-        get_a_list_of_pictures();
-    }
+        if(current_page_num > page_num){
+            //全部完成，退出
+            toastr.success("1已完成所有的标注！休息一下吧！");
+            setTimeout("set_href()",3000);
 
-    var pictureId = picture_id_list[0];
-    picture_id_list.splice(0,1);
-    setCookie("pictureId" , pictureId);
-    setCssBackground(pictureId);
+        }
+        else{
+           if(picture_id_list.length === 0){
+               get_a_list_of_pictures();
+               current_page_num++;
+           }
+
+            var pictureId = picture_id_list[0];
+            picture_id_list.splice(0,1);
+            setCookie("pictureId" , pictureId);
+            setCssBackground(pictureId);
+            set_progress();
+        }
 }
 
 /**
@@ -33,7 +46,8 @@ function get_a_list_of_pictures(){
         url:  "/workspace/getsomeimages",
         type: "get",
         async:false, //同步
-        data:{"projectId" : projectId},
+        data:{"projectId" : projectId,
+              "pageNumber" : current_page_num},
         success: function (data) {
             var list = data.split("_");
             var len = list.length;
@@ -47,10 +61,36 @@ function get_a_list_of_pictures(){
             else {
                 //没有图片了
                 toastr.info("已完成所有的标注！休息一下吧！");
+                setTimeout("set_href()",3000);
+
             }
         }
     });
 }
+
+function get_page_num(){
+    var projectId = getCookie("projectId");
+    $.ajax({
+        url:  "/workspace/getTotalPageNum",
+        type: "get",
+        async:false, //同步
+        data:{"projectId" : projectId},
+        success: function (data) {
+            page_num = parseInt(data);
+        }
+    });
+}
+
+/**
+ * 更新进度
+ */
+function set_progress(){
+    var left = picture_id_list.length;
+    var txt = "<p>第<font color='#1e90ff'>"+current_page_num+"</font>组  剩余<font color= #ff69b4>"+left +"</font>张</p>";
+    $("div#progress").empty();
+    $("div#progress").append(txt);
+}
+
 
 /**
  * 将图片放进url
@@ -204,4 +244,8 @@ function hide_show_requirement(){
         $("#requirementArea").hide();
         requirement_hide = true;
     }
+}
+
+function set_href(){
+    window.location.href = "/myProjects/projects";
 }

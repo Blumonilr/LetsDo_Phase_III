@@ -5,13 +5,11 @@ import numpy as np
 from matplotlib.path import Path
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from sqlalchemy import update
 
-import utils.DBHandler as db
-import utils.xmlParser as xp
-import utils.cluster as clu
-
-import utils.cal_similarity as cs
+import Integrater.utils.DBHandler as db
+import Integrater.utils.xmlParser as xp
+import Integrater.utils.cluster as clu
+import Integrater.utils.cal_similarity as cs
 
 
 def work(imageId,markmode):
@@ -73,22 +71,26 @@ def work(imageId,markmode):
 
 				pass
 			elif markmode==1:
-				accuracy=[]
 				max_rect_accuracy = 0.0
-				ptr = -1
+				ptr = 0
 				for i in range(len(label_accuracy)):
-					if accuracy[i] > max_rect_accuracy:
+					if label_accuracy[i] > max_rect_accuracy:
 						max_rect_accuracy = label_accuracy[i]
 						ptr = i
-				if ptr!=-1:
-					session.query(db.Tag).filter(db.tag.worker_id==userIds[ptr])\
-						.update({db.tag.is_result:True})
-				answerTag = session.query(db.Tag).filter(db.Tag.image_id == imageId and db.Tag.is_result == True).one()
-				tags=session.query(db.Tag).filter(db.tag.image_id==imageId).all();
+				if ptr!=0:
+					session.query(db.Tag).filter(db.Tag.worker_id==userIds[ptr] and db.Tag.image_id==imageId).update({db.Tag.is_result:True})
+				tags=session.query(db.Tag).filter(db.Tag.image_id==imageId).all()
+				answerTag=db.Tag
+				for tag in tags:
+					if tag.worker_id==userIds[ptr]:
+						answerTag=tag
+						break
 				accuracy=[]
+
 				for j in range(0,len(tags)):
 					acc=cs.cal_similarity(tags[j],answerTag,width,height)
 					accuracy.append(acc*0.8+label_accuracy[j]*0.2)
+
 				updateAccuracyAndAbility(imageId, userIds, accuracy)
 				pass
 
@@ -110,6 +112,7 @@ def work(imageId,markmode):
 def updateAccuracyAndAbility(imageId,userIds,accuracy):
 	session=db.setup_db()
 	commits=session.query(db.CommitEvent).filter(db.CommitEvent.imageid==imageId).all()
+
 	for commit in commits:
 		for i in range(len(userIds)):
 			if commit.workerid==userIds[i]:
@@ -159,7 +162,6 @@ def generateResult(handler,markmode):
 	res_centers=[]
 	res_labels=[]
 	label_accuracy=[]
-
 	if markmode==0:
 		# square
 		points=handler.allPoints
@@ -193,7 +195,6 @@ def generateTextLabel(labels):
 		for y in x:
 			nx.append([names.index(y[0]),values.index(y[1])])
 		new_labels.append(nx)
-
 	center=clu.cal_rec(clu.preprocess_data(new_labels))
 
 	res=[]
@@ -203,8 +204,7 @@ def generateTextLabel(labels):
 	# calculate accuracy
 	accuracy=[]
 	for x in new_labels:
-		accuracy.append(clu.cal_label_accuracy(x,res))
-
+		accuracy.append(clu.cal_label_accuracy(x,center))
 	return res,accuracy
 
 
@@ -256,13 +256,6 @@ if __name__=='__main__':
 	# coordinates,user_accuracy=clu.cal_rec(coordinates)
 	# print(coordinates)
 	# generateTag(coordinates,30,30)
-
-
-	t=[[['性别', '雌'], ['种类', '耕牛'], ['肥瘦', '肥'], ['大小', '大']],\
-	   [['性别', '雄'], ['种类', '母猪'], ['肥瘦', '肥'], ['大小', '大']], \
-	   [['性别', '雄'], ['种类', '耕牛'], ['肥瘦', '瘦'], ['大小', '大']], \
-	   [['性别', '雄'], ['种类', '耕牛'], ['肥瘦', '肥'], ['大小', '小']]]
-
-	generateTextLabel(t)
+	work(121,1)
 
 	pass

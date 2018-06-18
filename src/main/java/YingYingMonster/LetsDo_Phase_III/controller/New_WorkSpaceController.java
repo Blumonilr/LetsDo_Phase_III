@@ -38,6 +38,8 @@ public class New_WorkSpaceController {
 	
 	ArrayList<Image> picture_list = new ArrayList<Image>();//暂存
 	
+	private static int number_of_a_page = 5;
+	
 	/**
 	 * 
 	 * @return 返回标注的界面
@@ -67,10 +69,12 @@ public class New_WorkSpaceController {
 		String res = "";
 	
 		String projectId = request.getParameter("projectId");
+		String pageNumber = request.getParameter("pageNumber");
 		
     	long pjid = Long.parseLong(projectId);
+    	int pageNum = Integer.parseInt(pageNumber);
     	
-    	picture_list = (ArrayList<Image>) wkservice.getAPageOfImage(pjid,0);//pageNum参数不给出，给0
+    	picture_list = (ArrayList<Image>) wkservice.getAPageOfImage(pjid,pageNum);//pageNum参数不给出，给0
 		int len = picture_list.size();
 		for(int i=0;i<len;i++) {
 			res += picture_list.get(i).getId();
@@ -80,6 +84,25 @@ public class New_WorkSpaceController {
 		}
 		
 		return res;//如果没有了，返回""
+	}
+	
+	/**
+	 * @return返回总共的页数
+	 */
+	@ResponseBody
+	@GetMapping("/getTotalPageNum")
+	public String getTotalPageNumber(HttpServletRequest request, HttpServletResponse response) {
+		
+		String projectId = request.getParameter("projectId");
+		
+    	long pjid = Long.parseLong(projectId);
+    	
+    	picture_list = (ArrayList<Image>) wkservice.getAllImages(pjid);
+		int len = picture_list.size();//总共图片数量
+		
+		int page_num = len / number_of_a_page;
+		System.out.println("PAGE NUM: "+page_num);
+		return page_num+"";//如果没有了，返回""
 	}
 	
    /**
