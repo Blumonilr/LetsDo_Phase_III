@@ -6,9 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LabelRepository extends JpaRepository<Label,Long> {
-    public Label findById(long id);
 
-    public List<Label> findByName(String name);
+    public Label findByName(String name);
 
 
 }
