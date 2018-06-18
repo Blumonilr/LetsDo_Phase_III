@@ -11,6 +11,8 @@ import utils.DBHandler as db
 import utils.xmlParser as xp
 import utils.cluster as clu
 
+from Integrater.utils import cal_similarity
+
 
 def work(imageId,markmode):
 	session=db.setup_db()
@@ -20,6 +22,8 @@ def work(imageId,markmode):
 	handler,userIds=getAnswerFromTags(imageId)
 	usr_ans_rects=handler.allPoints
 	usr_ans_tags=handler.allTags
+	width=handler.pictureWidth
+	height=handler.pictureHeight
 
 	if image.is_finished:
 		# get the answer
@@ -27,6 +31,15 @@ def work(imageId,markmode):
 		# calculate accuracy and update the db
 		print('already has result , calculate accuracy')
 		print('update db')
+		handler=xp.XMLParser()
+		handler.parse(tag.xml_file)
+		pointsAnswer=handler.allPoints[0]
+		labelAnswer=handler.allTags[0]
+		accuracy=[]
+		for i in range(0,len(usr_ans_rects)):
+			acc=clu.cal_rect_accuracy(usr_ans_rects[i],pointsAnswer)*0.8+clu.cal_label_accuracy(usr_ans_tags[i],labelAnswer)
+			accuracy.append(acc)
+		updateAccuracyAndAbility(imageId, userIds, accuracy)
 
 		pass
 	else:
@@ -60,6 +73,23 @@ def work(imageId,markmode):
 
 				pass
 			elif markmode==1:
+				accuracy=[]
+				max_rect_accuracy = 0.0
+				ptr = -1
+				for i in range(len(label_accuracy)):
+					if accuracy[i] > max_rect_accuracy:
+						max_rect_accuracy = label_accuracy[i]
+						ptr = i
+				if ptr!=-1:
+					session.query(db.Tag).filter(db.tag.worker_id==userIds[ptr])\
+						.update({db.tag.is_result:True})
+				answerTag = session.query(db.Tag).filter(db.Tag.image_id == imageId and db.Tag.is_result == True).one()
+				tags=session.query(db.Tag).filter(db.tag.image_id==imageId).all();
+				accuracy=[]
+				for j in range(0,len(tags)):
+					acc=cal_similarity.cal_similarity(tags[j],answerTag,width,height)
+					accuracy.append(acc*0.8+label_accuracy[j]*0.2)
+				updateAccuracyAndAbility(imageId, userIds, accuracy)
 				pass
 
 			# calculate accuracy and update the db
