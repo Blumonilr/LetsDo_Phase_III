@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class SystemInfo {
+    private AdminService adminService;
     @Expose private int publisherNum;
     @Expose private int workerNum;
     @Expose private int historyProjectNum;
@@ -16,9 +17,13 @@ public class SystemInfo {
     @Expose private String[][] workerTop100;
     @Expose private List<Worker> workerList;
     @Expose private List<Publisher> publisherList;
-    @Expose private String[][] customerNum;
+    @Expose private String[][] workerRegNum;
+    @Expose private String[][] publisherRegNum;
+    @Expose private String[][] projectInfo;
+
 
     public SystemInfo(AdminService adminService) {
+        this.adminService=adminService;
         this.workerList=adminService.viewAllWorkers();
         this.publisherList=adminService.viewAllPublishers();
         this.publisherNum = this.publisherList.size();
@@ -27,27 +32,72 @@ public class SystemInfo {
         this.ongoingProjectNum = adminService.viewDoingProject().size();
 
         //workerTop100
+        setTop100();
+
+        //用户人数图表
+        setRegNum();
+
+        //项目完成情况
+        setProjectInfo();
+    }
+
+    private void setProjectInfo(){
+        projectInfo =new String[13][3];
+        projectInfo[0][0]="月份";
+        projectInfo[0][1]="当月注册人数";
+        projectInfo[0][2]="当月总人数";
+        Calendar temp=Calendar.getInstance();
+        temp.set(Calendar.DAY_OF_MONTH, 1);  //设置日期
+        int currentNum=adminService.viewWorkerNum();
+        for(int i=12;i>0;i--) {
+            projectInfo[i][0] = (temp.get(Calendar.MONTH) + 1) + "月";
+            int monthNum = adminService.registerWorkerNum(temp);
+            projectInfo[i][1] = Integer.toString(monthNum);
+            projectInfo[i][2] = Integer.toString(currentNum);
+            currentNum -= monthNum;
+            temp.add(Calendar.MONTH, -1);
+        }
+    }
+
+    private void setRegNum(){
+        workerRegNum =new String[13][3];
+        workerRegNum[0][0]="月份";
+        workerRegNum[0][1]="当月注册人数";
+        workerRegNum[0][2]="当月总人数";
+        Calendar temp=Calendar.getInstance();
+        temp.set(Calendar.DAY_OF_MONTH, 1);  //设置日期
+        int currentNum=adminService.viewWorkerNum();
+        for(int i=12;i>0;i--) {
+            workerRegNum[i][0] = (temp.get(Calendar.MONTH) + 1) + "月";
+            int monthNum = adminService.registerWorkerNum(temp);
+            workerRegNum[i][1] = Integer.toString(monthNum);
+            workerRegNum[i][2] = Integer.toString(currentNum);
+            currentNum -= monthNum;
+            temp.add(Calendar.MONTH, -1);
+        }
+
+        publisherRegNum =new String[13][3];
+        publisherRegNum[0][0]="月份";
+        publisherRegNum[0][1]="当月注册人数";
+        publisherRegNum[0][2]="当月总人数";
+        temp=Calendar.getInstance();
+        temp.set(Calendar.DAY_OF_MONTH, 1);  //设置日期
+        currentNum=adminService.viewPublisherNum();
+        for(int i=12;i>0;i--) {
+            publisherRegNum[i][0] = (temp.get(Calendar.MONTH) + 1) + "月";
+            int monthNum = adminService.registerPublisherNum(temp);
+            publisherRegNum[i][1] = Integer.toString(monthNum);
+            publisherRegNum[i][2] = Integer.toString(currentNum);
+            currentNum -= monthNum;
+            temp.add(Calendar.MONTH, -1);
+        }
+    }
+
+    private void setTop100(){
         List<Worker> list=adminService.workerAccuracyRank();
         int length=list.size()>=100?100:list.size();
         this.workerTop100=new String[length][6];
         toArray(adminService,list,this.workerTop100,length);
-
-        //用户人数图表
-        customerNum=new String[13][3];
-        customerNum[0][0]="月份";
-        customerNum[0][1]="当月注册人数";
-        customerNum[0][2]="当月总人数";
-        Calendar temp=Calendar.getInstance();
-        temp.set(Calendar.DAY_OF_MONTH, 1);  //设置日期
-        int currentNum=this.publisherNum+this.workerNum;
-        for(int i=12;i>0;i--) {
-            customerNum[i][0] = (temp.get(Calendar.MONTH) + 1) + "月";
-            int monthNum = adminService.registerNum(temp);
-            customerNum[i][1] = Integer.toString(monthNum);
-            customerNum[i][2] = Integer.toString(currentNum);
-            currentNum -= monthNum;
-            temp.add(Calendar.MONTH, -1);
-        }
     }
 
     private void toArray(AdminService adminService,List<Worker> list,String[][] top100,int length){
