@@ -8,12 +8,13 @@
     border-color: rgba(113,114,122,0.80);
     border-width: medium;
     background-position: center;
+     border-radius: 4px;
 }
 
 #tipInput{
-    position: absolute;
-    left: 860px;
-    top: 185px;
+    position: relative;
+    left: 750px;
+    top: -200px;
     overflow: auto;
     width:350px;
     height: 400px;
@@ -31,34 +32,60 @@
     
 }
 
-#submitArea{
-    position: absolute;
-    left: 750px;
-    top: 400px;
-}
-
-#submit_button{
+#submit_icon{
+    border-style: outset;
+    border-width: thin;
     background-color: rgba(86,146,255,0.51);
     width: 40px;
     height: 40px;
     border-radius: 2px;
+     position: relative;
+    left: 700px;
+    top: -340px;
+     border-radius: 2px;
 }
 
-#submit_button:hover{
-    background-color: rgba(140,247,255,0.51);
+#submit_icon:hover{
+    background-color: rgba(86,146,255,0.9);
+}
+
+
+#requirement_icon{
+    background-color: rgba(255,166,193,0.51);
+    width: 40px;
+    height: 40px;
     border-radius: 2px;
+     position: relative;
+    left: 700px;
+    top: 210px;
 }
 
-#submit_button{
-    border-style: inset;
+#requirement_icon:hover{
+    background-color: rgba(255,166,193,0.9);
+}
+
+#delete_icon{
+    border-style: outset;
+    border-width: thin;
+    background-color: rgba(255,176,57,0.51);
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+     position: relative;
+    left: 655px;
+    top: 165px;
+}
+
+#delete_icon:hover{
+    background-color: rgba(255,176,57,0.9);
 }
 
 #requirementArea{
-	width: 300px;
+	width: 340px;
     height: 200px;
 	position:relative;
     left: 750px;
-    top: 300px;
+    top: -230px;
     border-style:outset;
     border-color: #edaeff;
     border-width: thin;
@@ -68,58 +95,62 @@
     background-color: rgba(255,245,238,0.8);
 }
 
-#hide_show_requirement{
-    position: relative;
-	left: 780px;
-    top: 0px;
-}
-
-#delete_square{
-	position: relative;
-	left: 720px;
-    top: 50px;
-
-}
-
 #colors{
-    position: absolute;
-    left: 750px;
-    top: 200px;
+    position: relative;
+    left: 700px;
+    top: -40px;
     width: 50px;
 }
 
 .color_pickers {
     width:40px;
     height:40px;
+    border-radius: 2px;
     transition-duration: 0.2s;
     -webkit-transition-duration: 0.2s;
     border-color:#323131;
 }
 
-.color_pickers:hover{
-    background-color: rgba(230,255,231,0.68);
-}
 
 #color_red{
     background-color: rgba(255,132,127,0.62);
+}
+#color_red:hover{
+    background-color: rgba(255,132,127,0.9);
 }
 
 #color_yellow{
     background-color: rgba(255,248,96,0.54);
 }
+#color_yellow:hover{
+    background-color: rgba(255,248,96,0.9);
+}
 
 #color_blue{
     background-color: rgba(63,209,255,0.51);
+}
+#color_blue:hover{
+    background-color: rgba(63,209,255,0.9);
 }
 
 #color_green{
     background-color: rgba(44,255,65,0.51);
 }
+#color_green:hover{
+    background-color: rgba(44,255,65,0.9);
+}
 
 .obj_delete_btn{
     background-color: rgba(246,255,244,0.51);
     border-radius: 2px;
-    width: 25px;
+    width: 18px;
+    position: relative;
+    left:330px;
+}
+.obj_delete_btn:hover{
+    background-color: rgba(246,255,244,0.9);
+    border-radius: 2px;
+    width: 18px;
 }
 
 .demo{

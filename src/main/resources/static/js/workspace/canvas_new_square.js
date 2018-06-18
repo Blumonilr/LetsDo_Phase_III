@@ -166,8 +166,9 @@ function show_a_new_tip(color_num){
     final_txt = final_txt + class_option_txt;
     final_txt = final_txt + "<div id='obj_selections_div_"+color_num+"'>...</div>";
 
-    var btn = "<input type='button' class='obj_delete_btn' id='delete_"+color_num+"' onclick='delete_one_color(this)' value='❌'>";
-    final_txt = final_txt + btn + " </div>";
+   // var btn = "<input type='button' class='obj_delete_btn' id='delete_"+color_num+"' onclick='delete_one_color(this)' value='❌'>";
+    var btn_img = "<img onclick='delete_one_color(this)' class='obj_delete_btn' src='/pic/tools/remove.png' id='delete_"+color_num+"'/>"
+    final_txt = final_txt + btn_img + " </div>";
     $("#tipInput").append(final_txt);
 }
 
@@ -805,7 +806,6 @@ function auto_submit_tips(){
         //red
         str = get_selections_of_a_class(red_tip_class);
         strs = str.split(",");
-        alert("RED: AUTO : "+strs);
         var result_list = [];
         for(let i=0;i<strs.length;i++){
             var title = strs[i].split("_")[0];

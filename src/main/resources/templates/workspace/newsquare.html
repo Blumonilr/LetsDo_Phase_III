@@ -60,6 +60,7 @@
             mark.init();//初始化画笔
 
             set_requirement();//area.js
+            get_page_num();
             getNewPicture();//getPicture.js
             get_options();
         };
@@ -301,9 +302,9 @@
                 标注项目 <small>yingyingMonster为您加油</small>
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Dashboard</a></li>
-                <li class="active">Data</li>
+                <div id="progress">
+
+                </div>
             </ol>
 
         </div>
@@ -311,9 +312,8 @@
 
 
             <!--我们的操作区开始  -->
-
-            <input  id="hide_show_requirement" type="button" onclick="hide_show_requirement()" value="要求" />
-            <input  id="delete_square" type="button" onclick="delete_selected_square()" value="删除" />
+            <img alt="要求" id="requirement_icon" src="/pic/tools/requirement.png" onclick="hide_show_requirement()" />
+            <img alt="删除" id="delete_icon" src="/pic/tools/delete.png" onclick="delete_selected_square()" />
 
             <canvas id="penal"></canvas>
             <div id = "colors" >
@@ -333,10 +333,9 @@
             <!-- tipInput结束 -->
 
             <!--上传标志开始-->
-            <div  id="submitArea">
-                <input id="submit_button" type="button" value="提交  " onclick="submit_tag()" />
 
-            </div>
+                <img alt="提交" id="submit_icon" src="/pic/tools/submit.png" onclick="submit_tag()" />
+
             <!--上传标志结束-->
 
 			<div id="requirementArea">
