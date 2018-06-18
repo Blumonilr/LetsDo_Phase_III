@@ -75,9 +75,16 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int viewUserNum(){
-		return userService.findUsersByName("").size();
+	public int viewWorkerNum() {
+		return userService.findWorkerByNameLike("").size();
 	}
+
+	@Override
+	public int viewPublisherNum() {
+		return userService.findPublisherByNameLike("").size();
+	}
+
+
 
 
 	@Override
@@ -239,8 +246,19 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int registerNum(Calendar date) {
-		List<User> users=userService.findUsersByName("");
+	public int registerWorkerNum(Calendar date) {
+		List<Worker> users=userService.findWorkerByNameLike("");
+		int num=0;
+		for (User u:users){
+			if (u.getRegisterDate().get(Calendar.YEAR)==date.get(Calendar.YEAR)&&u.getRegisterDate().get(Calendar.MONTH)==date.get(Calendar.MONTH))
+				num++;
+		}
+		return num;
+	}
+
+	@Override
+	public int registerPublisherNum(Calendar date) {
+		List<Publisher> users=userService.findPublisherByNameLike("");
 		int num=0;
 		for (User u:users){
 			if (u.getRegisterDate().get(Calendar.YEAR)==date.get(Calendar.YEAR)&&u.getRegisterDate().get(Calendar.MONTH)==date.get(Calendar.MONTH))

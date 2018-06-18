@@ -16,7 +16,8 @@ var current_page_num = 0;
 
 
 function getNewPicture(){
-
+        console.log("get new");
+        console.log("CURRENT PAGE NUM: "+current_page_num);
         if(current_page_num > page_num){
             //全部完成，退出
             toastr.success("1已完成所有的标注！休息一下吧！");
@@ -24,6 +25,7 @@ function getNewPicture(){
 
         }
         else{
+            console.log("IDLIST LENGTH: "+picture_id_list.length);
            if(picture_id_list.length === 0){
                get_a_list_of_pictures();
                current_page_num++;
@@ -76,7 +78,9 @@ function get_page_num(){
         async:false, //同步
         data:{"projectId" : projectId},
         success: function (data) {
+            console.log("TOTAL PAGE NUM : "+data);
             page_num = parseInt(data);
+            current_page_num = 0;
         }
     });
 }

@@ -206,7 +206,8 @@ public class PublisherController {
             return ;
         }
         //设置响应头，控制浏览器下载该文件
-        response.setHeader("content-disposition", "attachment;filename=" + project.getProjectName()+"结果集");
+        response.setContentType("application/form-data");
+        response.setHeader("content-disposition", "attachment;filename=" + project.getProjectName()+"result.zip");
         //创建输出流
         OutputStream outputStream = response.getOutputStream();
         //创建缓冲区

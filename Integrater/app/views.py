@@ -10,7 +10,7 @@ def index():
 
 @app.route("/hello")
 def test():
-    controller.work(10,0)
+    controller.work(121,1)
     return "hello world"
 
 
@@ -22,3 +22,6 @@ def postImage():
     controller.work(image_id,markMode)
 
     return "hello"
+
+if __name__=="__main__":
+    controller.work(121,1)

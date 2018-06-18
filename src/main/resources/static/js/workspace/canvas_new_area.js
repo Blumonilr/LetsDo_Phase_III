@@ -125,8 +125,9 @@ function show_a_new_tip(num){
     final_txt = final_txt + class_option_txt;
     final_txt = final_txt + "<div id='obj_selections_div_"+num+"'>...</div>";
 
-    var btn = "<input type='button' id='delete_"+num+"' onclick='delete_a_tip(this)' value='删除'>";
-    final_txt = final_txt + btn + " </div>";
+    //var btn = "<input type='button' id='delete_"+num+"' onclick='delete_a_tip(this)' value='删除'>";
+    var btn_img = "<img onclick='delete_a_tip(this)' class='obj_delete_btn' src='/pic/tools/remove.png' id='delete_"+num+"'/>";
+    final_txt = final_txt + btn_img + " </div>";
     $("#tipInput").append(final_txt);
 }
 

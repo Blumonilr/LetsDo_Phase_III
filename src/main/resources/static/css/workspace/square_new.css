@@ -28,8 +28,7 @@
     border-style:outset;
     border-color: rgba(113,114,122,0.80);
     border-width: thin;
-    border-radius: 5px;
-    
+    border-radius: 3px; 
 }
 
 #submit_icon{

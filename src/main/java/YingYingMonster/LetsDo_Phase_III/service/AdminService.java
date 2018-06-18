@@ -28,7 +28,9 @@ public interface AdminService {
 	 */
 	public List<JoinEvent> viewAllJoinEvents(String workerName, String projectName);
 
-	public int viewUserNum();
+	public int viewWorkerNum();
+
+	public int viewPublisherNum();
 
 	public List<Project> viewDoingProject();
 
@@ -64,7 +66,9 @@ public interface AdminService {
 
 	public List<Worker> workerAccuracyRank();
 
-	public int registerNum(Calendar date);
+	public int registerWorkerNum(Calendar date);
+
+	public int registerPublisherNum(Calendar date);
 
 	public List<Project> projectStart(Calendar date) throws ParseException;
 

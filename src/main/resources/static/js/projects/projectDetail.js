@@ -104,15 +104,25 @@ function release(){
 
 function download(){
     $.ajax({
-        url: "/project/release",
+        url: "/publisherPage/downloadCheck",
         type: "post",
         dataType:"text",
         data:{"projectId":getCookie("projectId")},
         success : function(re){
             if(re==="success"){
-                $.ajax.get("/publisherPage/download?"+getCookie("projectId"));
+                var form=$("<form>");//定义一个form表单
+                form.attr("style","display:none");
+                form.attr("method","get");
+                form.attr("action","/publisherPage/download");
+                var input1=$("<input>");
+                input1.attr("type","hidden");
+                input1.attr("name","projectId");
+                input1.attr("value",getCookie("projectId"));
+                $("body").append(form);//将表单放置在web中
+                form.append(input1);
+                form.submit();//表单提交
             }else {
-                alert("项目未完成")
+                alert("项目未完成");
             }
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {

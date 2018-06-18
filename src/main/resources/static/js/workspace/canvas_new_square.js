@@ -167,7 +167,7 @@ function show_a_new_tip(color_num){
     final_txt = final_txt + "<div id='obj_selections_div_"+color_num+"'>...</div>";
 
    // var btn = "<input type='button' class='obj_delete_btn' id='delete_"+color_num+"' onclick='delete_one_color(this)' value='❌'>";
-    var btn_img = "<img onclick='delete_one_color(this)' class='obj_delete_btn' src='/pic/tools/remove.png' id='delete_"+color_num+"'/>"
+    var btn_img = "<img onclick='delete_one_color(this)' class='obj_delete_btn' src='/pic/tools/remove.png' id='delete_"+color_num+"'/>";
     final_txt = final_txt + btn_img + " </div>";
     $("#tipInput").append(final_txt);
 }

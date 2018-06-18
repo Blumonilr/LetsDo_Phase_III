@@ -21,6 +21,7 @@ public class CommitEvent {
     private Date commitTime;
     private double accuracy;
     private String commitMsg = EVALUATING;
+    private double effeciency;
 
     public long getImageid() {
         return imageid;
@@ -93,5 +94,13 @@ public class CommitEvent {
 
     public void setCommitMsg(String commitMsg) {
         this.commitMsg = commitMsg;
+    }
+
+    public double getEffeciency() {
+        return effeciency;
+    }
+
+    public void setEffeciency(double effeciency) {
+        this.effeciency = effeciency;
     }
 }
