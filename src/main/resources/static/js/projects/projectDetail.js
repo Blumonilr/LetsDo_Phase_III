@@ -110,7 +110,7 @@ function download(){
         data:{"projectId":getCookie("projectId")},
         success : function(re){
             if(re==="success"){
-                $.ajax.get("/publisherPage/download?"+getCookie("projectId"));
+                $.get("/publisherPage/download?projectId="+getCookie("projectId"));
             }else {
                 alert("项目未完成")
             }
