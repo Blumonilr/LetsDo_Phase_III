@@ -101,8 +101,11 @@ public class New_WorkSpaceController {
 		int len = picture_list.size();//总共图片数量
 		
 		int page_num = len / number_of_a_page;
+		if(len % number_of_a_page != 0) {
+			page_num++;
+		}
 		System.out.println("PAGE NUM: "+page_num);
-		return page_num+"";//如果没有了，返回""
+		return page_num+"";//
 	}
 	
    /**

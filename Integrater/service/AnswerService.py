@@ -15,7 +15,6 @@ import Integrater.utils.cal_similarity as cs
 def work(imageId,markmode):
 	session=db.setup_db()
 	image=session.query(db.Image).filter(db.Image.id==imageId).one()
-
 	# get workers' answers
 	handler,userIds=getAnswerFromTags(imageId)
 	usr_ans_rects=handler.allPoints
@@ -43,16 +42,16 @@ def work(imageId,markmode):
 	else:
 		print('calculate the result , calculate accuracy')
 		print('update db')
+
 		try:
 			# generate answer
 			res_centers,res_labels,label_accuracy=generateResult(handler,markmode)
 			if markmode==0:
-
+				print(label_accuracy)
 				accuracy=[]
 				for ans in usr_ans_rects:
 					tmp=clu.cal_rect_accuracy(ans,res_centers)
 					accuracy.append(tmp)
-
 				# update commit event & user ability
 				for i in range(len(accuracy)):
 					accuracy[i]=0.8*accuracy[i]+0.2*label_accuracy[i]
@@ -110,6 +109,7 @@ def work(imageId,markmode):
 
 
 def updateAccuracyAndAbility(imageId,userIds,accuracy):
+	print("ok")
 	session=db.setup_db()
 	commits=session.query(db.CommitEvent).filter(db.CommitEvent.imageid==imageId).all()
 
@@ -196,15 +196,14 @@ def generateTextLabel(labels):
 			nx.append([names.index(y[0]),values.index(y[1])])
 		new_labels.append(nx)
 	center=clu.cal_rec(clu.preprocess_data(new_labels))
-
 	res=[]
 	for x in center:
 		res.append([names[int(x[0])],values[int(x[1])]])
-
 	# calculate accuracy
 	accuracy=[]
 	for x in new_labels:
 		accuracy.append(clu.cal_label_accuracy(x,center))
+
 	return res,accuracy
 
 
@@ -256,6 +255,6 @@ if __name__=='__main__':
 	# coordinates,user_accuracy=clu.cal_rec(coordinates)
 	# print(coordinates)
 	# generateTag(coordinates,30,30)
-	work(121,1)
+	work(86,0)
 
 	pass
