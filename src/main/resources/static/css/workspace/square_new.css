@@ -37,6 +37,22 @@
     top: 400px;
 }
 
+#submit_button{
+    background-color: rgba(86,146,255,0.51);
+    width: 40px;
+    height: 40px;
+    border-radius: 2px;
+}
+
+#submit_button:hover{
+    background-color: rgba(140,247,255,0.51);
+    border-radius: 2px;
+}
+
+#submit_button{
+    border-style: inset;
+}
+
 #requirementArea{
 	width: 300px;
     height: 200px;
@@ -60,7 +76,7 @@
 
 #delete_square{
 	position: relative;
-	left: 750px;
+	left: 720px;
     top: 50px;
 
 }
@@ -98,6 +114,12 @@
 
 #color_green{
     background-color: rgba(44,255,65,0.51);
+}
+
+.obj_delete_btn{
+    background-color: rgba(246,255,244,0.51);
+    border-radius: 2px;
+    width: 25px;
 }
 
 .demo{

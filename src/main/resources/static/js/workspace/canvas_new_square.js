@@ -166,7 +166,7 @@ function show_a_new_tip(color_num){
     final_txt = final_txt + class_option_txt;
     final_txt = final_txt + "<div id='obj_selections_div_"+color_num+"'>...</div>";
 
-    var btn = "<input type='button' id='delete_"+color_num+"' onclick='delete_one_color(this)' value='删除'>";
+    var btn = "<input type='button' class='obj_delete_btn' id='delete_"+color_num+"' onclick='delete_one_color(this)' value='❌'>";
     final_txt = final_txt + btn + " </div>";
     $("#tipInput").append(final_txt);
 }
