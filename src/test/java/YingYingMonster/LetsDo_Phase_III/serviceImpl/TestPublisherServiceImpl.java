@@ -49,11 +49,11 @@ public class TestPublisherServiceImpl {
 
     @Test
     public void testDownload() throws Exception {
-        Project pj=new Project(MarkMode.SQUARE,10,"test",5,2,"2018-7-19",null,0,0.7,100,null);
-        long projectId=projectRepository.saveAndFlush(pj).getId();
+        Project pj=projectRepository.findById(92);
         pj.setProjectState(ProjectState.closed);
         projectRepository.saveAndFlush(pj);
         System.out.println(pj.getProjectState());
+        long projectId=pj.getId();
         FileInputStream fis=new FileInputStream(new File("C:/Users/TF/Desktop/文件/QQ图片20180503142107.jpg"));
         ByteArrayOutputStream bos=new ByteArrayOutputStream(1024);
         byte[] b = new byte[1024*1024];

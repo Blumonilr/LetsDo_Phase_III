@@ -104,7 +104,7 @@ function release(){
 
 function download(){
     $.ajax({
-        url: "/project/release",
+        url: "/publisherPage/downloadCheck",
         type: "post",
         dataType:"text",
         data:{"projectId":getCookie("projectId")},
