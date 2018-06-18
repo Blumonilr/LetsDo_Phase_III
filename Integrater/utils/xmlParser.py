@@ -258,9 +258,10 @@ class XMLParser():
 				if ele.tag=='tag' and ele.get('title')==tag[0]:
 					ele.text=tag[1]
 
+
+
 	def to_string(self):
 		et.ElementTree(self.tree).write('tmp.xml',encoding='UTF-8')
-
 		return open('tmp.xml','r',encoding='UTF-8').read()
 
 

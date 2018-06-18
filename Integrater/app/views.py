@@ -7,6 +7,11 @@ from app import app
 def index():
     return "hello"
 
+@app.route("/hello")
+def test():
+    controller.work(4,0)
+    return "hello world"
+
 
 @app.route("/postImage", methods=['POST' ])
 def postImage():

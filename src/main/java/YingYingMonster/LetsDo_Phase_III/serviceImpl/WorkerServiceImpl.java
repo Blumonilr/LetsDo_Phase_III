@@ -107,8 +107,12 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	public List<Project> viewMyNotStartedProject(long workerId) {
-		return joinEventRepository.findByWorkerIdAndWorkState(workerId, JoinEvent.TEST_FINISHED)
-				.stream().map(x -> projectService.getAProject(x.getProjectId()))
+
+		List<JoinEvent> list = joinEventRepository.findByWorkerIdAndWorkState(workerId, JoinEvent.TEST_NOT_FINISHED);
+		list.addAll(joinEventRepository.findByWorkerIdAndWorkState(workerId, JoinEvent.TEST_FINISHED));
+		list.addAll(joinEventRepository.findByWorkerIdAndWorkState(workerId, JoinEvent.TEST_NOT_PASSED));
+
+		return list.stream().map(x -> projectService.getAProject(x.getProjectId()))
 				.collect(Collectors.toList());
 	}
 
