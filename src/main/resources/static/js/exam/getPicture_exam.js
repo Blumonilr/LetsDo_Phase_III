@@ -24,9 +24,24 @@ function getNewPicture(){
             data:{
                 "projectId" : projectId,
                 "userId" : userId,},
-            success: function (data) {
-            	toastr.success("得分: "+data);
-                setTimeout("history.back()",3000);//等待3秒后返回上一界面
+            success: function (data) {//"2_"+df.format(score)+"_"+standard;
+                var datas = data.split("_");
+
+                var result = datas[0];
+                var score = datas[1];
+                var standard = datas[2];
+
+                if(result === "0"){
+                    toastr.info("考试结果需要计算一段时间，请稍后查询");
+                }
+                else if(result === "1"){
+                    toastr.success("恭喜您考试通过! 得分"+score);
+                }
+                else if(result === "2"){
+                    toastr.error("很遗憾考试没有通过, 考试标准为"+standard+", 您的得分为"+score);
+                }
+
+                setTimeout("set_url()",5000);//等待3秒后返回上一界面
             }
         });
         //调用方法看考试分数
@@ -234,3 +249,6 @@ function set_exam_progress(){
     $("div#exam_progress_area").append(txt);
 }
 
+function set_url(){
+    window.location.href = "/myProjects/projects/detail";
+}
