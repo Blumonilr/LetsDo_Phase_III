@@ -37,6 +37,7 @@ function fork(){
         success: function(data){
 
             toastr.info(data);//需要保留和替换
+            setTimeout(3000,window.history.back());
         }
     });
 }

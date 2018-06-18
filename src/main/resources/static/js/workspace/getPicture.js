@@ -4,9 +4,9 @@
 
 var picture_id_list = [];
 
-var class_name_list = ["猪","牛"];
+var class_name_list = [];
 
-var selection_str_list = ["肥瘦_肥_瘦,大小_大_小","性别_雄_雌,种类_耕牛_奶牛"];
+var selection_str_list = [];
 
 var requirement_hide = false;
 
