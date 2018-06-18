@@ -11,7 +11,7 @@ import utils.DBHandler as db
 import utils.xmlParser as xp
 import utils.cluster as clu
 
-from Integrater.utils import cal_similarity
+import utils.cal_similarity as cs
 
 
 def work(imageId,markmode):
@@ -87,7 +87,7 @@ def work(imageId,markmode):
 				tags=session.query(db.Tag).filter(db.tag.image_id==imageId).all();
 				accuracy=[]
 				for j in range(0,len(tags)):
-					acc=cal_similarity.cal_similarity(tags[j],answerTag,width,height)
+					acc=cs.cal_similarity(tags[j],answerTag,width,height)
 					accuracy.append(acc*0.8+label_accuracy[j]*0.2)
 				updateAccuracyAndAbility(imageId, userIds, accuracy)
 				pass
