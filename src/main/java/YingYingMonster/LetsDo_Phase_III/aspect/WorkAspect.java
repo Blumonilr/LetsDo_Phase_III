@@ -9,9 +9,11 @@ import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.role.UserRepository;
+import YingYingMonster.LetsDo_Phase_III.service.LabelService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -42,6 +44,8 @@ public class WorkAspect {
     AbilityRepository abilityRepository;
     @Autowired
     csHandler handler;
+    @Autowired
+    LabelRepository labelRepository;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -54,7 +58,6 @@ public class WorkAspect {
         CommitEvent commitEvent = new CommitEvent(tag.getWorkerId(), tag.getProjectId(), tag.getId(),
                 tag.getImageId(), new Date());
         commitEventRepository.saveAndFlush(commitEvent);
-        notifyPy(tag);
         logger.info("work aspect end");
     }
 
@@ -73,7 +76,7 @@ public class WorkAspect {
             List<Ability> abilities = abilityRepository.findByUser(user);
             List<String> user_label_names = abilities.stream().map(x -> x.getLabel().getName())
                     .collect(Collectors.toList());
-
+            logger.info("user ability==null? : {}", abilities == null);
             List<String> labels = project.getLabels();
 
             //worker已经有了project的label，更新bias
@@ -84,7 +87,13 @@ public class WorkAspect {
             //worker没有project的label，则新加一个ability
             for (String string : labels) {
                 if (!user_label_names.contains(string)) {
-                    Label label = null;
+                    Label label = labelRepository.findByName(string);
+                    if (label == null) {
+                        //这个label是上传者新加的，则先保存label对象
+                        label = new Label(string);
+                        label = labelRepository.saveAndFlush(label);
+                    }
+
                     Ability ability = new Ability(user, label);
                     abilityRepository.save(ability);
                 }
@@ -107,6 +116,13 @@ public class WorkAspect {
 
         Worker worker = (Worker) userRepository.findById(tag.getWorkerId());
         worker.setTagNum(worker.getTagNum() + 1);
+        int exp = worker.getExp();
+        if (exp + 10 > worker.getGAP()) {
+            worker.setExp(exp + 10 - worker.getGAP());
+            worker.setLevel(worker.getLevel() + 1);
+        } else {
+            worker.setExp(exp + 10);
+        }
         userRepository.saveAndFlush(worker);
 
         notifyPy(tag);
