@@ -79,14 +79,15 @@
                     <li><a href="#" name="#tab3">系统信息</a></li>
                     <li><a href="#" name="#tab4">项目信息</a></li>
                 </ul>
-
                 <div id="content" class="fl w-100 mt3">
                     <div id="tab1">
-                        <div class="fl w-70"><!--排行榜-->
+                        <div class="fl w-70">
+                            <!--排行榜-->
                             <h1>工作者Top100</h1>
                             <table id="workerTop100" class="display w-100"></table>
                         </div>
-                        <div class="fl w-30 pl5"><!--数据概览-->
+                        <div class="fl w-30 pl5">
+                            <!--数据概览-->
                             <h1>系统概况</h1>
                             <h3 class="db pb2">用户数量</h3>
                             <dl class="fl dib w-50 bb">
@@ -142,9 +143,35 @@
                         </div>
                     </div>
                     <div id="tab4">
-                        blank
+                        <ul class="nav nav-tabs fl w-100">
+                            <li class="active"><a href="#projectInfoDiv" data-toggle="tab">项目信息统计</a></li>
+                            <li><a href="#projectsListDiv" data-toggle="tab">项目列表</a></li>
+                        </ul>
+                        <div id="extraTabContent" class="tab-content fl">
+                            <div class="tab-pane fade in active fl w-100" id="projectInfoDiv">
+                                <div class="fl w-100 bb pb4 mb5">
+                                    <h1>项目类型统计</h1>
+                                    <div id="projectTypeChart" class="fl" style="width: 1200px;height:774px;"></div>
+                                </div>
+                                <div class="fl w-100 bb pb4 mb5">
+                                    <h1>项目领域统计</h1>
+                                    <div id="projectLabelChart" class="fl" style="width: 1200px;height:774px;"></div>
+                                </div>
+                                <div class="fl w-100 bb pb4 mb5">
+                                    <h1>项目报酬统计</h1>
+                                    <div id="projectPaymentChart" class="fl" style="width: 1200px;height:774px;"></div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade fl w-100" id="projectsListDiv">
+                                <div class="fl w-100 bb pb4 mb5">
+                                    <h1>项目列表</h1>
+                                    <table id="projectList" class="display w-100"></table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
                 <!--<br/>-->
                 <!--<div class="container-fluid">-->

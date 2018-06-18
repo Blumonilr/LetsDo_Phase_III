@@ -68,6 +68,7 @@ function initTabs(){
 
 /*-----------------------------initOverview--------------------------------*/
 var systemInfo;
+var extraInfo;
 
 function initOverview() {
     $("#publisherNum").text(systemInfo.publisherNum);
@@ -77,7 +78,6 @@ function initOverview() {
 }
 
 /*-----------------------------Tables--------------------------------*/
-
 
 function initTables() {
     function workerFormat ( d ) {
@@ -176,6 +176,10 @@ function initTables() {
                 "defaultContent": ''
             },
             {
+                title: "工作者编号",
+                data:"id"
+            },
+            {
                 title: "昵称",
                 data:"name",
                 orderable:false,
@@ -219,6 +223,10 @@ function initTables() {
         },
         pagingType:"full_numbers",
         columns: [
+            {
+                title: "工作者编号",
+                data:"id"
+            },
             {
                 title: "昵称",
                 orderable:false,
@@ -270,7 +278,9 @@ function initCharts() {
     var workerRegChart = echarts.init(document.getElementById('workerRegChart'),"light");
     var publisherRegChart = echarts.init(document.getElementById('publisherRegChart'),"light");
     var projectInfoChart = echarts.init(document.getElementById('projectInfoChart'),"light");
-
+    var projectTypeChart = echarts.init(document.getElementById('projectTypeChart'),"light");
+    var projectLabelChart = echarts.init(document.getElementById('projectLabelChart'),"light");
+    var projectPaymentChart = echarts.init(document.getElementById('projectPaymentChart'),"light");
 
 
 // 指定图表的配置项和数据
@@ -295,7 +305,7 @@ function initCharts() {
             {
                 type: 'value',
                 name: '当月注册人数',
-                max: 500
+                max: 20
             },
             {
                 type: 'value',
@@ -369,6 +379,146 @@ function initCharts() {
     };
 
     projectInfoChart.setOption(projectInfoOption);
+
+    var projectTypeOption={
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            bottom: 10,
+            left: 'center'
+        },
+        series : [
+            {
+                type: 'pie',
+                radius : '65%',
+                center: ['50%', '50%'],
+                selectedMode: 'single',
+                data:extraInfo.projectType,
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    }
+
+    projectTypeChart.setOption(projectTypeOption);
+    projectTypeOption.series[0].data=extraInfo.labelProp;
+    projectLabelChart.setOption(projectTypeOption);
+}
+
+
+/*-----------------------------ProjectTable--------------------------------*/
+
+function initProjectTable(){
+    function projectFormat ( d ) {
+        // `d` is the original data object for the row
+        var ability=d.abilities;
+        var result='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+            '<tr>'+
+            '<td>余额:</td>'+
+            '<td>'+d.money+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>领域准确度:</td>'+
+            '</tr>';
+        for(var i=0;i<ability.length;i++){
+            result+='<tr>'+
+                '<td>'+ability[i].label.name+':</td>'+
+                '<td>'+ability[i].accuracy+'%</td>'+
+                '<td>'+ability[i].bias+'次</td>'+
+                '</tr>';
+        }
+        result+='</table>';
+        return result;
+    }
+
+    var optionProject={
+        data: extraInfo.projectList,
+        language: {
+            "lengthMenu": "每页显示 _MENU_ 条记录",
+            "zeroRecords": "无条目 - sorry",
+            "info": "正在显示_PAGES_页中的第 _PAGE_页",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "processing": "正在加载...",
+            "infoPostFix": "",
+            "search": "搜索:",
+            "url": "",
+            "paginate": {
+                "first":    "首页",
+                "previous": "上页",
+                "next":     "下页",
+                "last":     "末页"
+            }
+        },
+        pagingType:"full_numbers",
+        columns: [
+            {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            {
+                title: "项目编号",
+                data:"id"
+            },
+            {
+                title: "项目名",
+                data:"projectName",
+                orderable:false,
+                render: function(data, type, row, meta) {
+                    //渲染 把数据源中的标题和url组成超链接
+                    return '<a href="#">' + data + '</a>';
+                }
+            },
+            {
+                title: "发布者编号",
+                data:"publisherId",
+                orderable:false
+            },
+            {
+                title: "当前工作者数",
+                data:"currWorkerNum"
+            },
+            {
+                title: "图片数",
+                data:"picNum"
+            },
+            {
+                title: "开始日期",
+                data:"startDate",
+                orderable:false
+            },
+            {
+                title: "结束日期",
+                data:"endDate",
+                orderable:false
+            },
+            {
+                title: "最低等级限制",
+                data:"workerMinLevel",
+                orderable:false
+            },
+            {
+                title: "任务赏金",
+                data:"money"
+            },
+            {
+                title: "标签",
+                data:"labels",
+                orderable:false
+            }
+        ]
+    };
+
+    $("#projectList").DataTable(optionProject);
 }
 
 /*-----------------------------init--------------------------------*/
@@ -378,7 +528,6 @@ $(document).ready(function () {
         type: "post",
         dataType:"json",
         async:false,
-        data:{"projectId":getCookie("projectId")},
         success : function(info){
             systemInfo=info;
         },
@@ -391,6 +540,20 @@ $(document).ready(function () {
     initTabs();
     initTables();
     initOverview();
+
+    $.ajax({
+        url: "/admin/extraSystemDetail",
+        type: "post",
+        dataType:"json",
+        async:false,
+        success : function(info){
+            extraInfo=info;
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
+        },
+    });
     initCharts();
+    initProjectTable()
 });
 

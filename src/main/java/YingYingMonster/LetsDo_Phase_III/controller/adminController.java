@@ -1,5 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import YingYingMonster.LetsDo_Phase_III.entity.json.ExtraProjectInfo;
 import YingYingMonster.LetsDo_Phase_III.entity.json.SystemInfo;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import com.google.gson.Gson;
@@ -49,6 +50,15 @@ public class adminController {
         Gson gson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         SystemInfo systemInfo=new SystemInfo(adminService);
         return gson.toJson(systemInfo);
+    }
+
+    //系统信息
+    @PostMapping("/extraSystemDetail")
+    @ResponseBody
+    public String extraInfo() throws ParseException {
+        Gson gson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        ExtraProjectInfo extraProjectInfo=new ExtraProjectInfo(adminService);
+        return gson.toJson(extraProjectInfo);
     }
 
 }

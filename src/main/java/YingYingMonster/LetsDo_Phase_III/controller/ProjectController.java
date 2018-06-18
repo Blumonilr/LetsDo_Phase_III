@@ -197,7 +197,11 @@ public class ProjectController {
             return "未添加测试集答案";
         }else if(project.getTagTree()==null){
             return "未设定文字标签";
-        }else{
+        }else if(project.getProjectState()==ProjectState.open){
+            return "已经发布过项目";
+        } else if(project.getProjectState()==ProjectState.closed){
+            return "项目已经关闭";
+        } else {
             publisherService.openProject(Long.parseLong(projectId));
             return "发布成功";
         }
