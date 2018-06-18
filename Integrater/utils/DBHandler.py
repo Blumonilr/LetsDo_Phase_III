@@ -38,8 +38,8 @@ class User(Base):
 
 class Label(Base):
 	__tablename__='labels'
-	id=Column(BIGINT,primary_key=True,nullable=False)
-	name=Column(VARCHAR(255),nullable=True)
+	name=Column(VARCHAR(255),nullable=True,primary_key=True)
+
 	# 	one  -> many
 	# 	label -> ability
 	abilities=relationship("Ability",backref="label")
@@ -51,7 +51,7 @@ class Ability(Base):
 	bias=Column(INT,nullable=False)
 
 	user_id=Column(BIGINT,ForeignKey('users.id'))
-	label_id=Column(BIGINT,ForeignKey('labels.id'))
+	label_name=Column(BIGINT,ForeignKey('labels.name'))
 
 class Image(Base):
 	__tablename__='images'
@@ -127,8 +127,8 @@ close:      session.close()
 '''
 if __name__=='__main__':
 	session=setup_db()
-	# user=User(id=100,dtype='WK',email='email',intro='intro',name='name',pw='pw',money=0,exp=0,level=0,passed_tag_num=0,tag_num=0)
-	# label=Label(id=199,name='label')
+	user=User(dtype='WK',email='email',intro='intro',name='name',pw='pw',money=0,exp=0,level=0,passed_tag_num=0,tag_num=0)
+	# label=Label(name='label')
 	# ability=Ability(id=299,accuracy=0.92,bias=121,user_id=100,label_id=199)
 	# image=Image(id=1,project_id=1,height=100,width=100,current_num=2,min_num=2,max_num=5,is_finished=False,
 	#             is_test=True)
@@ -140,12 +140,15 @@ if __name__=='__main__':
 	# session.add(tag2)
 	# session.commit()
 
-	res=image_need_integrate(1)
-	print(res)
+	session.add(user)
+	session.commit()
 
-	res=get_image_tags(1)
-	print(type(res))
-	print(res)
+	# res=image_need_integrate(1)
+	# print(res)
+	#
+	# res=get_image_tags(1)
+	# print(type(res))
+	# print(res)
 
 
 

@@ -19,7 +19,6 @@ def work(imageId,markmode):
 	usr_ans_rects=handler.allPoints
 	usr_ans_tags=handler.allTags
 
-
 	if image.is_finished:
 		# get the answer
 		tag=session.query(db.Tag).filter(db.Tag.image_id==imageId and db.Tag.is_result==True).one()
@@ -33,10 +32,26 @@ def work(imageId,markmode):
 		print('update db')
 		try:
 			# generate answer
-			res_centers,res_labels=generateResult(handler,markmode)
+			res_centers,res_labels,label_accuracy=generateResult(handler,markmode)
 			if markmode==0:
 				print(res_centers)
 				print(res_labels)
+				accuracy=[]
+				for ans in usr_ans_rects:
+					tmp=clu.cal_rect_accuracy(ans,res_centers)
+					accuracy.append(tmp)
+
+				# update commit event & user ability
+
+				#generate tag object
+				max_rect_accuracy=0.0
+				ptr=-1
+				for i in range(len(accuracy)):
+					if accuracy[i]>max_rect_accuracy:
+						max_rect_accuracy=accuracy[i]
+						ptr=i
+
+				res_tag=db.Tag()
 
 				pass
 			elif markmode==1:
@@ -50,7 +65,7 @@ def work(imageId,markmode):
 			pass
 		except Exception:
 			print('generate failed')
-			
+
 			pass
 		pass
 
@@ -73,20 +88,20 @@ def getAnswerFromTags(imageId):
 def generateResult(handler,markmode):
 	res_centers=[]
 	res_labels=[]
+	label_accuracy=[]
 
 	if markmode==0:
 		# square
 		points=handler.allPoints
 		res_centers=clu.cal_rec(clu.preprocess_data(points))
-		res_labels=generateTextLabel(handler.allTags)
+		res_labels,label_accuracy=generateTextLabel(handler.allTags)
 		pass
 	elif markmode==1:
 		# area
 		res_centers=[]
-		res_labels=generateTextLabel(handler.allTags)
+		res_labels,label_accuracy=generateTextLabel(handler.allTags)
 		pass
-	return res_centers,res_labels
-	pass
+	return res_centers,res_labels,label_accuracy
 
 def generateTextLabel(labels):
 	# remove [] in the labels
@@ -115,7 +130,12 @@ def generateTextLabel(labels):
 	for x in center:
 		res.append([names[int(x[0])],values[int(x[1])]])
 
-	return res
+	# calculate accuracy
+	accuracy=[]
+	for x in new_labels:
+		accuracy.append(clu.cal_label_accuracy(x,res))
+
+	return res,accuracy
 
 
 path=os.getcwd()+'\\tmp.xml'
