@@ -33,12 +33,14 @@ public class SystemInfo {
         toArray(adminService,list,this.workerTop100,length);
 
         //用户人数图表
-        customerNum=new String[12][3];
+        customerNum=new String[13][3];
+        customerNum[0][0]="月份";
+        customerNum[0][1]="当月注册人数";
+        customerNum[0][2]="当月总人数";
         Calendar temp=Calendar.getInstance();
         temp.set(Calendar.DAY_OF_MONTH, 1);  //设置日期
-//        temp.add(Calendar.MONTH,-1);
         int currentNum=this.publisherNum+this.workerNum;
-        for(int i=11;i>=0;i++) {
+        for(int i=12;i>0;i--) {
             customerNum[i][0] = (temp.get(Calendar.MONTH) + 1) + "月";
             int monthNum = adminService.registerNum(temp);
             customerNum[i][1] = Integer.toString(monthNum);
