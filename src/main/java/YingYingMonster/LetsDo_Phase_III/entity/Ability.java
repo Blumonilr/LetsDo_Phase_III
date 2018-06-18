@@ -19,7 +19,7 @@ public class Ability {
 
     @Expose
     @ManyToOne
-    @JoinColumn(name = "label_id")
+    @JoinColumn(name = "label_name")
     private Label label;
 
     @Expose

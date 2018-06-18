@@ -11,6 +11,8 @@ import YingYingMonster.LetsDo_Phase_III.repository.TagRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -39,6 +41,7 @@ public class WorkerServiceImpl implements WorkerService {
 	@Autowired
 	AbilityRepository abilityRepository;
 
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public List<Project> discoverProjects(long workerId) {
@@ -46,6 +49,9 @@ public class WorkerServiceImpl implements WorkerService {
 		User user = userService.getUser(workerId);
 
 		List<Ability> abilities = abilityRepository.findByUser(user);
+		logger.info("user's abilities = {}", abilities);
+		logger.info("size = "+abilities.size());
+
 		List<String>labelNames=abilities.stream().sorted((x, y) -> {
 			if (x.getAccuracy() > y.getAccuracy() ||
 					x.getAccuracy() == y.getAccuracy() && x.getBias() > y.getBias()) {
