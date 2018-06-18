@@ -122,7 +122,7 @@ function download(){
                 form.append(input1);
                 form.submit();//表单提交
             }else {
-                alert("项目未完成")
+                alert("项目未完成");
             }
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {

@@ -265,15 +265,17 @@ function initTables() {
 
 function initCharts() {
     // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('customerChart'),"light");
+    var workerRegChart = echarts.init(document.getElementById('workerRegChart'),"light");
+    var publisherRegChart = echarts.init(document.getElementById('publisherRegChart'),"light");
+
 
 // 指定图表的配置项和数据
-    var customerNumOption = {
+    var workerNumOption = {
         tooltip: {
             trigger: 'axis'
         },
         dataset:{
-            source:systemInfo.customerNum
+            source:systemInfo.workerRegNum
         },
         legend: {},
         grid: {
@@ -313,7 +315,10 @@ function initCharts() {
     };
 
 // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(customerNumOption);
+    workerRegChart.setOption(workerNumOption);
+    workerNumOption.dataset.source=systemInfo.publisherRegNum
+    publisherRegChart.setOption(workerNumOption);
+
 }
 
 /*-----------------------------init--------------------------------*/
