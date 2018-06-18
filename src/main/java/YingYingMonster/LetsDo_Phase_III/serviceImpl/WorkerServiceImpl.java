@@ -134,19 +134,31 @@ public class WorkerServiceImpl implements WorkerService {
 		}
 
 		JoinEvent joinEvent = joinEventRepository.findByWorkerIdAndProjectId(workerId, projectId);
+
 		if (joinEvent == null) {
 			System.out.println("从未参加过这个项目");
 			joinEvent = new JoinEvent(workerId, projectId, new Date());
-			joinEvent.setWorkState(JoinEvent.TEST_NOT_FINISHED);
+			if (project.getTestProject() == null) {
+				joinEvent.setWorkState(JoinEvent.WORKING);
+			} else {
+				joinEvent.setWorkState(JoinEvent.TEST_NOT_FINISHED);
+			}
 			joinEventRepository.saveAndFlush(joinEvent);
-		} else {
+		} else{
 			System.out.println("以前参加过这个项目");
 			if (!joinEvent.getWorkState().equals(JoinEvent.WORKING)) {
-				joinEvent.setWorkState(JoinEvent.TEST_NOT_FINISHED);
-				joinEvent.setDate(new Date());
+
+				if (project.getTestProject() == null) {
+					joinEvent.setWorkState(JoinEvent.WORKING);
+					joinEvent.setDate(new Date());
+				} else {
+					joinEvent.setWorkState(JoinEvent.TEST_NOT_FINISHED);
+					joinEvent.setDate(new Date());
+				}
 				joinEventRepository.saveAndFlush(joinEvent);
 			}
 		}
+
 		return 0;
 	}
 

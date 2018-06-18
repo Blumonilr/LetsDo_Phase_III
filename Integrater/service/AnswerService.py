@@ -13,6 +13,10 @@ import utils.cluster as clu
 
 
 def work(imageId,markmode):
+	print('imageID : ',imageId)
+	print('markMode : ',markmode)
+
+
 	session=db.setup_db()
 	image=session.query(db.Image).filter(db.Image.id==imageId).one()
 

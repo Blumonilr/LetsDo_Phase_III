@@ -1,19 +1,28 @@
 package YingYingMonster.LetsDo_Phase_III.aspect;
 
-
 import YingYingMonster.LetsDo_Phase_III.csHandler;
-import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.entity.Ability;
+import YingYingMonster.LetsDo_Phase_III.entity.Label;
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
+import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
-import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.role.UserRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.engine.CommentStructureHandler;
 
 import java.util.Date;
 import java.util.List;
@@ -21,48 +30,41 @@ import java.util.stream.Collectors;
 
 @Aspect
 @Component
-public class WorkerAspect {
+public class WorkAspect {
 
     @Autowired
     CommitEventRepository commitEventRepository;
-    @Autowired
-    AbilityRepository abilityRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
     ProjectService projectService;
     @Autowired
-    LabelRepository labelRepository;
+    AbilityRepository abilityRepository;
     @Autowired
-    csHandler cshandler;
+    csHandler handler;
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Pointcut(value = "execution(* YingYingMonster.LetsDo_Phase_III.service." +
-            "TestProjectService.uploadAnswer(..))")
-    public void addCommitEventInMakeAnswer(){}
+    @Pointcut(value = "execution(* YingYingMonster.LetsDo_Phase_III.service.TestProjectService.uploadAnswer(..))")
+    public void makeTestAnswerCommitPoint  (){}
 
-    /**
-     * execute when worker joins a project
-     * @param workerId
-     * @param projectId
-     */
-    @Pointcut(value = "execution(int YingYingMonster.LetsDo_Phase_III.service." +
-            "WorkerService.joinProject(..))&&args(workerId,projectId) ", argNames = "workerId,projectId")
-    public void joinProject(long workerId, long projectId) {}
+    @AfterReturning(value = "makeTestAnswerCommitPoint()", pointcut = "makeTestAnswerCommitPoint()", returning = "tag")
+    public void recordMakingTestProjectAnswer(Tag tag){
+        logger.info("work aspect record commit in making test project answer");
+        CommitEvent commitEvent = new CommitEvent(tag.getWorkerId(), tag.getProjectId(), tag.getId(),
+                tag.getImageId(), new Date());
+        commitEventRepository.saveAndFlush(commitEvent);
+        logger.info("work aspect end");
+    }
 
-    @Pointcut(value = "execution(* YingYingMonster.LetsDo_Phase_III.service.WorkerService.uploadTag(..))")
-    public void addCommitEvent(){}
+    @Pointcut(value = "execution(* YingYingMonster.LetsDo_Phase_III.service.WorkerService.joinProject(..))&&args(workerId,projectId)")
+    public void joinEventPoint(long workerId, long projectId) {}
 
+    @Around(value = "joinEventPoint(workerId,projectId)")
+    public int recordJoinEvent(ProceedingJoinPoint point, long workerId, long projectId) throws Throwable {
+        logger.info("work aspect record join event");
+        int res = (int) point.proceed();
 
-
-    /*=============================================================================================
-    * ============================================================================================*/
-
-    
-
-//    @AfterReturning(returning = "res",pointcut = "joinProject(workerId,projectId)",argNames = "workerId,projectId,res")
-    public void updateAbilityWhenJoin(long workerId, long projectId,int res) {
-        System.out.println("update ability when join");
         if (res == 0) {
             Project project = projectService.getAProject(projectId);
             User user = userRepository.findById(workerId);
@@ -88,12 +90,16 @@ public class WorkerAspect {
             }
             abilityRepository.flush();
         }
+        logger.info("work aspect end");
+        return res;
     }
 
-//    @AfterReturning(returning = "tag",pointcut = "addCommitEvent()",argNames = "tag")
-    public void recordWorkCommitEvent(Tag tag) {
+    @Pointcut(value = "execution(* YingYingMonster.LetsDo_Phase_III.service.WorkerService.uploadTag(..))")
+    public void commitPoint() {}
 
-        System.out.println("add commit event in working");
+    @AfterReturning(value = "commitPoint()", pointcut = "commitPoint()", returning = "tag")
+    public void recordCommitEvent(Tag tag) {
+        logger.info("work aspect record commit event");
         CommitEvent commitEvent = new CommitEvent(tag.getWorkerId(), tag.getProjectId(), tag.getId(),
                 tag.getImageId(), new Date());
         commitEventRepository.saveAndFlush(commitEvent);
@@ -107,11 +113,10 @@ public class WorkerAspect {
         try {
             System.out.println("java tries to connect to python");
 
-            cshandler.post("http://localhost:5000/postImage",Long.toString(tag.getImageId())+"_"+project.getType());
+            handler.post("http://localhost:5000/postImage",Long.toString(tag.getImageId())+"_"+project.getType());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        logger.info("work aspect end");
     }
-
-
 }

@@ -15,6 +15,8 @@ import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import net.coobird.thumbnailator.Thumbnails;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,6 +46,8 @@ public class ProjectServiceImpl implements ProjectService  {
 
     @Autowired
     TextNodeRepository textNodeRepository;
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public List<Project> viewAllProjects() {
@@ -105,13 +109,14 @@ public class ProjectServiceImpl implements ProjectService  {
 
     @Override
     public Project addProject(Project project, MultipartFile multipartFile) {
+        logger.info("project service 开始");
         project.setProjectState(ProjectState.setup);
         project.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         project = projectRepository.saveAndFlush(project);
 
         int picNum = imageService.saveImages(multipartFile, project.getId(), false);
         project.setPicNum(picNum);
-
+        logger.info("(project service) project ={}", project);
         return projectRepository.saveAndFlush(project);
     }
 
