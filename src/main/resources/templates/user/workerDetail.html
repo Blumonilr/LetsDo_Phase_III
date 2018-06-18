@@ -17,6 +17,8 @@
 
     <script src="/publisher/js/jquery-1.10.2.js"></script>
     <script src="/js/util/cookie.js"></script>
+     <script src="/js/util/echarts.js"></script>
+    <script src="/js/rank/graph.js"></script>
 
     <script src="/js/JQUI/jquery-ui.js"></script>
     <!-- Google Fonts-->
@@ -274,7 +276,7 @@
         <div id="page-wrapper">
             <div class="header">
                 <h1 class="page-header">
-                    个人信息 <small>yingyingmonster...</small>
+                    个人信息 <small>yingyingmonster</small>
                 </h1>
             </div>
             <div style="text-align:center;background: #8d8888">
@@ -283,8 +285,13 @@
             <div id="page-inner">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-3"></div>
                         <div class="col-md-6">
+                            <div id="graphs">
+                            	<h5>当月项目类型一览表：</h5>
+                                <div id="first_graph" style="width: 300px;height:300px;">
+
+                                </div>
+                            </div>
                             <form role="form">
                                 <div class="form-group">
                                     <label for="userName">
@@ -374,6 +381,7 @@
                 document.getElementById("userId").innerHTML=id+"&nbsp;";
                 $("#homehref").attr("href","/user/userDetail/"+id);
                 loadDetail();
+                display_graphs();
             }
         </script>
         <!-- Bootstrap Js -->
