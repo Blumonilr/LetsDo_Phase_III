@@ -16,6 +16,8 @@ def work(imageId,markmode):
 
 	# get workers' answers
 	handler=getAnswerFromTags(imageId)
+	usr_ans_rects=handler.allPoints
+	usr_ans_tags=handler.allTags
 
 	if image.is_finished:
 		# get the answer
@@ -30,8 +32,26 @@ def work(imageId,markmode):
 		print('update db')
 		try:
 			# generate answer
-			res_centers,res_labels=generateResult(handler,markmode)
+			res_centers,res_labels,label_accuracy=generateResult(handler,markmode)
 			if markmode==0:
+				print(res_centers)
+				print(res_labels)
+				accuracy=[]
+				for ans in usr_ans_rects:
+					tmp=clu.cal_rect_accuracy(ans,res_centers)
+					accuracy.append(tmp)
+
+				# update commit event & user ability
+
+				#generate tag object
+				max_rect_accuracy=0.0
+				ptr=-1
+				for i in range(len(accuracy)):
+					if accuracy[i]>max_rect_accuracy:
+						max_rect_accuracy=accuracy[i]
+						ptr=i
+
+				res_tag=db.Tag()
 
 				pass
 			elif markmode==1:
@@ -44,6 +64,8 @@ def work(imageId,markmode):
 			# set Tag to isResult
 			pass
 		except Exception:
+			print('generate failed')
+
 			pass
 		pass
 
@@ -66,20 +88,20 @@ def getAnswerFromTags(imageId):
 def generateResult(handler,markmode):
 	res_centers=[]
 	res_labels=[]
+	label_accuracy=[]
 
 	if markmode==0:
 		# square
 		points=handler.allPoints
 		res_centers=clu.cal_rec(clu.preprocess_data(points))
-		res_labels=generateTextLabel(handler.allTags)
+		res_labels,label_accuracy=generateTextLabel(handler.allTags)
 		pass
 	elif markmode==1:
 		# area
 		res_centers=[]
-		res_labels=generateTextLabel(handler.allTags)
+		res_labels,label_accuracy=generateTextLabel(handler.allTags)
 		pass
-	return res_centers,res_labels
-	pass
+	return res_centers,res_labels,label_accuracy
 
 def generateTextLabel(labels):
 	# remove [] in the labels
@@ -95,9 +117,6 @@ def generateTextLabel(labels):
 	names=list(set(names))
 	values=list(set(values))
 
-	# print(names)
-	# print(values)
-
 	new_labels=[]
 	for x in labels:
 		nx=[]
@@ -105,15 +124,18 @@ def generateTextLabel(labels):
 			nx.append([names.index(y[0]),values.index(y[1])])
 		new_labels.append(nx)
 
-	# print(new_labels)
-
 	center=clu.cal_rec(clu.preprocess_data(new_labels))
-	# print(center)
+
 	res=[]
 	for x in center:
 		res.append([names[int(x[0])],values[int(x[1])]])
-	print(res)
-	return res
+
+	# calculate accuracy
+	accuracy=[]
+	for x in new_labels:
+		accuracy.append(clu.cal_label_accuracy(x,res))
+
+	return res,accuracy
 
 
 path=os.getcwd()+'\\tmp.xml'

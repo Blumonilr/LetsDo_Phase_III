@@ -74,8 +74,6 @@ def cal_rec(coordinates,min_samples_=3):
 def cal_rect_accuracy(user_ans,results):
 	# print('ans : ',user_ans)
 	# print('res : ',results)
-
-
 	data=np.array(results)
 	idex=np.lexsort([data[:,0]])
 	sorted_data=data[idex,:]
@@ -100,6 +98,10 @@ def cal_rect_accuracy(user_ans,results):
 		re=(((area2-area1*0.1)*1.0/area0) if ((area2-area1)*1.0/area0)>0 else 0)
 		accuracy.append(re)
 	return np.array(accuracy).sum()/len(accuracy)
+	pass
+
+
+def cal_label_accuracy(usr_ans,res):
 	pass
 
 
