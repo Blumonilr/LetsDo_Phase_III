@@ -116,6 +116,13 @@ public class WorkAspect {
 
         Worker worker = (Worker) userRepository.findById(tag.getWorkerId());
         worker.setTagNum(worker.getTagNum() + 1);
+        int exp = worker.getExp();
+        if (exp + 10 > worker.getGAP()) {
+            worker.setExp(exp + 10 - worker.getGAP());
+            worker.setLevel(worker.getLevel() + 1);
+        } else {
+            worker.setExp(exp + 10);
+        }
         userRepository.saveAndFlush(worker);
 
         notifyPy(tag);
