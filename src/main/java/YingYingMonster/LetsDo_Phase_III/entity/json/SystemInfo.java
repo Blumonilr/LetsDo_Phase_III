@@ -3,17 +3,18 @@ package YingYingMonster.LetsDo_Phase_III.entity.json;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
+import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
 public class SystemInfo {
-    private int publisherNum;
-    private int workerNum;
-    private int historyProjectNum;
-    private int ongoingProjectNum;
-    private String[][] workerTop100;
-    private List<Worker> workerList;
-    private List<Publisher> publisherList;
+    @Expose private int publisherNum;
+    @Expose private int workerNum;
+    @Expose private int historyProjectNum;
+    @Expose private int ongoingProjectNum;
+    @Expose private String[][] workerTop100;
+    @Expose private List<Worker> workerList;
+    @Expose private List<Publisher> publisherList;
 
     public SystemInfo(AdminService adminService) {
         this.workerList=adminService.viewAllWorkers();
@@ -22,8 +23,24 @@ public class SystemInfo {
         this.workerNum = this.workerList.size();
         this.historyProjectNum = adminService.viewDoneProject().size();
         this.ongoingProjectNum = adminService.viewDoingProject().size();
+
+        List<Worker> list=adminService.workerAccuracyRank();
+        int length=list.size()>=100?100:list.size();
+        this.workerTop100=new String[length][6];
+        toArray(adminService,list,this.workerTop100,length);
     }
 
+    private void toArray(AdminService adminService,List<Worker> list,String[][] top100,int length){
+        for(int i=0;i<length;i++){
+            Worker worker=list.get(i);
+            top100[i][0]=Integer.toString(i);
+            top100[i][1]=worker.getName();
+            top100[i][2]=worker.getStringAbilities();
+            top100[i][3]=Double.toString(worker.getAccuracy());
+            top100[i][4]=Integer.toString(adminService.workInProjectNum(worker.getId()));
+            top100[i][5]=Integer.toString(adminService.workInProjectNum(worker.getId()));
+        }
+    }
     public int getPublisherNum() {
         return publisherNum;
     }
