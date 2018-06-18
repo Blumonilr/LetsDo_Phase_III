@@ -239,8 +239,19 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int registerNum(Calendar date) {
-		List<User> users=userService.findUsersByName("");
+	public int registerWorkerNum(Calendar date) {
+		List<Worker> users=userService.findWorkerByNameLike("");
+		int num=0;
+		for (User u:users){
+			if (u.getRegisterDate().get(Calendar.YEAR)==date.get(Calendar.YEAR)&&u.getRegisterDate().get(Calendar.MONTH)==date.get(Calendar.MONTH))
+				num++;
+		}
+		return num;
+	}
+
+	@Override
+	public int registerPublisherNum(Calendar date) {
+		List<Publisher> users=userService.findPublisherByNameLike("");
 		int num=0;
 		for (User u:users){
 			if (u.getRegisterDate().get(Calendar.YEAR)==date.get(Calendar.YEAR)&&u.getRegisterDate().get(Calendar.MONTH)==date.get(Calendar.MONTH))

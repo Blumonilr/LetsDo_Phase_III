@@ -64,7 +64,9 @@ public interface AdminService {
 
 	public List<Worker> workerAccuracyRank();
 
-	public int registerNum(Calendar date);
+	public int registerWorkerNum(Calendar date);
+
+	public int registerPublisherNum(Calendar date);
 
 	public List<Project> projectStart(Calendar date) throws ParseException;
 
