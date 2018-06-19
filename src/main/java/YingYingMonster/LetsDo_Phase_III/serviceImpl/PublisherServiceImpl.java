@@ -4,11 +4,15 @@ import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
+import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.event.PublishEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Administrator;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TestProjectRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.PublishEventRepository;
 import YingYingMonster.LetsDo_Phase_III.service.*;
 import de.innosystec.unrar.Archive;
@@ -61,6 +65,8 @@ public class PublisherServiceImpl implements PublisherService {
 	PublishEventRepository publishEventRepository;
 	@Autowired
 	UserService userService;
+	@Autowired
+	JoinEventRepository joinEventRepository;
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -150,13 +156,25 @@ public class PublisherServiceImpl implements PublisherService {
 	}
 
 	@Override
-	public double viewProjectProgress(String publisherId, String projectId) {
-		return 0;
+	public double viewProjectProgress(long projectId) {
+		List<Image> images = imageService.findProjectAllImage(projectId);
+		int total = images.size();
+		int finished = (int) images.stream().filter(x -> x.isFinished()).count();
+		double progress = ((double) finished) / total*100;
+		progress = ((double) Math.round(progress * 100))/100;  //保留两位小数
+		return progress;
 	}
 
 	@Override
-	public List<String> viewWorkers(String publisherId, String projectId) {
-		return null;
+	public List<Worker> viewWorkers(long projectId) {
+		return joinEventRepository.findByProjectId(projectId).stream()
+				.map(x -> ((Worker) userService.getUser(x.getWorkerId())))
+				.distinct().collect(Collectors.toList());
+	}
+
+	@Override
+	public List<JoinEvent> viewJoinEvents(long projectId) {
+		return joinEventRepository.findByProjectId(projectId);
 	}
 
 	@Override

@@ -136,4 +136,8 @@ public abstract class User {
 	public void setRegisterDate(Calendar registerDate) {
 		this.registerDate = registerDate;
 	}
+
+	public boolean equals(User user) {
+		return id == user.id;
+	}
 }

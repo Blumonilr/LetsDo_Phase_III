@@ -305,7 +305,6 @@ function initCharts() {
             {
                 type: 'value',
                 name: '当月注册人数',
-                max: 20
             },
             {
                 type: 'value',

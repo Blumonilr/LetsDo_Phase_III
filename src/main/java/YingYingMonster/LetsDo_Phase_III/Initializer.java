@@ -38,7 +38,7 @@ public class Initializer {
 		if (administrator == null) {
 			administrator = new Administrator("admin", "admin", "email", "intro", 0);
 			administrator = (Administrator) userService.register(administrator);
-			logger.info("register an administrater, id = " + administrator.getId() + " , pw = 'admin' ");
+			logger.info("register an administrator, id = " + administrator.getId() + " , pw = 'admin' ");
 		}
 
 

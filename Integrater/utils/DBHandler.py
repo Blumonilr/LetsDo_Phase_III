@@ -51,7 +51,7 @@ class Ability(Base):
 	bias=Column(INT,nullable=False)
 	label_history_num=Column(INT,nullable=False)
 	user_id=Column(BIGINT,ForeignKey('users.id'))
-	label_name=Column(BIGINT,ForeignKey('labels.name'))
+	label_name=Column(VARCHAR(255),ForeignKey('labels.name'))
 
 class Image(Base):
 	__tablename__='images'
@@ -69,7 +69,7 @@ class Image(Base):
 class CommitEvent(Base):
 	__tablename__='commits'
 	id=Column(BIGINT,primary_key=True,nullable=False)
-	accuracy=Column(FLOAT)
+	accuracy=Column(FLOAT,nullable=False)
 	commit_msg=Column(VARCHAR(25),nullable=True)
 	commit_time=Column(DATETIME,nullable=True)
 	imageid=Column(BIGINT,nullable=False)
@@ -170,7 +170,6 @@ if __name__=='__main__':
 	# 	print(pl.labels)
 	# 	print(type(pl.labels))
 	# 	print(type(pl))
-
 
 
 

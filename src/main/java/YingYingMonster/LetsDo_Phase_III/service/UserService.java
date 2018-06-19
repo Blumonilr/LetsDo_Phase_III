@@ -54,6 +54,10 @@ public interface UserService {
 
 	public List<Worker> findWorkerByNameLike(String name);
 
+	public List<Worker> getAllWorkers();
+
+	public List<Publisher> getAllPublishers();
+
 	public List<Publisher> findPublisherByNameLike(String name);
 
 	@Transactional(rollbackOn = Exception.class)

@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
+import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import org.springframework.web.multipart.MultipartFile;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
@@ -62,11 +64,11 @@ public interface PublisherService {
 
 	public byte[] downloadTags(long projectId) throws Exception;//下载所有标注
 
-    @Deprecated
-	public double viewProjectProgress(String publisherId,String projectId);
+    public double viewProjectProgress(long projectId);
 
-    @Deprecated
-	public List<String> viewWorkers(String publisherId,String projectId);
+    public List<Worker> viewWorkers(long projectId);
+
+    public List<JoinEvent> viewJoinEvents(long projectId);
 
     public List<String> getPublisherBiasInString(long publisherId);
 }

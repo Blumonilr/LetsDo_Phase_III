@@ -12,19 +12,23 @@ public interface RankService {
 
 	/**
 	 * 根据经验值给Worker排序
-	 * @return
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
-	 * @throws FileNotFoundException 
+	 * 前15
 	 */
 	List<Worker>rankByExp();
 	
 	/**
 	 * 根据准确率给Worker排序
-	 * @return
-	 * @throws IOException 
-	 * @throws ClassNotFoundException 
-	 * @throws FileNotFoundException 
 	 */
 	List<Worker> rankByAccuracy(String labelName);
+
+	/**
+	 * 供worker查看自己的经验值排名
+	 * @param workerId
+	 * @return
+	 */
+	public int viewMyRankByExp(long workerId);
+
+	public int viewMyRankByLabelAccuracy(long workerId, String labelName);
+
+	public List<String> getLabels();
 }

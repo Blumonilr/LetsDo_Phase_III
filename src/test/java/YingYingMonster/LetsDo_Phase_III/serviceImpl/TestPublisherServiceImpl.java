@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -45,6 +47,11 @@ public class TestPublisherServiceImpl {
 //                old_uuid = uuid;
 //            }
 //        }
+        int total = 100, finished = 57;
+        double res = ((double) finished) / total * 100;
+        res = 56.937;
+        res = ((double) Math.round(res * 100)) / 100;
+        System.out.println(res);
     }
 
     @Test
