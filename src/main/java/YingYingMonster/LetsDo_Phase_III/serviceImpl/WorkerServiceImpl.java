@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.text.NumberFormat;
@@ -201,12 +202,14 @@ public class WorkerServiceImpl implements WorkerService {
 	 * 获得一页图片，优先分配人数最少的图片，偶尔塞几张有答案的图片
 	 */
 	public List<Image> getAPageOfImage(long projectId, int pageId) {
-		return imageRepository
-				.findByProjectIdAndIsFinishedFalseAndIsTestFalse(projectId, PageRequest.of(pageId, 5))
-				.stream().sorted((i1,i2)->{
-					return i1.getCurrentNum() > i2.getCurrentNum() ? 1 :
-							i1.getCurrentNum() == i2.getCurrentNum() ? 0 : -1;
-				}).collect(Collectors.toList());
+		return imageRepository.findAll(new Sort(Sort.Direction.ASC, "currentNum"))
+				.stream().limit(5).collect(Collectors.toList());
+//		return imageRepository
+//				.findByProjectIdAndIsFinishedFalseAndIsTestFalse(projectId, PageRequest.of(pageId, 5))
+//				.stream().sorted((i1,i2)->{
+//					return i1.getCurrentNum() > i2.getCurrentNum() ? 1 :
+//							i1.getCurrentNum() == i2.getCurrentNum() ? 0 : -1;
+//				}).collect(Collectors.toList());
 
 	}
 
