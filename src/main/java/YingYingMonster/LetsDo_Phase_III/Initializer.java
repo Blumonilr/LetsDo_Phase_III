@@ -54,13 +54,13 @@ public class Initializer {
 			String line=null;
 			String currentFather=null;
 			while((line=br.readLine())!=null){
-				if(line.startsWith("        ")){
+				if(line.startsWith("		")){
 					continue;
 				}
 				else if(line.startsWith("    ")) {
 					List<String> attri = new ArrayList<>();
 					String attribution = null;
-					while ((attribution = br.readLine()).startsWith("        ")) {
+					while ((attribution = br.readLine())!=null&&attribution.startsWith("        ")) {
 						attri.add(attribution.replaceAll(" ",""));
 					}
 					TextNode son = new TextNode(line.replace(" ", ""), currentFather, true, attri);
