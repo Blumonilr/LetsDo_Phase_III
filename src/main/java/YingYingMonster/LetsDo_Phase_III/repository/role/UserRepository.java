@@ -35,4 +35,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     public void deleteByName(String name);
 
     public void deleteByNameIn(List<String> names);
+
+    @Query(value = "select * from users where dtype='AD'", nativeQuery = true)
+    public User getAnAdmin();
 }

@@ -4,11 +4,15 @@ import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.Tag;
 import YingYingMonster.LetsDo_Phase_III.entity.TestProject;
+import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.event.PublishEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Administrator;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TestProjectRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.PublishEventRepository;
 import YingYingMonster.LetsDo_Phase_III.service.*;
 import de.innosystec.unrar.Archive;
@@ -37,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -58,20 +63,18 @@ public class PublisherServiceImpl implements PublisherService {
 
 	@Autowired
 	PublishEventRepository publishEventRepository;
+	@Autowired
+	UserService userService;
+	@Autowired
+	JoinEventRepository joinEventRepository;
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public Project createProject(Project project, MultipartFile dataSet) {
 		Project project1 = projectService.addProject(project, dataSet);
-//		recordPublishEvent(project1);
 		return project1;
 	}
-
-//	private void recordPublishEvent(Project project) {
-//		PublishEvent publishEvent = new PublishEvent(project.getPublisherId(), project.getId(), new Date(), null);
-//		publishEventRepository.saveAndFlush(publishEvent);
-//	}
 
     @Override
     public boolean validateProjectName(long publisherId, String projectName) {
@@ -86,15 +89,8 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public TestProject addTestProject(long projectId,  MultipartFile multipartFile) {
 		TestProject testProject = testProjectService.addTestProject(projectId, multipartFile);
-//		updatePublishEvent(testProject);
 		return testProject;
     }
-
-//	private void updatePublishEvent(TestProject testProject) {
-//		PublishEvent publishEvent = publishEventRepository.findByProjectId(testProject.getProject().getId());
-//		publishEvent.setInviteCode(testProject.getInviteCode());
-//		publishEventRepository.saveAndFlush(publishEvent);
-//	}
 
 	@Override
 	public Project openProject(long id) {
@@ -160,13 +156,31 @@ public class PublisherServiceImpl implements PublisherService {
 	}
 
 	@Override
-	public double viewProjectProgress(String publisherId, String projectId) {
-		return 0;
+	public double viewProjectProgress(long projectId) {
+		List<Image> images = imageService.findProjectAllImage(projectId);
+		int total = images.size();
+		int finished = (int) images.stream().filter(x -> x.isFinished()).count();
+		double progress = ((double) finished) / total*100;
+		progress = ((double) Math.round(progress * 100))/100;  //保留两位小数
+		return progress;
 	}
 
 	@Override
-	public List<String> viewWorkers(String publisherId, String projectId) {
-		return null;
+	public List<Worker> viewWorkers(long projectId) {
+		return joinEventRepository.findByProjectId(projectId).stream()
+				.map(x -> ((Worker) userService.getUser(x.getWorkerId())))
+				.distinct().collect(Collectors.toList());
+	}
+
+	@Override
+	public List<JoinEvent> viewJoinEvents(long projectId) {
+		return joinEventRepository.findByProjectId(projectId);
+	}
+
+	@Override
+	public List<String> getPublisherBiasInString(long publisherId) {
+		return userService.getUserAbilities(publisherId).stream().map(x -> x.getLabel().getName()
+				+ "_" + Integer.toString(x.getBias())).collect(Collectors.toList());
 	}
 
 	private void saveTag(String projectName,long imageId, Tag tag) throws IOException, DocumentException {

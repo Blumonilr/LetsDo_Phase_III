@@ -1,20 +1,25 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TagRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,7 +43,10 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Autowired
 	AbilityRepository abilityRepository;
+	@Autowired
+	CommitEventRepository commitEventRepository;
 
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public List<Project> discoverProjects(long workerId) {
@@ -46,6 +54,9 @@ public class WorkerServiceImpl implements WorkerService {
 		User user = userService.getUser(workerId);
 
 		List<Ability> abilities = abilityRepository.findByUser(user);
+		logger.info("user's abilities = {}", abilities);
+		logger.info("size = "+abilities.size());
+
 		List<String>labelNames=abilities.stream().sorted((x, y) -> {
 			if (x.getAccuracy() > y.getAccuracy() ||
 					x.getAccuracy() == y.getAccuracy() && x.getBias() > y.getBias()) {
@@ -216,7 +227,13 @@ public class WorkerServiceImpl implements WorkerService {
 	public void finishTest(long workerId, long projectId) {
 		joinEventRepository.setWorkState(workerId, projectId, JoinEvent.TEST_FINISHED);
 		//后台开始计算分数...并设置相应的状态
-		double score = Math.random() * 100;
+		double score = Math.random() * 20+80;
+
+		//read accuracy from commit event
+//		logger.info("read accuracy from commit event");
+//		List<CommitEvent> comits = commitEventRepository.findByWorkeridAndProjectid(workerId, projectId);
+
+
 		joinEventRepository.setTestScore(workerId, projectId, score);
 		if (score >= projectService.getAProject(projectId).getTestAccuracy()) {
 			joinEventRepository.setWorkState(workerId, projectId, JoinEvent.WORKING);
@@ -262,6 +279,14 @@ public class WorkerServiceImpl implements WorkerService {
 			}
 		}
 		return labels;
+	}
+
+	@Override
+	public List<String> getWorkerAbilitiesInString(long workerId) {
+		return userService.getUserAbilities(workerId).stream()
+				.map(x -> x.getLabel().getName() + "_" + Double.toString(x.getAccuracy())
+						+ "_" + Integer.toString(x.getLabelHistoryNum())
+						+ "_" + Integer.toString(x.getBias())).collect(Collectors.toList());
 	}
 
 

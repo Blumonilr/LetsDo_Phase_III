@@ -68,7 +68,8 @@ public class MyProjectsController {
     		list = wkservice.viewMyWorkingProject(userId);
     	}
     	else {//全部
-    		list = wkservice.viewMyProjects(userId,"");
+    		list = wkservice.viewMyWorkingProject(userId);
+    		list.addAll(wkservice.viewMyNotStartedProject(userId));
     	}
     	
     	

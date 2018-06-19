@@ -17,8 +17,18 @@ def test():
 @app.route("/postImage", methods=['POST' ])
 def postImage():
     str=request.get_data()
+
+    str=str.decode()
+
+
     image_id=int(str.split("_")[0])
-    markMode=int(str.split("_")[1])
+
+    markMode=str.split("_")[1]
+    if markMode=='AREA':
+        markMode=1
+    else:
+        markMode=0
+
     controller.work(image_id,markMode)
 
     return "hello"

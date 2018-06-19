@@ -29,5 +29,6 @@ public interface CommitEventRepository extends JpaRepository<CommitEvent, Long> 
 
     public List<CommitEvent> findByWorkeridAndCommitTimeBetween(long workerid, Date start, Date end);
 
+    public List<CommitEvent> findByWorkeridAndProjectid(long workerId, long projectId);
     //TBD...
 }

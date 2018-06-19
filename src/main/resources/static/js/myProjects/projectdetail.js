@@ -133,8 +133,12 @@ function terminate_project(){
             },
             success: function(){
                 toastr.success("已退出该项目！");
-                setTimeout("window.history.back()",2500);//等待2.5秒后刷新界面
+                setTimeout("set_url()",2500);//等待2.5秒后刷新界面
             }
         });
     }
+}
+
+function set_url(){
+    window.location.href = "/myProjects/projects";
 }

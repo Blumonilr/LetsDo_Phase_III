@@ -1,5 +1,6 @@
 package YingYingMonster.LetsDo_Phase_III.controller;
 
+import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
@@ -9,8 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
+import YingYingMonster.LetsDo_Phase_III.service.WorkerService;
+
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +30,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private WorkerService wkservice;
 
     @GetMapping("/signUp")
 //    @ApiOperation(value = "访问用户注册界面")
@@ -195,4 +205,40 @@ public class UserController {
         return result;
     }
 
+    @GetMapping("/labels/{userId}")
+    @ResponseBody
+    public String getLabels(@PathVariable("userId") String userId) {
+    	String res = "";//name_val,
+    	Calendar cld = Calendar.getInstance();
+    
+    	Map<String, Integer> map = wkservice.viewWorkerMonthLabel(Long.parseLong(userId), cld);
+    
+    	for(Map.Entry<String,Integer > entry:map.entrySet()){  
+    	      System.out.println("key=" +entry.getKey() +" and value="+entry.getValue());  
+    	      res = res+entry.getKey()+"_"+entry.getValue()+",";  	      
+    	  }  
+    	res = res.substring(0,res.length()-1);
+    	return res;
+    }
+    
+    @GetMapping("/pjnumbers/{userId}")
+    @ResponseBody
+    public String getpjnumbers(@PathVariable("userId") String userId) {
+    	String res = "";//name_val,
+    	String month = "";
+    	String data = "";
+    	Calendar cld = Calendar.getInstance();
+    
+//    	int cm = cld.get(Calendar.MONTH);
+//    	
+//    	for(int i=0;i<cm;i++) {
+//    		
+//    	}
+    	
+    	List<Project> list = wkservice.viewWorkerMonthProject(Long.parseLong(userId), cld);
+    
+    	int len = list.size();
+    	
+    	return len+"";
+    }
 }

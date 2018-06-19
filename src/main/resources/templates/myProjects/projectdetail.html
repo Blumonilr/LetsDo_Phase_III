@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>cssmoban</title>
+    <title>嘤嘤怪众包</title>
     <!-- Bootstrap Styles-->
     <link th:href="@{/assets/css/bootstrap.css}" rel="stylesheet" />
     <!-- FontAwesome Styles-->
@@ -73,7 +73,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><strong>Marvel</strong></a>
+                <a class="navbar-brand" href="index.html"><strong>YYM</strong></a>
 				
 		        <div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
             </div>
@@ -279,7 +279,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="javascript:void(0);" onclick="logout()"><i class="fa fa-sign-out fa-fw"></i> 登出</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -409,7 +409,9 @@
                                         </div>
                                         <div id="collapseThree" class="panel-collapse collapse">
                                             <div class="panel-body" id="third_accordion">
-                                                <p>结束：</p><input type="button" onclick="terminate_project()" value="退出项目" />
+                                                <p>如果您已经完成了标注或不想继续下去，您可以退出项目，您的工资会在本项目正式结束后发放到您到嘤嘤账户中。</p>
+                                                <a onclick="terminate_project()"><h4>        退出项目</h4></a>
+
                                             </div>
                                         </div>
                                     </div>

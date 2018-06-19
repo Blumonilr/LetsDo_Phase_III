@@ -11,12 +11,16 @@
     <!-- Custom Styles-->
     <link href="/publisher/css/custom-styles.css" rel="stylesheet" />
 
+    <link href="/css/rank/userDetail.css" rel="stylesheet" />
+
     <link href="/css/JQUI/jquery-ui.css" rel="stylesheet" />
     <link href="/css/JQUI/jquery-ui.theme.css" rel="stylesheet" />
     <link href="/css/JQUI/jquery-ui.structure.css" rel="stylesheet" />
 
     <script src="/publisher/js/jquery-1.10.2.js"></script>
     <script src="/js/util/cookie.js"></script>
+     <script src="/js/util/echarts.js"></script>
+    <script src="/js/rank/graph.js"></script>
 
     <script src="/js/JQUI/jquery-ui.js"></script>
     <!-- Google Fonts-->
@@ -32,7 +36,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href=""><strong>YYM CrowedSource</strong></a>
+                <a class="navbar-brand" href=""><strong>YYM</strong></a>
 
                 <div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
             </div>
@@ -274,7 +278,7 @@
         <div id="page-wrapper">
             <div class="header">
                 <h1 class="page-header">
-                    个人信息 <small>yingyingmonster...</small>
+                    嘤嘤怪的家 <small>在这里查看您的工作情况和个人信息</small>
                 </h1>
             </div>
             <div style="text-align:center;background: #8d8888">
@@ -283,50 +287,69 @@
             <div id="page-inner">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-3"></div>
                         <div class="col-md-6">
-                            <form role="form">
-                                <div class="form-group">
-                                    <label for="userName">
-                                        帐号
-                                    </label>
-                                    <input type="text" disabled="disabled" class="form-control" id="userName"/>
+                            <div id="graphs">
+                            	<div id="first_area">
+                            	<h4>我参与了哪些项目：</h4>
+                                <div id="first_graph" style="width: 280px;height:280px;">
+
                                 </div>
-                                <div class="form-group">
-                                    <label for="nickName">
-                                        昵称
-                                    </label>
-                                    <input type="text" class="form-control" id="nickName"/>
+                        
+                            	</div>
+                                <div id="second_area">
+                                <h4>我完成了多少项目：</h4>
+                                <div id="second_graph" style="width: 280px;height:280px;">
+								
                                 </div>
-                                <div class="form-group">
-                                    <label for="email">
-                                        邮箱地址
-                                    </label>
-                                    <input type="email" class="form-control" id="email"/>
                                 </div>
-                                <div class="form-group">
-                                    <label for="Password">
-                                        密码
-                                    </label>
-                                    <input type="password" disabled="disabled" value="******" class="form-control" id="Password"/>
-                                    <a onclick="">修改密码</a>
-                                </div>
-                                <div class="form-group">
-                                    <label for="intro">
-                                        个性签名
-                                    </label>
-                                    <input type="text" class="form-control" id="intro">
-                                </div>
-                                <div class="form-group">
-                                    <label>
-                                        资金
-                                    </label>
-                                    <label id="money"></label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    保存
-                                </button>
-                            </form>
+                            </div>
+
+                            <div id="information_area">
+                                <hr id = "my_hr">
+                                <h3>个人信息</h3><br>
+                                <form role="form">
+                                    <div class="form-group">
+                                        <label for="userName">
+                                            帐号
+                                        </label>
+                                        <input type="text" disabled="disabled" class="form-control" id="userName"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nickName">
+                                            昵称
+                                        </label>
+                                        <input type="text" class="form-control" id="nickName"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">
+                                            邮箱地址
+                                        </label>
+                                        <input type="email" class="form-control" id="email"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Password">
+                                            密码
+                                        </label>
+                                        <input type="password" disabled="disabled" value="******" class="form-control" id="Password"/>
+                                        <a onclick="">修改密码</a>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="intro">
+                                            个性签名
+                                        </label>
+                                        <input type="text" class="form-control" id="intro">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            资金
+                                        </label>
+                                        <label id="money"></label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        保存
+                                    </button>
+                                </form>
+                            </div>
                     </div>
                         <div class="col-md-3"></div>
                 </div>
@@ -374,6 +397,7 @@
                 document.getElementById("userId").innerHTML=id+"&nbsp;";
                 $("#homehref").attr("href","/user/userDetail/"+id);
                 loadDetail();
+                display_graphs();
             }
         </script>
         <!-- Bootstrap Js -->

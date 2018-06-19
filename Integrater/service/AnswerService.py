@@ -5,11 +5,10 @@ import numpy as np
 from matplotlib.path import Path
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-
-import Integrater.utils.DBHandler as db
-import Integrater.utils.xmlParser as xp
-import Integrater.utils.cluster as clu
-import Integrater.utils.cal_similarity as cs
+import utils.DBHandler as db
+import utils.xmlParser as xp
+import utils.cluster as clu
+import utils.cal_similarity as cs
 
 
 def work(imageId,markmode):
@@ -142,7 +141,7 @@ def updateAccuracyAndAbility(imageId,userIds,accuracy):
 				if ability.label_name==label:
 					total=ability.label_history_num*ability.accuracy+accuracy[i]
 					count=ability.label_history_num+1
-					total=total/ability.label_history_num
+					total=total/count
 					session.query(db.Ability).filter(db.Ability.user_id==userIds[i]
 						and db.Ability.label_name==label).update({db.Ability.accuracy:total,
 					                                              db.Ability.label_history_num:count})
