@@ -197,11 +197,11 @@ public class AdminServiceImpl implements AdminService{
 			@Override
 			public int compare(Worker o1, Worker o2) {
 				if(findWorkerAbilityInOneField(o1.getId(),labelName).getAccuracy()>findWorkerAbilityInOneField(o1.getId(),labelName).getAccuracy())
-					return 1;
+					return -1;
 				else if(findWorkerAbilityInOneField(o1.getId(),labelName).getAccuracy()==findWorkerAbilityInOneField(o1.getId(),labelName).getAccuracy())
 					return 0;
 				else
-					return -1;
+					return 1;
 			}
 		});
 		return rank;

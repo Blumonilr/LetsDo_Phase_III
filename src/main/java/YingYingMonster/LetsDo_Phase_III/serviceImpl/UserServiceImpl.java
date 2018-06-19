@@ -94,6 +94,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Worker> getAllWorkers() {
+        return workerRepository.findAll();
+    }
+
+    @Override
+    public List<Publisher> getAllPublishers() {
+        return publisherRepository.findAll();
+    }
+
+    @Override
     public List<Publisher> findPublisherByNameLike(String name) {
         return publisherRepository.findByNameLike(name);
     }
