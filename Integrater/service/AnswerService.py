@@ -27,7 +27,7 @@ def work(imageId,markmode):
 
 	if image.is_finished:
 		# get the answer
-		tag=session.query(db.Tag).filter(db.Tag.image_id==imageId and db.Tag.is_result==True).one()
+		tag=session.query(db.Tag).filter(db.Tag.image_id==imageId , db.Tag.is_result==True).one()
 		# calculate accuracy and update the db
 		print('already has result , calculate accuracy')
 		print('update db')
@@ -67,6 +67,7 @@ def work(imageId,markmode):
 					if accuracy[i]>max_rect_accuracy:
 						max_rect_accuracy=accuracy[i]
 						ptr=i
+				print(ptr)
 				if ptr!=-1:
 					session.query(db.Tag).filter(db.tag.worker_id==userIds[ptr])\
 						.update({db.tag.is_result:True})
@@ -74,13 +75,14 @@ def work(imageId,markmode):
 				pass
 			elif markmode==1:
 				max_rect_accuracy = 0.0
-				ptr = 0
+				ptr = -1
 				for i in range(len(label_accuracy)):
 					if label_accuracy[i] > max_rect_accuracy:
 						max_rect_accuracy = label_accuracy[i]
 						ptr = i
-				if ptr!=0:
-					session.query(db.Tag).filter(db.Tag.worker_id==userIds[ptr] and db.Tag.image_id==imageId).update({db.Tag.is_result:True})
+
+				if ptr!=-1:
+					session.query(db.Tag).filter(db.Tag.worker_id==userIds[ptr] , db.Tag.image_id==imageId).update({db.Tag.is_result:True})
 				tags=session.query(db.Tag).filter(db.Tag.image_id==imageId).all()
 				answerTag=db.Tag
 				for tag in tags:
@@ -115,15 +117,15 @@ def updateAccuracyAndAbility(imageId,userIds,accuracy):
 	print("ok")
 	session=db.setup_db()
 	commits=session.query(db.CommitEvent).filter(db.CommitEvent.imageid==imageId).all()
-
 	for commit in commits:
 		for i in range(len(userIds)):
 			if commit.workerid==userIds[i]:
 				# commit.accuracy=accuracy[i]
+				acc=accuracy[i]
+				uid=userIds[i]
 				session.query(db.CommitEvent)\
-					.filter(db.CommitEvent.imageid==imageId and db.CommitEvent.workerid==userIds[i])\
-					.update({db.CommitEvent.accuracy:accuracy[i]})
-
+					.filter(db.CommitEvent.workerid==uid , db.CommitEvent.imageid==imageId)\
+					.update({"accuracy":float(acc)})
 	'''根据projectId获得项目对象的label
 	转化为string列表
 	'''
@@ -132,8 +134,8 @@ def updateAccuracyAndAbility(imageId,userIds,accuracy):
 	labels=[x.labels for x in labels]
 
 	for i in range(len(userIds)):
-		abilities=session.query(db.Ability).filter(db.Ability.user_id ==userIds[i]
-	                                           and db.Ability.label_name in labels).all()
+		abilities=session.query(db.Ability).filter(db.Ability.user_id ==userIds[i],db.Ability.label_name in labels).all()
+		print(abilities)
 		for ability in abilities:
 			for label in labels:
 				if ability.label_name==label:
@@ -258,6 +260,8 @@ if __name__=='__main__':
 	# coordinates,user_accuracy=clu.cal_rec(coordinates)
 	# print(coordinates)
 	# generateTag(coordinates,30,30)
-	work(86,0)
-
+	work(147,0)
+	# session=db.setup_db()
+	# session.query(db.CommitEvent).filter(db.CommitEvent.workerid==14 and db.CommitEvent.imageid==147).update({"accuracy":0.8736823349736977})
+	# session.close
 	pass
