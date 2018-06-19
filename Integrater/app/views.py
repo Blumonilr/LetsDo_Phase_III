@@ -1,6 +1,6 @@
 
 from flask import request
-from Integrater.service import AnswerService as controller
+from service import AnswerService as controller
 from app import app
 
 

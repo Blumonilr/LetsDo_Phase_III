@@ -29,4 +29,6 @@ public interface RankService {
 	public int viewMyRankByExp(long workerId);
 
 	public int viewMyRankByLabelAccuracy(long workerId, String labelName);
+
+	public List<String> getLabels();
 }

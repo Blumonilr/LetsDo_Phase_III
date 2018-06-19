@@ -2,6 +2,7 @@ package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
+import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
 import YingYingMonster.LetsDo_Phase_III.service.RankService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
@@ -23,6 +24,8 @@ public class RankServiceImpl implements RankService {
 	UserService userService;
 	@Autowired
 	AdminService adminService;
+	@Autowired
+	LabelRepository labelRepository;
 	
 	@Override
 	public List<Worker> rankByExp() {
@@ -55,6 +58,11 @@ public class RankServiceImpl implements RankService {
 	@Override
 	public int viewMyRankByLabelAccuracy(long workerId, String labelName) {
 		return adminService.workerLabelAccuracyRank(labelName).indexOf(userService.getUser(workerId))+1;
+	}
+
+	@Override
+	public List<String> getLabels() {
+		return labelRepository.findAll().stream().map(x -> x.getName()).collect(Collectors.toList());
 	}
 
 }
