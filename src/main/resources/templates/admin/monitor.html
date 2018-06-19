@@ -19,6 +19,9 @@
 
     <link rel="stylesheet" type="text/css" href="/css/admin/datatables.css"/>
 
+    <link rel="stylesheet" href="/css/admin/vex.css" />
+    <link rel="stylesheet" href="/css/admin/vex-theme-os.css" />
+
     <script src="/js/util/cookie.js"></script>
 </head>
 <body>
@@ -172,56 +175,6 @@
                     </div>
                 </div>
             </div>
-
-                <!--<br/>-->
-                <!--<div class="container-fluid">-->
-                    <!--<div class="row" style="margin: 10px -2px 10px -2px">-->
-                        <!--<div class="col-md-12">-->
-                            <!--<div id="content1">-->
-                                <!--<h2>进行中项目</h2>-->
-                                <!--<div class="single-member effect-4">-->
-                                    <!--<div class="member-info">-->
-                                        <!--<h3>ProjectName</h3>-->
-                                        <!--<h5>Publisher</h5>-->
-                                    <!--</div>-->
-                                    <!--<div class="member-image">-->
-                                        <!--<img src="assets/img/member_270x210.jpg" alt="Member">-->
-                                    <!--</div>-->
-                                    <!--<div class="more-info">-->
-                                        <!--<p>Description要做一下长度检测，防止把按钮顶没了</p>-->
-                                        <!--<div>-->
-                                            <!--<a onclick="window.location.href='这里填链接，是字符串'" class="button" style="cursor: pointer;">More</a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="container-fluid">-->
-                    <!--<div class="row" style="margin: 10px -2px 10px -2px">-->
-                        <!--<div class="col-md-12">-->
-                            <!--<div id="content2">-->
-                                <!--<h2>已完成项目</h2>-->
-                                <!--<div class="single-member effect-4">-->
-                                    <!--<div class="member-info">-->
-                                        <!--<h3>ProjectName</h3>-->
-                                        <!--<h5>Publisher</h5>-->
-                                    <!--</div>-->
-                                    <!--<div class="member-image">-->
-                                        <!--<img src="assets/img/member_270x210.jpg" alt="Member">-->
-                                    <!--</div>-->
-                                    <!--<div class="more-info">-->
-                                        <!--<p>Description要做一下长度检测，防止把按钮顶没了</p>-->
-                                        <!--<div>-->
-                                            <!--<a onclick="window.location.href='这里填链接，是字符串'" class="button" style="cursor: pointer;">More</a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
             </div>
              <!-- /. PAGE INNER  -->
             </div>
@@ -240,74 +193,11 @@
 
     <script src="/js/util/echarts.js"></script>
 
+    <script src="/js/admin/vex.combined.min.js"></script>
+    <script>vex.defaultOptions.className = 'vex-theme-os'</script>
 
     <!-- Custom Js -->
     <script src="/js/admin/custom-scripts.js"></script>
-
-    <!--转移一下就行-->
-    <!--<script>-->
-        <!--function loadProject(){-->
-            <!--var id = getCookie("userId");-->
-            <!--$.ajax({-->
-                <!--url: "/project/publisherProjects",-->
-                <!--type: "post",-->
-                <!--data:{-->
-                    <!--"userId":id,-->
-                    <!--"keyword":""-->
-                <!--},-->
-                <!--success : function(data){-->
-                    <!--adjustPage(data)-->
-                <!--},-->
-                <!--error : function(XMLHttpRequest, textStatus, errorThrown) {-->
-                    <!--alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);-->
-                <!--},-->
-            <!--});-->
-        <!--}-->
-
-        <!--function search(){-->
-            <!--var id = getCookie("userId");-->
-            <!--$("#content").empty();-->
-            <!--var key=$("#search").val();-->
-            <!--$.ajax({-->
-                <!--url: "/project/publisherProjects",-->
-                <!--type: "post",-->
-                <!--data:{-->
-                    <!--"userId":id,-->
-                    <!--"keyword":key-->
-                <!--},-->
-                <!--success : function(data){-->
-                    <!--adjustPage(data)-->
-                <!--},-->
-                <!--error : function(XMLHttpRequest, textStatus, errorThrown) {-->
-                    <!--alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);-->
-                <!--},-->
-            <!--});-->
-        <!--}-->
-
-
-        <!--function link(projectName){-->
-            <!--return "/publisher/"+projectName;-->
-        <!--}-->
-
-        <!--function strlen(str) {-->
-            <!--///<summary>获得字符串实际长度，中文2，英文1</summary>-->
-            <!--///<param name="str">要获得长度的字符串</param>-->
-            <!--var realLength = 0, len = str.length, charCode = -1;-->
-            <!--for (var i = 0; i < len; i++) {-->
-                <!--charCode = str.charCodeAt(i);-->
-                <!--if (charCode >= 0 && charCode <= 128)-->
-                    <!--realLength += 1;-->
-                <!--else-->
-                    <!--realLength += 2;-->
-            <!--}-->
-            <!--return realLength;-->
-        <!--};-->
-
-        <!--window.onload=function () {-->
-            <!--document.getElementById("userId").innerHTML=getCookie("userId");-->
-            <!--//loadProject();-->
-        <!--}-->
-    <!--</script>-->
 
 </body>
 </html>
