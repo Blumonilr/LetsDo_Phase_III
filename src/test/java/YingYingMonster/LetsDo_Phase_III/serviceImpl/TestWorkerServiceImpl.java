@@ -1,6 +1,7 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.entity.MarkMode;
@@ -115,6 +116,26 @@ public class TestWorkerServiceImpl {
 		List<Project> projects = wkService.discoverProjects(49);
 		assertNotNull(projects);
 		System.out.println(projects.size());
+	}
+
+	@Test public void batch_register(){
+
+		for (int i = 0; i < 100; i++) {
+			User user;
+			double rand = Math.random() * 2;
+			if (rand < 1.5) {
+				user = new Worker("worker" + i, "111111", "email", "intro",
+						0, 0, 0, 0, 0);
+				int level = (int) (Math.random() * 10);
+				int exp = ((int) (Math.random() * 10))*10;
+				((Worker) user).setLevel(level);
+				((Worker) user).setExp(exp);
+			} else {
+				user = new Publisher("publisher" + i, "111111", "email", "intro", 1000);
+			}
+			userService.register(user);
+		}
+
 	}
 
 }
