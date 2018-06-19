@@ -67,4 +67,6 @@ public interface PublisherService {
 
     @Deprecated
 	public List<String> viewWorkers(String publisherId,String projectId);
+
+    public List<String> getPublisherBiasInString(long publisherId);
 }

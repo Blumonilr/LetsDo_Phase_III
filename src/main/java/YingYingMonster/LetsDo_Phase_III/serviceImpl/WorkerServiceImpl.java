@@ -274,5 +274,13 @@ public class WorkerServiceImpl implements WorkerService {
 		return labels;
 	}
 
+	@Override
+	public List<String> getWorkerAbilitiesInString(long workerId) {
+		return userService.getUserAbilities(workerId).stream()
+				.map(x -> x.getLabel().getName() + "_" + Double.toString(x.getAccuracy())
+						+ "_" + Integer.toString(x.getLabelHistoryNum())
+						+ "_" + Integer.toString(x.getBias())).collect(Collectors.toList());
+	}
+
 
 }

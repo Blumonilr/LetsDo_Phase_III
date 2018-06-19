@@ -100,4 +100,6 @@ public interface WorkerService {
 	public List<Project> viewWorkerMonthProject(long workerId,Calendar date);
 
 	public Map<String,Integer> viewWorkerMonthLabel(long workerId,Calendar date);
+
+	public List<String> getWorkerAbilitiesInString(long workerId);
 }

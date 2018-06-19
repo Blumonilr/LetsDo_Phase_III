@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -58,20 +59,16 @@ public class PublisherServiceImpl implements PublisherService {
 
 	@Autowired
 	PublishEventRepository publishEventRepository;
+	@Autowired
+	UserService userService;
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public Project createProject(Project project, MultipartFile dataSet) {
 		Project project1 = projectService.addProject(project, dataSet);
-//		recordPublishEvent(project1);
 		return project1;
 	}
-
-//	private void recordPublishEvent(Project project) {
-//		PublishEvent publishEvent = new PublishEvent(project.getPublisherId(), project.getId(), new Date(), null);
-//		publishEventRepository.saveAndFlush(publishEvent);
-//	}
 
     @Override
     public boolean validateProjectName(long publisherId, String projectName) {
@@ -86,15 +83,8 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public TestProject addTestProject(long projectId,  MultipartFile multipartFile) {
 		TestProject testProject = testProjectService.addTestProject(projectId, multipartFile);
-//		updatePublishEvent(testProject);
 		return testProject;
     }
-
-//	private void updatePublishEvent(TestProject testProject) {
-//		PublishEvent publishEvent = publishEventRepository.findByProjectId(testProject.getProject().getId());
-//		publishEvent.setInviteCode(testProject.getInviteCode());
-//		publishEventRepository.saveAndFlush(publishEvent);
-//	}
 
 	@Override
 	public Project openProject(long id) {
@@ -167,6 +157,12 @@ public class PublisherServiceImpl implements PublisherService {
 	@Override
 	public List<String> viewWorkers(String publisherId, String projectId) {
 		return null;
+	}
+
+	@Override
+	public List<String> getPublisherBiasInString(long publisherId) {
+		return userService.getUserAbilities(publisherId).stream().map(x -> x.getLabel().getName()
+				+ "_" + Integer.toString(x.getBias())).collect(Collectors.toList());
 	}
 
 	private void saveTag(String projectName,long imageId, Tag tag) throws IOException, DocumentException {
