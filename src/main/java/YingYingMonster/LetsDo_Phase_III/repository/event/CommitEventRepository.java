@@ -25,7 +25,7 @@ public interface CommitEventRepository extends JpaRepository<CommitEvent, Long> 
 
     public List<CommitEvent> findByCommitMsg(String commitMsg);
 
-    public List<CommitEvent> findByWorkeridAndProjectidAndImageid(long workerid, long projectid, long imageid);
+    public CommitEvent findByWorkeridAndImageid(long workerid, long imageid);
 
     public List<CommitEvent> findByWorkeridAndCommitTimeBetween(long workerid, Date start, Date end);
 
