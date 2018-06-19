@@ -143,7 +143,7 @@ function display_third(){
                 }
             }
 
-            var dif = 100.0/max_count;
+            var dif = max_count/100;
             counts_unit = 1;
 
             for(let i=0;i<num_of_labels;i++) {

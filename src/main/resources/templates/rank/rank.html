@@ -307,67 +307,66 @@
                
                        <a class="active-menu" href="/rank"><i class="fa fa-dashboard"></i>嘤嘤上榜</a>
                     </li>
-
                 </ul>
-
             </div>
-
         </nav>
         <!-- /. NAV SIDE  -->
       
 		<div id="page-wrapper">
 		  <div class="header"> 
                         <h1 class="page-header">
-                            嘤嘤上榜 <small>yingyingMonster为您加油</small>
+                            嘤嘤上榜 <small>快看这些优秀的嘤嘤怪们</small>
                         </h1>
-						<ol class="breadcrumb">
 
-					</ol> 
-									
 		</div>
             <div id="page-inner">
-
-             
 				<!--我们的操作区开始  -->
-				
-	
+		
 			  <div class="row">
                 <div class="col-md-12">
                     <!-- Advanced Tables -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                             嘤嘤上榜
-                        </div>
-						
-						<div id="approach">
-						<select id="rankByWhat" onChange="rankBy(this)">
-							<option value="exp">经验值排名</option>
-							<option value="accuracy">精确度排名</option>
-							</select>
-						</div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+
+
+
+                                <table class="table table-striped table-bordered table-hover" id="table_exp">
+                                    <h4>嘤嘤经验榜</h4>
                                     <thead>
                                         <tr>
                                             <th>名次</th>
                                             <th>用户名</th>
                                             <th>嘤嘤等级</th>
                                             <th>经验值</th>
-											<th>准确率</th>
 											<th>嘤嘤财富</th>
-                                            <th>简介</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="table_exp_body">
                                         
                                        
                                     </tbody>
                                 </table>
-                            </div>
-                            
-                        </div>
-                    </div>
+
+                                <div id="accuracy_tables">
+
+
+                                </div>
+
+                            <table class='table table-striped table-bordered table-hover table_accuracy' id="table_accuracy'>
+                                <h4></h4>
+                                <thead>
+                                <tr>
+                                    <th>名次</th>
+                                    <th>用户名</th>
+                                    <th>准确率</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+                            </table>
+
+
+
                     <!--End Advanced Tables -->
                 </div>
             </div>

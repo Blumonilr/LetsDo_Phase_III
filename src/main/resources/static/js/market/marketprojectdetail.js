@@ -37,7 +37,7 @@ function fork(){
         success: function(data){
 
             toastr.info(data);//需要保留和替换
-            setTimeout("window.history.back()",1800);
+            setTimeout("set_url()",1800);
         }
     });
 }
@@ -78,4 +78,8 @@ function set_info(data){
     $("#first_info").append(txt1);
     $("#second_info").append(txt2);
     $("#third_info").append(txt3);
+}
+
+function set_url(){
+    window.location.href = "/myProjects/projects";
 }
