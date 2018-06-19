@@ -233,7 +233,7 @@ function initTables() {
                 data:"name",
                 render: function(data, type, row, meta) {
                     //渲染 把数据源中的标题和url组成超链接
-                    return '<a href="#">' + data + '</a>';
+                    return '<a href="javascript:void(0);" onclick="publisherInfoDialog('+row.id+')" >' + data + '</a>';
                 }
             },
             {
@@ -522,10 +522,71 @@ function initProjectTable(){
 function workerInfoDialog(workerId){
     var worker;
     var formdata=new FormData();
+    formdata.append("workerId",workerId);
+    $.ajax({
+        url: "/admin/workerDetail",
+        type: "post",
+        dataType:"json",
+        data:{
+        "workerId":workerId
+        },
+        async:false,
+        success : function(info){
+            worker=info;
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
+        },
+    });
     var vexOption={
         message: '工作者详情',
         input: [
-            ''
+            '<div class="fl w-100 pa3">\n' +
+            '    <table class="fl w-100">\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">帐号</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="userId" value="'+worker.id+'"/></td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">昵称</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="userName" value="'+worker.name+'"/></td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">邮箱</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="email" value="'+worker.email+'"/></td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">个性签名</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="intro" value="'+worker.intro+'"/></td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">余额</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="money" value="'+worker.money+'"/></td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">等级</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="level" value="'+worker.level+'"/></td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">标注总数</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="tagNum" value="'+worker.tagNum+'"/></td>\n' +
+            '        </tr>\n' +
+            '    </table>\n' +
+            '</div>'
         ].join(''),
         buttons: [
             $.extend({}, vex.dialog.buttons.YES, { text: '确定' }),
@@ -538,24 +599,80 @@ function workerInfoDialog(workerId){
             }
         }
     };
-    formdata.append("workerId",workerId);
-    // $.ajax({
-    //     url: "/admin/userDetail",
-    //     type: "post",
-    //     dataType:"json",
-    //     async:false,
-    //     success : function(info){
-    //         worker=info;
-    //
-    //     },
-    //     error : function(XMLHttpRequest, textStatus, errorThrown) {
-    //         alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
-    //     },
-    // });
 
     vex.dialog.open(vexOption);
 }
-function publisherInfoDialog(publisherId){}
+function publisherInfoDialog(publisherId){
+    var publisher;
+    var formdata=new FormData();
+    formdata.append("publisherId",publisherId);
+    $.ajax({
+        url: "/admin/publisherDetail",
+        type: "post",
+        dataType:"json",
+        data:{
+            "publisherId":publisherId
+        },
+        async:false,
+        success : function(info){
+            publisher=info;
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
+        },
+    });
+    var vexOption={
+        message: '发布者详情',
+        input: [
+            '<div class="fl w-100 pa3">\n' +
+            '    <table class="fl w-100">\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">帐号</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="userId" value="'+publisher.id+'"/></td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">昵称</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="userName" value="'+publisher.name+'"/></td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">邮箱</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="email" value="'+publisher.email+'"/></td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">个性签名</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="intro" value="'+publisher.intro+'"/></td>\n' +
+            '        </tr>\n' +
+            '        <tr>\n' +
+            '            <td class="dib fl w-25">\n' +
+            '                <label class="tc v-mid">余额</label></td>\n' +
+            '            <td class="dib fl w-75">\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="money" value="'+publisher.money+'"/></td>\n' +
+            '        </tr>\n' +
+            '    </table>\n' +
+            '</div>'
+        ].join(''),
+        buttons: [
+            $.extend({}, vex.dialog.buttons.YES, { text: '确定' }),
+            $.extend({}, vex.dialog.buttons.NO, { text: '查看更多' })
+        ],
+        callback: function (data) {
+            if (!data) {
+                //这里请求更详细界面
+                // return console.log('Cancelled')
+            }
+        }
+    };
+
+    vex.dialog.open(vexOption);
+}
 
 /*-----------------------------init--------------------------------*/
 $(document).ready(function () {

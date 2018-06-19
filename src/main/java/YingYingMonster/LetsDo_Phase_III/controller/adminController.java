@@ -2,15 +2,14 @@ package YingYingMonster.LetsDo_Phase_III.controller;
 
 import YingYingMonster.LetsDo_Phase_III.entity.json.ExtraProjectInfo;
 import YingYingMonster.LetsDo_Phase_III.entity.json.SystemInfo;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -59,6 +58,22 @@ public class adminController {
         Gson gson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         ExtraProjectInfo extraProjectInfo=new ExtraProjectInfo(adminService);
         return gson.toJson(extraProjectInfo);
+    }
+
+    @PostMapping("/workerDetail")
+    @ResponseBody
+    public String workerDetail(@RequestParam("workerId")String workerId) throws ParseException {
+        Gson gson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        Worker worker=adminService.finByWorkerId(Long.parseLong(workerId));
+        return gson.toJson(worker);
+    }
+
+    @PostMapping("/publisherDetail")
+    @ResponseBody
+    public String publisherDetail(@RequestParam("publisherId")String publisherId) throws ParseException {
+        Gson gson=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        Publisher publisher =adminService.findByPublisherId(Long.parseLong(publisherId));
+        return gson.toJson(publisher);
     }
 
 }
