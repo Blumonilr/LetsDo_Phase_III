@@ -56,7 +56,7 @@ function add_pj(pj_data){
         "<div class='social-touch' onClick='chooseProject(this)' id='"+pubid+"_"+pjid+"' >"+
         "<img class='pjicons' src='/pic/market/more.png'/>"+
         "查看详情"+
-        "</div>"+
+        "</div>"+《》《》
         "</div>"+
         "</div>";
 

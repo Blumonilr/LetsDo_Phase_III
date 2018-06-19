@@ -63,11 +63,12 @@ function confirm(){
  */
 function set_introduction(){
     $("#confirm").empty();
-    var txt = "<p>项目名称:  "+trueProjectId+"  </p><br>\n" +
-        "                <p>发布者:    "+publisherId+"   </p><br>\n" +
-        "                <p>标注类型:  "+type+"</p><br>\n" +
+    var txt = "<p>   项目名称:  "+trueProjectId+"  </p><br>\n" +
+        "                <p>   发布者:    "+publisherId+"   </p><br>\n" +
+        "                <p>   标注类型:  "+type+"</p><br>\n" +
         "\n" +
-        "                <input type='button' onclick='confirm()' value='确认' />";
+        "<div id='confirm_icon'><img src='/pic/button/go.png' onclick='confirm()' id='confirm_img' /> go!</div>";
+
 
     $("#confirm").append(txt);
 }
