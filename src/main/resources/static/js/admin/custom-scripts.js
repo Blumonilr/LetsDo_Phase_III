@@ -185,7 +185,7 @@ function initTables() {
                 orderable:false,
                 render: function(data, type, row, meta) {
                     //渲染 把数据源中的标题和url组成超链接
-                    return '<a href="#">' + data + '</a>';
+                    return '<a href="javascript:void(0);" onclick="workerInfoDialog('+row.id+')" >' + data + '</a>';
                 }
             },
             {
@@ -195,11 +195,11 @@ function initTables() {
             {
                 title: "标注总数",
                 data:"tagNum"
+            },
+            {
+                title: "邮箱",
+                data:"email"
             }
-            // {
-            //     title: "邮箱",
-            //     data:"email"
-            // }
         ]
     };
     var optionPublisher={
@@ -224,7 +224,7 @@ function initTables() {
         pagingType:"full_numbers",
         columns: [
             {
-                title: "工作者编号",
+                title: "发布者编号",
                 data:"id"
             },
             {
@@ -236,10 +236,10 @@ function initTables() {
                     return '<a href="#">' + data + '</a>';
                 }
             },
-            // {
-            //     title: "邮箱",
-            //     data:"email"
-            // },
+            {
+                title: "邮箱",
+                data:"email"
+            },
             {
                 title: "余额",
                 data:"money"
@@ -517,6 +517,45 @@ function initProjectTable(){
 
     $("#projectList").DataTable(optionProject);
 }
+
+/*-----------------------------openDialog--------------------------------*/
+function workerInfoDialog(workerId){
+    var worker;
+    var formdata=new FormData();
+    var vexOption={
+        message: '工作者详情',
+        input: [
+            ''
+        ].join(''),
+        buttons: [
+            $.extend({}, vex.dialog.buttons.YES, { text: '确定' }),
+            $.extend({}, vex.dialog.buttons.NO, { text: '查看更多' })
+        ],
+        callback: function (data) {
+            if (!data) {
+                //这里请求更详细界面
+                // return console.log('Cancelled')
+            }
+        }
+    };
+    formdata.append("workerId",workerId);
+    // $.ajax({
+    //     url: "/admin/userDetail",
+    //     type: "post",
+    //     dataType:"json",
+    //     async:false,
+    //     success : function(info){
+    //         worker=info;
+    //
+    //     },
+    //     error : function(XMLHttpRequest, textStatus, errorThrown) {
+    //         alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
+    //     },
+    // });
+
+    vex.dialog.open(vexOption);
+}
+function publisherInfoDialog(publisherId){}
 
 /*-----------------------------init--------------------------------*/
 $(document).ready(function () {
