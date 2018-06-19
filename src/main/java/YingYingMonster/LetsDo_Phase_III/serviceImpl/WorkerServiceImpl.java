@@ -1,11 +1,13 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
 import YingYingMonster.LetsDo_Phase_III.entity.*;
+import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.TagRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,8 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Autowired
 	AbilityRepository abilityRepository;
+	@Autowired
+	CommitEventRepository commitEventRepository;
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -225,7 +230,9 @@ public class WorkerServiceImpl implements WorkerService {
 		double score = Math.random() * 20+80;
 
 		//read accuracy from commit event
-		
+//		logger.info("read accuracy from commit event");
+//		List<CommitEvent> comits = commitEventRepository.findByWorkeridAndProjectid(workerId, projectId);
+
 
 		joinEventRepository.setTestScore(workerId, projectId, score);
 		if (score >= projectService.getAProject(projectId).getTestAccuracy()) {
