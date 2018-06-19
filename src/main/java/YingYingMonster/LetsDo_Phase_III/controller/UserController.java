@@ -241,4 +241,36 @@ public class UserController {
     	
     	return len+"";
     }
+    
+    @GetMapping("/abilities/{userId}")
+    @ResponseBody
+    public String getAbilities(@PathVariable("userId") String userId) {
+    	String res = "";//labelname_accu_count_bias
+    	List<String> list = wkservice.getWorkerAbilitiesInString(Long.parseLong(userId));
+    	String labels = "";
+    	String accu = "";
+    	String count = "";
+    	String bias = "";
+    	
+    	int len = list.size();
+    	for(int i=0;i<len;i++) {
+    		String tip = list.get(i);
+    		String[] datas = tip.split("_");
+    		labels += datas[0];
+    		accu += datas[1];
+    		count += datas[2];
+    		bias += datas[3];
+    		
+    		if(i != len-1) {
+    			labels += "_";
+        		accu += "_";
+        		count += "_";
+        		bias += "_";
+    		}
+    	}
+    	
+    	return labels+","+accu+","+count+","+bias;
+    }
+    
+    
 }
