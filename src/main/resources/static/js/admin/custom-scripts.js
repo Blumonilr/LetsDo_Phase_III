@@ -315,13 +315,11 @@ function initCharts() {
             {
                 name: '当月注册人数',
                 type: 'bar',
-                stack: '总量',
                 yAxisIndex:0
             },
             {
                 name: '当月总人数',
                 type: 'line',
-                stack: '总量',
                 yAxisIndex:1
             }
         ]
