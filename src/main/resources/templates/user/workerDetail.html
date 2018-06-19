@@ -11,6 +11,8 @@
     <!-- Custom Styles-->
     <link href="/publisher/css/custom-styles.css" rel="stylesheet" />
 
+    <link href="/css/rank/userDetail.css" rel="stylesheet" />
+
     <link href="/css/JQUI/jquery-ui.css" rel="stylesheet" />
     <link href="/css/JQUI/jquery-ui.theme.css" rel="stylesheet" />
     <link href="/css/JQUI/jquery-ui.structure.css" rel="stylesheet" />
@@ -34,7 +36,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href=""><strong>YYM CrowedSource</strong></a>
+                <a class="navbar-brand" href=""><strong>YYM</strong></a>
 
                 <div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
             </div>
@@ -276,7 +278,7 @@
         <div id="page-wrapper">
             <div class="header">
                 <h1 class="page-header">
-                    个人信息 <small>yingyingmonster</small>
+                    嘤嘤怪的家 <small>在这里查看您的工作情况和个人信息</small>
                 </h1>
             </div>
             <div style="text-align:center;background: #8d8888">
@@ -287,17 +289,24 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div id="graphs">
-                            	<h5>我参与的项目领域：</h5>
+                            	<div id="first_area">
+                            	<h4>我参与了哪些项目：</h4>
                                 <div id="first_graph" style="width: 280px;height:280px;">
 
-                                </div><br><br>
-                                <h5>我参与的项目数量：</h5>
-                                <div id="second_graph" style="width: 280px;height:280px;">
-
                                 </div>
-                            </div><br>
-                            <div>
-                                <h5>个人信息</h5>
+                        
+                            	</div>
+                                <div id="second_area">
+                                <h4>我完成了多少项目：</h4>
+                                <div id="second_graph" style="width: 280px;height:280px;">
+								
+                                </div>
+                                </div>
+                            </div>
+
+                            <div id="information_area">
+                                <hr id = "my_hr">
+                                <h3>个人信息</h3><br>
                                 <form role="form">
                                     <div class="form-group">
                                         <label for="userName">

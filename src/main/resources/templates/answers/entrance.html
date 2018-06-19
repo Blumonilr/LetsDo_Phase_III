@@ -21,6 +21,7 @@
     <!-- 自己的css文件 -->
 
     <link th:href="@{/toastr/toastr.css}" rel="stylesheet" />
+    <link th:href="@{/css/workspace/input.css}" rel="stylesheet" />
     <!-- 自己的css文件结束 -->
 
     <!-- JS Scripts-->
@@ -67,7 +68,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"><strong>YYM CrowedSource</strong></a>
+            <a class="navbar-brand" href="index.html"><strong>YYM</strong></a>
 
             <div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
         </div>
@@ -315,16 +316,26 @@
     <div id="page-wrapper">
         <div class="header">
             <h1 class="page-header">
-                发布者内测入口 <small>yingyingMonster众包平台</small>
+                答案集制订 <small>您只需要制订少数图片的标准答案，我们就会利用机器学习为您实时监控标注者的工作质量。</small>
             </h1>
-            <ol class="breadcrumb">
-               
-            </ol>
 
+        </div>
+
+        <div style="text-align:center;background: #8d8888">
+            <hr style="height: 2px" />
         </div>
         <div id="page-inner">
             <!--我们的操作区开始  -->
-            <input  type="text" id="number_input" placeholder="请输入内测邀请码" />
+
+            <div class='col-3 input-effect'>
+            <input id='number_input' class='effect-21' type='text' placeholder='请输入内测邀请码'>
+            <label>内测邀请码</label>
+            <span class='focus-border'>
+		          	<i></i>
+		         </span>
+            </div>
+
+
             <input type="button" value="进入内测" onclick="enter()">
 
             <div id="confirm">
