@@ -3,6 +3,7 @@
 function display_graphs(){
     display_first();
     display_second();
+    display_third();
 }
 
 
@@ -102,6 +103,96 @@ function display_first(){
                 }
             }
         ]
+    };
+
+    myChart.setOption(option);
+}
+
+function display_third(){
+    var myChart = echarts.init(document.getElementById("third_graph"));
+    var userId = getCookie("userId");
+
+    var indicators = [];
+    var value_counts = [];
+    var value_accu = [];
+    var value_bias = [];
+    var counts_unit = 0;
+    $.ajax({
+        url: "/user/abilities/"+userId,
+        type: "get",
+        async:false, //同步
+        success: function (data) {//labels+","+accu+","+count+","+bias;
+            console.log("THIRD "+data);
+            var label = data.split(",")[0];
+            var accu = data.split(",")[1];//0~1
+            var count = data.split(",")[2];//number of pic
+            var bias = data.split(",")[3];//number of pj
+
+            var label_s = label.split("_");
+            var accu_s = accu.split("_");
+            var count_s = count.split("_");
+            var bias_s = bias.split("_");
+
+            var num_of_labels = label_s.length;
+
+            var max_count=0;
+            for(let i=0;i<num_of_labels;i++) {
+                var count_tip = parseInt(count_s[i]);
+                if(count_tip > max_count){
+                    max_count = count_tip;
+                }
+            }
+
+            var dif = 100.0/max_count;
+            counts_unit = 1;
+
+            for(let i=0;i<num_of_labels;i++) {
+                var indicator_tip = {name: label_s[i], max: 100};
+                indicators.push(indicator_tip);
+                var count_tip = parseInt(count_s[i]);
+                value_counts.push(count_tip*dif);
+                var accu_tip = parseFloat(accu_s[i]) * 100;
+                value_accu.push(accu_tip);
+            }
+        }
+    });
+
+
+    var option = {
+        title: {
+            text: ''
+        },
+        tooltip: {},
+        legend: {
+            data: ["标注图片总数 (单位 "+counts_unit+" 张) ", '准确率(%) ']
+        },
+        radar: {
+            // shape: 'circle',
+            name: {
+                textStyle: {
+                    color: '#fff',
+                    backgroundColor: '#999',
+                    borderRadius: 3,
+                    padding: [3, 5]
+                }
+            },
+            indicator: indicators,
+        },
+        series: [{
+            name: '预算 vs 开销（Budget vs spending）',
+            type: 'radar',
+            // areaStyle: {normal: {}},
+            data : [
+                {
+                    value : value_counts,
+                    name : "标注图片总数 (单位 "+counts_unit+" 张) "
+                },
+                {
+                    value : value_accu,
+                    name : '准确率(%) '
+                }
+            ]
+        }]
     };
 
     myChart.setOption(option);
