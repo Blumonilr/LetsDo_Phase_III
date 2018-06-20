@@ -1,4 +1,4 @@
-
+var prompt_value = "";//用来显示隐藏
 
 function display_graphs(){
     display_first();
@@ -240,104 +240,127 @@ function display_third(){
  */
 function prompt_graph(month){
 
-    var month_num = 1;
-    if(month === "六月"){
-        month_num = 6;
+    if(month === prompt_value){
+        $("#prompt_area").hide();
+        prompt_value = "";
     }
-    else if(month === "一月"){
-        month_num = 1;
-    }
+    else{
 
+        prompt_value = month;
+        $("#prompt_area").show();
 
-    var myChart = echarts.init(document.getElementById("prompt_graph"));
-    var userId = getCookie("userId");
-
-    var data_map = [];
-    $.ajax({
-        url: "/user/monthlabels/"+userId,
-        type: "get",
-        data:{
-            "month" : month_num,
-        },
-        async:false, //同步
-        success: function (data) {
-            console.log(data);
-            var datas = data.split(",");
-            var len = datas.length;
-            for(let i=0;i<len;i++){
-                var tip = {value:parseInt(datas[i].split("_")[1]), name: datas[i].split("_")[0]};
-                data_map.push(tip);
-            }
+        var month_num = 1;
+        if(month === "六月"){
+            month_num = 6;
         }
-    });
+        else if(month === "一月"){
+            month_num = 1;
+        }
+        else if(month === "二月"){
+            month_num = 2;
+        }
+        else if(month === "三月"){
+            month_num = 3;
+        }
+        else if(month === "四月"){
+            month_num = 4;
+        }
+        else if(month === "五月"){
+            month_num = 5;
+        }
 
-    var option = {
-        backgroundColor: '#F7F7F7',
 
-        title: {
-            text: '该月项目类型',
-            left: 'center',
-            top: 20,
-            textStyle: {
-                color: '#ccc'
-            }
-        },
+        var myChart = echarts.init(document.getElementById("prompt_graph"));
+        var userId = getCookie("userId");
 
-        tooltip : {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
-
-        visualMap: {
-            show: false,
-            min: 80,
-            max: 600,
-            inRange: {
-                colorLightness: [0.2, 0.8]
-            }
-        },
-        series : [
-            {
-                name:'该月项目数量',
-                type:'pie',
-                radius : '55%',
-                center: ['50%', '50%'],
-                data: data_map.sort(function (a, b) { return a.value - b.value; }),
-                roseType: 'radius',
-                label: {
-                    normal: {
-                        textStyle: {
-                            color: 'rgba(128, 128, 128, 0.9)'
-                        }
-                    }
-                },
-                labelLine: {
-                    normal: {
-                        lineStyle: {
-                            color: 'rgba(255, 255, 255, 0.3)'
-                        },
-                        smooth: 0.2,
-                        length: 10,
-                        length2: 20,
-                    }
-                },
-                itemStyle: {
-                    normal: {
-                        color: '#b0e2ff',
-                        shadowBlur: 200,
-                        shadowColor: 'rgba(255, 255, 255, 0.3)'
-                    }
-                },
-
-                animationType: 'scale',
-                animationEasing: 'elasticOut',
-                animationDelay: function (idx) {
-                    return Math.random() * 200;
+        var data_map = [];
+        $.ajax({
+            url: "/user/monthlabels/"+userId,
+            type: "get",
+            data:{
+                "month" : month_num,
+            },
+            async:false, //同步
+            success: function (data) {
+                console.log(data);
+                var datas = data.split(",");
+                var len = datas.length;
+                for(let i=0;i<len;i++){
+                    var tip = {value:parseInt(datas[i].split("_")[1]), name: datas[i].split("_")[0]};
+                    data_map.push(tip);
                 }
             }
-        ]
-    };
+        });
 
-    myChart.setOption(option);
+        var option = {
+            backgroundColor: '#F7F7F7',
 
+            title: {
+                text: '该月项目类型',
+                left: 'center',
+                top: 20,
+                textStyle: {
+                    color: '#ccc'
+                }
+            },
+
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+
+            visualMap: {
+                show: false,
+                min: 80,
+                max: 600,
+                inRange: {
+                    colorLightness: [0.2, 0.8]
+                }
+            },
+            series : [
+                {
+                    name:'该月项目数量',
+                    type:'pie',
+                    radius : '55%',
+                    center: ['50%', '50%'],
+                    data: data_map.sort(function (a, b) { return a.value - b.value; }),
+                    roseType: 'radius',
+                    label: {
+                        normal: {
+                            textStyle: {
+                                color: 'rgba(128, 128, 128, 0.9)'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            lineStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            },
+                            smooth: 0.2,
+                            length: 10,
+                            length2: 20,
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#b0e2ff',
+                            shadowBlur: 200,
+                            shadowColor: 'rgba(255, 255, 255, 0.3)'
+                        }
+                    },
+
+                    animationType: 'scale',
+                    animationEasing: 'elasticOut',
+                    animationDelay: function (idx) {
+                        return Math.random() * 200;
+                    }
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+
+
+    }
 }
