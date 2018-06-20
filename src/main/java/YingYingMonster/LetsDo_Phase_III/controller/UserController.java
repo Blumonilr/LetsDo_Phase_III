@@ -279,7 +279,7 @@ public class UserController {
 //    		
 //    	}
     	
-    	List<Project> list = wkservice.viewWorkerMonthProject(Long.parseLong(userId), cld);
+    	List<Project> list = wkservice.viewWorkerMonthJoinProject(Long.parseLong(userId), cld);
     
     	int len = list.size();
     	

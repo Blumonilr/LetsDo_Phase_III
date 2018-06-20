@@ -196,6 +196,8 @@ def work(imageId,markmode):
 			if ptr!=-1:
 				session.query(db.Tag).filter(db.Tag.worker_id==userIds[ptr],db.Tag.image_id==imageId) \
 					.update({db.Tag.is_result:True})
+				session.query(db.Image).filter(db.Image.id==imageId).update({db.Image.is_finished:True})
+
 			pass
 		elif markmode==1:
 			max_rect_accuracy = 0.0
@@ -206,6 +208,7 @@ def work(imageId,markmode):
 					ptr = i
 			if ptr!=-1:
 				session.query(db.Tag).filter(db.Tag.worker_id==userIds[ptr] , db.Tag.image_id==imageId).update({db.Tag.is_result:True})
+				session.query(db.Image).filter(db.Image.id == imageId).update({db.Image.is_finished: True})
 			tags=session.query(db.Tag).filter(db.Tag.image_id==imageId).all()
 			answerTag=db.Tag
 			for tag in tags:

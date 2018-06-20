@@ -60,6 +60,7 @@ public class RankServiceImpl implements RankService {
 
 	@Override
 	public List<String> getLabels() {
+		logger.info("get labels");
 		return labelRepository.findAll().stream().map(x -> x.getName()).collect(Collectors.toList());
 	}
 

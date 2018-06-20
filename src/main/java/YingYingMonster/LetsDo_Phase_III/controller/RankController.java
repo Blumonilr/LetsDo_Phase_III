@@ -23,7 +23,7 @@ public class RankController {
 
 	@Autowired
     private RankService rankService;
-
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	/**
 	 * @return 返回rank界面
 	 */
@@ -76,15 +76,17 @@ public class RankController {
             String res = "";
             int my_rank = rankService.viewMyRankByLabelAccuracy(Long.parseLong(userId), label);
 
-			ArrayList<Worker> list;
+			List<Worker> list;
 			try {
 				System.out.println("LABEL: "+label);
-				list = (ArrayList<Worker>) rankService.rankByAccuracy(label);
+				list = rankService.rankByAccuracy(label);
 				int len = list.size();
 		    	for(int i=0 ; i<len ; i++) {
-		    		Worker w = (Worker) list.get(i);
+		    		Worker w = list.get(i);
 		    		String name = w.getName();
 		    		String accu = w.getAccuracy()+"";
+					logger.info("worker name = {}", name);
+					logger.info("worker accu = {}", accu);
 
 		    		String tip = name+"_"+accu;
 		    		res = res + tip;

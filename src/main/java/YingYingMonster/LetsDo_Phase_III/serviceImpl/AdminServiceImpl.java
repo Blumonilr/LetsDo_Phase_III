@@ -206,6 +206,16 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public List<Worker> workerLabelAccuracyRank(String labelName) {
+		List<Ability> list = abilityRepository.findByLabel(labelRepository.findByName(labelName)).stream()
+				.sorted((a1, a2) -> {
+					return Double.compare(a2.getAccuracy(), a1.getAccuracy());
+				}).limit(15).collect(Collectors.toList());
+		for (Ability ability : list) {
+			logger.info("label -----name = {}",ability.getLabel().getName());
+			logger.info("label-----accu = {}", ability.getAccuracy());
+			logger.info("label-----worker = {}",ability.getUser().getName());
+		}
+
 		return abilityRepository.findByLabel(labelRepository.findByName(labelName)).stream()
 				.sorted((a1, a2) -> {
 			return Double.compare(a2.getAccuracy(), a1.getAccuracy());
