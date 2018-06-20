@@ -8,8 +8,14 @@
 
 #third_area{
     position: relative;
-    left: 400px;
-    top: -400px;
+    left: 530px;
+    top: -450px;
+}
+
+#prompt_area{
+    position: relative;
+    left: 500px;
+    top: -800px;
 }
 
 #information_area{
