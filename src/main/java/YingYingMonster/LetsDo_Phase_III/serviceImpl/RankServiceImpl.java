@@ -40,7 +40,7 @@ public class RankServiceImpl implements RankService {
 
 	@Override
 	public List<Worker> rankByAccuracy(String labelName) {
-		logger.info("labelName = ", labelName);
+		logger.info("labelName = {}", labelName);
 		return adminService.workerLabelAccuracyRank(labelName).stream().limit(15).collect(Collectors.toList());
 	}
 

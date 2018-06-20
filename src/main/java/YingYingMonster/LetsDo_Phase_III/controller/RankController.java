@@ -23,7 +23,7 @@ public class RankController {
 
 	@Autowired
     private RankService rankService;
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+
 	/**
 	 * @return 返回rank界面
 	 */
@@ -72,7 +72,6 @@ public class RankController {
     @GetMapping("/rankByAccuracy/{label}")
     public String getListByAccuracy(@PathVariable("label") String label){
             String res = "";
-		logger.info("label = ",label);
 			ArrayList<Worker> list;
 			try {
 				System.out.println("LABEL: "+label);
