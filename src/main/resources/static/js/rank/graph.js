@@ -3,7 +3,7 @@ var prompt_value = "";//用来显示隐藏
 function display_graphs(){
     display_first();
     display_second();
-    display_third();
+    display_radar();
 }
 
 
@@ -12,16 +12,18 @@ function display_second(){
     var userId = getCookie("userId");
 
     var x_map = ['一月','二月','三月','四月','五月','六月'];
-    var all_datas = [1,2,1,2,1];
+    var finish_counts = [];
 
     $.ajax({
-        url: "/user/pjnumbers/"+userId,
+        url: "/user/endNumbers/"+userId,
         type: "get",
         async:false, //同步
-        success: function (data) {
-            //temp
-            var num = parseInt(data);
-            all_datas.push(num);
+        success: function (data) {//labels+","+accu+","+count+","+bias;
+            alert("FINISH "+data);
+            var list = data.split("_");
+            for(let i=0 ;i<list.length;i++){
+                finish_counts.push(parseInt(list[i]));
+            }
         }
     });
 
@@ -35,7 +37,7 @@ function display_second(){
             type: 'value'
         },
         series: [{
-            data: all_datas,
+            data: finish_counts,
             type: 'line',
             smooth: true
         }]
@@ -143,61 +145,49 @@ function display_first(){
 
 }
 
-function display_third(){
+function display_radar(){
     var myChart = echarts.init(document.getElementById("third_graph"));
     var userId = getCookie("userId");
 
-    var indicators = [];
-    var value_counts = [];
-    var value_accu = [];
-    var value_bias = [];
-    var counts_unit = 0;
+    var join_counts = [];
+    var finish_counts = [];
+
+    //finish
     $.ajax({
-        url: "/user/abilities/"+userId,
+        url: "/user/endNumbers/"+userId,
         type: "get",
         async:false, //同步
         success: function (data) {//labels+","+accu+","+count+","+bias;
-            console.log("THIRD "+data);
-            var label = data.split(",")[0];
-            var accu = data.split(",")[1];//0~1
-            var count = data.split(",")[2];//number of pic
-            var bias = data.split(",")[3];//number of pj
-
-            var label_s = label.split("_");
-            var accu_s = accu.split("_");
-            var count_s = count.split("_");
-            var bias_s = bias.split("_");
-
-            var num_of_labels = label_s.length;
-
-            var max_count=0;
-            for(let i=0;i<num_of_labels;i++) {
-                var count_tip = parseInt(count_s[i]);
-                if(count_tip > max_count){
-                    max_count = count_tip;
-                }
+            alert("FINISH "+data);
+            var list = data.split("_");
+            for(let i=0 ;i<list.length;i++){
+                finish_counts.push(parseInt(list[i]));
             }
+        }
+    });
 
-            var dif = max_count/100;
-            counts_unit = 1;
-
-            for(let i=0;i<num_of_labels;i++) {
-                var indicator_tip = {name: label_s[i], max: 100};
-                indicators.push(indicator_tip);
-                var count_tip = parseInt(count_s[i]);
-                value_counts.push(count_tip*dif);
-                var accu_tip = parseFloat(accu_s[i]) * 100;
-                value_accu.push(accu_tip);
+    //join
+    $.ajax({
+        url: "/user/joinNumbers/"+userId,
+        type: "get",
+        async:false, //同步
+        success: function (data) {//labels+","+accu+","+count+","+bias;
+            alert("JOIN "+data);
+            var list = data.split("_");
+            for(let i=0 ;i<list.length;i++){
+                join_counts.push(parseInt(list[i]));
             }
         }
     });
 
 
     var option = {
-      
+        title: {
+            text: '加入 Vs 完成'
+        },
         tooltip: {},
         legend: {
-            data: ["标注图片总数 (单位 "+counts_unit+" 张) ", '准确率(%) ']
+            data: ['当月加入数量 ', '当月完成数量 ']
         },
         radar: {
             // shape: 'circle',
@@ -209,20 +199,27 @@ function display_third(){
                     padding: [3, 5]
                 }
             },
-            indicator: indicators,
+            indicator: [
+                { name:  '一月', max: 10},
+                { name: '二月 ', max: 10},
+                { name: '三月 ', max: 10},
+                { name: '四月 ', max: 10},
+                { name: '五月 ', max: 10},
+                { name: '六月 ', max: 10}
+            ]
         },
         series: [{
-            name: '数量Vs准确度',
+            name: '加入项目数 vs 完成项目数 ',
             type: 'radar',
             // areaStyle: {normal: {}},
             data : [
                 {
-                    value : value_counts,
-                    name : "标注图片总数 (单位 "+counts_unit+" 张) "
+                    value : join_counts,
+                    name : '当月加入数量 '
                 },
                 {
-                    value : value_accu,
-                    name : '准确率(%) '
+                    value : finish_counts,
+                    name : '当月完成数量 '
                 }
             ]
         }]

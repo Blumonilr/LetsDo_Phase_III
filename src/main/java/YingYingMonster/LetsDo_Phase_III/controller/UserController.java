@@ -210,6 +210,12 @@ public class UserController {
         return result;
     }
 
+    
+    /**
+     * 返回总共的项目类型和对应的数量
+     * @param userId
+     * @return
+     */
     @GetMapping("/labels/{userId}")
     @ResponseBody
     public String getLabels(@PathVariable("userId") String userId) {
@@ -259,31 +265,58 @@ public class UserController {
     }
     
     /**
-     * 返回6月的项目数量
+     * 返回每月的参加的项目数量
      * @param userId
      * @return
      */
-    @GetMapping("/pjnumbers/{userId}")
+    @GetMapping("/joinNumbers/{userId}")
     @ResponseBody
     public String getpjnumbers(@PathVariable("userId") String userId) {
-    	String res = "";//name_val,
+    	String res = "";//
     	String month = "";
     	String data = "";
     	Calendar cld = Calendar.getInstance();
     	int current_month = cld.get(Calendar.MONTH);
     	cld.add(Calendar.MONTH, -current_month);
     
-//    	int cm = cld.get(Calendar.MONTH);
-//    	
-//    	for(int i=0;i<cm;i++) {
-//    		
-//    	}
-    	
-    	List<Project> list = wkservice.viewWorkerMonthProject(Long.parseLong(userId), cld);
+    	for(int i=0;i<current_month+1;i++) {
+    		List<Project> list = wkservice.viewWorkerMonthJoinProject(Long.parseLong(userId), cld);
+    		res = res + list.size();
+    		cld.add(Calendar.MONTH, 1);
+    		
+    		if(i != current_month) {
+    			res = res + "_";
+    		}
+    	}
+    	System.out.println("JOIN: "+res);
+    	return res;
+    }
     
-    	int len = list.size();
-    	
-    	return len+"";
+    /**
+     * 返回每月结束的项目数量
+     * @param userId
+     * @return
+     */
+    @GetMapping("/endNumbers/{userId}")
+    @ResponseBody
+    public String getendpjnumbers(@PathVariable("userId") String userId) {
+    	String res = "";//
+    
+    	Calendar cld = Calendar.getInstance();
+    	int current_month = cld.get(Calendar.MONTH);
+    	cld.add(Calendar.MONTH, -current_month);
+    
+    	for(int i=0;i<current_month+1;i++) {
+    		List<Project> list = wkservice.viewWorkerMonthFinishProject(Long.parseLong(userId), cld);
+    		res = res + list.size();
+    		cld.add(Calendar.MONTH, 1);
+    		
+    		if(i != current_month) {
+    			res = res + "_";
+    		}
+    	}
+    	System.out.println("END: "+res);
+    	return res;
     }
     
     
