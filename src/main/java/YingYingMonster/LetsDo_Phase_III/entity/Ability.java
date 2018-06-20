@@ -26,6 +26,9 @@ public class Ability {
     private double accuracy;
 
     @Expose
+    private double efficiency;
+
+    @Expose
     private int labelHistoryNum;
 
     private int bias;//偏好程度，以参加项目的次数计算
@@ -83,5 +86,13 @@ public class Ability {
 
     public void setLabelHistoryNum(int labelHistoryNum) {
         this.labelHistoryNum = labelHistoryNum;
+    }
+
+    public double getEffeciency() {
+        return efficiency;
+    }
+
+    public void setEffeciency(double efficiency) {
+        this.efficiency = efficiency;
     }
 }

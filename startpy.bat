@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+
+python Integrater\run.py
+=======
 pip install flask
 pip install Jinja2
 pip install SQLAlchemy
@@ -9,3 +13,4 @@ pip install sklearn
 pip install scipy
 
 python Integrater\run.py
+>>>>>>> 4609d64559a98cae8ecc9f63d0ce7db2348029eb

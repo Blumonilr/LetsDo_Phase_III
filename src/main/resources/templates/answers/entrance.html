@@ -3,6 +3,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <style type="text/css">
+        #enter_img{
+            position: relative;
+            top: -30px;
+            left: 310px;
+            width: 30px;
+            height: 30px;
+        }
+        #enter_img:hover{
+            background-color: rgba(188,255,241,0.46);
+
+        }
+
+        #confirm{
+            position: relative;
+            left: 20px;
+            width: 600px;
+            background-color: rgba(255,198,117,0.4);
+            border-color: rgba(255,154,43,0.44);
+            border-width: thin;
+            border-radius: 3px;
+        }
+
+        #confirm_icon{
+            position: relative;
+            top: -30px;
+            left: 250px;
+            border-radius: 10px;
+
+        }
+
+        #confirm_img{
+
+            width: 40px;
+            height: 40px;
+        }
+        #confirm_img:hover{
+            background-color: rgba(188,255,241,0.46);
+
+        }
+    </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>嘤嘤怪众包</title>
@@ -316,7 +357,7 @@
     <div id="page-wrapper">
         <div class="header">
             <h1 class="page-header">
-                答案集制订 <small>您只需要制订少数图片的标准答案，我们就会利用机器学习为您实时监控标注者的工作质量。</small>
+                答案集制订<br> <small>您只需要制订少数图片的标准答案，我们就会利用机器学习为您实时监控标注者的工作质量。</small>
             </h1>
 
         </div>
@@ -336,7 +377,9 @@
             </div>
 
 
-            <input type="button" value="进入内测" onclick="enter()">
+
+
+          <img src="/pic/button/go.png" onclick="enter()" id="enter_img" />
 
             <div id="confirm">
 

@@ -21,8 +21,8 @@ def calculateProjectDif(project_id):
         else:
             flag = 1
             D = e / 0.2 + flag * 0.1 * (2 / (1 + math.e ** (-0.7 * (len(array) / var))) - 1)
-        dif.append(D)
-    return numpy.array(dif).sum()/len(len(dif))
+        dif.append(5-int(D))
+    return numpy.array(dif).sum()/len(dif)
 
 
 

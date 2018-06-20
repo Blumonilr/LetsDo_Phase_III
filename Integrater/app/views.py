@@ -31,7 +31,22 @@ def postImage():
 
     controller.work(image_id,markMode)
 
-    return "hello"
+    return "evaluate answer"
+
+@app.route("/evaluateTestAnswer",methods=['POST'])
+def evaluateTestAnswer():
+	str=request.get_data()
+	str=str.decode()
+	userId=int(str.split("_"))[0]
+	imageId=int(str.split("_"))[1]
+	markMode=str.split("_")[2]
+	if markMode == 'AREA':
+		markMode = 1
+	else:
+		markMode = 0
+	controller.workOne(userId,imageId,markMode)
+
+	return "evaluate test answer"
 
 if __name__=="__main__":
     controller.work(121,1)

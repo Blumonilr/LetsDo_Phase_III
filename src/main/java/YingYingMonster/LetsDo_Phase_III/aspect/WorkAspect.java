@@ -1,14 +1,12 @@
 package YingYingMonster.LetsDo_Phase_III.aspect;
 
 import YingYingMonster.LetsDo_Phase_III.csHandler;
-import YingYingMonster.LetsDo_Phase_III.entity.Ability;
-import YingYingMonster.LetsDo_Phase_III.entity.Label;
-import YingYingMonster.LetsDo_Phase_III.entity.Project;
-import YingYingMonster.LetsDo_Phase_III.entity.Tag;
+import YingYingMonster.LetsDo_Phase_III.entity.*;
 import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ProjectRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
@@ -46,6 +44,8 @@ public class WorkAspect {
     csHandler handler;
     @Autowired
     LabelRepository labelRepository;
+    @Autowired
+    ImageRepository imageRepository;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -110,10 +110,23 @@ public class WorkAspect {
     @AfterReturning(value = "commitPoint()", pointcut = "commitPoint()", returning = "tag")
     public void recordCommitEvent(Tag tag) {
         logger.info("work aspect record commit event");
-        CommitEvent commitEvent = new CommitEvent(tag.getWorkerId(), tag.getProjectId(), tag.getId(),
-                tag.getImageId(), new Date());
-        commitEventRepository.saveAndFlush(commitEvent);
 
+        // 记录commit event，同一张图片的commit event应该覆盖
+        CommitEvent commitEvent = commitEventRepository.findByWorkeridAndImageid(tag.getWorkerId(), tag.getImageId());
+        if (commitEvent == null) {
+            commitEvent = new CommitEvent(tag.getWorkerId(), tag.getProjectId(), tag.getId(),
+                    tag.getImageId(), new Date());
+            commitEventRepository.saveAndFlush(commitEvent);
+        } else {
+            commitEvent.setTagid(tag.getId());
+            commitEvent.setCommitTime(new Date());
+            commitEventRepository.saveAndFlush(commitEvent);
+        }
+
+        // 更新image current num
+        imageRepository.updateCurrentNum(tag.getImageId(), 1);
+
+        // 更新worker经验、金钱
         Worker worker = (Worker) userRepository.findById(tag.getWorkerId());
         worker.setTagNum(worker.getTagNum() + 1);
         int exp = worker.getExp();
@@ -123,6 +136,7 @@ public class WorkAspect {
         } else {
             worker.setExp(exp + 10);
         }
+        worker.setMoney(worker.getMoney()+1);
         userRepository.saveAndFlush(worker);
 
         notifyPy(tag);
@@ -131,13 +145,24 @@ public class WorkAspect {
     }
 
     private void notifyPy(Tag tag) {
+        Image image = imageRepository.findById(tag.getImageId());
         Project project = projectService.getAProject(tag.getProjectId());
-        try {
-            System.out.println("java tries to connect to python");
-
-            handler.post("http://localhost:5000/postImage",Long.toString(tag.getImageId())+"_"+project.getType());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (image.isTest()) {
+            try {
+                logger.info("pthon evaluates test answer");
+                handler.post("http://localhost:5000/postImage",
+                        Long.toString(tag.getWorkerId())+"_"+Long.toString(tag.getImageId())+"_"+project.getType());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                logger.info("python evaluates answer");
+                handler.post("http://localhost:5000/postImage",Long.toString(tag.getImageId())+"_"+project.getType());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
     }
 }

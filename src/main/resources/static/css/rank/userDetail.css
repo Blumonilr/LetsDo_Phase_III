@@ -2,8 +2,14 @@
 
 #second_area{
     position: relative;
+    left: 0px;
+    top: -400px;
+}
+
+#third_area{
+    position: relative;
     left: 400px;
-    top: -300px;
+    top: -400px;
 }
 
 #information_area{
@@ -11,8 +17,3 @@
     top: -300px;
 }
 
-#my_hr{
-	position: relative;
-    z-index: 10;
-    color: #2c3b4e;
-}
