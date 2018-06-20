@@ -413,28 +413,6 @@ function initCharts() {
 /*-----------------------------ProjectTable--------------------------------*/
 
 function initProjectTable(){
-    function projectFormat ( d ) {
-        // `d` is the original data object for the row
-        var ability=d.abilities;
-        var result='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-            '<tr>'+
-            '<td>余额:</td>'+
-            '<td>'+d.money+'</td>'+
-            '</tr>'+
-            '<tr>'+
-            '<td>领域准确度:</td>'+
-            '</tr>';
-        for(var i=0;i<ability.length;i++){
-            result+='<tr>'+
-                '<td>'+ability[i].label.name+':</td>'+
-                '<td>'+ability[i].accuracy+'%</td>'+
-                '<td>'+ability[i].bias+'次</td>'+
-                '</tr>';
-        }
-        result+='</table>';
-        return result;
-    }
-
     var optionProject={
         data: extraInfo.projectList,
         language: {
@@ -542,50 +520,61 @@ function workerInfoDialog(workerId){
         message: '工作者详情',
         input: [
             '<div class="fl w-100 pa3">\n' +
+            '<ul class="nav nav-tabs fl w-100" style="margin-bottom: 16px">\n' +
+            '        <li class="active"><a href="#InfoDiv" data-toggle="tab">详细信息</a></li>\n' +
+            '        <li><a href="#InfoProjectsDiv" data-toggle="tab">参与项目</a></li>\n' +
+            '    </ul>\n' +
+            '    <div id="InfoTabContent" class="tab-content fl w-100">\n' +
+            '        <div class="tab-pane fade in active fl w-100" id="InfoDiv">\n' +
             '    <table class="fl w-100">\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">帐号</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="userId" value="'+worker.id+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="userId" value="'+worker.worker.id+'"/></td>\n' +
             '        </tr>\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">昵称</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="userName" value="'+worker.name+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="userName" value="'+worker.worker.name+'"/></td>\n' +
             '        </tr>\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">邮箱</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="email" value="'+worker.email+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="email" value="'+worker.worker.email+'"/></td>\n' +
             '        </tr>\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">个性签名</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="intro" value="'+worker.intro+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="intro" value="'+worker.worker.intro+'"/></td>\n' +
             '        </tr>\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">余额</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="money" value="'+worker.money+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="money" value="'+worker.worker.money+'"/></td>\n' +
             '        </tr>\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">等级</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="level" value="'+worker.level+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="level" value="'+worker.worker.level+'"/></td>\n' +
             '        </tr>\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">标注总数</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="tagNum" value="'+worker.tagNum+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="tagNum" value="'+worker.worker.tagNum+'"/></td>\n' +
             '        </tr>\n' +
             '    </table>\n' +
+            '        </div>\n' +
+            '        <div class="tab-pane fade fl w-100" id="InfoProjectsDiv">\n' +
+            '              <table id="InfoProjectsTable" class="display w-100"></table>' +
+            '        </div>\n' +
+            '    </div>'+
             '</div>'
         ].join(''),
         buttons: [
@@ -601,6 +590,108 @@ function workerInfoDialog(workerId){
     };
 
     vex.dialog.open(vexOption);
+
+    function projectFormat ( d ) {
+        // `d` is the original data object for the row
+        var result='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+            '<tr>'+
+            '<td>结束日期:</td>'+
+            '<td>'+d.endDate+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>最低等级限制:</td>'+
+            '<td>'+d.workerMinLevel+'</td>'+
+            '</tr>'+
+        '<tr>'+
+        '<td>任务赏金:</td>'+
+        '<td>'+d.money+'</td>'+
+        '</tr>'+
+        '<tr>'+
+        '<td>标签:</td>'+
+        '<td>'+d.labels+'</td>'+
+        '</tr>';
+        result+='</table>';
+        return result;
+    }
+
+    var optionProject={
+        data: worker.projects,
+        language: {
+            "lengthMenu": "每页显示 _MENU_ 条记录",
+            "zeroRecords": "无条目 - sorry",
+            "info": "正在显示_PAGES_页中的第 _PAGE_页",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "processing": "正在加载...",
+            "infoPostFix": "",
+            "search": "搜索:",
+            "url": "",
+            "paginate": {
+                "first":    "首页",
+                "previous": "上页",
+                "next":     "下页",
+                "last":     "末页"
+            }
+        },
+        pagingType:"full_numbers",
+        columns: [
+            {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            {
+                title: "项目编号",
+                data:"id"
+            },
+            {
+                title: "项目名",
+                data:"projectName",
+                orderable:false,
+                render: function(data, type, row, meta) {
+                    //渲染 把数据源中的标题和url组成超链接
+                    return '<a href="#">' + data + '</a>';
+                }
+            },
+            {
+                title: "发布者编号",
+                data:"publisherId",
+                orderable:false
+            },
+            {
+                title: "当前工作者数",
+                data:"currWorkerNum"
+            },
+            {
+                title: "图片数",
+                data:"picNum"
+            },
+            {
+                title: "开始日期",
+                data:"startDate",
+                orderable:false
+            }
+        ]
+    };
+
+    var InfoTable=$("#InfoProjectsTable").DataTable(optionProject);
+
+    $('#InfoProjectsTable tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = InfoTable.row( tr );
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( projectFormat(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    } );
 }
 function publisherInfoDialog(publisherId){
     var publisher;
@@ -625,43 +716,53 @@ function publisherInfoDialog(publisherId){
         message: '发布者详情',
         input: [
             '<div class="fl w-100 pa3">\n' +
+            '    <ul class="nav nav-tabs fl w-100" style="margin-bottom: 16px">\n' +
+            '        <li class="active"><a href="#InfoDiv" data-toggle="tab">详细信息</a></li>\n' +
+            '        <li><a href="#InfoProjectsDiv" data-toggle="tab">发布项目</a></li>\n' +
+            '    </ul>\n' +
+            '    <div id="InfoTabContent" class="tab-content fl w-100">\n' +
+            '        <div class="tab-pane fade in active fl w-100" id="InfoDiv">\n' +
             '    <table class="fl w-100">\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">帐号</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="userId" value="'+publisher.id+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="userId" value="'+publisher.publisher.id+'"/></td>\n' +
             '        </tr>\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">昵称</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="userName" value="'+publisher.name+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="userName" value="'+publisher.publisher.name+'"/></td>\n' +
             '        </tr>\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">邮箱</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="email" value="'+publisher.email+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="email" value="'+publisher.publisher.email+'"/></td>\n' +
             '        </tr>\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">个性签名</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="intro" value="'+publisher.intro+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="intro" value="'+publisher.publisher.intro+'"/></td>\n' +
             '        </tr>\n' +
             '        <tr>\n' +
             '            <td class="dib fl w-25">\n' +
             '                <label class="tc v-mid">余额</label></td>\n' +
             '            <td class="dib fl w-75">\n' +
-            '                <input type="text" disabled="disabled" class="form-control ma4" id="money" value="'+publisher.money+'"/></td>\n' +
+            '                <input type="text" disabled="disabled" class="form-control ma4" id="money" value="'+publisher.publisher.money+'"/></td>\n' +
             '        </tr>\n' +
             '    </table>\n' +
+            '        </div>\n' +
+            '        <div class="tab-pane fade fl w-100" id="InfoProjectsDiv">\n' +
+            '              <table id="InfoProjectsTable" class="display w-100"></table>' +
+            '        </div>\n' +
+            '    </div>\n' +
             '</div>'
         ].join(''),
         buttons: [
-            $.extend({}, vex.dialog.buttons.YES, { text: '确定' }),
-            $.extend({}, vex.dialog.buttons.NO, { text: '查看更多' })
+            $.extend({}, vex.dialog.buttons.YES, { text: '确定' })
         ],
         callback: function (data) {
             if (!data) {
@@ -672,6 +773,108 @@ function publisherInfoDialog(publisherId){
     };
 
     vex.dialog.open(vexOption);
+
+    function projectFormat ( d ) {
+        // `d` is the original data object for the row
+        var result='<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+            '<tr>'+
+            '<td>结束日期:</td>'+
+            '<td>'+d.endDate+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>最低等级限制:</td>'+
+            '<td>'+d.workerMinLevel+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>任务赏金:</td>'+
+            '<td>'+d.money+'</td>'+
+            '</tr>'+
+            '<tr>'+
+            '<td>标签:</td>'+
+            '<td>'+d.labels+'</td>'+
+            '</tr>';
+        result+='</table>';
+        return result;
+    }
+
+    var optionProject={
+        data: publisher.projects,
+        language: {
+            "lengthMenu": "每页显示 _MENU_ 条记录",
+            "zeroRecords": "无条目 - sorry",
+            "info": "正在显示_PAGES_页中的第 _PAGE_页",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "processing": "正在加载...",
+            "infoPostFix": "",
+            "search": "搜索:",
+            "url": "",
+            "paginate": {
+                "first":    "首页",
+                "previous": "上页",
+                "next":     "下页",
+                "last":     "末页"
+            }
+        },
+        pagingType:"full_numbers",
+        columns: [
+            {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            {
+                title: "项目编号",
+                data:"id"
+            },
+            {
+                title: "项目名",
+                data:"projectName",
+                orderable:false,
+                render: function(data, type, row, meta) {
+                    //渲染 把数据源中的标题和url组成超链接
+                    return '<a href="#">' + data + '</a>';
+                }
+            },
+            {
+                title: "发布者编号",
+                data:"publisherId",
+                orderable:false
+            },
+            {
+                title: "当前工作者数",
+                data:"currWorkerNum"
+            },
+            {
+                title: "图片数",
+                data:"picNum"
+            },
+            {
+                title: "开始日期",
+                data:"startDate",
+                orderable:false
+            }
+        ]
+    };
+
+    var InfoTable=$("#InfoProjectsTable").DataTable(optionProject);
+
+    $('#InfoProjectsTable tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = InfoTable.row( tr );
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( projectFormat(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    } );
 }
 
 /*-----------------------------init--------------------------------*/
