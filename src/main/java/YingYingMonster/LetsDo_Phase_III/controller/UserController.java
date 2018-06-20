@@ -221,6 +221,43 @@ public class UserController {
     	return res;
     }
     
+    
+    /**
+     *返回某一月的项目类型
+     * @param userId
+     * @return
+     */
+    @GetMapping("/monthlabels/{userId}")
+    @ResponseBody
+    public String getMonthLabels(HttpServletRequest request, HttpServletResponse response,
+    		@PathVariable("userId") String userId) {
+    	String res = "";//name_val,
+    	int month = Integer.parseInt(request.getParameter("month"));
+    	
+    	Calendar cld = Calendar.getInstance();
+    	int current_month = cld.get(Calendar.MONTH)+1;
+    	int dif = month - current_month ;
+    	System.out.println("DIF: "+dif);
+    	cld.add(Calendar.MONTH,dif );
+    
+    	Map<String, Integer> map = wkservice.viewWorkerMonthLabel(Long.parseLong(userId), cld);
+    
+    	for(Map.Entry<String,Integer > entry:map.entrySet()){  
+    	      System.out.println("key=" +entry.getKey() +" and value="+entry.getValue());  
+    	      res = res+entry.getKey()+"_"+entry.getValue()+",";  	      
+    	  }  
+    	if(res.equals("")) {
+    		return res;
+    	}
+    	res = res.substring(0,res.length()-1);
+    	return res;
+    }
+    
+    /**
+     * 返回6月的项目数量
+     * @param userId
+     * @return
+     */
     @GetMapping("/pjnumbers/{userId}")
     @ResponseBody
     public String getpjnumbers(@PathVariable("userId") String userId) {
@@ -241,6 +278,8 @@ public class UserController {
     	
     	return len+"";
     }
+    
+    
     
     @GetMapping("/abilities/{userId}")
     @ResponseBody

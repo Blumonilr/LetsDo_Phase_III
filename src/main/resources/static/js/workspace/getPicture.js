@@ -20,8 +20,9 @@ function getNewPicture(){
         console.log("CURRENT PAGE NUM: "+current_page_num);
         if(current_page_num > page_num){
             //全部完成，退出
-            toastr.success("1已完成所有的标注！休息一下吧！");
-            setTimeout("set_href()",3000);
+            toastr.success("已完成所有的标注！休息一下吧！");
+
+           end_project();
 
         }
         else{
@@ -63,7 +64,7 @@ function get_a_list_of_pictures(){
             else {
                 //没有图片了
                 toastr.info("已完成所有的标注！休息一下吧！");
-                setTimeout("set_href()",3000);
+                end_project();//jieshu
 
             }
         }
@@ -252,4 +253,23 @@ function hide_show_requirement(){
 
 function set_href(){
     window.location.href = "/myProjects/projects";
+}
+
+function end_project(){
+    var userId = getCookie("userId");
+    var projectId = getCookie("projectId");
+    //退出项目
+    $.ajax({
+        url: "/myProjects/terminateProject",
+        type: "get",
+        data: {
+            "userId" : userId,
+            "projectId" : projectId,
+        },
+        success: function(){
+            toastr.success("项目结束！");
+            setTimeout("set_href()",2500);
+
+        }
+    });
 }
