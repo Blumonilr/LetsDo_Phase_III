@@ -58,7 +58,7 @@ function setLabels(){
 
 			}
         }
-	})
+	});
 }
 
 function rankByLabel(){
@@ -68,7 +68,7 @@ function rankByLabel(){
         url: "/rank/rankByAccuracy/"+label,
         type: "get",
         success: function(data){
-
+			alert(data);
             var list = data.split(",");
             var len = list.length;
             for(let i=0 ; i<len ; i++){
@@ -84,8 +84,8 @@ function rankByLabel(){
                     "<td>"+accu+"</td>"+
                     "</tr>";
 
-                $("#table_body_accuracy").empty();
-                $("#table_body_accuracy").append(txt);
+                $("#table_accuracy_body").empty();
+                $("#table_accuracy_body").append(txt);
             }
         }
     });
