@@ -5,16 +5,20 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import YingYingMonster.LetsDo_Phase_III.entity.Ability;
 import YingYingMonster.LetsDo_Phase_III.entity.Image;
 import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
+import YingYingMonster.LetsDo_Phase_III.entity.role.Administrator;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Publisher;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
+import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.JoinEventRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.PublishEventRepository;
@@ -23,6 +27,9 @@ import YingYingMonster.LetsDo_Phase_III.repository.role.WorkerRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ImageService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
+import org.hibernate.boot.jaxb.hbm.spi.Adapter1;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
@@ -53,7 +60,12 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired
 	AbilityRepository abilityRepository;
 
+	@Autowired
+	LabelRepository labelRepository;
+
 	SimpleDateFormat fromat=new SimpleDateFormat("yyyy-MM-dd");
+
+	Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public List<Project> viewAllProjects() {
@@ -133,6 +145,8 @@ public class AdminServiceImpl implements AdminService{
 	public Ability findWorkerAbilityInOneField(long workerId, String labelName) {
 		User wk=userService.getUser(workerId);
 		List<Ability> list=abilityRepository.findByUser(wk);
+		logger.info("ability list = {}", list);
+		logger.info("labelName = {}", labelName);
 		for (Ability a:list){
 			if (a.getLabel().getName().equals(labelName))
 				return a;
@@ -192,36 +206,18 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public List<Worker> workerLabelAccuracyRank(String labelName) {
-		List<Worker> rank=findByWorkerName("");
-		rank.sort(new Comparator<Worker>() {
-			@Override
-			public int compare(Worker o1, Worker o2) {
-				if(findWorkerAbilityInOneField(o1.getId(),labelName).getAccuracy()>findWorkerAbilityInOneField(o1.getId(),labelName).getAccuracy())
-					return -1;
-				else if(findWorkerAbilityInOneField(o1.getId(),labelName).getAccuracy()==findWorkerAbilityInOneField(o1.getId(),labelName).getAccuracy())
-					return 0;
-				else
-					return 1;
-			}
-		});
-		return rank;
+		return abilityRepository.findByLabel(labelRepository.findByName(labelName)).stream()
+				.sorted((a1, a2) -> {
+			return Double.compare(a2.getAccuracy(), a1.getAccuracy());
+		}).limit(15).map(x -> ((Worker) x.getUser())).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Worker> workerLabelNumRank(String labelName) {
-		List<Worker> rank=findByWorkerName("");
-		rank.sort(new Comparator<Worker>() {
-			@Override
-			public int compare(Worker o1, Worker o2) {
-				if(findWorkerAbilityInOneField(o1.getId(),labelName).getLabelHistoryNum()>findWorkerAbilityInOneField(o1.getId(),labelName).getLabelHistoryNum())
-					return 1;
-				else if(findWorkerAbilityInOneField(o1.getId(),labelName).getLabelHistoryNum()==findWorkerAbilityInOneField(o1.getId(),labelName).getLabelHistoryNum())
-					return 0;
-				else
-					return -1;
-			}
-		});
-		return rank;
+		return abilityRepository.findByLabel(labelRepository.findByName(labelName)).stream()
+				.sorted((a1, a2) -> {
+					return Integer.compare(a2.getLabelHistoryNum(), a1.getLabelHistoryNum());
+				}).limit(15).map(x -> ((Worker) x.getUser())).collect(Collectors.toList());
 	}
 
 	@Override

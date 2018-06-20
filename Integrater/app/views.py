@@ -10,7 +10,7 @@ def index():
 
 @app.route("/hello")
 def test():
-    controller.work(121,1)
+    controller.work(204,0)
     return "hello world"
 
 
@@ -49,4 +49,4 @@ def evaluateTestAnswer():
 	return "evaluate test answer"
 
 if __name__=="__main__":
-    controller.work(121,1)
+    controller.work(204,0)

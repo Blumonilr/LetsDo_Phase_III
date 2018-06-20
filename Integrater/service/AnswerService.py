@@ -1,4 +1,4 @@
-
+import math
 import os
 from matplotlib.path import Path
 import matplotlib.pyplot as plt
@@ -131,6 +131,10 @@ def work(imageId,markmode):
 	handler,userIds=getAnswerFromTags(imageId)
 	usr_ans_rects=handler.allPoints
 	usr_ans_tags=handler.allTags
+
+	print('user_ans_rect = ',usr_ans_rects)
+	print('user_ans_tag = ',usr_ans_tags)
+
 	width=handler.pictureWidth
 	height=handler.pictureHeight
 	usr_ans_eff=handler.times
@@ -139,13 +143,24 @@ def work(imageId,markmode):
 	if image.is_test==True:
 		projectId = session.query(db.Image).filter(db.Image.id == imageId).one().project_id
 	else:
+		print("is not test answer")
+
 		id = session.query(db.Image).filter(db.Image.id == imageId).one().project_id
 		projectId = session.query(db.Project).filter(db.Project.id == id).one().test_project_id
+
 	dif = pd.calculateProjectDif(projectId)
-	for time in usr_ans_eff:
-		efficiency.append(time/(6-dif))
-	print('calculate the result , calculate accuracy')
-	print('update db')
+
+	if math.isnan(dif):
+		# 该项目没有测试集，故难度是nan
+		dif=1
+	print('difficulty = ',dif)
+
+
+	# for time in usr_ans_eff:
+	# 	eff_=
+	# 	efficiency.append(time/(6-dif))
+	#
+	# print('efficiency = ',efficiency)
 
 	try:
 		# generate answer
@@ -156,8 +171,20 @@ def work(imageId,markmode):
 				tmp=clu.cal_rect_accuracy(ans,res_centers)
 				accuracy.append(tmp)
 			# update commit event & user ability
+			print('result rect = ',res_centers)
+			print('result label = ',res_labels)
+			print('rect accuracy = ',accuracy)
+			print('label accuracy = ',label_accuracy)
+
 			for i in range(len(accuracy)):
 				accuracy[i]=0.8*accuracy[i]+0.2*label_accuracy[i]
+
+			# 计算效率
+			for i in range(len(usr_ans_eff)):
+				eff_=math.exp(-usr_ans_eff[i]*0.1)*accuracy[i]/dif
+				efficiency.append(eff_)
+			print('efficiency = ',efficiency)
+
 			updateAccuracyAndAbility(imageId,userIds,accuracy,efficiency)
 			#generate tag object
 			max_rect_accuracy=0.0
@@ -167,7 +194,7 @@ def work(imageId,markmode):
 					max_rect_accuracy=accuracy[i]
 					ptr=i
 			if ptr!=-1:
-				session.query(db.Tag).filter(db.Tag.worker_id==userIds[ptr],db.Tag.image_id==imageId)\
+				session.query(db.Tag).filter(db.Tag.worker_id==userIds[ptr],db.Tag.image_id==imageId) \
 					.update({db.Tag.is_result:True})
 			pass
 		elif markmode==1:

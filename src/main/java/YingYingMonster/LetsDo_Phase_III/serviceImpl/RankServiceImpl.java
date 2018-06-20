@@ -1,18 +1,14 @@
 package YingYingMonster.LetsDo_Phase_III.serviceImpl;
 
-import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
 import YingYingMonster.LetsDo_Phase_III.repository.LabelRepository;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
 import YingYingMonster.LetsDo_Phase_III.service.RankService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
-import com.fasterxml.classmate.types.ResolvedRecursiveType;
-import com.sun.deploy.services.WPlatformService14;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +22,7 @@ public class RankServiceImpl implements RankService {
 	AdminService adminService;
 	@Autowired
 	LabelRepository labelRepository;
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Override
 	public List<Worker> rankByExp() {
@@ -43,6 +40,7 @@ public class RankServiceImpl implements RankService {
 
 	@Override
 	public List<Worker> rankByAccuracy(String labelName) {
+		logger.info("labelName = {}", labelName);
 		return adminService.workerLabelAccuracyRank(labelName).stream().limit(15).collect(Collectors.toList());
 	}
 
