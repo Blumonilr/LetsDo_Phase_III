@@ -6,7 +6,7 @@
 }
 
 .table_accuracy{
-    float: left;
     margin: 20px;
     width: 400px;
+    background-color: rgba(255,163,131,0.44);
 }

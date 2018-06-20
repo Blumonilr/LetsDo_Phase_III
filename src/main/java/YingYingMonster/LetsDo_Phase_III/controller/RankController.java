@@ -3,6 +3,7 @@ package YingYingMonster.LetsDo_Phase_III.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,6 +92,7 @@ public class RankController {
 				e.printStackTrace();
 			} 
 	    	
+			System.out.println("ACCU: "+res);
 	    	return res;
     }
     
@@ -102,9 +104,15 @@ public class RankController {
     @ResponseBody
     @GetMapping("/getLabels")
     public String getLabels() {
-    	String res = "1_2_3_4_5";
-    	
-    	
+    	String res = "";
+    	List<String> list = rankService.getLabels();
+    	for(int i=0;i<list.size();i++) {
+    		res = res + list.get(i);
+    		if(i != list.size()-1) {
+    			res = res + "_";
+    		}
+    	}
+    	System.out.println("LABELS: "+res);
     	return res;
     }
     

@@ -1,6 +1,8 @@
 /**
  * 为worker排行榜界面提供逻辑
  */
+
+
 function loadWorkers(){
 	rankByExp();
 	//以后会实现别的rank方法
@@ -51,38 +53,22 @@ function setLabels(){
 			console.log(labels);
 
 			for(let i=0;i<len&&i<5;i++){
-				//添加一个表
-
-				var txt = "<table class='table table-striped table-bordered table-hover table_accuracy' id='table_accuracy_'"+labels[i]+">\n" +
-                    "                                <h4> 项目类型技艺高超榜 "+labels[i]+"</h4>\n" +
-                    "                                <thead>\n" +
-                    "                                <tr>\n" +
-                    "                                    <th>名次</th>\n" +
-                    "                                    <th>用户名</th>\n" +
-                    "                                    <th>准确率</th>\n" +
-                    "                                </tr>\n" +
-                    "                                </thead>\n" +
-                    "                                <tbody id='table_body_accuracy_'"+labels[i]+"'>\n" +
-                    "\n" +
-                    "\n" +
-                    "                                </tbody>\n" +
-                    "                            </table>";
-
-				$("#accuracy_tables").append(txt);
-
-				rankByLabel(labels[i]);
+			    var tip = " <option value='"+labels[i]+"'>"+labels[i]+"</option>"
+				$("#selector_label").append(tip);
 
 			}
         }
 	})
 }
 
-function rankByLabel(label){
+function rankByLabel(){
+	var label = $("#selector_label").val();
+
     $.ajax({
         url: "/rank/rankByAccuracy/"+label,
         type: "get",
         success: function(data){
-            $("#table_body_accuracy_"+label).empty();
+
             var list = data.split(",");
             var len = list.length;
             for(let i=0 ; i<len ; i++){
@@ -97,8 +83,9 @@ function rankByLabel(label){
                     "<td>"+name+"</td>"+
                     "<td>"+accu+"</td>"+
                     "</tr>";
-                $("#table_body_accuracy_"+label).append(txt);
 
+                $("#table_body_accuracy").empty();
+                $("#table_body_accuracy").append(txt);
             }
         }
     });

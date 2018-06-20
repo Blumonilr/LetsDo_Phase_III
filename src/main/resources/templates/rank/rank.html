@@ -57,7 +57,8 @@
  <script>
 
 	window.onload = function(){
-	    loadWorkers();
+	    setLabels();
+	    rankByExp();
 		document.getElementById("homehref").href = "/user/userDetail/"+getCookie("userId");
     }
  </script>
@@ -317,8 +318,10 @@
                         <h1 class="page-header">
                             嘤嘤上榜 <small>快看这些优秀的嘤嘤怪们</small>
                         </h1>
-
 		</div>
+		<div style="text-align:center;background: #8d8888">
+                <hr style="height: 2px" />
+            </div>
             <div id="page-inner">
 				<!--我们的操作区开始  -->
 		
@@ -345,25 +348,24 @@
                                     </tbody>
                                 </table>
 
-                                <div id="accuracy_tables">
+                             <table class="table table-striped table-bordered table-hover" id="table_accuracy">
+                                 <h4>嘤嘤准确榜</h4>
+                                 <select onchange="rankByLabel()" id="selector_label">
+
+                                 </select>
+                                 <thead>
+                                     <tr>
+                                         <th>名次</th>
+                                         <th>用户名</th>
+                                        <th>嘤嘤等级</th>
+                                     </tr>
+                                 </thead>
+                             <tbody id="table_accuracy_body">
 
 
-                                </div>
+                             </tbody>
+                             </table>
 
-                            <table class='table table-striped table-bordered table-hover table_accuracy' id="table_accuracy'>
-                                <h4></h4>
-                                <thead>
-                                <tr>
-                                    <th>名次</th>
-                                    <th>用户名</th>
-                                    <th>准确率</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-
-                                </tbody>
-                            </table>
 
 
 
