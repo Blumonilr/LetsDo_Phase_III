@@ -23,6 +23,8 @@ import YingYingMonster.LetsDo_Phase_III.repository.role.WorkerRepository;
 import YingYingMonster.LetsDo_Phase_III.service.ImageService;
 import YingYingMonster.LetsDo_Phase_III.service.ProjectService;
 import YingYingMonster.LetsDo_Phase_III.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
@@ -54,6 +56,8 @@ public class AdminServiceImpl implements AdminService{
 	AbilityRepository abilityRepository;
 
 	SimpleDateFormat fromat=new SimpleDateFormat("yyyy-MM-dd");
+
+	Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	public List<Project> viewAllProjects() {
@@ -133,6 +137,8 @@ public class AdminServiceImpl implements AdminService{
 	public Ability findWorkerAbilityInOneField(long workerId, String labelName) {
 		User wk=userService.getUser(workerId);
 		List<Ability> list=abilityRepository.findByUser(wk);
+		logger.info("ability list = {}", list);
+		logger.info("labelName = ", labelName);
 		for (Ability a:list){
 			if (a.getLabel().getName().equals(labelName))
 				return a;
@@ -193,6 +199,7 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public List<Worker> workerLabelAccuracyRank(String labelName) {
 		List<Worker> rank=findByWorkerName("");
+		logger.info("labelName = ", labelName);
 		rank.sort(new Comparator<Worker>() {
 			@Override
 			public int compare(Worker o1, Worker o2) {

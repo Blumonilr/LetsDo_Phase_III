@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,7 @@ public class RankController {
 
 	@Autowired
     private RankService rankService;
-	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	/**
 	 * @return 返回rank界面
 	 */
@@ -70,7 +72,7 @@ public class RankController {
     @GetMapping("/rankByAccuracy/{label}")
     public String getListByAccuracy(@PathVariable("label") String label){
             String res = "";
-
+		logger.info("label = ",label);
 			ArrayList<Worker> list;
 			try {
 				list = (ArrayList<Worker>) rankService.rankByAccuracy(label);

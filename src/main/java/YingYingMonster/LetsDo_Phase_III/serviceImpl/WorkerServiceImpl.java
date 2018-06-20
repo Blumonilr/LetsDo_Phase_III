@@ -202,7 +202,7 @@ public class WorkerServiceImpl implements WorkerService {
 	 * 获得一页图片，优先分配人数最少的图片
 	 */
 	public List<Image> getAPageOfImage(long projectId, int pageId) {
-		return imageRepository.findAll(new Sort(Sort.Direction.ASC, "currentNum"))
+		return imageRepository.findByProjectId(projectId,new Sort(Sort.Direction.ASC, "currentNum"))
 				.stream().filter(x->!x.isFinished()).limit(5).collect(Collectors.toList());
 //		return imageRepository
 //				.findByProjectIdAndIsFinishedFalseAndIsTestFalse(projectId, PageRequest.of(pageId, 5))
