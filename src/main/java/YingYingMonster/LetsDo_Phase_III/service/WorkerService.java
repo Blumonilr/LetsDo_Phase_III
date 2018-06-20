@@ -97,7 +97,9 @@ public interface WorkerService {
 
 	public double getTestResult(long workerId, long projectId);
 
-	public List<Project> viewWorkerMonthProject(long workerId,Calendar date);
+	public List<Project> viewWorkerMonthJoinProject(long workerId,Calendar date);
+
+	public List<Project> viewWorkerMonthFinishProject(long workerId, Calendar calendar);
 
 	public Map<String,Integer> viewWorkerMonthLabel(long workerId,Calendar date);
 
