@@ -149,7 +149,7 @@ public class ProjectController {
     }
 
     //管理员请求项目详情页面
-    @GetMapping("/publisher/adminDetail")
+    @GetMapping("/adminDetail")
     public String adminDetailPage(){
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session = request.getSession();

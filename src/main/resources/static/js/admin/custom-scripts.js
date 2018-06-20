@@ -95,7 +95,7 @@ function initTables() {
             result+='<tr>'+
                 '<td>'+ability[i].label.name+':</td>'+
                 '<td>'+ability[i].accuracy+'%</td>'+
-                '<td>'+ability[i].bias+'次</td>'+
+                '<td>'+ability[i].labelHistoryNum+'次</td>'+
                 '</tr>';
         }
         result+='</table>';
@@ -280,7 +280,7 @@ function initCharts() {
     var projectInfoChart = echarts.init(document.getElementById('projectInfoChart'),"light");
     var projectTypeChart = echarts.init(document.getElementById('projectTypeChart'),"light");
     var projectLabelChart = echarts.init(document.getElementById('projectLabelChart'),"light");
-    var projectPaymentChart = echarts.init(document.getElementById('projectPaymentChart'),"light");
+    var projectPaymentChart = echarts.init(document.getElementById('projectPaymentChart'));
 
 
 // 指定图表的配置项和数据
@@ -407,6 +407,83 @@ function initCharts() {
     projectTypeChart.setOption(projectTypeOption);
     projectTypeOption.series[0].data=extraInfo.labelProp;
     projectLabelChart.setOption(projectTypeOption);
+
+    var paymentData = echarts.dataTool.prepareBoxplotData(extraInfo.payment);
+
+    var projectPaymentOption = {
+        title: [
+            {
+                text: '项目报酬箱形图',
+                left: 'center'
+            },
+            {
+                text: 'upper: Q3 + 1.5 * IRQ \nlower: Q1 - 1.5 * IRQ',
+                borderColor: '#999',
+                borderWidth: 1,
+                textStyle: {
+                    fontSize: 14
+                },
+                left: '10%',
+                top: '90%'
+            }
+        ],
+        tooltip: {
+            trigger: 'item',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        grid: {
+            left: '10%',
+            right: '10%',
+            bottom: '15%'
+        },
+        xAxis: {
+            type: 'category',
+            data: extraInfo.month,
+            boundaryGap: true,
+            nameGap: 30,
+            splitArea: {
+                show: false
+            },
+            splitLine: {
+                show: false
+            }
+        },
+        yAxis: {
+            type: 'value',
+            name: '元',
+            splitArea: {
+                show: true
+            }
+        },
+        series: [
+            {
+                name: 'boxplot',
+                type: 'boxplot',
+                data: paymentData.boxData,
+                tooltip: {
+                    formatter: function (param) {
+                        return [
+                            'payment' + param.name + ': ',
+                            'upper: ' + param.data[5],
+                            'Q3: ' + param.data[4],
+                            'median: ' + param.data[3],
+                            'Q1: ' + param.data[2],
+                            'lower: ' + param.data[1]
+                        ].join('<br/>')
+                    }
+                }
+            },
+            {
+                name: 'outlier',
+                type: 'scatter',
+                data: paymentData.outliers
+            }
+        ]
+    };
+
+    projectPaymentChart.setOption(projectPaymentOption);
 }
 
 
@@ -435,12 +512,6 @@ function initProjectTable(){
         pagingType:"full_numbers",
         columns: [
             {
-                "className":      'details-control',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ''
-            },
-            {
                 title: "项目编号",
                 data:"id"
             },
@@ -450,7 +521,7 @@ function initProjectTable(){
                 orderable:false,
                 render: function(data, type, row, meta) {
                     //渲染 把数据源中的标题和url组成超链接
-                    return '<a href="#">' + data + '</a>';
+                    return '<a href="javascript:void(0);" onclick="window.open(\'/project/adminDetail\'),setCookie(\'projectId\','+row.id+',\'1\');">'+row.projectName+'</a>';
                 }
             },
             {
@@ -651,7 +722,7 @@ function workerInfoDialog(workerId){
                 orderable:false,
                 render: function(data, type, row, meta) {
                     //渲染 把数据源中的标题和url组成超链接
-                    return '<a href="#">' + data + '</a>';
+                    return '<a href="javascript:void(0);" onclick="window.open(\'/project/adminDetail\'),setCookie(\'projectId\','+row.id+',\'1\');">'+row.projectName+'</a>';
                 }
             },
             {
@@ -693,6 +764,7 @@ function workerInfoDialog(workerId){
         }
     } );
 }
+
 function publisherInfoDialog(publisherId){
     var publisher;
     var formdata=new FormData();
@@ -834,7 +906,7 @@ function publisherInfoDialog(publisherId){
                 orderable:false,
                 render: function(data, type, row, meta) {
                     //渲染 把数据源中的标题和url组成超链接
-                    return '<a href="#">' + data + '</a>';
+                    return '<a href="javascript:void(0);" onclick="window.open(\'/project/adminDetail\'),setCookie(\'projectId\','+row.id+',\'1\');">'+row.projectName+'</a>';
                 }
             },
             {

@@ -5,10 +5,8 @@ import YingYingMonster.LetsDo_Phase_III.entity.Project;
 import YingYingMonster.LetsDo_Phase_III.service.AdminService;
 import com.google.gson.annotations.Expose;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.util.*;
 
 public class ExtraProjectInfo {
     private AdminService adminService;
@@ -19,12 +17,37 @@ public class ExtraProjectInfo {
     @Expose
     private List<MapEntry> labelProp;
     private Map<String,Integer> labelPropMap;
+    @Expose
+    private ArrayList<ArrayList<Integer>> payment;
+    @Expose
+    private String[] month;
 
-    public ExtraProjectInfo(AdminService adminService) {
+    public ExtraProjectInfo(AdminService adminService) throws ParseException {
         this.adminService = adminService;
         this.projectList=adminService.viewAllProjects();
         getProjectType();
         getLabelProp();
+        setPayment();
+    }
+
+    private void setPayment() throws ParseException {
+        payment=new ArrayList<>();
+        for(int i=6;i>0;i--) {
+            payment.add(new ArrayList<>());
+        }
+        month=new String[6];
+        Calendar temp=Calendar.getInstance();
+        temp.set(Calendar.DAY_OF_MONTH, 1);  //设置日期
+        List<Project> projects;
+        for(int i=6;i>0;i--) {
+            month[i-1]=i+"月";
+            projects=adminService.projectStart(temp);
+            for (Project p :
+                    projects) {
+                payment.get(i - 1).add(p.getMoney());
+            }
+            temp.add(Calendar.MONTH, -1);
+        }
     }
 
     private void getProjectType(){
