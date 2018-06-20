@@ -3,25 +3,34 @@
 #table_exp{
     width: 400px;
     background-color: #8fcafe;
+    position: relative;
+    left: 200px;
 }
 
 #table_accuracy{
-    margin: 20px;
     width: 400px;
     background-color: rgba(255,163,131,0.44);
     position: relative;
-    top: -180px;
-    left: 500px;
+    left: 200px;
 }
 
 #accu_header{
     position: relative;
-    top: -135px;
-    left: 500px;
+    position: relative;
+    left: 200px;
+
+}
+
+#exp_header{
+    position: relative;
+    position: relative;
+    left: 200px;
+
 }
 
 #selector_label{
     position: relative;
-    top: -160px;
-    left: 620px;
+    position: relative;
+    left: 200px;
+
 }

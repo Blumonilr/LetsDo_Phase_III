@@ -37,9 +37,11 @@ public class RankController {
      * @throws FileNotFoundException 
      */
     @ResponseBody
-    @GetMapping("/rankByExp")
-    public String getList() {
+    @GetMapping("/rankByExp/{userId}")
+    public String getList(@PathVariable("userId") String userId) {
     	String res = "";
+    	
+    	int my_rank = rankService.viewMyRankByExp(Long.parseLong(userId));
     	
 		try {
 			ArrayList<Worker> list = (ArrayList<Worker>) rankService.rankByExp();
@@ -63,14 +65,14 @@ public class RankController {
 			e.printStackTrace();
 		} 
     	
-    	return res;
+    	return my_rank+"*"+res;
     }
     
     @ResponseBody
-    @GetMapping("/rankByAccuracy/{label}")
-    public String getListByAccuracy(@PathVariable("label") String label){
+    @GetMapping("/rankByAccuracy/{label}/{userId}")
+    public String getListByAccuracy(@PathVariable("label") String label,@PathVariable("userId") String userId){
             String res = "";
-
+            int my_rank = rankService.viewMyRankByLabelAccuracy(Long.parseLong(userId), label);
 			ArrayList<Worker> list;
 			try {
 				System.out.println("LABEL: "+label);
@@ -94,7 +96,7 @@ public class RankController {
 			} 
 	    	
 			System.out.println("ACCU: "+res);
-	    	return res;
+	    	return my_rank+"*"+res;
     }
     
     
