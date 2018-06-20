@@ -23,3 +23,14 @@
     top: -300px;
 }
 
+#prompt_area_2{
+    background-color: rgba(255,150,69,0.72);
+    border-width: thin;
+    border-style: inset;
+    border-radius: 50px;
+    position: relative;
+    left: 300px;
+    top: -1420px;
+    width: 400px;
+    height: 400px;
+}

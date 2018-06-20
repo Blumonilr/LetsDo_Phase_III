@@ -1,4 +1,5 @@
 var prompt_value = "";//用来显示隐藏
+var prompt_2 = false;
 
 function display_graphs(){
     display_first();
@@ -19,7 +20,7 @@ function display_second(){
         type: "get",
         async:false, //同步
         success: function (data) {//labels+","+accu+","+count+","+bias;
-            alert("FINISH "+data);
+           // alert("FINISH "+data);
             var list = data.split("_");
             for(let i=0 ;i<list.length;i++){
                 finish_counts.push(parseInt(list[i]));
@@ -139,7 +140,7 @@ function display_first(){
 
     myChart.setOption(option);//
     myChart.on('click', function(params){
-        alert(params.name);
+        prompt_graph_2();
     });
 
 
@@ -158,7 +159,7 @@ function display_radar(){
         type: "get",
         async:false, //同步
         success: function (data) {//labels+","+accu+","+count+","+bias;
-            alert("FINISH "+data);
+           // alert("FINISH "+data);
             var list = data.split("_");
             for(let i=0 ;i<list.length;i++){
                 finish_counts.push(parseInt(list[i]));
@@ -172,7 +173,7 @@ function display_radar(){
         type: "get",
         async:false, //同步
         success: function (data) {//labels+","+accu+","+count+","+bias;
-            alert("JOIN "+data);
+           // alert("JOIN "+data);
             var list = data.split("_");
             for(let i=0 ;i<list.length;i++){
                 join_counts.push(parseInt(list[i]));
@@ -227,7 +228,7 @@ function display_radar(){
 
     myChart.setOption(option);
     myChart.on('click', function(params){
-    	 alert(params.name);
+    	// alert(params.name);
     });
 }
 
@@ -359,5 +360,72 @@ function prompt_graph(month){
         myChart.setOption(option);
 
 
+    }
+}
+
+function prompt_graph_2(){
+    var userId = getCookie("userId");
+    if(prompt_2){//showing,hide
+        $("#prompt_area_2").hide();
+        prompt_2 = false;
+    }
+    else{
+        $("#prompt_area_2").show();
+        prompt_2 = true;
+
+        var indicators = [];
+        var accuracys = [];
+
+        $.ajax({
+            url: "/user/abilities/"+userId,
+            type: "get",
+            async:false, //同步
+            success: function (data) {
+                var labels = data.split(",")[0].split("_");
+                var accus = data.split(",")[1].split("_");
+                for(let i=0;i<labels.length;i++){
+                    var tip = { name: labels[i], max: 100};
+                    indicators.push(tip);
+                    accuracys.push(parseFloat(accus[i]*100));
+                }
+            }
+        });
+
+        var myChart = echarts.init(document.getElementById("prompt_graph_2"));
+
+        var option = {
+            title: {
+                text: '准确度能力图'
+            },
+            tooltip: {},
+            legend: {
+                data: ['准确度 ']
+            },
+            radar: {
+                // shape: 'circle',
+                name: {
+                    textStyle: {
+                        color: '#fff',
+                        backgroundColor: '#999',
+                        borderRadius: 3,
+                        padding: [3, 5]
+                    }
+                },
+                indicator: indicators
+            },
+            series: [{
+                name: '方向准确度 ',
+                type: 'radar',
+                // areaStyle: {normal: {}},
+                data : [
+                    {
+                        value : accuracys,
+                        name : '准确度 '
+                    }
+                ]
+            }]
+        };
+
+        myChart.setOption(option);
     }
 }

@@ -96,7 +96,7 @@ function rankByLabel(){
             }
 
             $("#my_rank_accu").empty();
-            var my_rank_txt = "<p>我的经验值排名为: "+my_rank+"</p>";
+            var my_rank_txt = "<p>我的准确度排名为: "+my_rank+"</p>";
             $("#my_rank_accu").append(my_rank_txt);
         }
     });
