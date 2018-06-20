@@ -121,16 +121,19 @@ def image_need_integrate(image_id):
 def get_image_tags(image_id):
 	session=setup_db()
 	tags=session.query(Tag).filter(Tag.image_id==image_id).all()
+	session.close()
 	return tags
 
 def get_image_commit(image_id):
 	session=setup_db()
 	commits=session.query(CommitEvent).filter(CommitEvent.imageid==image_id).all()
+	session.close()
 	return commits
 
 def get_test_project_images(project_id):
 	session=setup_db()
 	test_project_images=session.query(Image).filter(Image.project_id==project_id,Image.is_test==True).all()
+	session.close()
 	return test_project_images
 
 

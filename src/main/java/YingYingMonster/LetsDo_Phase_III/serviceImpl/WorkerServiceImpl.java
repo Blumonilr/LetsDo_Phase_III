@@ -199,11 +199,11 @@ public class WorkerServiceImpl implements WorkerService {
 
 	@Override
 	/**
-	 * 获得一页图片，优先分配人数最少的图片，偶尔塞几张有答案的图片
+	 * 获得一页图片，优先分配人数最少的图片
 	 */
 	public List<Image> getAPageOfImage(long projectId, int pageId) {
 		return imageRepository.findAll(new Sort(Sort.Direction.ASC, "currentNum"))
-				.stream().limit(5).collect(Collectors.toList());
+				.stream().filter(x->!x.isFinished()).limit(5).collect(Collectors.toList());
 //		return imageRepository
 //				.findByProjectIdAndIsFinishedFalseAndIsTestFalse(projectId, PageRequest.of(pageId, 5))
 //				.stream().sorted((i1,i2)->{

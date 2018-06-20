@@ -3,11 +3,11 @@ import os
 from matplotlib.path import Path
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-import Integrater.utils.DBHandler as db
-import Integrater.utils.xmlParser as xp
-import Integrater.utils.cluster as clu
-import Integrater.utils.cal_similarity as cs
-import Integrater.utils.calculateProjectDif as pd
+import utils.DBHandler as db
+import utils.xmlParser as xp
+import utils.cluster as clu
+import utils.cal_similarity as cs
+import utils.calculateProjectDif as pd
 
 def workOne(userId,imageId,markmode):
 	# get the answer

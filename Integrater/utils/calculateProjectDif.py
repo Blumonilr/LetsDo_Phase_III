@@ -1,5 +1,5 @@
 
-import Integrater.utils.DBHandler as db
+import utils.DBHandler as db
 import numpy
 import math
 

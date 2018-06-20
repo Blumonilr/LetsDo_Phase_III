@@ -145,13 +145,24 @@ public class WorkAspect {
     }
 
     private void notifyPy(Tag tag) {
+        Image image = imageRepository.findById(tag.getImageId());
         Project project = projectService.getAProject(tag.getProjectId());
-        try {
-            System.out.println("java tries to connect to python");
-
-            handler.post("http://localhost:5000/postImage",Long.toString(tag.getImageId())+"_"+project.getType());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (image.isTest()) {
+            try {
+                logger.info("pthon evaluates test answer");
+                handler.post("http://localhost:5000/postImage",
+                        Long.toString(tag.getWorkerId())+"_"+Long.toString(tag.getImageId())+"_"+project.getType());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                logger.info("python evaluates answer");
+                handler.post("http://localhost:5000/postImage",Long.toString(tag.getImageId())+"_"+project.getType());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
     }
 }
