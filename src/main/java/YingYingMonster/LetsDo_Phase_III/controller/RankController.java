@@ -73,6 +73,7 @@ public class RankController {
 
 			ArrayList<Worker> list;
 			try {
+				System.out.println("LABEL: "+label);
 				list = (ArrayList<Worker>) rankService.rankByAccuracy(label);
 				int len = list.size();
 		    	for(int i=0 ; i<len ; i++) {

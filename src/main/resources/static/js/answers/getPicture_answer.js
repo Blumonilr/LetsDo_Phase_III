@@ -6,7 +6,7 @@ var picture_id_list = [];
 
 var requirement_hide = false;
 
-var class_name_list = ["猪","牛"];
+var class_name_list = [];
 
 var selection_str_list = [];
 
@@ -221,5 +221,5 @@ function get_selections_of_a_class(class_name){
 
 
 function set_progress(){
-  
+
 }

@@ -265,6 +265,8 @@ public class UserController {
     	String month = "";
     	String data = "";
     	Calendar cld = Calendar.getInstance();
+    	int current_month = cld.get(Calendar.MONTH);
+    	cld.add(Calendar.MONTH, -current_month);
     
 //    	int cm = cld.get(Calendar.MONTH);
 //    	
