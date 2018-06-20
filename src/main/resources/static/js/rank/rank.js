@@ -63,7 +63,8 @@ function setLabels(){
 
 function rankByLabel(){
 	var label = $("#selector_label").val();
-
+    $("#table_accuracy_body").empty();
+	alert(label);
     $.ajax({
         url: "/rank/rankByAccuracy/"+label,
         type: "get",
@@ -84,7 +85,6 @@ function rankByLabel(){
                     "<td>"+accu+"</td>"+
                     "</tr>";
 
-                $("#table_accuracy_body").empty();
                 $("#table_accuracy_body").append(txt);
             }
         }
