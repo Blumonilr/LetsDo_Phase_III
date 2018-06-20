@@ -42,7 +42,6 @@ public class UserController {
 
     @GetMapping("/publisherSignUp")
     public String publisherRegisterPage(){
-    	System.out.print("into the register");
         return "user/publisherSignUp";
     }
 
@@ -54,10 +53,13 @@ public class UserController {
     @PostMapping("/publisherSignUp")
     @ResponseBody
     public String publisherRegister(@RequestParam("password")String password
-            ,@RequestParam("nickName")String nickName){
+            ,@RequestParam("nickName")String nickName
+            ,@RequestParam("email")String email){
         Publisher publisher=new Publisher();
         publisher.setName(nickName);
         publisher.setPw(password);
+        publisher.setEmail(email);
+        publisher.setIntro("");
         publisher=(Publisher) userService.register(publisher);
         return Long.toString(publisher.getId());
     }
@@ -65,10 +67,13 @@ public class UserController {
     @PostMapping("/workerSignUp")
     @ResponseBody
     public String workerRegister(@RequestParam("password")String password
-            ,@RequestParam("nickName")String nickName){
+            ,@RequestParam("nickName")String nickName
+            ,@RequestParam("email")String email){
         Worker worker=new Worker();
         worker.setName(nickName);
         worker.setPw(password);
+        worker.setEmail(email);
+        worker.setIntro("");
         worker=(Worker)userService.register(worker);
         return Long.toString(worker.getId());
     }
