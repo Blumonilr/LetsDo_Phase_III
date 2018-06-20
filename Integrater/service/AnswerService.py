@@ -386,7 +386,7 @@ if __name__=='__main__':
 	# coordinates,user_accuracy=clu.cal_rec(coordinates)
 	# print(coordinates)
 	# generateTag(coordinates,30,30)
-	workOne(30,7,0)
+	work(7,0)
 	# session=db.setup_db()
 	# session.query(db.CommitEvent).filter(db.CommitEvent.workerid==14 and db.CommitEvent.imageid==147).update({"accuracy":0.8736823349736977})
 	# session.close
