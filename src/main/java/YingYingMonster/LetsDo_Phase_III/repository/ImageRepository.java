@@ -38,5 +38,10 @@ public interface ImageRepository extends JpaRepository<Image, Long> {
     @Transactional(rollbackOn = Exception.class)
     @Query("update Image i set i.isFinished = ?2 where i.id =?1")
     public void updateIsFinished(long id, boolean isFinished);
+
+    @Modifying
+    @Transactional(rollbackOn = Exception.class)
+    @Query("update Image i set i.currentNum=i.currentNum+?2 where i.id=?1")
+    public void updateCurrentNum(long id,int num);
 }
 
