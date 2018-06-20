@@ -48,6 +48,7 @@ class Ability(Base):
 	__tablename__='abilities'
 	id = Column(BIGINT, primary_key=True, nullable=False)
 	accuracy=Column(FLOAT,nullable=False)
+	efficiency = Column(FLOAT, nullable=False)
 	bias=Column(INT,nullable=False)
 	label_history_num=Column(INT,nullable=False)
 	user_id=Column(BIGINT,ForeignKey('users.id'))
@@ -70,6 +71,7 @@ class CommitEvent(Base):
 	__tablename__='commits'
 	id=Column(BIGINT,primary_key=True,nullable=False)
 	accuracy=Column(FLOAT,nullable=False)
+	efficiency=Column(FLOAT,nullable=False)
 	commit_msg=Column(VARCHAR(25),nullable=True)
 	commit_time=Column(DATETIME,nullable=True)
 	imageid=Column(BIGINT,nullable=False)
@@ -88,6 +90,7 @@ class Project(Base):
 	__tablename__='projects'
 	id=Column(BIGINT,primary_key=True)
 	project_name=Column(VARCHAR)
+	test_project_id=Column(BIGINT,nullable=True)
 
 class Project_Label(Base):
 	__tablename__='project_labels'
@@ -96,9 +99,10 @@ class Project_Label(Base):
 
 
 
+
 # initialize connection
 def setup_db():
-	engine=create_engine('mysql+mysqlconnector://root:31415926@localhost:3306/letsdo',echo=True)
+	engine=create_engine('mysql+mysqlconnector://root:123456789@localhost:3306/letsdo',echo=True)
 	DBSession=sessionmaker(bind=engine)
 	return DBSession()
 
@@ -117,16 +121,19 @@ def image_need_integrate(image_id):
 def get_image_tags(image_id):
 	session=setup_db()
 	tags=session.query(Tag).filter(Tag.image_id==image_id).all()
+	session.close()
 	return tags
 
 def get_image_commit(image_id):
 	session=setup_db()
 	commits=session.query(CommitEvent).filter(CommitEvent.imageid==image_id).all()
+	session.close()
 	return commits
 
 def get_test_project_images(project_id):
 	session=setup_db()
-	test_project_images=session.query(Image).filter(Image.project_id==project_id and Image.is_test==True).all()
+	test_project_images=session.query(Image).filter(Image.project_id==project_id,Image.is_test==True).all()
+	session.close()
 	return test_project_images
 
 
