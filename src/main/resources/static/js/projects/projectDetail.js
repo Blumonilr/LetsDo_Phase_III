@@ -55,11 +55,10 @@ function loadDetail(){
             $("#money").text(project.money);
             $("#inviteCode").text(project.inviteCode);
             $("#tagRequirement").html(detail[1]);
-            // $("#progressBar").attr("style","width: "+project.progress+"%;");
-            // $("#progressValue").text(project.progress+"% 完成");
+            $("#progressBar").attr("style","width: "+project.progress+"%;");
+            $("#progressValue").text(project.progress+"% 完成");
 
             $("#projectName1").text(project.projectName);
-            $("#projectName2").text(project.projectName);
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
@@ -90,6 +89,21 @@ function uploadTest(){
 function release(){
     $.ajax({
         url: "/project/release",
+        type: "post",
+        dataType:"text",
+        data:{"projectId":getCookie("projectId")},
+        success : function(msg){
+            alert(msg);
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest+"///"+textStatus+"///"+errorThrown);
+        },
+    });
+}
+
+function closeProject(){
+    $.ajax({
+        url: "/project/close",
         type: "post",
         dataType:"text",
         data:{"projectId":getCookie("projectId")},

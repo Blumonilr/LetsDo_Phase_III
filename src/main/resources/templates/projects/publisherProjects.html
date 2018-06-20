@@ -130,21 +130,6 @@
                     </div>
                 </div>
                 <div id="content">
-                    <!--<div class="single-member effect-4">-->
-                        <!--<div class="member-info">-->
-                            <!--<h3>ProjectName</h3>-->
-                            <!--<h5>Publisher</h5>-->
-                        <!--</div>-->
-                        <!--<div class="member-image">-->
-                            <!--<img src="/publisher/img/member_270x210.jpg" alt="Member">-->
-                        <!--</div>-->
-                        <!--<div class="more-info">-->
-                            <!--<p>Description要做一下长度检测，防止把按钮顶没了</p>-->
-                            <!--<div>-->
-                                <!--<a onclick="window.location.href='这里填链接，是字符串'" class="button" style="cursor: pointer;">More</a>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
                 </div>
             </div>
              <!-- /. PAGE INNER  -->
@@ -204,7 +189,7 @@
         function adjustPage(projectList) {
             $("#content").empty();
             if(projectList==="")
-                return;
+                $("#content").append('<h3>没有已发布的项目,快去上传第一个项目吧( ′◔ ‸◔`)</h3>')
             var arr = projectList.split("+");
             var len = arr.length;
             for(var i = 0;i < len;){
