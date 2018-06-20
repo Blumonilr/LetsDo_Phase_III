@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,9 +85,12 @@ public class RankController {
 		    	for(int i=0 ; i<len ; i++) {
 		    		Worker w = list.get(i);
 		    		String name = w.getName();
-		    		String accu = w.getAccuracy()+"";
-					logger.info("worker name = {}", name);
-					logger.info("worker accu = {}", accu);
+
+		    		String accu = Double.toString(w.getAbilities().stream()
+		    				.filter(x->x.getLabel().getName().equals(label))
+		    				.collect(Collectors.toList())
+		    				.get(0).getAccuracy());
+		    		
 
 		    		String tip = name+"_"+accu;
 		    		res = res + tip;
