@@ -92,7 +92,7 @@ public class Ability {
         return efficiency;
     }
 
-    public void setEffeciency(double effeciency) {
-        this.efficiency = effeciency;
+    public void setEffeciency(double efficiency) {
+        this.efficiency = efficiency;
     }
 }

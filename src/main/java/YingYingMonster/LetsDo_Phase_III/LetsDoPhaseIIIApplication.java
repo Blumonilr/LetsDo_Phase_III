@@ -10,11 +10,11 @@ import org.springframework.web.context.request.RequestContextListener;
 @EnableAspectJAutoProxy
 @SpringBootApplication
 @EnableScheduling
-public class LetsDoPhaseIIApplication {
+public class LetsDoPhaseIIIApplication {
 
 	//add sth.
 	public static void main(String[] args) {
-		ConfigurableApplicationContext cac=SpringApplication.run(LetsDoPhaseIIApplication.class, args);
+		ConfigurableApplicationContext cac=SpringApplication.run(LetsDoPhaseIIIApplication.class, args);
 		System.out.println();
 		Initializer init=new Initializer();
 		init.initialize();

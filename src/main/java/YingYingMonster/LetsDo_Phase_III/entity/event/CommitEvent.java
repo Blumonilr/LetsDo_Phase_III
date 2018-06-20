@@ -21,7 +21,7 @@ public class CommitEvent {
     private Date commitTime;
     private double accuracy;
     private String commitMsg = EVALUATING;
-    private double effeciency;
+    private double efficiency;
 
     public long getImageid() {
         return imageid;
@@ -97,10 +97,10 @@ public class CommitEvent {
     }
 
     public double getEffeciency() {
-        return effeciency;
+        return efficiency;
     }
 
-    public void setEffeciency(double effeciency) {
-        this.effeciency = effeciency;
+    public void setEffeciency(double efficiency) {
+        this.efficiency = efficiency;
     }
 }

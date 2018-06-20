@@ -12,4 +12,6 @@ public class AppConfig {
 		return System.getProperty("user.home").replaceAll("\\\\", "/")+"/database";
 	}
 
+	//
+
 }

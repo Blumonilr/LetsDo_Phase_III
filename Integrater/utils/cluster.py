@@ -19,7 +19,7 @@ def cal_rec(coordinates,min_samples_=3):
 	else:
 		#   first of all, remove the unusual points using DBSCA
 		plt.scatter(coordinates[:, 0], coordinates[:, 1])
-		clusters = DBSCAN(eps=50, min_samples=min_samples_).fit_predict(
+		clusters = DBSCAN(eps=80, min_samples=min_samples_).fit_predict(
 			coordinates[:,[0,1]])  # cluster id for each point, -1 if eliminated
 		n_clusters_ = len(set(clusters)) - (1 if -1 in clusters else 0)  # n clusters
 		'''
@@ -48,6 +48,7 @@ def cal_rec(coordinates,min_samples_=3):
 			if clusters[i] > -1:
 				filtered_coordinates.append(coordinates[i])
 		#   transform filtered_coordinates from list to ndarray
+
 		filtered_coordinates = np.array(filtered_coordinates)
 		# print(n_clusters_)
 		# print(clusters)
@@ -66,13 +67,67 @@ def cal_rec(coordinates,min_samples_=3):
 
 	pass
 
+def cal_text_rec(coordinates,min_samples_=3):
+	if type(coordinates) != np.ndarray:
+		print("coordinates' type is not a ndarray!")
+	else:
+		#   first of all, remove the unusual points using DBSCA
+		plt.scatter(coordinates[:, 0], coordinates[:, 1])
+		clusters = DBSCAN(eps=1, min_samples=min_samples_).fit_predict(
+			coordinates[:, [0, 1]])  # cluster id for each point, -1 if eliminated
+		n_clusters_ = len(set(clusters)) - (1 if -1 in clusters else 0)  # n clusters
+		'''
+        计算每个目标的平均大小
+        后来发现KMeans就可以做这件事……
+
+        # sizes=coordinates[:,[2,3]]
+        # avg_sizes=[]
+        # for i in range(n_clusters_):
+        # 	# i stands for class id
+        # 	sum=[0,0];count=0
+        # 	for j in range(len(sizes)):
+        # 		if clusters[j]==i:
+        # 			sum[0]+=sizes[j][0]
+        # 			sum[1]+=sizes[j][1]
+        # 			count+=1
+        #
+        # 	sum[0]= int(round(sum[0]/count))
+        # 	sum[1]=int(round(sum[1]/count))
+        # 	avg_sizes.append(sum)
+        '''
+
+		filtered_coordinates = []
+
+		for i in range(len(clusters)):
+			if clusters[i] > -1:
+				filtered_coordinates.append(coordinates[i])
+		#   transform filtered_coordinates from list to ndarray
+
+		filtered_coordinates = np.array(filtered_coordinates)
+		# print(n_clusters_)
+		# print(clusters)
+		# print(filtered_coordinates)
+		plt.scatter(filtered_coordinates[:, 0], filtered_coordinates[:, 1])
+		#   use KMeans to cluster
+		center_coordinates = KMeans(n_clusters=n_clusters_).fit(filtered_coordinates).cluster_centers_
+		# plt.scatter(center_coordinates[:, 0], center_coordinates[:, 1])
+		# plt.show()
+		'''
+        center_coordinates is a n*4 ndarray
+        map every element of it to int
+        '''
+		center_coordinates = (lambda x: [[round(j) for j in i] for i in x])(center_coordinates)
+
+		return center_coordinates
+
+
 def cal_rect_accuracy(user_ans,results):
 	# print('ans : ',user_ans)
 	# print('res : ',results)
 	data=np.array(results)
 	idex=np.lexsort([data[:,0]])
 	sorted_data=data[idex,:]
-	print(sorted_data)
+
 	accuracy=[]
 	for i in range(0,len(user_ans)):
 		x1=user_ans[i][0]
@@ -98,8 +153,11 @@ def cal_rect_accuracy(user_ans,results):
 
 def cal_label_accuracy(usr_ans,res):
 	num=0
-	for i in range(0,len(usr_ans)):
-		if usr_ans[i][1]==res[0][i]:
+	usr_ans.sort()
+	res.sort()
+	print(res)
+	for i in range(0,len(res)):
+		if usr_ans[i][1]==int(res[i][1]):
 			num=num+1
 	return num*1.0/len(usr_ans)
 	pass
