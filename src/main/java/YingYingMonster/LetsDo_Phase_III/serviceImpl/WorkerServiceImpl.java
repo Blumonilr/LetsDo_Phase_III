@@ -5,6 +5,7 @@ import YingYingMonster.LetsDo_Phase_III.entity.event.CommitEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.event.JoinEvent;
 import YingYingMonster.LetsDo_Phase_III.entity.role.User;
 import YingYingMonster.LetsDo_Phase_III.entity.role.Worker;
+import YingYingMonster.LetsDo_Phase_III.model.ProjectState;
 import YingYingMonster.LetsDo_Phase_III.repository.AbilityRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.ImageRepository;
 import YingYingMonster.LetsDo_Phase_III.repository.event.CommitEventRepository;
@@ -258,7 +259,7 @@ public class WorkerServiceImpl implements WorkerService {
 	}
 
 	@Override
-	public List<Project> viewWorkerMonthProject(long workerId,Calendar date) {
+	public List<Project> viewWorkerMonthJoinProject(long workerId,Calendar date) {
 		List<JoinEvent> joins=joinEventRepository.findByWorkerId(workerId);
 		List<Project> pjs=new ArrayList<>();
 		for (JoinEvent j:joins) {
@@ -266,6 +267,23 @@ public class WorkerServiceImpl implements WorkerService {
 			month.setTime(j.getDate());
 			if (month.get(Calendar.YEAR)==date.get(Calendar.YEAR)&&month.get(Calendar.MONTH)==date.get(Calendar.MONTH)){
 				pjs.add(projectService.getAProject(j.getProjectId()));
+			}
+		}
+		return pjs;
+	}
+
+	@Override
+	public List<Project> viewWorkerMonthFinishProject(long workerId, Calendar calendar) {
+		List<JoinEvent> joins=joinEventRepository.findByWorkerId(workerId);
+		List<Project> pjs=new ArrayList<>();
+		for (JoinEvent j:joins) {
+			if (j.getWorkState().equals(JoinEvent.WORK_Finished)) {
+				Calendar month = Calendar.getInstance();
+				month.setTime(j.getDate());
+				if (month.get(Calendar.YEAR)==calendar.get(Calendar.YEAR)
+						&&month.get(Calendar.MONTH)==calendar.get(Calendar.MONTH)){
+					pjs.add(projectService.getAProject(j.getProjectId()));
+				}
 			}
 		}
 		return pjs;

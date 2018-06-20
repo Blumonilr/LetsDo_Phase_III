@@ -17,6 +17,8 @@
     <link href="/publisher/css/projectDetailStyle.css" rel="stylesheet"/>
     <link href="/publisher/css/projectDetailStyle-desktop.css" rel="stylesheet"  />
 
+    <link rel="stylesheet" type="text/css" href="/css/admin/tachyons.min.css">
+
     <script src="/publisher/js/jquery-1.10.2.js"></script>
     <script src="/js/util/cookie.js"></script>
 </head>
@@ -31,7 +33,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href=""><strong>YYM CrowedSource</strong></a>
+                <a class="navbar-brand" style="text-align: center" href=""><strong>YYM</strong></a>
 
                 <div id="sideNav" href=""><i class="fa fa-caret-right"></i></div>
             </div>
@@ -137,7 +139,6 @@
                         <div class="col-md-6">
                             <section>
                                 <header>
-                                    <h2>Welcome to <span id="projectName2">Iridium</span>!</h2>
                                     <span class="byline">在此页查看你的项目详情和进度</span>
                                 </header>
                                 <h3>项目类型:<span id="markMode"></span></h3>
@@ -154,33 +155,34 @@
                                 <h3>赏金:<span id="money"></span></h3>
                                 <h3>测试集邀请码:<span id="inviteCode"></span></h3>
                                 <h3 id="requireToggle">标注要求:<p id="tagRequirement"></p></h3><br/>
-                                <!--<h3>项目进度:<div style="margin-top: 20px" class="progress progress-striped active">-->
-                                    <!--<div id="progressBar" class="progress-bar progress-bar-success" role="progressbar"-->
-                                         <!--style="width: 100%;">-->
-                                        <!--<span id="progressValue">100% 完成</span>-->
-                                    <!--</div>-->
-                                <!--</div></h3>-->
+                                <h3 class="ma3">项目进度:<div style="margin-top: 20px" class="progress progress-striped active">
+                                    <div id="progressBar" class="progress-bar progress-bar-success" role="progressbar"
+                                         style="width: 100%;">
+                                        <span id="progressValue">100% 完成</span>
+                                    </div>
+                                </div></h3>
                             </section>
                         </div>
                         <div class="col-md-3">
-                            <div class="row" style="margin-top: 80px;margin-bottom: 80px;">
+                            <div class="row" style="margin-top: 80px;margin-bottom: 40px;">
                                 <div class="col-md-12"  >
                                     <button id="upLoadTest" onclick="uploadTest()" type="button" class="btn btn-outline-primary btn-lg">上传测试集</button>
                                 </div>
                             </div>
-                            <div class="row" style="margin-top: 80px;margin-bottom: 80px;">
+                            <div class="row" style="margin-bottom: 40px;">
                                 <div class="col-md-12">
                                     <button id="upLoadTagTree" onclick="window.location.href='/publisherPage/editTagTree';" type="button" class="btn btn-outline-primary btn-lg">上传文字标签</button>
                                 </div>
                             </div>
-                            <div class="row" style="margin-top: 80px;margin-bottom: 80px;">
+                            <div class="row" style="margin-bottom: 200px;">
                                 <div class="col-md-12">
                                     <button id="submit" onclick="release()" type="button" class="btn btn-outline-primary btn-lg">发布项目</button>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button id="download" onclick="download()" type="button" class="btn btn-outline-primary btn-lg">下载结果</button>
+                                    <button id="close" onclick="closeProject()" type="button" class="btn btn-outline-primary btn-lg ma3">关闭项目</button>
+                                    <button id="download" onclick="download()" type="button" class="btn btn-outline-primary btn-lg ma3">下载结果</button>
                                 </div>
                             </div>
                         </div>

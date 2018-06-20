@@ -149,7 +149,7 @@ public class WorkAspect {
         Project project = projectService.getAProject(tag.getProjectId());
         if (image.isTest()) {
             try {
-                logger.info("pthon evaluates test answer");
+                logger.info("python evaluates test answer");
                 handler.post("http://localhost:5000/postImage",
                         Long.toString(tag.getWorkerId())+"_"+Long.toString(tag.getImageId())+"_"+project.getType());
             } catch (Exception e) {

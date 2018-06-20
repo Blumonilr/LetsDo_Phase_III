@@ -75,6 +75,7 @@ public class ProjectController {
         OutputStream outputStream = response.getOutputStream();
         // 读数据
         byte[] data = projectService.getProjectOverview(Long.parseLong(projectId));
+//        size(270, 210)
         // 回写
         response.setContentType(JPG);
         outputStream.write(data);
@@ -183,7 +184,8 @@ public class ProjectController {
         result+="\"testAccuracy\":\""+project.getTestAccuracy()+"\",";
         result+="\"money\":\""+project.getMoney()+"\",";
         result+="\"labels\":\""+String.join(",",project.getLabels())+"\",";
-        result+="\"inviteCode\":\""+((project.getTestProject())==null?"null":project.getTestProject().getInviteCode())+"\"";
+        result+="\"inviteCode\":\""+((project.getTestProject())==null?"null":project.getTestProject().getInviteCode())+"\",";
+        result+="\"progress\":\""+publisherService.viewProjectProgress(Long.parseLong(projectId))+"\"";
         result+="}*";
         result+=project.getTagRequirement();
         return result;
@@ -204,6 +206,18 @@ public class ProjectController {
         } else {
             publisherService.openProject(Long.parseLong(projectId));
             return "发布成功";
+        }
+    }
+
+    @PostMapping("/close")
+    @ResponseBody
+    public String close(@RequestParam String projectId){
+        Project project=projectService.getAProject(Long.parseLong(projectId));
+        if(project.getProjectState()!=ProjectState.open){
+            return "项目未发布";
+        }else {
+            publisherService.closeProject(Long.parseLong(projectId));
+            return "关闭成功";
         }
     }
 }
