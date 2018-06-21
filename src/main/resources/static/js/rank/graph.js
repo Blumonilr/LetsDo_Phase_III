@@ -52,7 +52,7 @@ function display_second(){
 }
 
 function display_first(){
-    var myChart = echarts.init(document.getElementById("first_graph"));
+    var myChart = echarts.init(document.getElementById("first_graph"),"light");
     var userId = getCookie("userId");
 
     var data_map = [];
@@ -268,7 +268,7 @@ function prompt_graph(month){
         }
 
 
-        var myChart = echarts.init(document.getElementById("prompt_graph"));
+        var myChart = echarts.init(document.getElementById("prompt_graph"),"light");
         var userId = getCookie("userId");
 
         var data_map = [];
@@ -312,7 +312,7 @@ function prompt_graph(month){
                 min: 80,
                 max: 600,
                 inRange: {
-                    colorLightness: [0.2, 0.8]
+                    colorLightness: [0.2, 1]
                 }
             },
             series : [
@@ -333,20 +333,20 @@ function prompt_graph(month){
                     labelLine: {
                         normal: {
                             lineStyle: {
-                                color: 'rgba(255, 255, 255, 0.3)'
+                                color: 'rgba(99, 99, 99, 0.5)'
                             },
                             smooth: 0.2,
                             length: 10,
                             length2: 20,
                         }
                     },
-                    itemStyle: {
-                        normal: {
-                            color: '#b0e2ff',
-                            shadowBlur: 200,
-                            shadowColor: 'rgba(255, 255, 255, 0.3)'
-                        }
-                    },
+                    // itemStyle: {
+                    //     normal: {
+                    //         color: '#b0e2ff',
+                    //         shadowBlur: 200,
+                    //         shadowColor: 'rgba(255, 255, 255, 0.3)'
+                    //     }
+                    // },
 
                     animationType: 'scale',
                     animationEasing: 'elasticOut',
