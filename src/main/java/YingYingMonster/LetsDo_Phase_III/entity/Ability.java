@@ -31,6 +31,7 @@ public class Ability {
     @Expose
     private int labelHistoryNum;
 
+    @Expose
     private int bias;//偏好程度，以参加项目的次数计算
 
     public long getId() {

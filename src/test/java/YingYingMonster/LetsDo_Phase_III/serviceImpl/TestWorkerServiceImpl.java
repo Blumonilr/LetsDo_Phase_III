@@ -120,10 +120,10 @@ public class TestWorkerServiceImpl {
 
 	@Test public void batch_register(){
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 30; i++) {
 			User user;
 			double rand = Math.random() * 2;
-			if (rand < 1.5) {
+			if (rand < 1) {
 				user = new Worker("worker" + i, "111111", "email", "intro",
 						0, 0, 0, 0, 0);
 				int level = (int) (Math.random() * 10);
@@ -131,7 +131,7 @@ public class TestWorkerServiceImpl {
 				((Worker) user).setLevel(level);
 				((Worker) user).setExp(exp);
 			} else {
-				user = new Publisher("publisher" + i, "111111", "email", "intro", 1000);
+				user = new Publisher("publisher" + i, "111111", "email", "intro", (int) (Math.random() * 10000));
 			}
 			userService.register(user);
 		}
